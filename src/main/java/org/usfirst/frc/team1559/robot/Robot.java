@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		drive.tankDrive(pilot.getRawAxis(1), pilot.getRawAxis(0));
+		drive.driveCartesian((-1*pilot.getRawAxis(0)), pilot.getRawAxis(1), -1*pilot.getRawAxis(2));
 	}
 
 	@Override
