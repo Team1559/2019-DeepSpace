@@ -1,14 +1,6 @@
 package org.usfirst.frc.team1559.robot;
 
 public class Lifter {
-	
-	public static final int POS1 = 1;
-	public static final int POS2 = 2;
-	public static final int POS3 = 3;
-	public static final int POS4 = 4;
-	public static final int POS_HOME = 99;
-
-	public boolean isEmpty = true;
 
 	public Lifter() {
 		// motors, ids, etc
@@ -19,7 +11,7 @@ public class Lifter {
 	}
 
 	/**
-	 * Go to the specified rocket opening (1, 2 or 3)
+	 * Go to the specified rocket window (1, 2 or 3)
 	 *      __
 	 *    /    \
 	 *    | [] |    3
@@ -29,7 +21,7 @@ public class Lifter {
 	 *  / | [] | \  1
 	 */
 	public void rocket(int n) {
-		switch (n) {
+		switch ((short) n) {
 			case 1:
 				// window 1
 				break;
@@ -45,66 +37,77 @@ public class Lifter {
 	}
 
 	/**
-	 * Go to the height of the cargo bay
+	 * Go to the cargo bay position
 	 */
 	public void cargoBay() {
 		
 	}
 
 	/**
-	 * Tele-operated upward movement, from the current position
+	 * Tele-operated upward movement
 	 */
 	public void up() {
-
+		up(1);
+		// for now 1, but change to whatever the smallest/incremental value would be
 	}
 
 	/**
-	 * Move downwards, the specified amount, from the current position
+	 * Move downwards, the specified amount in {UNITS}
 	 */
 	public void up(int n) {
 
 	}
 
 	/**
-	 * Tele-operated downward movement, from the current position
+	 * Tele-operated downward movement
 	 */
 	public void down() {
-
+		down(1);
+		// for now 1, but change to whatever the smallest/incremental value would be
 	}
 
 	/**
-	 * Move downwards, the specified amount, from the current position
+	 * Move downwards, the specified amount in {UNITS}
 	 */
 	public void down(int n) {
 
 	}
 
 	/**
-	 * Moves to the "home" position
+	 * Moves to the bottom position
 	 */
 	public void home() {
-		moveTo(POS_HOME);
+		// change to ground() if that would make more sense
+		moveTo(Constants.LIFTER_BOTTOM);
+	}
+
+	public void setPosition(int value) {
+		// motor values or whatever is
 	}
 
 	public void moveTo(int positionNumber) {
-		switch (positionNumber) {
-			case POS1:
+		// maybe instead of hardcoding each constant, just have their values as motor/position units for setPosition(int)
+		switch ((short) positionNumber) {
+			case Constants.LIFTER_POS1:
 				// pos 1
 				break;
-			case POS2:
+			case Constants.LIFTER_POS2:
 				// pos 2
 				break;
-			case POS3:
+			case Constants.LIFTER_POS3:
 				// pos 3
 				break;
-			case POS4:
+			case Constants.LIFTER_POS4:
 				// pos 4
 				break;
-			case POS_HOME:
-				// pos home
+			case Constants.LIFTER_TOP:
+				// pos top (highest possible)
+				break;
+			case Constants.LIFTER_BOTTOM:
+				// pos bottom (lowest possible)
 				break;
 			default:
-				// unknown pos
+				// unknown
 		}
 	}
 

@@ -23,7 +23,13 @@ public interface Constants {
 	// Grabber
 	
 	// Lifter
-	
+	public static final short LIFTER_POS1 = 1;
+	public static final short LIFTER_POS2 = 2;
+	public static final short LIFTER_POS3 = 3;
+	public static final short LIFTER_POS4 = 4;
+	public static final short LIFTER_TOP = 97;
+	public static final short LIFTER_BOTTOM = 98;
+
 	// Stepper
 	
 	// Controllers
