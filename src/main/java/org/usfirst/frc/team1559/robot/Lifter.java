@@ -52,7 +52,7 @@ public class Lifter {
 	}
 
 	/**
-	 * Move downwards, the specified amount in {UNITS}
+	 * Move upwards, the specified amount in {UNITS}
 	 */
 	public void up(int n) {
 
