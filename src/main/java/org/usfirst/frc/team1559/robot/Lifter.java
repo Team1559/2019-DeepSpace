@@ -11,25 +11,25 @@ public class Lifter {
 	}
 
 	/**
-	 * Go to the specified rocket window (1, 2 or 3)
+	 * Go to the specified rocket port (1, 2 or 3)
 	 *      __
 	 *    /    \
-	 *    | [] |    3
+	 *    | [] |    3 (6 ft, 11.5 in)
 	 *    |    |
-	 *    | [] |    2
+	 *    | [] |    2 (4 ft, 7.5 in)
 	 *   /|    |\
-	 *  / | [] | \  1
+	 *  / | [] | \  1 (2 ft, 3.5 in)
 	 */
 	public void rocket(int n) {
 		switch ((short) n) {
 			case 1:
-				// window 1
+				// port 1
 				break;
 			case 2:
-				// window 2
+				// port 2
 				break;
 			case 3:
-				// window 3
+				// port 3
 				break;
 			default:
 				// unknown
