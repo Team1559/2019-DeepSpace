@@ -27,8 +27,8 @@ public interface Constants {
 	public static final short LIFTER_POS2 = 2;
 	public static final short LIFTER_POS3 = 3;
 	public static final short LIFTER_POS4 = 4;
-	public static final short LIFTER_TOP = 97;
-	public static final short LIFTER_BOTTOM = 98;
+	public static final short LIFTER_TOP = 97; //Highest point on the lifter
+	public static final short LIFTER_BOTTOM = 98; //Lowest point on the lifter
 
 	// Stepper
 	

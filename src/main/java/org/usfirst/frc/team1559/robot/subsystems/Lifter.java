@@ -50,6 +50,12 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 
 	/**
 	 * Go to the cargo bay position
+	 *  ________________________   ____ 4 ft _____
+	 * |      |      |      |   \  
+	 * |______|______|______|____| ___ 2 ft 7.5 in ___
+	 * |      |      |      |    |
+	 * |  []  |  []  |  []  |    |  <--- Not important, as this is where the cargo falls out
+	 * |______|______|______|____|
 	 */
 	public void cargoBay() {
 		
