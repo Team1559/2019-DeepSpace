@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1559.robot;
 
 public class Lifter {
-
+// Lifter Programers are Evan, Jack and Nick. Please refer to them if you want to make changes.
 	public Lifter() {
 		// motors, ids, etc
 	}
