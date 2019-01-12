@@ -1,7 +1,12 @@
 package org.usfirst.frc.team1559.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import org.usfirst.frc.team1559.robot.Robot;
+import org.usfirst.frc.team1559.robot.Wiring;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 // Lifter Programers are Evan, Jack and Nick. Please refer to them if you want to make changes.
 public class Lifter {
