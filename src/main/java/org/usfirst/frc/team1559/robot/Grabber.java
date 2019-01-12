@@ -5,7 +5,7 @@ public class Grabber {
 	 * Designated Programmers of the Grabber:
 	 * Jason Vander Linden
 	 * XXX
-	 * /**
+	 * 
 	 * Go to the specified rocket port (1, 2 or 3)
 	 *      __
 	 *    /    \
