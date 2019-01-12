@@ -1,7 +1,8 @@
-package org.usfirst.frc.team1559.robot;
+package org.usfirst.frc.team1559.robot.subsytems;
 
 import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
+import org.usfirst.frc.team1559.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
