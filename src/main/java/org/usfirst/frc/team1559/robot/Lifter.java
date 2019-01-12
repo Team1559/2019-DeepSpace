@@ -1,7 +1,13 @@
 package org.usfirst.frc.team1559.robot;
 
-public class Lifter {
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+
 // Lifter Programers are Evan, Jack and Nick. Please refer to them if you want to make changes.
+public class Lifter {
+
+private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated in the Lifter constructor!
+
 	public Lifter() {
 		// motors, ids, etc
 	}
@@ -109,6 +115,13 @@ public class Lifter {
 			default:
 				// unknown
 		}
+	}
+/**
+*Returns the value of the Potentiometer (I am assuming we will be needing one)
+*Note: if it needs to be a double, PLEASE feel free to change it so it is correct
+*/
+	public int getPot(){
+		return liftermotor.getSelectedSensorPosition(0);
 	}
 
 }
