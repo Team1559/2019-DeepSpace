@@ -25,6 +25,8 @@ public interface Wiring {
 	public static final int REAR_RIGHT_MOTOR = 3;
 	
 	// Grabber
+	public static final int NTK_SOLENOID = -1; // This variable needs to be set 
+	public static final int NTK_SPARK = -1; // This variable needs to be set 
 	
 	// Lifter
 	
