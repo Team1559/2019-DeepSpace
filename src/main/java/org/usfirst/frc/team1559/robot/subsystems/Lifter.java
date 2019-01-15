@@ -16,6 +16,7 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 
 	public Lifter() {
 		// motors, ids, etc
+		liftermotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 	}
 
 	public void debug() {
@@ -133,7 +134,7 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 *Note: if it needs to be a double, PLEASE feel free to change it so it is correct
 */
 	public double getPot(){
-		return liftermotor.getSelectedSensorPosition(0);
+		return liftermotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
 	}
 	
 	public WPI_TalonSRX getTalon(){

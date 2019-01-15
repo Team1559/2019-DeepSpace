@@ -29,6 +29,7 @@ public interface Wiring {
 	public static final int NTK_SPARK = -1; // This variable needs to be set 
 	
 	// Lifter
-	
+	public static final int LIFTER_POT = 0; //This needs to be set
+	public static final int LIFTER_TALON = 0; //This needs to be set
 	// Stepper
 }
