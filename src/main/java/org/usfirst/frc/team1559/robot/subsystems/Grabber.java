@@ -1,13 +1,11 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
-import src.org.usfirst.frc.team1559.robot.Robot;
-import src.org.usfirst.frc.team1559.robot.Wiring;
-
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
 
-public class Grabber()
+import org.usfirst.frc.team1559.robot.Wiring;
+
+public class Grabber
 {
     private Solenoid solenoid;
     private Spark spark;
@@ -30,7 +28,7 @@ public class Grabber()
         solenoid.set(false); //bring that hatch in bb
     }
 
-    public double setSpark(double speed)
+    public void setSpark(double speed)
     {
         spark.set(speed);
     }
