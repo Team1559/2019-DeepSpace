@@ -21,14 +21,13 @@ public class Robot extends TimedRobot {
 	 * annual update, classed are added, removed, or deprecated. The IterativeRobot class was
 	 * deprecated as of 2019. TimedRobot is the closest match to the IterativeRobot class.
 	*/
-	private Joystick pilot, copilot;
 	private DriveTrain drive;
+	private OperatorInterface oi;
 	
 	@Override
 	public void robotInit() {
-		pilot = new Joystick(Constants.PILOT_JOYSTICK);
-		copilot = new Joystick(Constants.COPILOT_JOYSTICK);
 		drive = new DriveTrain();
+		oi = new OperatorInterface();
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		drive.driveCartesian((pilot.getRawAxis(0)), -1*pilot.getRawAxis(1), pilot.getRawAxis(2));
+		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 	}
 
 	@Override
