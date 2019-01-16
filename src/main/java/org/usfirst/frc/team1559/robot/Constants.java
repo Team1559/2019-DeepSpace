@@ -30,6 +30,19 @@ public interface Constants {
 	public static final short LIFTER_TOP = 97; //Highest point on the lifter
 	public static final short LIFTER_BOTTOM = 98; //Lowest point on the lifter
 
+	//Rocket pot values
+	public static final int ROCKET_LOWER_HATCH = 0; //Make sure all the values below get their appropriate pot values
+	public static final int ROCKET_MIDDLE_HATCH = 0;//Values can vary between robot 1 and robot 2
+	public static final int ROCKET_HIGHER_HATCH = 0;//Make seperate variables for robot 2 if necessary
+
+	public static final int ROCKET_LOWER_PORT = 0;
+	public static final int ROCKET_MIDDLE_PORT = 0;
+	public static final int ROCKET_HIGHER_PORT = 0;
+
+	//Cargo ship pot values
+	public static final int CARGOSHIP_HATCH = 0;
+	public static final int CARGOSHIP_CARGO_DROPOFF = 0;
+
 	// Stepper
 	
 	// Controllers

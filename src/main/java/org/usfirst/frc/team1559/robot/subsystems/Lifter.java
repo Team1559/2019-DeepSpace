@@ -33,16 +33,42 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 	 *   /|    |\
 	 *  / | [] | \  1 (2 ft, 3.5 in)
 	 */
-	public void rocketCargo(int n) {
+	public void rocketPort(int n) {
 		switch ((short) n) {
 			case 1:
-				// port 1
+				setPosition(Constants.ROCKET_LOWER_PORT);// port 1
 				break;
 			case 2:
-				// port 2
+				setPosition(Constants.ROCKET_LOWER_PORT);// port 2
 				break;
 			case 3:
-				// port 3
+				setPosition(Constants.ROCKET_LOWER_PORT);// port 3
+				break;
+			default:
+				// unknown
+		}
+	}
+
+	/**
+	 * Go to the specified rocket hatch port (1, 2 or 3)
+	 *      __
+	 *    /    \
+	 *    | [] |    hatch 3 (6 ft, 3 in)
+	 *    |    |
+	 *    | [] |    hatch 2 (3 ft, 11 in)
+	 *   /|    |\
+	 *  / | [] | \  hatch 1 (1 ft, 7 in)
+	 */
+	public void rocketHatches(int n) {
+		switch ((short) n) {
+			case 1:
+				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 1
+				break;
+			case 2:
+				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 2
+				break;
+			case 3:
+				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 3
 				break;
 			default:
 				// unknown
@@ -55,11 +81,15 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 	 * |      |      |      |   \  
 	 * |______|______|______|____| ___ 2 ft 7.5 in ___
 	 * |      |      |      |    |
-	 * |  []  |  []  |  []  |    |  <--- Not important, as this is where the cargo falls out
+	 * |  []  |  []  |  []  |    |  <--- 1ft, 7in
 	 * |______|______|______|____|
 	 */
 	public void cargoBayCargo() {
 		
+	}
+
+	public void cargoBayHatches(){
+
 	}
 
 	/**
