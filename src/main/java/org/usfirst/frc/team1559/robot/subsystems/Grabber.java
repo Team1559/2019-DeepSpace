@@ -2,9 +2,11 @@ package org.usfirst.frc.team1559.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.Wiring;
 
+//dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
     private Solenoid solenoid;
@@ -20,7 +22,7 @@ public class Grabber
 
     public void getHatch()
     {
-        solenoid.set(true); //go grab that hatch
+        solenoid.set(true); //go Snatch that Hatch
     }
 
     public void bringHatch()
@@ -30,20 +32,26 @@ public class Grabber
 
     public void setSpark(double speed)
     {
-        spark.set(speed);
+        spark.set(speed); //sets the motor value
     }
     public void getCargo()
     {
-        spark.set(1);
+        spark.set(1);  //activates intake for cargo mechanism wheel motor guy
     }
 
     public void removeCargo()
     {
-        spark.set(0);
+        spark.set(0); //spits that cargo out like expired food
     }
 
     public Spark getSpark()
     {
-        return spark;
+        return spark; //give spark value
+    }
+
+    public void getValues()
+    {
+        //to do: make this class useful once i know for sure what goes here
+
     }
 }
