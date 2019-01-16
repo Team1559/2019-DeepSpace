@@ -46,6 +46,10 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 				break;
 			default:
 				// unknown
+				/** Cargo Input 1 middle is at 2 ft 3.5 in, should be a preset position
+			 * Cargo Input 2 middle is at 4 ft 7.5 in, should be a preset position
+			 * Cargo Input 3 middle is at 6 ft 11.5 in, should be a preset position
+			 */
 		}
 	}
 
