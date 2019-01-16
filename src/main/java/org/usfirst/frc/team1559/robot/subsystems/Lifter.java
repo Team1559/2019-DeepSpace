@@ -62,7 +62,7 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 	public void rocketHatches(int n) {
 		switch ((short) n) {
 			case 1:
-				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 1
+				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 1 
 				break;
 			case 2:
 				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 2
@@ -72,6 +72,10 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 				break;
 			default:
 				// unknown
+			/** Hatch 1 middle is at 1 ft 7 in, should be a preset position
+			 * Hatch 2 middle is at 3 ft 11 in, should be a preset position
+			 * Hatch 3 middle is at 6 ft 3 in, should be a preset position
+			 */
 		}
 	}
 
@@ -85,11 +89,11 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 	 * |______|______|______|____|
 	 */
 	public void cargoBayCargo() {
-		
+	 /** Middle of cargo input is 3 ft 3.75 in, and should be a preset position */
 	}
 
 	public void cargoBayHatches(){
-
+	/** Middle of the Hatch hole is 1 ft 7 in, and should be a preset position */
 	}
 
 	/**
