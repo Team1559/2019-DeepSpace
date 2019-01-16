@@ -40,7 +40,7 @@ public interface Constants {
 	public static final int ROCKET_HIGHER_PORT = 0;
 
 	//Cargo ship pot values
-	public static final int CARGOSHIP_HATCH = 0;
+	public static final int CARGOSHIP_HATCH = 0; //Will probably be the same as ROCKET_LOWER_HATCH
 	public static final int CARGOSHIP_CARGO_DROPOFF = 0;
 
 	// Stepper

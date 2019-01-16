@@ -13,7 +13,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Lifter {
 
 private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated in the Lifter constructor!
-
+private double kP = 0;// values for the PID loop
+private double kI = 0;
+private double kD = 0;
+private double kF = 0;
 	public Lifter() {
 		// motors, ids, etc
 		liftermotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
@@ -94,10 +97,12 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 	 */
 	public void cargoBayCargo() {
 	 /** Middle of cargo input is 3 ft 3.75 in, and should be a preset position */
+		setPosition(Constants.CARGOSHIP_CARGO_DROPOFF);
 	}
 
 	public void cargoBayHatches(){
 	/** Middle of the Hatch hole is 1 ft 7 in, and should be a preset position */
+		setPosition(Constants.CARGOSHIP_HATCH);
 	}
 
 	/**
@@ -142,6 +147,7 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 		// motor values or whatever is
 	}
 
+	//Will probably be removed due to other methods having its basic function. Keep just in case
 	public void moveTo(int positionNumber) {
 		// maybe instead of hardcoding each constant, just have their values as motor/position units for setPosition(int)
 		switch ((short) positionNumber) {
@@ -169,7 +175,6 @@ private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated 
 	}
 /**
 *Returns the value of the Potentiometer (I am assuming we will be needing one)
-*Note: if it needs to be a double, PLEASE feel free to change it so it is correct
 */
 	public double getPot(){
 		return liftermotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
