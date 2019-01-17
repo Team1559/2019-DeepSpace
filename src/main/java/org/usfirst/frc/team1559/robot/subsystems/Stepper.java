@@ -9,5 +9,7 @@ public class Stepper {
 	 * This is the equivalent of previous year's climbers. In order to advance to platform two and three in
 	 * the habitat, a step mechanism must be implemented.
 	 * 
+	 * "One small step for man. One giant leap for mankind"
+	 * 		-Neil Armstrong
 	 */
 }
