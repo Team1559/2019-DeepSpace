@@ -35,7 +35,7 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 	}
 
 	/**
-	 * Go to the specified rocket port (1, 2 or 3)
+	 * Go to the specified rocket cargo port (1, 2 or 3)
 	 *      __
 	 *    /    \
 	 *    | [] |    3 (6 ft, 11.5 in)
@@ -57,15 +57,15 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 				break;
 			default:
 				// unknown
-				/** Cargo Input 1 middle is at 2 ft 3.5 in, should be a preset position
-			 * Cargo Input 2 middle is at 4 ft 7.5 in, should be a preset position
-			 * Cargo Input 3 middle is at 6 ft 11.5 in, should be a preset position
+			/** Have Lifter go to cargo port 1 and have grabber unfold, should be a preset position
+			 * Have Lifter go to cargo port 2 and have grabber unfold, should be a preset position
+			 * Have Lifter go to cargo port 3 and have grabber unfold, should be a preset position
 			 */
 		}
 	}
 
 	/**
-	 * Go to the specified rocket hatch port (1, 2 or 3)
+	 * Go to the specified rocket hatch holes (1, 2 or 3)
 	 *      __
 	 *    /    \
 	 *    | [] |    hatch 3 (6 ft, 3 in)
@@ -87,9 +87,9 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 				break;
 			default:
 				// unknown
-			/** Hatch 1 middle is at 1 ft 7 in, should be a preset position
-			 * Hatch 2 middle is at 3 ft 11 in, should be a preset position
-			 * Hatch 3 middle is at 6 ft 3 in, should be a preset position
+			/** Have Lifter go to hatch hole 1 then have grabber unfold, should be a preset position
+			 * Have Lifter go to hatch hole 2 then have grabber unfold, should be a preset position
+			 * Have Lifter go to hatch hole 3 then have grabber unfold, should be a preset position
 			 */
 		}
 	}
@@ -104,12 +104,12 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 	 * |______|______|______|____|
 	 */
 	public void cargoBayCargo() {
-	 /** Middle of cargo input is 3 ft 3.75 in, and should be a preset position */
+	/** Have Lifter go to cargo bay port then have grabber unfold, should be a preset position*/
 		setPosition(Constants.CARGOSHIP_CARGO_DROPOFF);
 	}
 
 	public void cargoBayHatches(){
-	/** Middle of the Hatch hole is 1 ft 7 in, and should be a preset position */
+	/** Have Lifter go to hatch hole 1 then have grabber unfold, should be a preset position*/
 		setPosition(Constants.CARGOSHIP_HATCH);
 	}
 
