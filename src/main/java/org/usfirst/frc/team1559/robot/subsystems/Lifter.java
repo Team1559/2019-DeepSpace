@@ -13,10 +13,18 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Lifter {
 
 private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated in the Lifter constructor!
+private static final int TIMEOUT = 0;
 private double kP = 0;// values for the PID loop
 private double kI = 0;
 private double kD = 0;
 private double kF = 0;
+private double setpoint;
+
+private static final double[] ROCKET_PORTS_INCHES = {27.5, 55.5, 83.5};
+public int lowerbound = 0; //Find the lowest point on the potentiometer to make this integer.
+public int upperbound;
+private static final int RANGE = 0; //Find the range that we need from the pot!
+private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 	public Lifter() {
 		// motors, ids, etc
 		liftermotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
@@ -145,6 +153,7 @@ private double kF = 0;
 
 	public void setPosition(int value) {
 		// motor values or whatever is
+		liftermotor.setSelectedSensorPosition(Wiring.LIFTER_POT);
 	}
 
 	//Will probably be removed due to other methods having its basic function. Keep just in case
