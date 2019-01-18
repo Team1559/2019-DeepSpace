@@ -3,6 +3,7 @@ package org.usfirst.frc.team1559.robot.subsystems;
 import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
+import org.usfirst.frc.team1559.robot.MathUtils;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -22,6 +23,10 @@ private double setpoint;
 
 private static final double[] ROCKET_PORTS_INCHES = {27.5, 55.5, 83.5};
 private static final double[] ROCKET_HATCH_INCHES = {19.0, 47.0, 65.0};
+private static final double ROCKET_BOT_PORT = 27.5;
+private static final double ROCKET_TOP_PORT = 83.5;
+private static final double ROCKET_BOT_HATCH = 19.0;
+private static final double ROCKET_TOP_HATCH = 65.0;
 public int lowerbound = 0; //Find the lowest point on the potentiometer to make this integer.
 public int upperbound;
 private static final int RANGE = 0; //Find the range that we need from the pot!
@@ -228,8 +233,18 @@ private int position = 1;
 		return liftermotor;
 	}
 
-	private void calculatePositions() {
+	private void calculatePortPositions() {
 		upperbound = lowerbound + RANGE;
+		int n = ROCKET_PORTS_INCHES.length;
+		for (int i = 0; i < n; i++) {
+			positionTicks[i] = MathUtils.mapRange(ROCKET_PORTS_INCHES[i], ROCKET_BOT_PORT, ROCKET_TOP_HATCH, lowerbound, upperbound);
+
+		}
+
+	}
+
+	public void holdPosition() {
+		setpoint = getPot();
 	}
 
 }
