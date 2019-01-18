@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+		dSensor.stopRobot();
 	}
 
 	@Override
