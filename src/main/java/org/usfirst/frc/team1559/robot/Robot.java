@@ -28,6 +28,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
+		dSensor = new DistSensor();
+		dSensor.setAutomaticMode(true);
 	}
 
 	@Override
