@@ -13,10 +13,18 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Lifter {
 
 private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated in the Lifter constructor!
+private static final int TIMEOUT = 0;
 private double kP = 0;// values for the PID loop
 private double kI = 0;
 private double kD = 0;
 private double kF = 0;
+private double setpoint;
+
+private static final double[] ROCKET_PORTS_INCHES = {27.5, 55.5, 83.5};
+public int lowerbound = 0; //Find the lowest point on the potentiometer to make this integer.
+public int upperbound;
+private static final int RANGE = 0; //Find the range that we need from the pot!
+private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 	public Lifter() {
 		// motors, ids, etc
 		liftermotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
@@ -27,7 +35,7 @@ private double kF = 0;
 	}
 
 	/**
-	 * Go to the specified rocket port (1, 2 or 3)
+	 * Go to the specified rocket cargo port (1, 2 or 3)
 	 *      __
 	 *    /    \
 	 *    | [] |    3 (6 ft, 11.5 in)
@@ -49,15 +57,15 @@ private double kF = 0;
 				break;
 			default:
 				// unknown
-				/** Cargo Input 1 middle is at 2 ft 3.5 in, should be a preset position
-			 * Cargo Input 2 middle is at 4 ft 7.5 in, should be a preset position
-			 * Cargo Input 3 middle is at 6 ft 11.5 in, should be a preset position
+			/** Have Lifter go to cargo port 1 and have grabber unfold, should be a preset position
+			 * Have Lifter go to cargo port 2 and have grabber unfold, should be a preset position
+			 * Have Lifter go to cargo port 3 and have grabber unfold, should be a preset position
 			 */
 		}
 	}
 
 	/**
-	 * Go to the specified rocket hatch port (1, 2 or 3)
+	 * Go to the specified rocket hatch holes (1, 2 or 3)
 	 *      __
 	 *    /    \
 	 *    | [] |    hatch 3 (6 ft, 3 in)
@@ -79,9 +87,9 @@ private double kF = 0;
 				break;
 			default:
 				// unknown
-			/** Hatch 1 middle is at 1 ft 7 in, should be a preset position
-			 * Hatch 2 middle is at 3 ft 11 in, should be a preset position
-			 * Hatch 3 middle is at 6 ft 3 in, should be a preset position
+			/** Have Lifter go to hatch hole 1 then have grabber unfold, should be a preset position
+			 * Have Lifter go to hatch hole 2 then have grabber unfold, should be a preset position
+			 * Have Lifter go to hatch hole 3 then have grabber unfold, should be a preset position
 			 */
 		}
 	}
@@ -96,12 +104,12 @@ private double kF = 0;
 	 * |______|______|______|____|
 	 */
 	public void cargoBayCargo() {
-	 /** Middle of cargo input is 3 ft 3.75 in, and should be a preset position */
+	/** Have Lifter go to cargo bay port then have grabber unfold, should be a preset position*/
 		setPosition(Constants.CARGOSHIP_CARGO_DROPOFF);
 	}
 
 	public void cargoBayHatches(){
-	/** Middle of the Hatch hole is 1 ft 7 in, and should be a preset position */
+	/** Have Lifter go to hatch hole 1 then have grabber unfold, should be a preset position*/
 		setPosition(Constants.CARGOSHIP_HATCH);
 	}
 
@@ -145,6 +153,7 @@ private double kF = 0;
 
 	public void setPosition(int value) {
 		// motor values or whatever is
+		liftermotor.setSelectedSensorPosition(Wiring.LIFTER_POT);
 	}
 
 	//Will probably be removed due to other methods having its basic function. Keep just in case
