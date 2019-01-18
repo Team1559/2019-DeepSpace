@@ -21,19 +21,53 @@ private double kF = 0;
 private double setpoint;
 
 private static final double[] ROCKET_PORTS_INCHES = {27.5, 55.5, 83.5};
+private static final double[] ROCKET_HATCH_INCHES = {19.0, 47.0, 65.0};
 public int lowerbound = 0; //Find the lowest point on the potentiometer to make this integer.
 public int upperbound;
 private static final int RANGE = 0; //Find the range that we need from the pot!
 private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
+public boolean gamePiecePicker = true;
+
+private int position = 1;
+
 	public Lifter() {
 		// motors, ids, etc
 		liftermotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
+		liftermotor.set(ControlMode.Position, 0);
 	}
 
 	public void debug() {
 		// output things for debugging such as motor/encoder values
 	}
 
+	public void rocket(int buttonNumber) { //buttonNumber is basically just the index value of the controller button
+		if(gamePiecePicker) {
+			switch(buttonNumber) {
+				case 1:
+				setPosition(Constants.ROCKET_LOWER_PORT);// port 1
+				break;
+				case 2:
+				setPosition(Constants.ROCKET_MIDDLE_PORT);// port 2
+				break;
+				case 3:
+				setPosition(Constants.ROCKET_UPPER_PORT);// port 3
+				break;
+			}
+		}
+		else{
+			switch(buttonNumber){
+				case 1:
+				setPosition(Constants.ROCKET_LOWER_HATCH);// hatch 1 
+				break;
+				case 2:
+				setPosition(Constants.ROCKET_MIDDLE_PORT);// port 2
+				break;
+				case 3:
+				setPosition(Constants.ROCKET_UPPER_HATCH);// hatch 3
+				break;
+			}
+		}
+	}
 	/**
 	 * Go to the specified rocket cargo port (1, 2 or 3)
 	 *      __
@@ -44,25 +78,25 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 	 *   /|    |\
 	 *  / | [] | \  1 (2 ft, 3.5 in)
 	 */
-	public void rocketPort(int n) {
-		switch ((short) n) {
-			case 1:
-				setPosition(Constants.ROCKET_LOWER_PORT);// port 1
-				break;
-			case 2:
-				setPosition(Constants.ROCKET_LOWER_PORT);// port 2
-				break;
-			case 3:
-				setPosition(Constants.ROCKET_LOWER_PORT);// port 3
-				break;
-			default:
-				// unknown
-			/** Have Lifter go to cargo port 1 and have grabber unfold, should be a preset position
-			 * Have Lifter go to cargo port 2 and have grabber unfold, should be a preset position
-			 * Have Lifter go to cargo port 3 and have grabber unfold, should be a preset position
-			 */
-		}
-	}
+	// public void rocketPort(int n) {
+	// 	switch ((short) n) {
+	// 		case 1:
+	// 			setPosition(Constants.ROCKET_LOWER_PORT);// port 1
+	// 			break;
+	// 		case 2:
+	// 			setPosition(Constants.ROCKET_MIDDLE_PORT);// port 2
+	// 			break;
+	// 		case 3:
+	// 			setPosition(Constants.ROCKET_UPPER_PORT);// port 3
+	// 			break;
+	// 		default:
+	// 			// unknown
+	// 		/** Have Lifter go to cargo port 1 and have grabber unfold, should be a preset position
+	// 		 * Have Lifter go to cargo port 2 and have grabber unfold, should be a preset position
+	// 		 * Have Lifter go to cargo port 3 and have grabber unfold, should be a preset position
+	// 		 */
+	// 	}
+	// }
 
 	/**
 	 * Go to the specified rocket hatch holes (1, 2 or 3)
@@ -74,25 +108,25 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 	 *   /|    |\
 	 *  / | [] | \  hatch 1 (1 ft, 7 in)
 	 */
-	public void rocketHatches(int n) {
-		switch ((short) n) {
-			case 1:
-				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 1 
-				break;
-			case 2:
-				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 2
-				break;
-			case 3:
-				setPosition(Constants.ROCKET_LOWER_PORT);// hatch 3
-				break;
-			default:
-				// unknown
-			/** Have Lifter go to hatch hole 1 then have grabber unfold, should be a preset position
-			 * Have Lifter go to hatch hole 2 then have grabber unfold, should be a preset position
-			 * Have Lifter go to hatch hole 3 then have grabber unfold, should be a preset position
-			 */
-		}
-	}
+	// public void rocketHatches(int n) {
+	// 	switch ((short) n) {
+	// 		case 1:
+	// 			setPosition(Constants.ROCKET_LOWER_HATCH);// hatch 1 
+	// 			break;
+	// 		case 2:
+	// 			setPosition(Constants.ROCKET_MIDDLE_HATCH);// hatch 2
+	// 			break;
+	// 		case 3:
+	// 			setPosition(Constants.ROCKET_UPPER_HATCH);// hatch 3
+	// 			break;
+	// 		default:
+	// 			// unknown
+	// 		/** Have Lifter go to hatch hole 1 then have grabber unfold, should be a preset position
+	// 		 * Have Lifter go to hatch hole 2 then have grabber unfold, should be a preset position
+	// 		 * Have Lifter go to hatch hole 3 then have grabber unfold, should be a preset position
+	// 		 */
+	// 	}
+	// }
 
 	/**
 	 * Go to the cargo bay position
@@ -108,7 +142,7 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 		setPosition(Constants.CARGOSHIP_CARGO_DROPOFF);
 	}
 
-	public void cargoBayHatches(){
+	public void cargoBayHatches() {
 	/** Have Lifter go to hatch hole 1 then have grabber unfold, should be a preset position*/
 		setPosition(Constants.CARGOSHIP_HATCH);
 	}
@@ -153,7 +187,8 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 
 	public void setPosition(int value) {
 		// motor values or whatever is
-		liftermotor.setSelectedSensorPosition(Wiring.LIFTER_POT);
+		liftermotor.setSelectedSensorPosition(value, 0, TIMEOUT);
+		
 	}
 
 	//Will probably be removed due to other methods having its basic function. Keep just in case
@@ -183,7 +218,7 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 		}
 	}
 /**
-*Returns the value of the Potentiometer (I am assuming we will be needing one)
+*Returns the value of the Potentiometer
 */
 	public double getPot(){
 		return liftermotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
@@ -191,6 +226,10 @@ private double[] positionTicks = new double[ROCKET_PORTS_INCHES.length];
 	
 	public WPI_TalonSRX getTalon(){
 		return liftermotor;
+	}
+
+	private void calculatePositions() {
+		upperbound = lowerbound + RANGE;
 	}
 
 }

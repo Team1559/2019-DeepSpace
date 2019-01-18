@@ -33,11 +33,11 @@ public interface Constants {
 	//Rocket pot values
 	public static final int ROCKET_LOWER_HATCH = 0; //Make sure all the values below get their appropriate pot values
 	public static final int ROCKET_MIDDLE_HATCH = 0;//Values can vary between robot 1 and robot 2
-	public static final int ROCKET_HIGHER_HATCH = 0;//Make seperate variables for robot 2 if necessary
+	public static final int ROCKET_UPPER_HATCH = 0;//Make seperate variables for robot 2 if necessary
 
 	public static final int ROCKET_LOWER_PORT = 0;
 	public static final int ROCKET_MIDDLE_PORT = 0;
-	public static final int ROCKET_HIGHER_PORT = 0;
+	public static final int ROCKET_UPPER_PORT = 0;
 
 	//Cargo ship pot values
 	public static final int CARGOSHIP_HATCH = 0; //Will probably be the same as ROCKET_LOWER_HATCH
