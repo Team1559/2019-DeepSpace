@@ -70,7 +70,6 @@ private double[] portPositionTicks = new double[ROCKET_PORTS_INCHES.length];
 private double[] hatchPositionTicks = new double[ROCKET_HATCH_INCHES.length];
 private double cargoShipHatchPositionTicks;
 private double cargoShipCargoBayPositionTicks;
-public boolean gamePiecePicker = true;
 
 private int position = 1;
 
