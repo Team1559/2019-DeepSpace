@@ -42,17 +42,17 @@ public class OperatorInterface {
 
     public DTButton getCopilotButton(int num) {
         //Enter important stuff here Mike!
-        return 0.0;
+        return copilotButtons[num];
     }
 
-    public DTButton getCopilotAxis(int num) {
+    public double getCopilotAxis(int num) {
         //Enter important stuff here Mike!
         return 0.0;
     }
 
-    public double getCocopilotButton(int num) {
+    public DTButton getCocopilotButton(int num) {
         //Enter important stuff here Mike!!!!
-        return 0.0;
+        return cocopilotButtons[num];
     }
 
 }
