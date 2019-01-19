@@ -52,16 +52,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 <<<<<<< HEAD
-		
-		DistSensor dSensor = new DistSensor();
-		dSensor.setAutomaticMode(true);
-		double x = 0;
-		while(x < 50)
-		{
-			x = dSensor.getRange();
-		} 
 =======
-		dSensor.stopRobot();
 
 
 
@@ -99,6 +90,9 @@ public class Robot extends TimedRobot {
 				System.out.println("New Pot Lower Bound: " + lifter.lowerbound);
 			}
 		}
+<<<<<<< HEAD
+>>>>>>> 6776f2b84b3373fa68afe9317a4b26db5cf115c1
+=======
 >>>>>>> 6776f2b84b3373fa68afe9317a4b26db5cf115c1
 	}
 
