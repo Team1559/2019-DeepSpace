@@ -23,13 +23,15 @@ public class Robot extends TimedRobot {
 	*/
 	private DriveTrain drive;
 	private OperatorInterface oi;
+	private SerialTest pixy2;
 	
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
-		dSensor = new DistSensor();
-		dSensor.setAutomaticMode(true);
+		pixy2 = new SerialTest();
+		//dSensor = new DistSensor();
+		//dSensor.setAutomaticMode(true);
 	}
 
 	@Override
@@ -43,9 +45,15 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
+	public void teleopInit() {
+		pixy2.start();
+	}
+
+	@Override
 	public void teleopPeriodic() {
+		System.out.println(pixy2.read());
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-		dSensor.stopRobot();
+		//dSensor.stopRobot();
 	}
 
 	@Override

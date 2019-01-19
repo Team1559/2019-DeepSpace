@@ -19,23 +19,27 @@ public class OperatorInterface {
     }
 
     public double getPilotY() {
+        /*
         if(pilot.getRawAxis(0) <= 0.1 || -0.1 <= pilot.getRawAxis(0)) {
             return 0;
         }
+        */
         return pilot.getRawAxis(0);
     }
 
     public double getPilotX() {
-        if((-1)*(pilot.getRawAxis(1)) <= 0.1 || -0.1 <= (-1)*(pilot.getRawAxis(1))) {
+        if(Math.abs(pilot.getRawAxis(1)) <= 0.2 ) {
             return 0;
         }
         return (-1)*(pilot.getRawAxis(1));
     }
 
     public double getPilotZ() {
+        /*
         if(pilot.getRawAxis(2) <= 0.1 || -0.1 <= pilot.getRawAxis(2)) {
             return 0;
         }
+        */
         return pilot.getRawAxis(2);
     }
 
