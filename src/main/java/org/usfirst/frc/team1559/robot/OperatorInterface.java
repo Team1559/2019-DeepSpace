@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OperatorInterface {
     //drive.driveCartesian((pilot.getRawAxis(0)), -1*pilot.getRawAxis(1), pilot.getRawAxis(2));
     Joystick pilot, copilot;
+    private DTButton[] driverButtons, copilotButtons, cocopilotButtons;
 
     public OperatorInterface() {
         pilot = new Joystick(Constants.PILOT_JOYSTICK);
@@ -37,6 +38,21 @@ public class OperatorInterface {
             return 0;
         }
         return pilot.getRawAxis(2);
+    }
+
+    public DTButton getCopilotButton(int num) {
+        //Enter important stuff here Mike!
+        return 0.0;
+    }
+
+    public DTButton getCopilotAxis(int num) {
+        //Enter important stuff here Mike!
+        return 0.0;
+    }
+
+    public double getCocopilotButton(int num) {
+        //Enter important stuff here Mike!!!!
+        return 0.0;
     }
 
 }

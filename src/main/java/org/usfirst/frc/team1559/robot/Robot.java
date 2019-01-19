@@ -51,14 +51,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-<<<<<<< HEAD
-=======
 
 
 
 		//LIFTER
-		if(Math.abs(oi.getCopilotButton(6)).isPressed() && isCargo == true) {
-			isCargo = false;
+		if(Math.abs(oi.getCopilotButton(6)).isPressed()) {
+			isCargo = !isCargo;
 		}
 		else {
 			isCargo = true;
@@ -90,10 +88,7 @@ public class Robot extends TimedRobot {
 				System.out.println("New Pot Lower Bound: " + lifter.lowerbound);
 			}
 		}
-<<<<<<< HEAD
->>>>>>> 6776f2b84b3373fa68afe9317a4b26db5cf115c1
-=======
->>>>>>> 6776f2b84b3373fa68afe9317a4b26db5cf115c1
+
 	}
 
 	@Override

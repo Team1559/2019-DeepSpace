@@ -80,7 +80,9 @@ private int position = 1;
 		calculatePortPositions();
 		calculateHatchPositions();
 	}
-
+/**
+*Returns the value of the Potentiometer
+*/
 	public double getPot(){
 		return liftermotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
 	}
@@ -172,9 +174,7 @@ private int position = 1;
 	// 			// unknown
 	// 	}
 	// }
-/**
-*Returns the value of the Potentiometer
-*/
+
 	
 	
 	public WPI_TalonSRX getTalon(){
