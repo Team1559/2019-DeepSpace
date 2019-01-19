@@ -58,9 +58,6 @@ public class Robot extends TimedRobot {
 		if(oi.getCopilotButton(6).isPressed()) {
 			isCargo = !isCargo;
 		}
-		else {
-			isCargo = true;
-		}
 		if(!fightstick) {
 			if(Math.abs(oi.getCopilotAxis(0)) >= 0.05 && !oi.getCocopilotButton(1).isDown()) {
 				lifter.driveManual(oi.getCopilotAxis(0));
