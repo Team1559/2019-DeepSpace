@@ -183,6 +183,11 @@ private int position = 1;
 
 	private void calculatePortPositions() {
 		upperbound = lowerbound + RANGE;
+		if(upperbound > Constants.POT_TOP)
+		{
+			System.out.println("WARNING!!!! upperbound exceeds the highest possible value of the potentiometer!");
+			System.out.println("Failure to fix this may result in the pot breaking!");
+		}
 		int n = ROCKET_PORTS_INCHES.length;
 		for (int i = 0; i < n; i++) {
 			portPositionTicks[i] = MathUtils.mapRange(ROCKET_PORTS_INCHES[i], ROCKET_BOT_PORT, ROCKET_TOP_PORT, lowerbound, upperbound);
