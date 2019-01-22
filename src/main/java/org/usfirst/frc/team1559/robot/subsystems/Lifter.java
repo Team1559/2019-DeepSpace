@@ -23,9 +23,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 	 *    | [] |    2 (4 ft, 7.5 in)
 	 *   /|    |\
 	 *  / | [] | \  1 (2 ft, 3.5 in)
-	 */
-
-	 /**
+	 *
+	 * 
 	 * Go to the specified rocket hatch holes (1, 2 or 3)
 	 *      __
 	 *    /    \
@@ -34,9 +33,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 	 *    | [] |    hatch 2 (3 ft, 11 in)
 	 *   /|    |\
 	 *  / | [] | \  hatch 1 (1 ft, 7 in)
-	 */
-
-	 /**
+	 *
+	 * 
 	 * Go to the cargo bay positions
 	 *  ________________________   ____ 4 ft _____
 	 * |      |      |      |   \  <--- (Drop off point) 3ft 3.75 in
