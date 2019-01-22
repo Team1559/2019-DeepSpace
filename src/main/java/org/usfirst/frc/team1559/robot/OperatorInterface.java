@@ -10,8 +10,8 @@ package org.usfirst.frc.team1559.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class OperatorInterface {
-    //drive.driveCartesian((pilot.getRawAxis(0)), -1*pilot.getRawAxis(1), pilot.getRawAxis(2));
     Joystick pilot, copilot;
+    boolean fineControl = false;
 
     public OperatorInterface() {
         pilot = new Joystick(Constants.PILOT_JOYSTICK);
@@ -19,28 +19,26 @@ public class OperatorInterface {
     }
 
     public double getPilotY() {
-        /*
-        if(pilot.getRawAxis(0) <= 0.1 || -0.1 <= pilot.getRawAxis(0)) {
-            return 0;
-        }
-        */
         return pilot.getRawAxis(0);
     }
 
     public double getPilotX() {
-        if(Math.abs(pilot.getRawAxis(1)) <= 0.2 ) {
-            return 0;
+        if(fineControl) {
+            if(Math.abs(pilot.getRawAxis(1)) <= 0.2 ) {
+                return 0;
+            }
         }
         return (-1)*(pilot.getRawAxis(1));
     }
 
     public double getPilotZ() {
-        /*
-        if(pilot.getRawAxis(2) <= 0.1 || -0.1 <= pilot.getRawAxis(2)) {
-            return 0;
-        }
-        */
         return pilot.getRawAxis(2);
+    }
+
+    public void checkFineControl() {
+        if(pilot.getRawButton(Constants.BTN_FINE_DRIVE_CONTROL)) {
+            fineControl = !fineControl;
+        }
     }
 
 }

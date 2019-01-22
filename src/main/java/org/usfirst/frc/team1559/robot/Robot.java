@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
 	 * annual update, classed are added, removed, or deprecated. The IterativeRobot class was
 	 * deprecated as of 2019. TimedRobot is the closest match to the IterativeRobot class.
 	*/
-	private DriveTrain drive;
+	public static DriveTrain drive;
 	private OperatorInterface oi;
 	private SerialTest pixy2;
 	
