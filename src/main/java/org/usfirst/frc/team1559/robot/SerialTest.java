@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1559.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.hal.util.*; 
 
 public class SerialTest {
 
@@ -14,7 +13,7 @@ public class SerialTest {
         port.setMSBFirst();
         port.setChipSelectActiveLow();
         port.setClockRate(1000);
-        port.setSampleDataOnFalling();
+        port.setSampleDataOnTrailingEdge();
         port.setClockActiveLow();
     }
 
