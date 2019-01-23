@@ -47,7 +47,7 @@ public class Lifter {
 
 private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated in the Lifter constructor!
 private static final int TIMEOUT = 0;
-private double kP = 0;// values for the PID loop
+private double kP = 0;// values for the PID loop (Jack here, I can't make a PID loop, so plz fix once things explode)
 private double kI = 0;
 private double kD = 0;
 private double kF = 0;
@@ -107,12 +107,14 @@ private int position = 1;
 		pos -= 1;
 		setpoint = portPositionTicks[position-1];
 		position = pos;
+		update();
 	}
 
 	public void setHatchPosition(int pos) {
 		pos -= 1;
 		setpoint = hatchPositionTicks[position-1];
 		position = pos;
+		update();
 	}
 
 	public boolean isAtPortPosition(int position) {
