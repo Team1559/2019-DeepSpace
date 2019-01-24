@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DistSensor
 {
-    Ultrasonic ultra = new Ultrasonic(1,1);
+    Ultrasonic ultra = new Ultrasonic(1,1); //Change this to the appropriate port #
     DriveTrain drive =  new DriveTrain();
 
     public void setAutomaticMode(boolean b)
@@ -32,5 +32,6 @@ public class DistSensor
         }
         
     }
+
 
 }
