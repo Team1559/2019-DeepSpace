@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 	private DriveTrain drive;
 	private OperatorInterface oi;
 	public static boolean fightstick = true;
-	private boolean isCargo = true;
+	// private boolean isCargo = true;
 	private static Lifter lifter;
 	
 	@Override
@@ -55,30 +55,30 @@ public class Robot extends TimedRobot {
 
 
 		//LIFTER
-		if(oi.getCopilotButton(6).isPressed()) {
-			isCargo = !isCargo;
-		}
+		// if(oi.getCopilotButton(6).isPressed()) {
+		// 	isCargo = !isCargo;
+		// }
 		if(!fightstick) {
 			if(Math.abs(oi.getCopilotAxis(0)) >= 0.05 && !oi.getCocopilotButton(4).isDown()) {
 				lifter.driveManual(oi.getCopilotAxis(0));
 			}
 			if(oi.getCopilotButton(1).isPressed()) {
-				if(isCargo)
-					lifter.setPortPosition(1);
-				else
-					lifter.setHatchPosition(1);
+				lifter.setPortPosition(1);
 			}
 			else if(oi.getCopilotButton(2).isPressed()) {
-				if(isCargo)
-					lifter.setPortPosition(2);
-				else
-					lifter.setHatchPosition(2);
+				lifter.setPortPosition(2);
 			}
 			else if(oi.getCopilotButton(3).isPressed()) {
-				if(isCargo)
-					lifter.setPortPosition(3);
-				else
-					lifter.setHatchPosition(3);
+				lifter.setPortPosition(3);
+			}
+			else if(oi.getCopilotButton(4).isPressed()) {
+				lifter.setHatchPosition(1);
+			}
+			else if(oi.getCopilotButton(5).isPressed()) {
+				lifter.setHatchPosition(2);
+			}
+			else if(oi.getCopilotButton(6).isPressed()) {
+				lifter.setHatchPosition(3);
 			}
 			else if(oi.getCopilotButton(0).isPressed()) {
 				lifter.reset();
