@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team1559.robot;
 
+import org.usfirst.frc.team1559.robot.subsystems.Grabber;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -24,12 +26,14 @@ public class Robot extends TimedRobot {
 	public static DriveTrain drive;
 	private OperatorInterface oi;
 	private SerialTest pixy2;
+	private Grabber grabber;
 	
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
 		pixy2 = new SerialTest();
+		grabber = new Grabber();
 		//dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 	}
@@ -52,8 +56,25 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		// Camera
 		System.out.println(pixy2.read());
+
+		// Drive Train
+		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+
+		// Grabber
+		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+			grabber.getCargo();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+			grabber.removeCargo();
+		}
+
+		if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
+			grabber.getHatch();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
+			grabber.bringHatch();
+		}
 	}
 
 	@Override
