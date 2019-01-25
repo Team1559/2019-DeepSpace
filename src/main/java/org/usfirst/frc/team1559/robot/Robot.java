@@ -55,6 +55,34 @@ public class Robot extends TimedRobot {
 
 
 		//LIFTER
+		lifter = new Lifter();
+		if(oi.getCopilotButton(0).isPressed()) {
+			lifter.goToPortPos(1);
+		}
+		else if(oi.getCopilotButton(1).isPressed()) {
+			lifter.goToPortPos(2);
+		}
+		else if(oi.getCopilotButton(2).isPressed()) {
+			lifter.goToPortPos(3);
+		}
+		else if(oi.getCopilotButton(3).isPressed()) {
+			lifter.goToHatchPos(1);
+		}
+		else if(oi.getCopilotButton(4).isPressed()) {
+			lifter.goToHatchPos(2);
+		}
+		else if(oi.getCopilotButton(5).isPressed()) {
+			lifter.goToHatchPos(3);
+		}
+		else if(oi.getCopilotButton(6).isPressed()) {
+			lifter.goToCargoShipCargoDrop();
+		}
+		else if(oi.getCopilotButton(7).isPressed()) {
+			lifter.goToCargoShipHatch();
+		}
+		else if(oi.getCopilotButton(8).isPressed()) {
+			lifter.goToBottom();
+		}
 
 	}
 
