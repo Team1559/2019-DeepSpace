@@ -55,36 +55,6 @@ public class Robot extends TimedRobot {
 
 
 		//LIFTER
-		// if(oi.getCopilotButton(6).isPressed()) {
-		// 	isCargo = !isCargo;
-		// }
-		if(!fightstick) {
-			if(Math.abs(oi.getCopilotAxis(0)) >= 0.05 && !oi.getCocopilotButton(4).isDown()) {
-				lifter.driveManual(oi.getCopilotAxis(0));
-			}
-			if(oi.getCopilotButton(1).isPressed()) {
-				lifter.setPortPosition(1);
-			}
-			else if(oi.getCopilotButton(2).isPressed()) {
-				lifter.setPortPosition(2);
-			}
-			else if(oi.getCopilotButton(3).isPressed()) {
-				lifter.setPortPosition(3);
-			}
-			else if(oi.getCopilotButton(4).isPressed()) {
-				lifter.setHatchPosition(1);
-			}
-			else if(oi.getCopilotButton(5).isPressed()) {
-				lifter.setHatchPosition(2);
-			}
-			else if(oi.getCopilotButton(6).isPressed()) {
-				lifter.setHatchPosition(3);
-			}
-			else if(oi.getCopilotButton(0).isPressed()) {
-				lifter.reset();
-				System.out.println("New Pot Lower Bound: " + lifter.lowerbound);
-			}
-		}
 
 	}
 
