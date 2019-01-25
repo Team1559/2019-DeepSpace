@@ -29,8 +29,6 @@ public class Robot extends TimedRobot {
 	private boolean isCargo = true;
 	private static Lifter lifter;
 	
-	DistSensor dSensor = new DistSensor();
-	
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
@@ -53,11 +51,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-		dSensor.setAutomaticMode(true);
-		SmartDashboard.putNumber("Sensor Range", dSensor.getRange());
-		dSensor.stopRobot();
-		}
-	
+
+	}
 
 	@Override
 	public void testPeriodic() {

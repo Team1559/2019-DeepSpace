@@ -34,11 +34,6 @@ public interface Wiring {
 	// Stepper
 
 	//DistSesnsor
-	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 1; //This needs to be set
+	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 0; //This needs to be set
 
-	//Buttons
-	public static final int BTN_GET_CARGO = 0;
-	public static final int BTN_RELEASE_CARGO = 0;
-	public static final int BTN_GET_HATCH = 0;
-	public static final int BTN_BRING_HATCH_IN = 0;
 }
