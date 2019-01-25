@@ -17,7 +17,6 @@ public class DistSensor
     public double getRange()
     {
         double range = ultra.getRangeInches();
-        SmartDashboard.putNumber("Robot inches", range);
         return range;
     }
 
