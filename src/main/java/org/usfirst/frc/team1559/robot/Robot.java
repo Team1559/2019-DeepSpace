@@ -36,12 +36,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-
+		pixy2.start();
+		// No autonomous neccesary
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		
+		// No autonomous neccesary
 	}
 
 	@Override
@@ -53,7 +54,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		System.out.println(pixy2.read());
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-		//dSensor.stopRobot();
 	}
 
 	@Override

@@ -21,7 +21,9 @@ public interface Constants {
 	// DriveTrain
 
 	// Grabber
-	
+	public static final int BTN_OUTTAKE = 3;
+	public static final int BTN_INTAKE = 1;
+
 	// Lifter
 	public static final short LIFTER_POS1 = 1;
 	public static final short LIFTER_POS2 = 2;
