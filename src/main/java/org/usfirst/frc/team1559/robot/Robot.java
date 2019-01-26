@@ -50,11 +50,10 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		
 	}
-
 	@Override
 	public void teleopPeriodic() {
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-		
+
 		DistSensor dSensor = new DistSensor();
 		dSensor.setAutomaticMode(true);
 		SmartDashboard.putNumber("DS Range: ", dSensor.getRange());
