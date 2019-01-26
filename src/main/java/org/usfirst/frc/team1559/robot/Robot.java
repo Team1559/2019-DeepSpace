@@ -8,6 +8,10 @@
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 
+import java.util.Arrays;
+
+import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 //import edu.wpi.first.wpilibj.Joystick;
@@ -42,6 +46,8 @@ public class Robot extends TimedRobot {
 		oi = new OperatorInterface();
 
 		pixy2 = new SerialTest();
+		//dSensor = new DistSensor();
+		pixy2.lampon();
 		//grabber = new Grabber();
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
@@ -67,6 +73,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		pixylinevector v=pixy2.getvector();
 		// Camera
 		System.out.println(pixy2.read());
 
