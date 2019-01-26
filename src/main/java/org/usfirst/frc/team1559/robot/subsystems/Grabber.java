@@ -12,16 +12,14 @@ public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
-    private Spark ballIntake, hatchSlapperL, hatchSlapperR;
+    private Spark spark;
 
 
     public Grabber()
     {
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
-        ballIntake = new Spark(Wiring.NTK_SPARK_BI);
-        hatchSlapperL = new Spark(Wiring.NTK_SPARK_HL);
-        hatchSlapperR = new Spark(Wiring.NTK_SPARK_HR);
-        ballIntake.enableDeadbandElimination(true);
+        spark = new Spark(Wiring.NTK_SPARK);
+        spark.enableDeadbandElimination(true);
     }
 
     public void getHatch()
@@ -36,43 +34,21 @@ public class Grabber
 
     public void setSpark(double speed)
     {
-        ballIntake.set(speed); //sets the motor value
+        spark.set(speed); //sets the motor value
     }
     public void getCargo()
     {
-        ballIntake.set(1);  //activates intake for cargo mechanism wheel motor guy
+        spark.set(1);  //activates intake for cargo mechanism wheel motor guy
     }
 
     public void removeCargo()
     {
-        ballIntake.set(-1); //spits that cargo out like expired food
+        spark.set(0); //spits that cargo out like expired food
     }
 
     public double getSpark()
     {
-        return ballIntake.get(); //give spark value
-    }
-
-    public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
-    {
-        hatchSlapperL.set(1);
-        hatchSlapperR.set(1);
-        if(getLimitValue(2) == true);
-        {
-            hatchSlapperL.set(0);
-            hatchSlapperR.set(0);
-        }
-    }
-
-    public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
-    {
-        hatchSlapperL.set(-1);
-        hatchSlapperR.set(-1);
-        if(getLimitValue(1) == true);
-        {
-            hatchSlapperL.set(0);
-            hatchSlapperR.set(0);
-        }
+        return spark.get(); //give spark value
     }
 
     public boolean getLimitValue(int x) //x will be 1 or 2 (1 is for checking if the arms are on the robot, 2 is for checking if the arms are deployed)
