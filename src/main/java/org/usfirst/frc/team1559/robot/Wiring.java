@@ -26,8 +26,10 @@ public interface Wiring {
 	
 	// Grabber
 	public static final int NTK_SOLENOID = -1; // This variable needs to be set 
-	public static final int NTK_SPARK = -1; // This variable needs to be set 
-	
+	public static final int NTK_SPARK_BI = -1; // This variable needs to be set 
+	public static final int NTK_SPARK_HR = -1; // This variable needs to be set 
+	public static final int NTK_SPARK_HL = -1; // This variable needs to be set 
+
 	// Lifter
 	public static final int LIFTER_POT = 0; //This needs to be set
 	public static final int LIFTER_TALON = 4; //This needs to be set

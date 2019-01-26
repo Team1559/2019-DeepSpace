@@ -3,6 +3,7 @@ package org.usfirst.frc.team1559.robot.subsystems;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DigitalInput;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.Wiring;
@@ -13,6 +14,7 @@ public class Grabber
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
     private Spark ballIntake, hatchSlapperL, hatchSlapperR;
+    private WPI_TalonSRX test1, test2;
 
 
     public Grabber()
@@ -22,6 +24,8 @@ public class Grabber
         hatchSlapperL = new Spark(Wiring.NTK_SPARK_HL);
         hatchSlapperR = new Spark(Wiring.NTK_SPARK_HR);
         ballIntake.enableDeadbandElimination(true);
+        test1 = new WPI_TalonSRX(0);
+        test2 = new WPI_TalonSRX(1);
     }
 
     public void getHatch()
@@ -40,12 +44,12 @@ public class Grabber
     }
     public void getCargo()
     {
-        ballIntake.set(1);  //activates intake for cargo mechanism wheel motor guy
+        test1.set(1);  //activates intake for cargo mechanism wheel motor guy
     }
 
     public void removeCargo()
     {
-        ballIntake.set(0); //spits that cargo out like expired food
+        test1.set(0); //spits that cargo out like expired food
     }
 
     public double getSpark()

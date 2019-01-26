@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		/*
 		// Camera
 		System.out.println(pixy2.read());
 
@@ -87,6 +88,11 @@ public class Robot extends TimedRobot {
 			grabber.bringHatch();
 
 		}
+		*/
+		grabber.getCargo();
+		System.out.println("GET");
+		grabber.removeCargo();
+		System.out.println("NO GET");
 
 	}
 
