@@ -75,8 +75,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		pixylinevector v=pixy2.getvector();
 		// Camera
-		System.out.println(pixy2.read());
-
+		
 		// Drive Train
 		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());

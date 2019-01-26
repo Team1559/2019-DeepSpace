@@ -23,7 +23,6 @@ public class SerialTest {
 
     public void start() {
     }
-
     public byte lampon() {
         byte[] returned = new byte[10];
         port.transaction(lampon, returned, 6);
