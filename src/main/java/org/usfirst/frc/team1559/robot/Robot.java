@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
 	/*
@@ -25,17 +27,25 @@ public class Robot extends TimedRobot {
 	*/
 	public static DriveTrain drive;
 	private OperatorInterface oi;
+
 	private SerialTest pixy2;
 	private Grabber grabber;
+	public static boolean fightstick = true;
+	private boolean isCargo = true;
+	private static Lifter lifter;
+
 	
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
+
 		pixy2 = new SerialTest();
 		grabber = new Grabber();
-		//dSensor = new DistSensor();
-		//dSensor.setAutomaticMode(true);
+		DistSensor dSensor = new DistSensor();
+		dSensor.setAutomaticMode(true);
+		dSensor.stopRobot();
+
 	}
 
 	@Override
@@ -63,6 +73,7 @@ public class Robot extends TimedRobot {
 		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 
+
 		// Grabber
 		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 			grabber.getCargo();
@@ -75,6 +86,7 @@ public class Robot extends TimedRobot {
 		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
 			grabber.bringHatch();
 		}
+
 	}
 
 	@Override
