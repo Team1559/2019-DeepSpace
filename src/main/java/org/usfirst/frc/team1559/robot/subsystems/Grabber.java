@@ -45,7 +45,7 @@ public class Grabber
 
     public void removeCargo()
     {
-        ballIntake.set(-1); //spits that cargo out like expired food
+        ballIntake.set(0); //spits that cargo out like expired food
     }
 
     public double getSpark()
@@ -57,7 +57,7 @@ public class Grabber
     {
         hatchSlapperL.set(1);
         hatchSlapperR.set(1);
-        if(getLimitValue(2) == true);
+        if(getLimitValue(1) == true);
         {
             hatchSlapperL.set(0);
             hatchSlapperR.set(0);
@@ -66,8 +66,8 @@ public class Grabber
 
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
     {
-        hatchSlapperL.set(-1);
-        hatchSlapperR.set(-1);
+        hatchSlapperL.set(0);
+        hatchSlapperR.set(0);
         if(getLimitValue(1) == true);
         {
             hatchSlapperL.set(0);

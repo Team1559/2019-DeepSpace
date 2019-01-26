@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team1559.robot;
-
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 //import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
@@ -35,8 +34,7 @@ public class Robot extends TimedRobot {
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
-
-	private static Grabber grabber; //grab em ;)
+	private static Grabber grabber; 
 
 	@Override
 	public void robotInit() {
@@ -87,6 +85,7 @@ public class Robot extends TimedRobot {
 			grabber.getHatch();
 		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
 			grabber.bringHatch();
+
 		}
 
 	}
