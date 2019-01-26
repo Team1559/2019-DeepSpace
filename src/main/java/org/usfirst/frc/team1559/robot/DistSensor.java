@@ -29,6 +29,7 @@ public class DistSensor
             b = true;
             SmartDashboard.putBoolean("Robot Stopped", b);
             drive.driveCartesian(0,0,0);
+            
         }
         
     }

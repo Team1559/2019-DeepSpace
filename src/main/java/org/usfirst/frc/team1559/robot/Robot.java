@@ -7,12 +7,13 @@
 
 package org.usfirst.frc.team1559.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -28,6 +29,8 @@ public class Robot extends TimedRobot {
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
+	private static Grabber grabber; //grab em ;)
+
 	
 	@Override
 	public void robotInit() {
@@ -51,50 +54,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+		
 		DistSensor dSensor = new DistSensor();
 		dSensor.setAutomaticMode(true);
-		double x = 0;
-		while(x < 50)
-		{
-			x = dSensor.getRange();
-		} 
-		dSensor.stopRobot();
-		//LIFTER
-		/*
-		if(Math.abs(oi.getCopilotButton(6)).isPressed() && isCargo == true) {
-			isCargo = false;
-		}
-		else {
-			isCargo = true;
-		}
-		if(!fightstick) {
-			if(Math.abs(oi.getCopilotAxis(0)) >= 0.05 && !oi.getCocopilotButton(1).isDown) {
-				lifter.driveManual(oi.getCopilotAxis(0));
-			}
-			if(oi.getCopilotButton(1).isPressed()) {
-				if(isCargo)
-					lifter.setPortPosition(1);
-				else
-					lifter.setHatchPosition(1);
-			}
-			else if(oi.getCopilotButton(2).isPressed()) {
-				if(isCargo)
-					lifter.setPortPosition(2);
-				else
-					lifter.setHatchPosition(2);
-			}
-			else if(oi.getCopilotButton(3).isPressed()) {
-				if(isCargo)
-					lifter.setPortPosition(3);
-				else
-					lifter.setHatchPosition(3);
-			}
-			else if(oi.getCopilotButton(0).isPressed()) {
-				lifter.reset();
-				System.out.println("New Pot Lower Bound: " + lifter.lowerbound);
-				
-			}
-			*/
+		SmartDashboard.putNumber("DS Range: ", dSensor.getRange());
 		}
 	
 
