@@ -13,19 +13,15 @@ public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
-    private Spark ballIntake, hatchSlapperL, hatchSlapperR;
-    private WPI_TalonSRX test1, test2;
+    private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
 
 
     public Grabber()
     {
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
-        ballIntake = new Spark(Wiring.NTK_SPARK_BI);
-        hatchSlapperL = new Spark(Wiring.NTK_SPARK_HL);
-        hatchSlapperR = new Spark(Wiring.NTK_SPARK_HR);
-        ballIntake.enableDeadbandElimination(true);
-        test1 = new WPI_TalonSRX(0);
-        test2 = new WPI_TalonSRX(1);
+        ballIntake = new WPI_TalonSRX(Wiring.NTK_SPARK_BI);
+        hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
+        hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
     }
 
     public void getHatch()
@@ -44,12 +40,12 @@ public class Grabber
     }
     public void getCargo()
     {
-        test1.set(1);  //activates intake for cargo mechanism wheel motor guy
+        ballIntake.set(1);  //activates intake for cargo mechanism wheel motor guy
     }
 
     public void removeCargo()
     {
-        test1.set(0); //spits that cargo out like expired food
+        ballIntake.set(0); //spits that cargo out like expired food
     }
 
     public double getSpark()

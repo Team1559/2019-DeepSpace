@@ -8,6 +8,8 @@
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 //import edu.wpi.first.wpilibj.Joystick;
@@ -35,12 +37,10 @@ public class Robot extends TimedRobot {
 	private boolean isCargo = true;
 	private static Lifter lifter;
 	private static Grabber grabber; 
-
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
-
 		pixy2 = new SerialTest();
 		//grabber = new Grabber();
 		//DistSensor dSensor = new DistSensor();
