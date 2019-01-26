@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DistSensor
 {
 
-    Ultrasonic ultra;
     Boolean isStopped;
 
     public DistSensor()
@@ -28,7 +27,6 @@ public class DistSensor
     public double getRange()
     {
 
-        return ultra.getRangeInches();
         double range = ultra.getRangeInches();
         SmartDashboard.putNumber("Robot inches", range);
         return range;
@@ -43,7 +41,7 @@ public class DistSensor
             Robot.drive.driveCartesian(0, 0, 0);
             isStopped = !isStopped;
             SmartDashboard.putNumber("Robot Stopped " + isStopped, 0.0);
-
+        }
         boolean b  = false;
         if(getRange() < 12) //Set this to an actual value
         {

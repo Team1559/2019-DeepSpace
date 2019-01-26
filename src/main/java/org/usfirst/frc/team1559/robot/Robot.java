@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
-import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -33,25 +32,22 @@ public class Robot extends TimedRobot {
 	private OperatorInterface oi;
 
 	private SerialTest pixy2;
-	private Grabber grabber;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
 
 	private static Grabber grabber; //grab em ;)
 
-
-	
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
 
 		pixy2 = new SerialTest();
-		grabber = new Grabber();
-		DistSensor dSensor = new DistSensor();
-		dSensor.setAutomaticMode(true);
-		dSensor.stopRobot();
+		//grabber = new Grabber();
+		//DistSensor dSensor = new DistSensor();
+		//dSensor.setAutomaticMode(true);
+		//dSensor.stopRobot();
 
 	}
 
@@ -70,6 +66,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		pixy2.start();
 	}
+
 	@Override
 	public void teleopPeriodic() {
 		// Camera
@@ -78,8 +75,6 @@ public class Robot extends TimedRobot {
 		// Drive Train
 		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-
-
 
 		// Grabber
 		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
@@ -94,11 +89,8 @@ public class Robot extends TimedRobot {
 			grabber.bringHatch();
 		}
 
-		//DistSensor dSensor = new DistSensor();
-		//dSensor.setAutomaticMode(true);
-		//SmartDashboard.putNumber("DS Range: ", dSensor.getRange());
-		}
-	
+	}
+
 	@Override
 	public void testPeriodic() {
 		
