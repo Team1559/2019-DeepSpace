@@ -26,7 +26,14 @@ public interface Wiring {
 	
 	// Grabber
 	public static final int NTK_SOLENOID = -1; // This variable needs to be set 
-	public static final int NTK_SPARK = -1; // This variable needs to be set 
+	public static final int NTK_SPARK_BI = -1; // Ball intake This variable needs to be set 
+	public static final int NTK_SPARK_HL = -1; // Hatch Slapp Right This variable needs to be set 
+	public static final int NTK_SPARK_HR = -1; // Hatch Slapp Left This variable needs to be set 
+	public static final int DI_LIMIT1 = 1;
+	public static final int DI_LIMIT2 = 1; //all the limit switches need to be SET!!!!!!!! >:() <%;{)}
+	public static final int DI_LIMIT3 = 1;
+	public static final int DI_LIMIT4 = 1;
+
 	
 	// Lifter
 	public static final int LIFTER_POT = 0; //This needs to be set
