@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team1559.robot;
 
+import java.util.Arrays;
+
+import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -31,6 +35,7 @@ public class Robot extends TimedRobot {
 		oi = new OperatorInterface();
 		pixy2 = new SerialTest();
 		//dSensor = new DistSensor();
+		pixy2.lampon();
 		//dSensor.setAutomaticMode(true);
 	}
 
@@ -51,7 +56,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(pixy2.read());
+		pixylinevector v=pixy2.getvector();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 		//dSensor.stopRobot();
 	}
