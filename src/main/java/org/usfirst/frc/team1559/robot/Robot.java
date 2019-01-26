@@ -6,8 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team1559.robot;
+import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 
 import edu.wpi.first.wpilibj.Joystick;
+
+//import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,35 +27,68 @@ public class Robot extends TimedRobot {
 	 * annual update, classed are added, removed, or deprecated. The IterativeRobot class was
 	 * deprecated as of 2019. TimedRobot is the closest match to the IterativeRobot class.
 	*/
-	private DriveTrain drive;
+	public static DriveTrain drive;
 	private OperatorInterface oi;
+
+	private SerialTest pixy2;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
-	
+	private static Grabber grabber; 
+
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
-		DistSensor dSensor = new DistSensor();
-		dSensor.setAutomaticMode(true);
-		dSensor.stopRobot();
+
+		pixy2 = new SerialTest();
+		//grabber = new Grabber();
+		//DistSensor dSensor = new DistSensor();
+		//dSensor.setAutomaticMode(true);
+		//dSensor.stopRobot();
+
 	}
 
 	@Override
 	public void autonomousInit() {
-
+		pixy2.start();
+		// No autonomous neccesary
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		
+		// No autonomous neccesary
 	}
+
+	@Override
+	public void teleopInit() {
+		pixy2.start();
+	}
+
 	@Override
 	public void teleopPeriodic() {
+		// Camera
+		System.out.println(pixy2.read());
+
+		// Drive Train
+		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+
+		// Grabber
+		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+			grabber.getCargo();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+			grabber.removeCargo();
 		}
-	
+
+		if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
+			grabber.getHatch();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
+			grabber.bringHatch();
+
+		}
+
+	}
 
 	@Override
 	public void testPeriodic() {
