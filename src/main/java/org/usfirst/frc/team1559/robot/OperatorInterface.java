@@ -10,8 +10,8 @@ package org.usfirst.frc.team1559.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class OperatorInterface {
-    Joystick pilot, copilot;
-    boolean fineControl = false;
+    public Joystick pilot, copilot;
+    private boolean fineControl = true;
 
     public OperatorInterface() {
         pilot = new Joystick(Constants.PILOT_JOYSTICK);
@@ -40,5 +40,4 @@ public class OperatorInterface {
             fineControl = !fineControl;
         }
     }
-
 }

@@ -6,16 +6,22 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team1559.robot;
+import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 
 import java.util.Arrays;
 
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 import edu.wpi.first.wpilibj.Joystick;
+
+//import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
 	/*
@@ -27,26 +33,37 @@ public class Robot extends TimedRobot {
 	*/
 	public static DriveTrain drive;
 	private OperatorInterface oi;
+
 	private SerialTest pixy2;
-	
+	public static boolean fightstick = true;
+	private boolean isCargo = true;
+	private static Lifter lifter;
+	private static Grabber grabber; 
+
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
+
 		pixy2 = new SerialTest();
 		//dSensor = new DistSensor();
 		pixy2.lampon();
+		//grabber = new Grabber();
+		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
+		//dSensor.stopRobot();
+
 	}
 
 	@Override
 	public void autonomousInit() {
-
+		pixy2.start();
+		// No autonomous neccesary
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		
+		// No autonomous neccesary
 	}
 
 	@Override
@@ -57,8 +74,27 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		pixylinevector v=pixy2.getvector();
+		// Camera
+		System.out.println(pixy2.read());
+
+		// Drive Train
+		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-		//dSensor.stopRobot();
+
+		// Grabber
+		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+			grabber.getCargo();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+			grabber.removeCargo();
+		}
+
+		if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
+			grabber.getHatch();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
+			grabber.bringHatch();
+
+		}
+
 	}
 
 	@Override
