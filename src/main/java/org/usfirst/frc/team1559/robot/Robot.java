@@ -39,10 +39,10 @@ public class Robot extends TimedRobot {
 	private static Grabber grabber; 
 	@Override
 	public void robotInit() {
-		drive = new DriveTrain();
+		/*drive = new DriveTrain();
 		oi = new OperatorInterface();
-		pixy2 = new SerialTest();
-		//grabber = new Grabber();
+		pixy2 = new SerialTest(); */
+		grabber = new Grabber();
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		pixy2.start();
+		//pixy2.start();
 		// No autonomous neccesary
 	}
 
@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		pixy2.start();
+		//pixy2.start();
 	}
 
 	@Override
@@ -91,8 +91,8 @@ public class Robot extends TimedRobot {
 		*/
 		grabber.getCargo();
 		System.out.println("GET");
-		grabber.removeCargo();
-		System.out.println("NO GET");
+		//grabber.removeCargo();
+		//System.out.println("NO GET");
 
 	}
 

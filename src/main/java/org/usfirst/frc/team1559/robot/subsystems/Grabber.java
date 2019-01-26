@@ -1,10 +1,9 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import org.usfirst.frc.team1559.robot.Wiring;
 
@@ -15,13 +14,12 @@ public class Grabber
     private Solenoid solenoid;
     private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
 
-
     public Grabber()
     {
-        solenoid = new Solenoid(Wiring.NTK_SOLENOID);
+        //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new WPI_TalonSRX(Wiring.NTK_SPARK_BI);
-        hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
-        hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
+        //hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
+        //hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
     }
 
     public void getHatch()
@@ -40,12 +38,12 @@ public class Grabber
     }
     public void getCargo()
     {
-        ballIntake.set(1);  //activates intake for cargo mechanism wheel motor guy
+        ballIntake.set(ControlMode.PercentOutput, .5);  //activates intake for cargo mechanism wheel motor guy
     }
 
     public void removeCargo()
     {
-        ballIntake.set(0); //spits that cargo out like expired food
+        ballIntake.set(ControlMode.PercentOutput, -.2); //spits that cargo out like expired food
     }
 
     public double getSpark()
