@@ -57,65 +57,68 @@ public class Robot extends TimedRobot {
 
 		//LIFTER
 		
-		// if(oi.getCopilotButton(0).isPressed()) {
-		// 	lifter.goToPortPos(1);
-		// }
-		// else if(oi.getCopilotButton(1).isPressed()) {
-		// 	lifter.goToPortPos(2);
-		// }
-		// else if(oi.getCopilotButton(2).isPressed()) {
-		// 	lifter.goToPortPos(3);
-		// }
-		// else if(oi.getCopilotButton(3).isPressed()) {
-		// 	lifter.goToHatchPos(1);
-		// }
-		// else if(oi.getCopilotButton(4).isPressed()) {
-		// 	lifter.goToHatchPos(2);
-		// }
-		// else if(oi.getCopilotButton(5).isPressed()) {
-		// 	lifter.goToHatchPos(3);
-		// }
-		// else if(oi.getCopilotButton(6).isPressed()) {
-		// 	lifter.goToCargoShipCargoDrop();
-		// }
-		// else if(oi.getCopilotButton(7).isPressed()) {
-		// 	lifter.goToCargoShipHatch();
-		// }
-		// else if(oi.getCopilotButton(8).isPressed()) {
-		// 	lifter.goToBottom();
-		// }
-		int pos = 0;
-		if(oi.getCopilotButton(2).isPressed()) {
-			pos++;
-		}
 		if(oi.getCopilotButton(0).isPressed()) {
-			pos--;
-		}
-		switch(pos) {
-			case 0:
-			lifter.goToBottom();
-			break;
-			case 1:
-			lifter.goToCargoShipHatch(); //Same as hatch position 1
-			break;
-			case 2:
 			lifter.goToPortPos(1);
-			break;
-			case 3:
-			lifter.goToCargoShipCargoDrop(); //Same as hatch position 2
-			break;
-			case 4:
+		}
+		else if(oi.getCopilotButton(1).isPressed()) {
 			lifter.goToPortPos(2);
-			break;
-			case 5:
-			lifter.goToHatchPos(3);
-			break;
-			case 6:
+		}
+		else if(oi.getCopilotAxis(3) == 1) {
 			lifter.goToPortPos(3);
 		}
-		if(oi.getCopilotButton(7).isPressed()) {
+		else if(oi.getCopilotButton(2).isPressed()) {
+			lifter.goToCargoShipHatch();
+		}
+		else if(oi.getCopilotButton(3).isPressed()) {
+			lifter.goToCargoShipCargoDrop();
+		}
+		else if(oi.getCopilotButton(5).isPressed()) {
+			lifter.goToHatchPos(3);
+		}
+		else if(oi.getCopilotButton(4).isPressed()) {
+			lifter.goToBottom();
+		}
+		else if(oi.getCopilotAxis(2) == 1) {
 			lifter.recallibrateSystem();
 		}
+		else if(oi.getCopilotAxis(1) == -1) {
+			lifter.goUp();
+		}
+		else if(oi.getCopilotAxis(1) == 1) {
+			lifter.goDown();
+		}
+		// int pos = 0;
+		// if(oi.getCopilotButton(2).isPressed()) {
+		// 	pos++;
+		// }
+		// if(oi.getCopilotButton(0).isPressed()) {
+		// 	pos--;
+		// }
+		// switch(pos) {
+		// 	case 0:
+		// 	lifter.goToBottom();
+		// 	break;
+		// 	case 1:
+		// 	lifter.goToCargoShipHatch(); //Same as hatch position 1
+		// 	break;
+		// 	case 2:
+		// 	lifter.goToPortPos(1);
+		// 	break;
+		// 	case 3:
+		// 	lifter.goToCargoShipCargoDrop(); //Same as hatch position 2
+		// 	break;
+		// 	case 4:
+		// 	lifter.goToPortPos(2);
+		// 	break;
+		// 	case 5:
+		// 	lifter.goToHatchPos(3);
+		// 	break;
+		// 	case 6:
+		// 	lifter.goToPortPos(3);
+		// }
+		// if(oi.getCopilotButton(7).isPressed()) {
+		// 	lifter.recallibrateSystem();
+		// }
 
 	}
 

@@ -121,6 +121,14 @@ private final int potMax = 300; // This is a placeholder. This is the farthest t
 		setupHatchPos();
 	}
 
+	public void goUp() {
+		lifterMotor.set(ControlMode.Velocity, 0.01);
+	}
+
+	public void goDown() {
+		lifterMotor.set(ControlMode.Velocity, -0.01);
+	}
+
 
 }
 //It's over!!!!
