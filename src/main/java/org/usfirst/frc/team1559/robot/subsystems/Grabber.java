@@ -16,10 +16,10 @@ public class Grabber
 
     public Grabber()
     {
-        solenoid = new Solenoid(Wiring.NTK_SOLENOID);
+        //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new WPI_TalonSRX(Wiring.NTK_SPARK_BI);
-        hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
-        hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
+        //hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
+        //hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
     }
 
     public void getHatch()
@@ -43,7 +43,7 @@ public class Grabber
 
     public void removeCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, -.2); 
+        ballIntake.set(ControlMode.PercentOutput, -.5);
     }
 
     public double getSpark()
@@ -55,7 +55,7 @@ public class Grabber
     {
         hatchSlapperL.set(ControlMode.PercentOutput, .5);
         hatchSlapperR.set(ControlMode.PercentOutput, .5);
-        if(getLimitValue(1) == true);
+        if(getLimitValue(2) == true);
         {
             hatchSlapperL.set(ControlMode.PercentOutput, 0);
             hatchSlapperR.set(ControlMode.PercentOutput, 0);
