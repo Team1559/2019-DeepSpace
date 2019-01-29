@@ -16,10 +16,10 @@ public class Grabber
 
     public Grabber()
     {
-        //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
+        solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new WPI_TalonSRX(Wiring.NTK_SPARK_BI);
-        //hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
-        //hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
+        hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
+        hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
     }
 
     public void getHatch()
@@ -38,12 +38,12 @@ public class Grabber
     }
     public void getCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, .5);  //activates intake for cargo mechanism wheel motor guy
+        ballIntake.set(ControlMode.PercentOutput, .5);
     }
 
     public void removeCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, -.2); //spits that cargo out like expired food
+        ballIntake.set(ControlMode.PercentOutput, -.2); 
     }
 
     public double getSpark()
@@ -53,23 +53,23 @@ public class Grabber
 
     public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
     {
-        hatchSlapperL.set(1);
-        hatchSlapperR.set(1);
+        hatchSlapperL.set(ControlMode.PercentOutput, .5);
+        hatchSlapperR.set(ControlMode.PercentOutput, .5);
         if(getLimitValue(1) == true);
         {
-            hatchSlapperL.set(0);
-            hatchSlapperR.set(0);
+            hatchSlapperL.set(ControlMode.PercentOutput, 0);
+            hatchSlapperR.set(ControlMode.PercentOutput, 0);
         }
     }
 
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
     {
-        hatchSlapperL.set(0);
-        hatchSlapperR.set(0);
+        hatchSlapperL.set(ControlMode.PercentOutput, -.5);
+        hatchSlapperR.set(ControlMode.PercentOutput, -.5);
         if(getLimitValue(1) == true);
         {
-            hatchSlapperL.set(0);
-            hatchSlapperR.set(0);
+            hatchSlapperL.set(ControlMode.PercentOutput, 0);
+            hatchSlapperR.set(ControlMode.PercentOutput, 0);
         }
     }
 
