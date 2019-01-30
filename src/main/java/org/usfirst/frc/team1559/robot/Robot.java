@@ -8,7 +8,10 @@
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PWM;
 
 //import edu.wpi.first.wpilibj.Joystick;
 
@@ -36,6 +39,10 @@ public class Robot extends TimedRobot {
 	private static Lifter lifter;
 	private static Grabber grabber; 
 
+	private Counter exampleCounterHi;
+	private AnalogInput exampleAnalog;
+	private Counter normalCounter;
+
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
@@ -46,8 +53,11 @@ public class Robot extends TimedRobot {
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
-
-	}
+		
+		exampleCounterHi = new Counter (0);
+		normalCounter = new Counter(0);
+		exampleAnalog = new AnalogInput(0);
+	}	
 
 	@Override
 	public void autonomousInit() {
@@ -65,10 +75,38 @@ public class Robot extends TimedRobot {
 		pixy2.start();
 	}
 
+	private void SensorTester(){
+		/* Analog Sensor Testing */ 
+		// int raw = exampleAnalog.getValue();
+		// double volts = exampleAnalog.getVoltage();
+		// int averageRaw = exampleAnalog.getAverageValue();
+		// double averageVolts = exampleAnalog.getAverageVoltage();
+		//SmartDashboard.putNumber("Analog Raw Value", raw);
+		//SmartDashboard.putNumber("Analog  Volts", volts);
+		//SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
+		//SmartDashboard.putNumber("Analog Average Volts", averageVolts);
+	
+		/* Ultrasonic Sensor Testing */
+		boolean direction = normalCounter.getDirection();
+		double rate = normalCounter.getRate();
+		double period = normalCounter.getPeriod();
+		double distance = normalCounter.getDistance();
+		int count = normalCounter.get();
+		//double pulse = 
+
+		SmartDashboard.putBoolean("direction", direction);
+		SmartDashboard.putNumber ("rate", rate);
+		SmartDashboard.putNumber ("period", period);
+		SmartDashboard.putNumber ("distance", distance);
+		SmartDashboard.putNumber ("count", count);
+	}
+
 	@Override
 	public void teleopPeriodic() {
 		// Camera
-		System.out.println(pixy2.read());
+		// System.out.println(pixy2.read());
+
+		SensorTester();
 
 		// Drive Train
 		oi.checkFineControl();
@@ -87,6 +125,7 @@ public class Robot extends TimedRobot {
 			grabber.bringHatch();
 
 		}
+		
 
 	}
 

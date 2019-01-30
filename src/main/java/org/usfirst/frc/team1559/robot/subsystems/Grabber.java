@@ -19,8 +19,9 @@ public class Grabber
     {
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new Spark(Wiring.NTK_SPARK_BI);
-        hatchSlapperL = new Spark(Wiring.NTK_SPARK_HL);
-        hatchSlapperR = new Spark(Wiring.NTK_SPARK_HR);
+        //ballIntake = new Spark(Wiring.NTK_SPARK_BI);
+        //hatchSlapperL = new Spark(Wiring.NTK_SPARK_HL);
+        //hatchSlapperR = new Spark(Wiring.NTK_SPARK_HR);
         ballIntake.enableDeadbandElimination(true);
     }
 
