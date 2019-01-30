@@ -13,6 +13,7 @@ public class Grabber
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
     private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
+    private double speedBall, speedHatch;
 
     public Grabber()
     {
@@ -20,6 +21,8 @@ public class Grabber
         ballIntake = new WPI_TalonSRX(Wiring.NTK_SPARK_BI);
         //hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
         //hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
+        speedBall = .5; //FIND A SPEED THAT WORKS
+        //speedHatch = .5; //FIND A SPEED THAT WORKS
     }
 
     public void getHatch()
@@ -32,18 +35,23 @@ public class Grabber
         solenoid.set(false); //bring that hatch in bb
     }
 
-    public void setSpark(double speed)
+    public void setSpeedBall(double speed)
     {
-        ballIntake.set(speed); //sets the motor value
+        speedBall = speed; //sets the motor value
     }
+    public void setSpeedHatch(double speed)
+    {
+        speedHatch = speed; //sets the motor value
+    }
+
     public void getCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, .5);
+        ballIntake.set(ControlMode.PercentOutput, speedBall);
     }
 
     public void removeCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, -.5);
+        ballIntake.set(ControlMode.PercentOutput, -speedBall);
     }
 
     public double getSpark()
@@ -53,24 +61,33 @@ public class Grabber
 
     public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
     {
-        hatchSlapperL.set(ControlMode.PercentOutput, .5);
-        hatchSlapperR.set(ControlMode.PercentOutput, .5);
-        if(getLimitValue(2) == true);
+        hatchSlapperL.set(ControlMode.PercentOutput, speedHatch);
+        hatchSlapperR.set(ControlMode.PercentOutput, speedHatch);
+        
+        do
         {
-            hatchSlapperL.set(ControlMode.PercentOutput, 0);
-            hatchSlapperR.set(ControlMode.PercentOutput, 0);
+            if(getLimitValue(2) == true)
+            {
+                hatchSlapperL.set(ControlMode.PercentOutput, 0);
+                hatchSlapperR.set(ControlMode.PercentOutput, 0);
+            }
         }
+        while(speedHatch != 0);
     }
 
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
     {
-        hatchSlapperL.set(ControlMode.PercentOutput, -.5);
-        hatchSlapperR.set(ControlMode.PercentOutput, -.5);
-        if(getLimitValue(1) == true);
+        hatchSlapperL.set(ControlMode.PercentOutput, -speedHatch);
+        hatchSlapperR.set(ControlMode.PercentOutput, -speedHatch);
+        do
         {
-            hatchSlapperL.set(ControlMode.PercentOutput, 0);
-            hatchSlapperR.set(ControlMode.PercentOutput, 0);
+            if(getLimitValue(1) == true)
+            {
+                hatchSlapperL.set(ControlMode.PercentOutput, 0);
+                hatchSlapperR.set(ControlMode.PercentOutput, 0);
+            }
         }
+        while(speedHatch != 0);
     }
 
     public boolean getLimitValue(int x) //x will be 1 or 2 (1 is for checking if the arms are on the robot, 2 is for checking if the arms are deployed)
