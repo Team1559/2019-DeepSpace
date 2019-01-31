@@ -36,4 +36,6 @@ public interface Wiring {
 	//DistSesnsor
 	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 0; //This needs to be set
 
+	
+
 }

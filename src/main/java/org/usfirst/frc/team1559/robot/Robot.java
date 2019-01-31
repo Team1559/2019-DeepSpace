@@ -7,10 +7,8 @@
 
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
-
-import java.util.Arrays;
-
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
+import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -39,6 +37,8 @@ public class Robot extends TimedRobot {
 	private boolean isCargo = true;
 	private static Lifter lifter;
 	private static Grabber grabber; 
+	public static boolean dBounce = false;
+	public static DistSensor dist;
 
 	@Override
 	public void robotInit() {
@@ -93,6 +93,21 @@ public class Robot extends TimedRobot {
 			grabber.bringHatch();
 
 		}
+
+		if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+			dBounce = true;
+			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
+			/*if(dist.getRange() == 18)
+			{
+
+			}*/
+			if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
+			{
+				dBounce = false;
+			}
+		}
+		
+		
 
 	}
 
