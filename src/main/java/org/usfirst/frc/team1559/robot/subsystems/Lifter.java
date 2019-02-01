@@ -66,7 +66,9 @@ private final int potMax = 300; // This is a placeholder. This is the farthest t
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
-			System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+			for(int i = 0; i < 20; i++){
+				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+			}
 		}
 		setupPortPos();
 		setupHatchPos();
@@ -115,7 +117,9 @@ private final int potMax = 300; // This is a placeholder. This is the farthest t
 		potUseableBottom = getPot();
 		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
-			System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+			for(int i = 0; i < 20; i++){
+				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+			}
 		}
 		setupPortPos();
 		setupHatchPos();
