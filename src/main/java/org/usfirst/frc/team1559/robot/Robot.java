@@ -75,10 +75,10 @@ public class Robot extends TimedRobot {
 		else if(oi.getCopilotButton(5).isPressed()) {
 			lifter.goToHatchPos(3);
 		}
-		else if(oi.getCopilotButton(4).isPressed()) {
-			lifter.goToBottom();
-		}
-		else if(oi.getCopilotAxis(2) == 1) {
+		// else if(oi.getCopilotButton(4).isPressed()) {
+		// 	lifter.goToBottom();
+		// }
+		else if(oi.getCopilotButton(6).isPressed()) {
 			lifter.recallibrateSystem();
 		}
 		else if(oi.getCopilotAxis(1) == -1) {
