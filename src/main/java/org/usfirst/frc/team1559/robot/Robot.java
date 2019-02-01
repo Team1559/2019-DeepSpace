@@ -56,29 +56,36 @@ public class Robot extends TimedRobot {
 
 
 		//LIFTER
-		
-		if(oi.getCopilotButton(0).isPressed()) {
+		/**
+		 * IMPORTANT!!!! Please note that the changed button orientation has occured on multiple occasions.
+		 * It seems that if the Driver's Station says Controller (MAYFLASH Arcade Fightstick F300), it will
+		 * have the current button configuration listed in the code. However, if it just says
+		 * MAYFLASH Arcade Fightstick F300, then it will use the commented button positions.
+		 * It seems that if the computer chooses to configure the Fightstick, it will change the button configuration.
+		 * KEEP AN EYE ON THIS AS IT WILL AFFECT THE ROBOT'S FUNCTIONALITY!!!!
+		*/
+		if(oi.getCopilotButton(0).isPressed()) { //button 1 if Fightstick changes button orientation
 			lifter.goToPortPos(1);
 		}
-		else if(oi.getCopilotButton(1).isPressed()) {
+		else if(oi.getCopilotButton(1).isPressed()) { //button 2 if Fightstick changes button orientation
 			lifter.goToPortPos(2);
 		}
-		else if(oi.getCopilotAxis(3) == 1) {
+		else if(oi.getCopilotAxis(3) == 1) { //button 7 if Fightstick changes button orientation
 			lifter.goToPortPos(3);
 		}
-		else if(oi.getCopilotButton(2).isPressed()) {
+		else if(oi.getCopilotButton(2).isPressed()) { //button 0 if Fightstick changes button orientation
 			lifter.goToCargoShipHatch();
 		}
-		else if(oi.getCopilotButton(3).isPressed()) {
+		else if(oi.getCopilotButton(3).isPressed()) { //button 3 if Fightstick changes button orientation
 			lifter.goToCargoShipCargoDrop();
 		}
-		else if(oi.getCopilotButton(5).isPressed()) {
+		else if(oi.getCopilotButton(5).isPressed()) { //button 5 for either button orientation
 			lifter.goToHatchPos(3);
 		}
 		// else if(oi.getCopilotButton(4).isPressed()) {
 		// 	lifter.goToBottom();
 		// }
-		else if(oi.getCopilotButton(6).isPressed()) {
+		else if(oi.getCopilotButton(6).isPressed()) { //button 8 if Fightstick changes button orientation
 			lifter.recallibrateSystem();
 		}
 		else if(oi.getCopilotAxis(1) == -1) {
