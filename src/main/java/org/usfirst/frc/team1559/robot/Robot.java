@@ -44,16 +44,23 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
-
+		
 		pixy2 = new SerialTest();
+		
 		//dSensor = new DistSensor();
-		pixy2.lampon();
+		
 		//grabber = new Grabber();
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
-
 	}
+		@Override
+		public void robotPeriodic() {
+
+		
+		}
+	
+
 
 	@Override
 	public void autonomousInit() {
@@ -69,29 +76,33 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		pixy2.start();
+		pixy2.lampon();
 	}
 
 	@Override
 	public void teleopPeriodic() {
+		//Camera
+
 		pixylinevector v=pixy2.getvector();
-		// Camera
+		
+		
 		
 		// Drive Train
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 
 		// Grabber
-		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-			grabber.getCargo();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-			grabber.removeCargo();
-		}
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+		// 	grabber.getCargo();
+		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+		// 	grabber.removeCargo();
+		// }
 
-		if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
-			grabber.getHatch();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
-			grabber.bringHatch();
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
+		// 	grabber.getHatch();
+		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
+		// 	grabber.bringHatch();
 
-		}
+		// }
 
 		if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
 			dBounce = true;
@@ -109,9 +120,31 @@ public class Robot extends TimedRobot {
 		
 
 	}
+	@Override
+	public void testInit() {
+		
+	}
+
+
+
 
 	@Override
 	public void testPeriodic() {
-		
+	
 	}
+
+
+@Override
+public void disabledInit() {
+	pixy2.lampoff();
 }
+
+@Override
+public void disabledPeriodic() {
+	
+
+}
+
+
+}
+
