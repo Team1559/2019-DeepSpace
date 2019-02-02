@@ -68,6 +68,7 @@ private final int potMax = 300; // This is a placeholder. This is the farthest t
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
 				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+				//Do we want the motor to stop at the pot max?
 			}
 		}
 		setupPortPos();
