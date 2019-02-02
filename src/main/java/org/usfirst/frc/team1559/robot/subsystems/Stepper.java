@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc.team1559.robot.Wiring;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 public class Stepper {
 	/*
@@ -51,6 +53,9 @@ public class Stepper {
 	private WPI_TalonSRX rotationalMotor;
 	private WPI_TalonSRX driveMotor;
 	private Solenoid pistons;
+	private double motorPositionValue = 0; //the encoder value that the lifterMotor should stop at
+	private double rotationPositionValue = 0; //the encoder value for the rotationalMotor; should be 180 degrees
+	private int rotationCounter = 0;
 
 	//instantiates all talons and the solenoid, imports which port each is plugged into
 	public Stepper()
@@ -67,16 +72,26 @@ public class Stepper {
 		pistons.set(extend);
 	}
 
+	//gets potentiometer position
+	public int getPot()
+	{
+		return lifterMotor.getSelectedSensorPosition();
+	}
+
 	//moves lifterMotor to correct position for rotationalMotor
 	public void positionLifter()
 	{
-		
+		lifterMotor.set(ControlMode.Position, motorPositionValue);
 	}
 
-	//have back rotationalMotor spin to lift front
+	//have back rotationalMotor spin 180 degrees to prepare for lifting
 	public void positionRotationMotor()
 	{
-		
+		while(rotationCounter < 100) //change the value depending on how long motor needs to run for
+		{
+			rotationalMotor.set(0.8);
+		}
+		rotationalMotor.set(0);
 	}
 
 	//drives the front wheels on a scale of -1.0 to 1.0
