@@ -31,4 +31,8 @@ public class OperatorInterface {
     public double getPilotZ() {
         return pilot.getRawAxis(2);
     }
+
+    public boolean axisToButtonIsPressed(int axis) {
+        return (copilot.getRawAxis(axis) == 1);
+    }
 }
