@@ -89,7 +89,8 @@ public class Robot extends TimedRobot {
 
 		}
 		*/
-
+		grabber.slapHatch();
+		System.out.println("Hatch Snatched");
 	}
 
 	@Override

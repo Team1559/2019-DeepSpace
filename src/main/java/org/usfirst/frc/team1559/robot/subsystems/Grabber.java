@@ -13,7 +13,7 @@ public class Grabber
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
     private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
-    private double speedBall, speedHatch;
+    private double speedBall, speedHatch, stopHatch;
 
     public Grabber()
     {
@@ -27,6 +27,7 @@ public class Grabber
         limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
         //speedBall = .5; //FIND A SPEED THAT WORKS
         speedHatch = .3; //FIND A SPEED THAT WORKS
+        stopHatch = .5;
     }
 
     public void getHatch()
@@ -67,38 +68,43 @@ public class Grabber
     {
         hatchSlapperL.set(ControlMode.PercentOutput, speedHatch);
         hatchSlapperR.set(ControlMode.PercentOutput, speedHatch);
-        
+        stopHatch = .5;
         do
         {
             if(getLimitValue(2) == true)
             {
-                hatchSlapperL.set(ControlMode.PercentOutput, 0);
-                hatchSlapperR.set(ControlMode.PercentOutput, 0);
+                stopHatch = 0;
+                hatchSlapperL.set(ControlMode.PercentOutput, stopHatch);
+                hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
             }
         }
-        while(speedHatch != 0); 
+        while(stopHatch != 0); 
     }
 
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
     {
         hatchSlapperL.set(ControlMode.PercentOutput, -speedHatch);
         hatchSlapperR.set(ControlMode.PercentOutput, -speedHatch);
+        stopHatch = .5;
         do
         {
             if(getLimitValue(1) == true)
             {
-                hatchSlapperL.set(ControlMode.PercentOutput, 0);
-                hatchSlapperR.set(ControlMode.PercentOutput, 0);
+                stopHatch = 0;
+                hatchSlapperL.set(ControlMode.PercentOutput, stopHatch);
+                hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
             }
         }
-        while(speedHatch != 0);
+        while(stopHatch != 0);
     }
 
-    //Limit Switches 1 and 2 are on the upper arms, 3 and 4 will be on the ground side of the arms
-    public boolean getLimitValue(int x) //x will be 1 or 2 (1 is for checking if the arms are on the robot, 2 is for checking if the arms are deployed)
+    //Limit Switches positions: 
+    //Upper Left (1) Upper Right (2)
+    //Lower Left (3) Lower Right (4)
+    public boolean getLimitValue(int x) 
     {
         boolean b = false;
-        if(x == 1)
+        if(x == 1) //Stop at upper pos
         {
             if(limitSwitch1.get() == true && limitSwitch2.get() == true)
             {
@@ -109,7 +115,7 @@ public class Grabber
                 b = false;
             }
         }
-        else if(x == 2)
+        else if(x == 2) //Stop at floor
         {
             if(limitSwitch3.get() == true && limitSwitch4.get() == true)
             {
