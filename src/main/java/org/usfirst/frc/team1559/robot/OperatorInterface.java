@@ -17,6 +17,10 @@ public class OperatorInterface {
     public OperatorInterface() {
         pilot = new Joystick(Constants.PILOT_JOYSTICK);
         copilot = new Joystick(Constants.COPILOT_JOYSTICK);
+        copilotButtons = new DTButton[8];
+        for(int i = 0; i < copilotButtons.length; i++) {
+            copilotButtons[i] = new DTButton(copilot, i);
+        }
     }
 
     public double getPilotY() {
@@ -47,7 +51,7 @@ public class OperatorInterface {
 
     public double getCopilotAxis(int num) {
         //Enter important stuff here Mike!
-        return 0.0;
+        return copilot.getRawAxis(num);
     }
 
     public DTButton getCocopilotButton(int num) {

@@ -127,11 +127,15 @@ private final int potMax = 300; // This is a placeholder. This is the farthest t
 	}
 
 	public void goUp() {
-		lifterMotor.set(ControlMode.Velocity, 0.01);
+		lifterMotor.set(0.3);
 	}
 
 	public void goDown() {
-		lifterMotor.set(ControlMode.Velocity, -0.01);
+		lifterMotor.set(-0.3);
+	}
+
+	public void stop() {
+		lifterMotor.set(0.0);
 	}
 
 

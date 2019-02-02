@@ -26,16 +26,16 @@ public class Robot extends TimedRobot {
 	private DriveTrain drive;
 	private OperatorInterface oi;
 	public static boolean fightstick = true;
-	// private boolean isCargo = true;
+	private boolean isAxis = true;
 	private static Lifter lifter;
 	
 	@Override
 	public void robotInit() {
-		drive = new DriveTrain();
+		// drive = new DriveTrain();
 		oi = new OperatorInterface();
-		DistSensor dSensor = new DistSensor();
-		dSensor.setAutomaticMode(true);
-		dSensor.stopRobot();
+		// DistSensor dSensor = new DistSensor();
+		// dSensor.setAutomaticMode(true);
+		// dSensor.stopRobot();
 		lifter = new Lifter();
 	}
 
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+		// drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 
 
 
@@ -66,33 +66,48 @@ public class Robot extends TimedRobot {
 		*/
 		if(oi.getCopilotButton(0).isPressed()) { //button 1 if Fightstick changes button orientation, normal is button 0.
 			lifter.goToPortPos(1);
+			isAxis = false;
 		}
 		else if(oi.getCopilotButton(1).isPressed()) { //button 2 if Fightstick changes button orientation, normal is button 1.
 			lifter.goToPortPos(2);
+			isAxis = false;
 		}
 		else if(oi.getCopilotAxis(3) == 1) { //button 7 if Fightstick changes button orientation, normal is Axis 3.
 			lifter.goToPortPos(3);
+			isAxis = false;
 		}
 		else if(oi.getCopilotButton(2).isPressed()) { //button 0 if Fightstick changes button orientation, normal is button 2.
 			lifter.goToCargoShipHatch();
+			isAxis = false;
 		}
 		else if(oi.getCopilotButton(3).isPressed()) { //button 3 if Fightstick changes button orientation, normal is button 3.
 			lifter.goToCargoShipCargoDrop();
+			isAxis = false;
 		}
 		else if(oi.getCopilotButton(5).isPressed()) { //button 5 for either button orientation
 			lifter.goToHatchPos(3);
+			isAxis = false;
 		}
 		// else if(oi.getCopilotButton(4).isPressed()) {
 		// 	lifter.goToBottom();
 		// }
 		else if(oi.getCopilotButton(6).isPressed()) { //button 8 if Fightstick changes button orientation, normal is button 6.
 			lifter.recallibrateSystem();
+			isAxis = false;
 		}
-		else if(oi.getCopilotAxis(1) == -1) {
+		else if(oi.getCopilotAxis(1) == -1.0) {
 			lifter.goUp();
+			System.out.println(oi.getCopilotAxis(1));
+			isAxis = true;
 		}
 		else if(oi.getCopilotAxis(1) == 1) {
 			lifter.goDown();
+			System.out.println(oi.getCopilotAxis(1));
+			isAxis = true;
+		}
+		else if(oi.getCopilotAxis(1) < 0.1 && oi.getCopilotAxis(1) > -0.1 && isAxis) {
+			lifter.stop();
+			System.out.println(oi.getCopilotAxis(1));
 		}
 		// int pos = 0;
 		// if(oi.getCopilotButton(2).isPressed()) {
