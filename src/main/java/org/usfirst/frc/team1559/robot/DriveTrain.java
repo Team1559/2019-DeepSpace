@@ -30,7 +30,7 @@ public class DriveTrain
 		frontRight = new WPI_TalonSRX(Wiring.FRONT_RIGHT_MOTOR);
 		rearRight = new WPI_TalonSRX(Wiring.REAR_RIGHT_MOTOR);
 
-		frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+	    frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		rearLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		frontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		rearRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -48,6 +48,5 @@ public class DriveTrain
 		
 		drive.driveCartesian(ySpeed, xSpeed, zRotation);
 	}
-
-
 }
+
