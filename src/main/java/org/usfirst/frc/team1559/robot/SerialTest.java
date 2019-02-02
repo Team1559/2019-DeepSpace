@@ -57,10 +57,11 @@ public class SerialTest {
             v.Ex = (int)v.error_x(v.x0, v.x1);
             v.Er = (int)v.error_r(v.y0, v.y1, v.x0, v.x1);
            
-            System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
-           System.out.println("");
-            // System.out.printf("( %d , %d)", v.Er, v.Ex);
-            // System.out.println("");
+            //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
+           // System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);
+            //System.out.println("");
+             System.out.printf("( %d , %d)", v.Ex, v.Er);
+             System.out.println("");
             
         }
         //if(v.timer>50){
