@@ -18,11 +18,15 @@ public class Grabber
     public Grabber()
     {
         //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
-        ballIntake = new WPI_TalonSRX(Wiring.NTK_SPARK_BI);
-        //hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_SPARK_HL);
-        //hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_SPARK_HR);
-        speedBall = .5; //FIND A SPEED THAT WORKS
-        //speedHatch = .5; //FIND A SPEED THAT WORKS
+        //ballIntake = new WPI_TalonSRX(Wiring.NTK_TALONSRX_BI);
+        hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
+        hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
+        limitSwitch1 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS1);
+        limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
+        limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
+        limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
+        //speedBall = .5; //FIND A SPEED THAT WORKS
+        speedHatch = .3; //FIND A SPEED THAT WORKS
     }
 
     public void getHatch()
@@ -72,7 +76,7 @@ public class Grabber
                 hatchSlapperR.set(ControlMode.PercentOutput, 0);
             }
         }
-        while(speedHatch != 0);
+        while(speedHatch != 0); 
     }
 
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
@@ -90,6 +94,7 @@ public class Grabber
         while(speedHatch != 0);
     }
 
+    //Limit Switches 1 and 2 are on the upper arms, 3 and 4 will be on the ground side of the arms
     public boolean getLimitValue(int x) //x will be 1 or 2 (1 is for checking if the arms are on the robot, 2 is for checking if the arms are deployed)
     {
         boolean b = false;
@@ -104,7 +109,7 @@ public class Grabber
                 b = false;
             }
         }
-        if(x == 2)
+        else if(x == 2)
         {
             if(limitSwitch3.get() == true && limitSwitch4.get() == true)
             {
@@ -118,5 +123,6 @@ public class Grabber
         return b;
         /*if it returns true then the switches are activated.*/
     }
+
 
 }

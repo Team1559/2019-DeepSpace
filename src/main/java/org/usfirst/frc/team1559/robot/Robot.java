@@ -89,10 +89,6 @@ public class Robot extends TimedRobot {
 
 		}
 		*/
-		//grabber.getCargo();
-		//System.out.println("GET");
-		grabber.removeCargo();
-		System.out.println("NO GET");
 
 	}
 
