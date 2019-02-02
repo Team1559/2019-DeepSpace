@@ -10,7 +10,7 @@ import java.lang.Math;
 
 
 
-public class pixylinevector {
+public class Pixylinevector {
     public int status;
     public int x0;
     public int y0;
@@ -24,29 +24,29 @@ public class pixylinevector {
     
     
     public double error_x(int x0, int x1){
-        double error=(x1+x0)/2-40;
-            return error;
+        double xError=(x1+x0)/2-40;
+            return xError;
     }
 
     public double error_r(int y0, int y1, int x0, int x1){
-       double error;
+       double rError;
         double error_tan;
        if (x1==x0){
-            error=0;
+            rError=0;
         }
         else{       
          error_tan=Math.atan((y1-y0)/(x1-x0));
-            error=Math.toDegrees(error_tan);
+            rError=Math.toDegrees(error_tan);
        
-            if (error<0){
-                error=90+error;
+            if (rError<0){
+                rError=90+rError;
             }
-            else if(error>0){
-                error=error-90;
+            else if(rError>0){
+                rError=rError-90;
             }
 
         }  
-        return error;
+        return rError;
     }
         
         

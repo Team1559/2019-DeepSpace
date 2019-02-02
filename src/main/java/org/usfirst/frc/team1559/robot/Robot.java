@@ -7,8 +7,7 @@
 
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
-import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
-import java.util.Arrays;
+import org.usfirst.frc.team1559.robot.subsystems.Pixylinevector;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -32,21 +31,28 @@ public class Robot extends TimedRobot {
 	public static DriveTrain drive;
 	private OperatorInterface oi;
 
-	private SerialTest pixy2;
+	private Pixy pixy2;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
 	public static DistSensor dist;
+	private float Kx;
+    private float Ky;
+	private float Kr;
 
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
+		pixy2 = new Pixy();
+		Kx = -0.07f;
+		//Ky= 0.00f;
+		Kr = -0.07f;
 		
-		pixy2 = new SerialTest();
-		
+
+
 		//dSensor = new DistSensor();
 		
 		//grabber = new Grabber();
@@ -83,13 +89,21 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		//Camera
 
-		pixylinevector v=pixy2.getvector();
+		Pixylinevector v=pixy2.getvector();
 		
 		
 		
 		// Drive Train
-		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-
+		//drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+		if (v.status == 1){
+			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
+			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
+			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+		}
+		else{
+			drive.driveCartesian(0, 0, 0);
+		}
+	}
 		// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
@@ -104,22 +118,24 @@ public class Robot extends TimedRobot {
 
 		// }
 
-		if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-			dBounce = true;
-			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		// 	dBounce = true;
+		// 	Auto.pixydrive();
+			
+			//drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 			/*if(dist.getRange() == 18)
 			{
 
 			}*/
-			if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
+			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
 				dBounce = false;
-			}
-		}
+			}*/
+		
 		
 		
 
-	}
+	
 	@Override
 	public void testInit() {
 		

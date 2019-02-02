@@ -47,6 +47,6 @@ public interface Constants {
 	public static final int BTN_FINE_DRIVE_CONTROL = 10;
 
 	//Auto scoring
-	public static final int BTN_AUTO = 5;
+	public static final int BTN_AUTO = 3;
 
 }

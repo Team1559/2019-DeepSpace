@@ -18,7 +18,7 @@ public class OperatorInterface {
     }
 
     public double getPilotY() {
-        return pilot.getRawAxis(0);
+        return (-1)*pilot.getRawAxis(0);
     }
 
     public double getPilotX() {
