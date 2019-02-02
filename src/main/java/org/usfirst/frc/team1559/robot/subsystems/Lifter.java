@@ -5,11 +5,13 @@ import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
 
 import org.usfirst.frc.team1559.robot.MathUtils;
+import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+// import com.sun.tools.javac.util.Convert;
 
 // Lifter Programers are Jack and Nick. Please defer to them if you want to make changes.
 
@@ -45,6 +47,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 	 */
 public class Lifter {
 private WPI_TalonSRX lifterMotor;
+private OperatorInterface oi;
 
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
@@ -62,8 +65,12 @@ private int potUseableTop = 150; //Placeholder
 private int potRange = 150; //This is just a placeholder value. Make sure we find the actual range that we want.
 private final int potMax = 300; // This is a placeholder. This is the farthest the pot can rotate.
 
-	public Lifter() {
+private boolean isAxis = true;
+
+	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
+		oi = oiInput;
+
 		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
@@ -136,6 +143,67 @@ private final int potMax = 300; // This is a placeholder. This is the farthest t
 
 	public void stop() {
 		lifterMotor.set(0.0);
+	}
+
+	/**
+	 * IMPORTANT!!!! VERY BIG DRIVE LIFTER METHOD!!!!
+	 * This method will do everything originally put into the robot.java class.
+	 * @author SonicDRJ
+	 */
+	public void driveLifter() {
+		/**
+		 * IMPORTANT!!!! Please note that the changed button orientation has occured on multiple occasions.
+		 * It seems that if the Driver's Station says Controller (MAYFLASH Arcade Fightstick F300), it will
+		 * have the current button configuration listed in the code. However, if it just says
+		 * MAYFLASH Arcade Fightstick F300, then it will use the commented button positions.
+		 * It seems that if the computer chooses to configure the Fightstick, it will change the button configuration.
+		 * KEEP AN EYE ON THIS AS IT WILL AFFECT THE ROBOT'S FUNCTIONALITY!!!!
+		*/
+		if(oi.getCopilotButton(0).isPressed()) { //button 1 if Fightstick changes button orientation, normal is button 0.
+			goToPortPos(1);
+			isAxis = false;
+		}
+		else if(oi.getCopilotButton(1).isPressed()) { //button 2 if Fightstick changes button orientation, normal is button 1.
+			goToPortPos(2);
+			isAxis = false;
+		}
+		else if(oi.getCopilotAxis(3) == 1) { //button 7 if Fightstick changes button orientation, normal is Axis 3.
+			goToPortPos(3);
+			isAxis = false;
+		}
+		else if(oi.getCopilotButton(2).isPressed()) { //button 0 if Fightstick changes button orientation, normal is button 2.
+			goToCargoShipHatch();
+			isAxis = false;
+		}
+		else if(oi.getCopilotButton(3).isPressed()) { //button 3 if Fightstick changes button orientation, normal is button 3.
+			goToCargoShipCargoDrop();
+			isAxis = false;
+		}
+		else if(oi.getCopilotButton(5).isPressed()) { //button 5 for either button orientation
+			goToHatchPos(3);
+			isAxis = false;
+		}
+		// else if(oi.getCopilotButton(4).isPressed()) {
+		// 	 goToBottom();
+		// }
+		else if(oi.getCopilotButton(6).isPressed()) { //button 8 if Fightstick changes button orientation, normal is button 6.
+			recallibrateSystem();
+			isAxis = false;
+		}
+		else if(oi.getCopilotAxis(1) == -1.0) {
+			goUp();
+			// System.out.println(oi.getCopilotAxis(1));
+			isAxis = true;
+		}
+		else if(oi.getCopilotAxis(1) == 1) {
+			goDown();
+			// System.out.println(oi.getCopilotAxis(1));
+			isAxis = true;
+		}
+		else if((int)(oi.getCopilotAxis(1)) == 0 && isAxis) {
+			stop();
+			// System.out.println((int)(oi.getCopilotAxis(1)));
+		}
 	}
 
 
