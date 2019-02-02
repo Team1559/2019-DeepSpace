@@ -64,19 +64,19 @@ public class Robot extends TimedRobot {
 		 * It seems that if the computer chooses to configure the Fightstick, it will change the button configuration.
 		 * KEEP AN EYE ON THIS AS IT WILL AFFECT THE ROBOT'S FUNCTIONALITY!!!!
 		*/
-		if(oi.getCopilotButton(0).isPressed()) { //button 1 if Fightstick changes button orientation
+		if(oi.getCopilotButton(0).isPressed()) { //button 1 if Fightstick changes button orientation, normal is button 0.
 			lifter.goToPortPos(1);
 		}
-		else if(oi.getCopilotButton(1).isPressed()) { //button 2 if Fightstick changes button orientation
+		else if(oi.getCopilotButton(1).isPressed()) { //button 2 if Fightstick changes button orientation, normal is button 1.
 			lifter.goToPortPos(2);
 		}
-		else if(oi.getCopilotAxis(3) == 1) { //button 7 if Fightstick changes button orientation
+		else if(oi.getCopilotAxis(3) == 1) { //button 7 if Fightstick changes button orientation, normal is Axis 3.
 			lifter.goToPortPos(3);
 		}
-		else if(oi.getCopilotButton(2).isPressed()) { //button 0 if Fightstick changes button orientation
+		else if(oi.getCopilotButton(2).isPressed()) { //button 0 if Fightstick changes button orientation, normal is button 2.
 			lifter.goToCargoShipHatch();
 		}
-		else if(oi.getCopilotButton(3).isPressed()) { //button 3 if Fightstick changes button orientation
+		else if(oi.getCopilotButton(3).isPressed()) { //button 3 if Fightstick changes button orientation, normal is button 3.
 			lifter.goToCargoShipCargoDrop();
 		}
 		else if(oi.getCopilotButton(5).isPressed()) { //button 5 for either button orientation
@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
 		// else if(oi.getCopilotButton(4).isPressed()) {
 		// 	lifter.goToBottom();
 		// }
-		else if(oi.getCopilotButton(6).isPressed()) { //button 8 if Fightstick changes button orientation
+		else if(oi.getCopilotButton(6).isPressed()) { //button 8 if Fightstick changes button orientation, normal is button 6.
 			lifter.recallibrateSystem();
 		}
 		else if(oi.getCopilotAxis(1) == -1) {
