@@ -45,4 +45,6 @@ public class DriveTrain
 	{
 		drive.driveCartesian(ySpeed, xSpeed, zRotation);
 	}
+
+public int lineassist;
 }

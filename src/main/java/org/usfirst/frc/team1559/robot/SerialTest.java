@@ -47,7 +47,7 @@ public class SerialTest {
          var v=new pixylinevector();
          v.timer++;
          if (returned[2]==49 && returned[7]>0){
-             //v.valid=true;
+            
             v.x0=returned[8];
             v.y0=returned[9];
             v.x1=returned[10];
@@ -56,23 +56,20 @@ public class SerialTest {
             v.flags=returned[7];
             v.Ex = (int)v.error_x(v.x0, v.x1);
             v.Er = (int)v.error_r(v.y0, v.y1, v.x0, v.x1);
-           
+            if(v.flags==6) {
+                v.status=1;
+            }
+            else {
+                v.status=0;
+            }
             //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
-           // System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);
+            //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);
             //System.out.println("");
-             System.out.printf("( %d , %d)", v.Ex, v.Er);
-             System.out.println("");
-            
+            System.out.printf("( %d , %d) %d", v.Ex, v.Er, v.flags);
+            System.out.println("");
         }
-        //if(v.timer>50){
-           // System.out.printf("Ex=%d,Er=%d",v.Er, v.Ex);
-           // System.out.println("");
-         //  v.timer=0;
-        // }
-         /*else{
-            v.valid=false;
-         }*/
+
         return v;
-        //test
+    
     }
 }
