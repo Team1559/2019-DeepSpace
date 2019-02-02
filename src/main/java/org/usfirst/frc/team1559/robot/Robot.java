@@ -77,7 +77,6 @@ public class Robot extends TimedRobot {
 		// Camera
 		
 		// Drive Train
-		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 
 		// Grabber
