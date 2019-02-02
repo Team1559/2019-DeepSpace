@@ -6,10 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team1559.robot.subsystems;
+import java.lang.Math;
 
-/**
- * Add your docs here.
- */
+
+
 public class pixylinevector {
     public int x0;
     public int y0;
@@ -17,5 +17,27 @@ public class pixylinevector {
     public int y1;
     public int index;
     public int flags;
-    //public boolean valid;
+    public int Ex; 
+    public int Er;
+    public int timer;
+
+
+    public double error_x(int x0, int x1){
+        double error=(x1+x0)/2-40;
+        return error;
+    }
+
+    public double error_r(int y0, int y1, int x0, int x1){
+       double error;
+        if (x1==x0){
+            error=90;
+        }
+        else{       
+         error=Math.atan((y1-y0)/(x1-x0));
+        }    
+        return error;
+    }
+        
+        
+
 }

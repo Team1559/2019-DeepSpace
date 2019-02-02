@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1559.robot;
 
+import com.sun.net.httpserver.Authenticator.Result;
+
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -49,6 +51,7 @@ public class DistSensor
             SmartDashboard.putBoolean("Robot Stopped", b);
             drive.driveCartesian(0,0,0);
         }
+
         
     }
 
