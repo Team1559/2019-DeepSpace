@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-//import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -39,9 +39,9 @@ public class Robot extends TimedRobot {
 	private static Grabber grabber; 
 	@Override
 	public void robotInit() {
-		/*drive = new DriveTrain();
+		drive = new DriveTrain();
 		oi = new OperatorInterface();
-		pixy2 = new SerialTest(); */
+		pixy2 = new SerialTest();
 		grabber = new Grabber();
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
@@ -67,34 +67,32 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		/*
+		
 		// Camera
 		System.out.println(pixy2.read());
 
 		// Drive Train
 		oi.checkFineControl();
 		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+		
 
 		// Grabber
-		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+		if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
 			grabber.getCargo();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
 			grabber.removeCargo();
 		}
 
-		if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
-			grabber.getHatch();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
-			grabber.bringHatch();
+		if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
+			grabber.slapHatch();
+		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
+			grabber.unslapHatch();
 
 		}
-		*/
-		grabber.slapHatch();
-		System.out.println("Hatch Snatched");
+
 	}
 
 	@Override
 	public void testPeriodic() {
-		
 	}
 }
