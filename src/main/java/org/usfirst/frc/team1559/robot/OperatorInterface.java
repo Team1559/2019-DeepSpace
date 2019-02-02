@@ -17,11 +17,11 @@ public class OperatorInterface {
         copilot = new Joystick(Constants.COPILOT_JOYSTICK);
     }
 
-    public double getPilotY() {
+    public double getPilotX() {
         return (-1)*pilot.getRawAxis(0);
     }
 
-    public double getPilotX() {
+    public double getPilotY() {
         if((pilot.getRawAxis(1))/(Math.abs(pilot.getRawAxis(1))) == 1) {
             return (-1)*(Math.pow(pilot.getRawAxis(1), 2));
         }

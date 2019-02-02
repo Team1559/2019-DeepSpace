@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
 		
 		
 		// Drive Train
-		//drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		if (v.status == 1){
 			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
 			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
