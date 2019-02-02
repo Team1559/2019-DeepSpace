@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class OperatorInterface {
     public Joystick pilot, copilot;
-    private boolean fineControl = true;
 
     public OperatorInterface() {
         pilot = new Joystick(Constants.PILOT_JOYSTICK);
@@ -23,21 +22,13 @@ public class OperatorInterface {
     }
 
     public double getPilotX() {
-        if(fineControl) {
-            if(Math.abs(pilot.getRawAxis(1)) <= 0.2 ) {
-                return 0;
-            }
+        if((pilot.getRawAxis(1))/(Math.abs(pilot.getRawAxis(1))) == 1) {
+            return (-1)*(Math.pow(pilot.getRawAxis(1), 2));
         }
-        return (-1)*(pilot.getRawAxis(1));
+            return (Math.pow(pilot.getRawAxis(1), 2));
     }
 
     public double getPilotZ() {
         return pilot.getRawAxis(2);
-    }
-
-    public void checkFineControl() {
-        if(pilot.getRawButton(Constants.BTN_FINE_DRIVE_CONTROL)) {
-            fineControl = !fineControl;
-        }
     }
 }

@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public class DriveTrain 
 {
@@ -43,8 +45,8 @@ public class DriveTrain
 
 	public void driveCartesian(double ySpeed, double xSpeed, double zRotation) 
 	{
+		
 		drive.driveCartesian(ySpeed, xSpeed, zRotation);
 	}
 
-public int lineassist;
-}
+

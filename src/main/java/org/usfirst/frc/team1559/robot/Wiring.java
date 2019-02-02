@@ -31,9 +31,16 @@ public interface Wiring {
 	// Lifter
 	public static final int LIFTER_POT = 0; //This needs to be set
 	public static final int LIFTER_TALON = 4; //This needs to be set
+	
 	// Stepper
+	public static final int STEPPER_LIFTER_MOTOR = 0;
+	public static final int STEPPER_ROTATIONAL_MOTOR = 0;
+	public static final int STEPPER_DRIVE_MOTOR = 0;
+	public static final int STEPPER_PISTONS = 0;
 
 	//DistSesnsor
 	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 0; //This needs to be set
+
+	
 
 }
