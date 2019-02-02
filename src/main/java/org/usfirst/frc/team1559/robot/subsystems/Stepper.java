@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc.team1559.robot.Wiring;
 
@@ -30,7 +30,7 @@ public class Stepper {
 	 * 
 	 * Wheels:
 	 * Attached to the end of the arms are two wheels. These wheels will each have a miniCim motor and
-	 * either a TalonSRX or a spark to control them. The wheels will pull the robot forward once they
+	 * either a WPI_TalonSRX or a spark to control them. The wheels will pull the robot forward once they
 	 * make contact with the step to help get the main drive wheels in contact with the step. These should
 	 * be controlled using a similar method as the main drive system.
 	 * 
@@ -42,32 +42,31 @@ public class Stepper {
 	 * 
 	 * "One small step for man. One giant leap for mankind"
 	 * 		-Neil Armstrong
+	 *
+	 * For this code, the back of the robot will be reffered to as the front and vice versa, since the 
+	 * robot will be backing onto the step. All names are based on this fact.
 	 */
 
-	//Fr this code, the back of the robot will be called the front and vice versa, as the robot
-	//will be backing onto the step. All names are based on this fact.
+	private WPI_TalonSRX lifterMotor;
+	private WPI_TalonSRX rotationalMotor;
+	private WPI_TalonSRX driveMotor;
+	private Solenoid pistons;
 
-	private TalonSRX lifterMotor;
-	private TalonSRX rotationalMotor;
-	private TalonSRX driveMotor;
-	private Solenoid leftPiston;
-	private Solenoid rightPiston;
-
+	//instantiates all talons and the solenoid, imports which port each is plugged into
 	public Stepper()
 	{
-		lifterMotor = new TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
-		rotationalMotor = new TalonSRX(Wiring.STEPPER_ROTATIONAL_MOTOR);
-		driveMotor = new TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
-		leftPiston = new Solenoid(Wiring.STEPPER_LEFT_PISTON);
-		rightPiston = new Solenoid(Wiring.STEPPER_RIGHT_PISTON);
+		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
+		rotationalMotor = new WPI_TalonSRX(Wiring.STEPPER_ROTATIONAL_MOTOR);
+		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
+		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
 	}
 
-	public void liftBack()
+	//extends or retracts both back pistons
+	public void extendPistons(boolean extend)
 	{
-		leftPiston.set(true);
-		rightPiston.set(true);
+		pistons.set(extend);
 	}
-	
+
 	//moves lifterMotor to correct position for rotationalMotor
 	public void positionLifter()
 	{
@@ -75,14 +74,14 @@ public class Stepper {
 	}
 
 	//have back rotationalMotor spin to lift front
-	public void liftFront()
+	public void positionRotationMotor()
 	{
 		
 	}
 
-	//drives the front wheels
-	public void drive()
+	//drives the front wheels on a scale of -1.0 to 1.0
+	public void setDriveSpeed(double percent)
 	{
-		
+		driveMotor.set(percent);
 	}
 }
