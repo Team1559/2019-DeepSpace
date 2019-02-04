@@ -4,35 +4,31 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class Vision {
 
-	private boolean connected;
-
 	UDPClient client;
-	private double angle;
-    private double x;
-    private double y; 
+	
+	private  VisionData VData; 
+
 
 	private Vision() {
 		client = new UDPClient();
-		connected = true;
-    }
+		VData = new VisionData();
+		VData.status = 0;
+	}
 
 	public void update() {
 		try {
 			String in = client.get();
+			String[] parameters = in.split(" ");
+			if(parameters.length<4){
+				VData.status = 2;
+			}
 			
-				if (in.indexOf("f") >= 0) {
-					double temp1 = Double.parseDouble(in.substring(in.indexOf("f") + 1));
-					if (temp1 != -1000) {
-						x = temp1;
-					}
-                } 
-                else 
-                {
-					double temp = Double.parseDouble(in);
-					if (temp != -1000) {
-						angle = temp;
-					}
-				}
+			VisionData NewData = new VisionData();
+			NewData.x = Double.parseDouble(parameters[0]);
+			NewData.y = Double.parseDouble(parameters[1]);
+			NewData.r = Double.parseDouble(parameters[2]);
+			NewData.status = Integer.parseInt(parameters[3]);
+			VData = NewData;		
 			
         } 
         catch (NumberFormatException | NullPointerException e) {
@@ -40,26 +36,11 @@ public class Vision {
 		}
 	}
 
-	public double getAngle() {
-		return angle;
+	public VisionData getData() {
+		return VData;
 	}
 
-	public double getX() {
-		return x;
-    }
-    
-    public double getY(){
-        return y;
-    }
 
-
-	public String getRaw() {
-		return client.get();
-	}
-
-	public boolean isConnected() {
-		return connected;
-	}
 
 	private static Vision instance;
 
