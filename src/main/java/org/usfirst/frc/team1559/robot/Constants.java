@@ -21,7 +21,11 @@ public interface Constants {
 	// DriveTrain
 
 	// Grabber
-	
+	public static final int BTN_OUTTAKE = 3;
+	public static final int BTN_INTAKE = 1;
+	public static final int BTN_HATCH_UNLOCK = 6;
+	public static final int BTN_HATCH_LOCK = 7;
+
 	// Lifter
 	// public static final short LIFTER_POS1 = 1;
 	// public static final short LIFTER_POS2 = 2;
@@ -32,10 +36,18 @@ public interface Constants {
 	public static final int POT_BOTTOM = 0; //Lowest possible pot value (is probably zero)
 	public static final int POT_TOP = 0; //Highest possible pot value
 	// Stepper
+
+	// Ultrasonic Stopper
+	public static final int STOPPING_DISTANCE = -1; // TODO: Find this value.
 	
 	// Controllers
 	public static final int PILOT_JOYSTICK = 0;
 	public static final int COPILOT_JOYSTICK = 1;
 	
 	// Buttons
+	public static final int BTN_FINE_DRIVE_CONTROL = 10;
+
+	//Auto scoring
+	public static final int BTN_AUTO = 3;
+
 }

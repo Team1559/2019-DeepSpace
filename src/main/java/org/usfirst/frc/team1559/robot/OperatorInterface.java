@@ -10,8 +10,7 @@ package org.usfirst.frc.team1559.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class OperatorInterface {
-    //drive.driveCartesian((pilot.getRawAxis(0)), -1*pilot.getRawAxis(1), pilot.getRawAxis(2));
-    Joystick pilot, copilot;
+    public Joystick pilot, copilot;
     private DTButton[] driverButtons, copilotButtons, cocopilotButtons;
 
     public OperatorInterface() {
@@ -23,24 +22,18 @@ public class OperatorInterface {
         }
     }
 
-    public double getPilotY() {
-        if(pilot.getRawAxis(0) <= 0.1 || -0.1 <= pilot.getRawAxis(0)) {
-            return 0;
-        }
-        return pilot.getRawAxis(0);
+    public double getPilotX() {
+        return (-1)*pilot.getRawAxis(0);
     }
 
-    public double getPilotX() {
-        if((-1)*(pilot.getRawAxis(1)) <= 0.1 || -0.1 <= (-1)*(pilot.getRawAxis(1))) {
-            return 0;
+    public double getPilotY() {
+        if((pilot.getRawAxis(1))/(Math.abs(pilot.getRawAxis(1))) == 1) {
+            return (-1)*(Math.pow(pilot.getRawAxis(1), 2));
         }
-        return (-1)*(pilot.getRawAxis(1));
+            return (Math.pow(pilot.getRawAxis(1), 2));
     }
 
     public double getPilotZ() {
-        if(pilot.getRawAxis(2) <= 0.1 || -0.1 <= pilot.getRawAxis(2)) {
-            return 0;
-        }
         return pilot.getRawAxis(2);
     }
 
@@ -59,4 +52,7 @@ public class OperatorInterface {
         return cocopilotButtons[num];
     }
 
+    public boolean axisToButtonIsPressed(int axis) {
+        return (copilot.getRawAxis(axis) == 1);
+    }
 }
