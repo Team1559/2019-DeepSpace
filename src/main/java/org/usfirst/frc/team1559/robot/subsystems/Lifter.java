@@ -142,7 +142,8 @@ private boolean isAxis = true;
 	}
 
 	public void stop() {
-		lifterMotor.set(0.0);
+		// lifterMotor.set(0.0);
+		lifterMotor.stopMotor();
 	}
 
 	/**
