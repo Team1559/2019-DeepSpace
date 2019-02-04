@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
-import org.usfirst.frc.team1559.robot.subsystems.Pixylinevector;
+import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
 		
 		//Camera
 
-		Pixylinevector v=pixy2.getvector();
+		pixylinevector v=pixy2.getvector();
 		
 		
 		
