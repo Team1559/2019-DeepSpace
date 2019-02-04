@@ -26,7 +26,6 @@ public class Robot extends TimedRobot {
 	private DriveTrain drive;
 	private OperatorInterface oi;
 	public static boolean fightstick = true;
-	private boolean isAxis = true;
 	private static Lifter lifter;
 	
 	@Override
@@ -36,7 +35,7 @@ public class Robot extends TimedRobot {
 		// DistSensor dSensor = new DistSensor();
 		// dSensor.setAutomaticMode(true);
 		// dSensor.stopRobot();
-		lifter = new Lifter(oi);
+		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 	}
 
 	@Override
