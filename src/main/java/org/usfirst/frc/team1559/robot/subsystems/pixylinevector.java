@@ -10,7 +10,7 @@ import java.lang.Math;
 
 
 
-public class Pixylinevector {
+public class pixylinevector {
     public int status;
     public int x0;
     public int y0;

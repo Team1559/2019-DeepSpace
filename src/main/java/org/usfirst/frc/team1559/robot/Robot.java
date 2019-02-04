@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
-import org.usfirst.frc.team1559.robot.subsystems.Pixylinevector;
+import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
 
 	private Pixy pixy2;
 	public static boolean fightstick = true;
-	private boolean isCargo = true;
 	private static Lifter lifter;
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
@@ -46,6 +45,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
+		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		Kx = -0.07f;
 		//Ky= 0.00f;
@@ -87,9 +87,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		//Lifter
+		lifter.driveLifter();
+		
 		//Camera
 
-		Pixylinevector v=pixy2.getvector();
+		pixylinevector v=pixy2.getvector();
 		
 		
 		
