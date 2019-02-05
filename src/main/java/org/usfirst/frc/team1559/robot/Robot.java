@@ -41,17 +41,16 @@ public class Robot extends TimedRobot {
 	private float Kx;
     private float Ky;
 	private float Kr;
-
+	private float T;
+    private float R;
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
 		pixy2 = new Pixy();
-		Kx = -0.07f;
-		//Ky= 0.00f;
-		Kr = -0.07f;
 		
-
+		
+		
 
 		//dSensor = new DistSensor();
 		
@@ -95,6 +94,67 @@ public class Robot extends TimedRobot {
 		
 		// Drive Train
 		//drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+		
+		public float translation;
+    {
+        
+             pixy2.getEx();
+		
+			return translation;
+        }
+
+
+        public float rotation;
+        {
+         pixy2.getEr();
+		return rotation;
+		}
+		
+    
+
+        if 
+        (translation < 0){
+            T = -1;
+        }
+
+        if 
+        (translation >0)
+        {
+            T = 1;
+        }
+
+        if 
+        (translation == 0)
+        {
+            T = 0;
+        }
+
+        if 
+        (rotation >0)
+        {
+            R = 1;
+        }
+
+        if 
+        (rotation == 0)
+        {
+            R = 0;
+        }
+
+        if 
+        (rotation < 0)
+        {
+            R = -1;
+        }
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		if (v.status == 1){
 			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
 			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
