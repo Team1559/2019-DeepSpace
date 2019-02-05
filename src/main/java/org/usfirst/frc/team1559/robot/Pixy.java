@@ -12,7 +12,8 @@ public class Pixy {
     public float Ex;
     public float Er;
 	public Object v;
-
+    public float T;
+    public float R;
     public Pixy() {
         port = new SPI(SPI.Port.kOnboardCS1);
 
@@ -85,5 +86,62 @@ public class Pixy {
         {
             return Er;
         }
+        public float translation;
+    {
+        
+            (Kx * pixy2.getEx());
+        return translation;
+        }
+
+
+        public float rotation;
+        {
+           (Kr * pixy2.getEr();
+        }
+    
+
+        if 
+        (translation < 0){
+            T = -1;
+        }
+
+        if 
+        (translation >0)
+        {
+            T = 1;
+        }
+
+        if 
+        (translation == 0)
+        {
+            T = 0;
+        }
+
+
+        if 
+        (rotation >0)
+        {
+            R = 1;
+        }
+
+        if 
+        (rotation == 0)
+        {
+            R = 0;
+        }
+
+        if 
+        (rotation < 0)
+        {
+            R = -1;
+        }
+
+
+
+
     }
+}
+
+
+
 

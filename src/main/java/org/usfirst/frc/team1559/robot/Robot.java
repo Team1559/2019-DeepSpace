@@ -98,8 +98,15 @@ public class Robot extends TimedRobot {
 		if (v.status == 1){
 			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
 			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+			//drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+			drive.driveCartesian(pixy2.T, 0 , Kr * pixy2.R);
+
+		
 		}
+
+
+
+
 		else{
 			drive.driveCartesian(0, 0, 0);
 		}

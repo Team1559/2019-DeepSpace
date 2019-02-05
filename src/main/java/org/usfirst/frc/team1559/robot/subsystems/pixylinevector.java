@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------------*/
+/*-- --------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -14,7 +14,7 @@ public class Pixylinevector {
     public int status;
     public int x0;
     public int y0;
-    public int x1;
+   public int x1;
     public int y1;
     public int index;
     public int flags;
