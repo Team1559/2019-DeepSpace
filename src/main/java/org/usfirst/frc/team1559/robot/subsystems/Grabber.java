@@ -5,18 +5,21 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Wiring;
-
+import org.usfirst.frc.team1559.robot.Constants;
 //dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
     private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
-    private double speedBall, speedHatch, stopHatch, speed;
+    private double speedBall, speedHatch, stopHatch;
+    private OperatorInterface oi;
 
-    public Grabber()
+    public Grabber(OperatorInterface oi)
     {
+        this.oi = oi;
         //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new WPI_TalonSRX(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
@@ -26,9 +29,25 @@ public class Grabber
         //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
         //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
         speedBall = .3; //FIND A SPEED THAT WORKSs
-        speed = 0;
         speedHatch = .5; //FIND A SPEED THAT WORKS
         stopHatch = .5;
+    }
+
+    public void drive()
+    {
+        if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
+			getCargo();
+		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
+			removeCargo();
+		}
+
+		if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
+			slapHatch();
+		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
+			unslapHatch();
+
+		}
+
     }
 
     public void getHatch()
@@ -63,8 +82,7 @@ public class Grabber
     public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
     {
         hatchSlapperL.set(ControlMode.PercentOutput, speedHatch);
-        //hatchSlapperR.set(ControlMode.PercentOutput, speedHatch);
-        /*do
+        hatchSlapperR.set(ControlMode.PercentOutput, speedHatch);
         {
             if(getLimitValue(2) == true)
             {
@@ -73,14 +91,13 @@ public class Grabber
                 hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
             }
         }
-        while(stopHatch != 0); */
+        while(stopHatch != 0); 
     }
 
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
     {
         hatchSlapperL.set(ControlMode.PercentOutput, -speedHatch);
-        //hatchSlapperR.set(ControlMode.PercentOutput, -speedHatch);
-        /*do
+        hatchSlapperR.set(ControlMode.PercentOutput, -speedHatch);
         {
             if(getLimitValue(1) == true)
             {
@@ -89,7 +106,7 @@ public class Grabber
                 hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
             }
         } 
-        while(stopHatch != 0);*/
+        while(stopHatch != 0);
     }
 
     //Limit Switches positions: 
