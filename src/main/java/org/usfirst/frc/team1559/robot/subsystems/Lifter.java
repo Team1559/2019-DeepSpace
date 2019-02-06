@@ -65,11 +65,23 @@ private int potUseableTop = 150; //Placeholder
 private int potRange = 150; //This is just a placeholder value. Make sure we find the actual range that we want.
 private final int potMax = 300; // This is a placeholder. This is the farthest the pot can rotate.
 
+private double kP = 0;
+private double kI = 0;
+private double kD = 0;
+private double kF = 0;
+private final int TIMEOUT = 0;
+
 private boolean isAxis = true;
 
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
+
+		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
+		lifterMotor.enableCurrentLimit(true);
+		lifterMotor.configPeakCurrentLimit(0,TIMEOUT);
+		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
+		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
 
 		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
@@ -160,13 +172,22 @@ private boolean isAxis = true;
 		 * Use the Fightstick in the XInput option to make sure it has the correct buttons!
 		 * Otherwise it won't work!!!!
 		*/
-		if(oi.getCopilotButton(0).isPressed()) { 
+		if(oi.getCopilotButton(1).isPressed()) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(1));
+			// System.out.println(1);
 			goToPortPos(1);
 			
 		}
-		else if(oi.getCopilotButton(1).isPressed()) { 
+		// else if(oi.copilot.getRawButton(1) == true)
+		// {
+		// 	isAxis = false;
+		// 	goToPortPos(1);
+		// }
+		else if(oi.getCopilotButton(2).isPressed()) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(2));
+			// System.out.println(2);
 			goToPortPos(2);
 			
 		}
@@ -174,26 +195,34 @@ private boolean isAxis = true;
 			isAxis = false;
 			goToPortPos(3);
 		}
-		else if(oi.getCopilotButton(2).isPressed()) { 
+		else if(oi.getCopilotButton(3).isPressed()) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(3));
+			// System.out.println(3);
 			goToCargoShipHatch();
 			
 		}
-		else if(oi.getCopilotButton(3).isPressed()) { 
+		else if(oi.getCopilotButton(4).isPressed()) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(4));
+			// System.out.println(4);
 			goToCargoShipCargoDrop();
 			
 		}
-		else if(oi.getCopilotButton(5).isPressed()) { 
+		else if(oi.getCopilotButton(6).isPressed()) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(6));
+			// System.out.println(5);
 			goToHatchPos(3);
 			
 		}
 		// else if(oi.getCopilotButton(4).isPressed()) {
 		// 	 goToBottom();
 		// }
-		else if(oi.getCopilotButton(6).isPressed()) { 
+		else if(oi.getCopilotButton(7).isPressed()) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(7));
+			// System.out.println(6);
 			recallibrateSystem();
 			
 		}
