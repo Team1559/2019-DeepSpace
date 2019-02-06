@@ -12,7 +12,7 @@ public class Stepper {
 	/*
 	 * Designated Programmers of the Stepper:
 	 * Nicholas Merante
-	 * 
+	 * Noah Hartman
 	 * ____________________________________________
 	 * 
 	 * Pistons:
@@ -100,6 +100,7 @@ public class Stepper {
 		driveMotor.set(percent);
 	}
 
+	//resets the rotationCounter value
 	public void resetStepper()
 	{
 		rotationCounter = 0;
