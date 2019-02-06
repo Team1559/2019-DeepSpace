@@ -16,7 +16,7 @@ public class OperatorInterface {
     public OperatorInterface() {
         pilot = new Joystick(Constants.PILOT_JOYSTICK);
         copilot = new Joystick(Constants.COPILOT_JOYSTICK);
-        copilotButtons = new DTButton[8];
+        copilotButtons = new DTButton[20];
         for(int i = 0; i < copilotButtons.length; i++) {
             copilotButtons[i] = new DTButton(copilot, i);
         }

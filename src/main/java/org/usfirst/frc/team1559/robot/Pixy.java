@@ -12,7 +12,7 @@ public class Pixy {
     public float Ex;
     public float Er;
 	public Object v;
-
+   
     public Pixy() {
         port = new SPI(SPI.Port.kOnboardCS1);
 
@@ -69,8 +69,8 @@ public class Pixy {
             //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
             //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);
             //System.out.println("");
-            System.out.printf("( %d , %d) %d", v.Ex, v.Er, v.flags);
-            System.out.println("");
+            //System.out.printf("( %d , %d) %d", v.Ex, v.Er, v.flags);
+            //System.out.println("");
         }
 
         return v;
@@ -85,5 +85,16 @@ public class Pixy {
         {
             return Er;
         }
-    }
+
+
+        
+
+
+
+
+    
+}
+
+
+
 
