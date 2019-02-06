@@ -37,6 +37,7 @@ public interface Wiring {
 	public static final int STEPPER_ROTATIONAL_MOTOR = 11;
 	public static final int STEPPER_DRIVE_MOTOR = 12;
 	public static final int STEPPER_PISTONS = 9;
+	public static final int STEPPER_POT = 0; //TODO: set the value for the potentiometer port
 
 	//DistSesnsor
 	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 0; //This needs to be set

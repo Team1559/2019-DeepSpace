@@ -12,7 +12,7 @@ public class Stepper {
 	/*
 	 * Designated Programmers of the Stepper:
 	 * Nicholas Merante
-	 * 
+	 * Noah Hartman
 	 * ____________________________________________
 	 * 
 	 * Pistons:
@@ -75,7 +75,7 @@ public class Stepper {
 	//gets potentiometer position
 	public int getPot()
 	{
-		return lifterMotor.getSelectedSensorPosition();
+		return lifterMotor.getSelectedSensorPosition(Wiring.STEPPER_POT);
 	}
 
 	//moves lifterMotor to correct position for rotationalMotor
@@ -98,5 +98,11 @@ public class Stepper {
 	public void setDriveSpeed(double percent)
 	{
 		driveMotor.set(percent);
+	}
+
+	//resets the rotationCounter value
+	public void resetStepper()
+	{
+		rotationCounter = 0;
 	}
 }
