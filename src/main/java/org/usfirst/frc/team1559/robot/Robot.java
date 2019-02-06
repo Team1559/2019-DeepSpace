@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+//import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -34,23 +34,23 @@ public class Robot extends TimedRobot {
 	private Pixy pixy2;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
-	private static Lifter lifter;
+	//private static Lifter lifter;
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
 	public static DistSensor dist;
 	private float Kx;
     private float Ky;
 	private float Kr;
-	private float T;
-    private float R;
+	
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
 		pixy2 = new Pixy();
 		
-		
-		
+		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
+		Kr = 0.014f; // maximum pixy angle
+		Ky = 0.0f;
 
 		//dSensor = new DistSensor();
 		
@@ -95,62 +95,6 @@ public class Robot extends TimedRobot {
 		// Drive Train
 		//drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
 		
-		public float translation;
-    {
-        
-             pixy2.getEx();
-		
-			return translation;
-        }
-
-
-        public float rotation;
-        {
-         pixy2.getEr();
-		return rotation;
-		}
-		
-    
-
-        if 
-        (translation < 0){
-            T = -1;
-        }
-
-        if 
-        (translation >0)
-        {
-            T = 1;
-        }
-
-        if 
-        (translation == 0)
-        {
-            T = 0;
-        }
-
-        if 
-        (rotation >0)
-        {
-            R = 1;
-        }
-
-        if 
-        (rotation == 0)
-        {
-            R = 0;
-        }
-
-        if 
-        (rotation < 0)
-        {
-            R = -1;
-        }
-		
-		
-		
-		
-		
 		
 		
 		
@@ -158,9 +102,12 @@ public class Robot extends TimedRobot {
 		if (v.status == 1){
 			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
 			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			//drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
-			drive.driveCartesian(pixy2.T, 0 , Kr * pixy2.R);
-
+			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
+			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
+			SmartDashboard.putNumber("__Kx",Kx );
+			SmartDashboard.putNumber("__Kr",Kr);
+			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+			
 		
 		}
 
