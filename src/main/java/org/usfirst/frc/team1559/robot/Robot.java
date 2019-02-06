@@ -11,13 +11,13 @@ import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-//import edu.wpi.first.wpilibj.Joystick;
+
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -123,19 +123,19 @@ public class Robot extends TimedRobot {
 			drive.driveCartesian(0, 0, 0);
 		}
 	}
-		 Grabber
-		 if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-		 	grabber.getCargo();
-		 } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-		 	grabber.removeCargo();
-		 }
+	// Grabber
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+		// 	grabber.getCargo();
+		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+		// 	grabber.removeCargo();
+		// }
 
-		 if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
-		 	grabber.getHatch();
-		 } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
-		 	grabber.bringHatch();
-       
-		 }
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
+		// 	grabber.getHatch();
+		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
+		// 	grabber.bringHatch();
+
+		// }
 
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
 		// 	dBounce = true;
@@ -144,17 +144,12 @@ public class Robot extends TimedRobot {
 			//drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 			/*if(dist.getRange() == 18)
 			{
-
 			}*/
 			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
 				dBounce = false;
 			}*/
 		
-		
-		
-
-	
 	@Override
 	public void testInit() {
 		
