@@ -30,7 +30,7 @@ public interface Wiring {
 	
 	// Lifter
 	public static final int LIFTER_POT = 0; //This needs to be set
-	public static final int LIFTER_TALON = 1; //This needs to be set
+	public static final int LIFTER_TALON = 1; //This needs to be set. Temporary for testing Lifter
 	
 	// Stepper
 	public static final int STEPPER_LIFTER_MOTOR = 10;
