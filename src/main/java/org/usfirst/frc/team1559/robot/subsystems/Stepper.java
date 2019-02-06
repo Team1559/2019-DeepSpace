@@ -75,7 +75,7 @@ public class Stepper {
 	//gets potentiometer position
 	public int getPot()
 	{
-		return lifterMotor.getSelectedSensorPosition();
+		return lifterMotor.getSelectedSensorPosition(Wiring.STEPPER_POT);
 	}
 
 	//moves lifterMotor to correct position for rotationalMotor
@@ -98,5 +98,10 @@ public class Stepper {
 	public void setDriveSpeed(double percent)
 	{
 		driveMotor.set(percent);
+	}
+
+	public void resetStepper()
+	{
+		rotationCounter = 0;
 	}
 }
