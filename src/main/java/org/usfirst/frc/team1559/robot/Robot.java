@@ -7,17 +7,17 @@
 
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
-import org.usfirst.frc.team1559.robot.subsystems.Pixylinevector;
+import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-//import edu.wpi.first.wpilibj.Joystick;
+
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 	private Pixy pixy2;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
-	//private static Lifter lifter;
+	private static Lifter lifter;
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
 	public static DistSensor dist;
@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
+		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		
 		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
@@ -86,19 +87,23 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		//Lifter
+		lifter.driveLifter();
+		
 		//Camera
 
-		Pixylinevector v=pixy2.getvector();
+		pixylinevector v=pixy2.getvector();
 		
 		
 		
 		// Drive Train
-		//drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
+
 		
 		
 		
 		
-		
+
+		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		if (v.status == 1){
 			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
 			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
@@ -118,7 +123,7 @@ public class Robot extends TimedRobot {
 			drive.driveCartesian(0, 0, 0);
 		}
 	}
-		// Grabber
+	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
@@ -139,17 +144,12 @@ public class Robot extends TimedRobot {
 			//drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 			/*if(dist.getRange() == 18)
 			{
-
 			}*/
 			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
 				dBounce = false;
 			}*/
 		
-		
-		
-
-	
 	@Override
 	public void testInit() {
 		

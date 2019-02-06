@@ -27,13 +27,14 @@ public interface Constants {
 	public static final int BTN_HATCH_LOCK = 7;
 
 	// Lifter
-	public static final short LIFTER_POS1 = 1;
-	public static final short LIFTER_POS2 = 2;
-	public static final short LIFTER_POS3 = 3;
-	public static final short LIFTER_POS4 = 4;
-	public static final short LIFTER_TOP = 97; //Highest point on the lifter
-	public static final short LIFTER_BOTTOM = 98; //Lowest point on the lifter
-
+	// public static final short LIFTER_POS1 = 1;
+	// public static final short LIFTER_POS2 = 2;
+	// public static final short LIFTER_POS3 = 3;
+	// public static final short LIFTER_POS4 = 4;
+	// public static final short LIFTER_TOP = 97; //Highest point on the lifter
+	// public static final short LIFTER_BOTTOM = 98; //Lowest point on the lifter
+	public static final int POT_BOTTOM = 0; //Lowest possible pot value (is probably zero)
+	public static final int POT_TOP = 0; //Highest possible pot value
 	// Stepper
 
 	// Ultrasonic Stopper
