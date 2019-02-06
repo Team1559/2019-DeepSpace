@@ -20,7 +20,7 @@ public interface Wiring {
 	
 	// DriveTrain
 	public static final int FRONT_LEFT_MOTOR = 0;
-	public static final int FRONT_RIGHT_MOTOR = 1;
+	public static final int FRONT_RIGHT_MOTOR = 100; //Temporary for testing Lifter.
 	public static final int REAR_LEFT_MOTOR = 2;
 	public static final int REAR_RIGHT_MOTOR = 3;
 	
@@ -30,13 +30,14 @@ public interface Wiring {
 	
 	// Lifter
 	public static final int LIFTER_POT = 0; //This needs to be set
-	public static final int LIFTER_TALON = 4; //This needs to be set
+	public static final int LIFTER_TALON = 1; //This needs to be set
 	
 	// Stepper
 	public static final int STEPPER_LIFTER_MOTOR = 10;
 	public static final int STEPPER_ROTATIONAL_MOTOR = 11;
 	public static final int STEPPER_DRIVE_MOTOR = 12;
 	public static final int STEPPER_PISTONS = 9;
+	public static final int STEPPER_POT = 0; //TODO: set the value for the potentiometer port
 
 	//DistSesnsor
 	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 0; //This needs to be set

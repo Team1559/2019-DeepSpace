@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1559.robot;
 
 import edu.wpi.first.wpilibj.*;
-import org.usfirst.frc.team1559.robot.subsystems.Pixylinevector;
+import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 public class Pixy {
 
@@ -38,14 +38,14 @@ public class Pixy {
         return returned[6];
 
     }
-    public Pixylinevector getvector() {
+    public pixylinevector getvector() {
         byte[] returned = new byte[16];
         port.write(getFeatures, 8);
     
     
         port.read(false, returned, 6);
         port.read(false, returned, 16);
-         var v=new Pixylinevector();
+         var v=new pixylinevector();
          v.timer++;
          if (returned[2]==49 && returned[7]>0){
             
