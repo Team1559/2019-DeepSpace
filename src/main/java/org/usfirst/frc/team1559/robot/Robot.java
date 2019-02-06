@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
 		pixy2 = new SerialTest();
-		grabber = new Grabber();
+		grabber = new Grabber(oi);
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
@@ -77,19 +77,7 @@ public class Robot extends TimedRobot {
 		
 
 		// Grabber
-		if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
-			grabber.getCargo();
-		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
-			grabber.removeCargo();
-		}
-
-		if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
-			grabber.slapHatch();
-		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
-			grabber.unslapHatch();
-
-		}
-
+		grabber.drive();
 	}
 
 	@Override

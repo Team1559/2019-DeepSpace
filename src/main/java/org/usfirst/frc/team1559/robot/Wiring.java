@@ -35,7 +35,7 @@ public interface Wiring {
 	public static final int NTK_DIGITALINPUT_LS4 = 3; // This variable needs to be set 
 
 
-	// Lifter
+	// Lifter   
 	public static final int LIFTER_POT = 0; //This needs to be set
 	public static final int LIFTER_TALON = 4; //This needs to be set
 	// Stepper
