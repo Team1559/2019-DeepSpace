@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 	private static Lifter lifter;
 	private static Grabber grabber; 
 
-	private Counter exampleCounterHi;
+	private Counter counterHi;
 	private AnalogInput exampleAnalog;
 	private Counter normalCounter;
 
@@ -54,8 +54,9 @@ public class Robot extends TimedRobot {
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
 		
-		exampleCounterHi = new Counter (0);
+		//counterHi = new Counter (0);
 		normalCounter = new Counter(0);
+		normalCounter.setSemiPeriodMode(true);
 		exampleAnalog = new AnalogInput(0);
 	}	
 
@@ -77,28 +78,28 @@ public class Robot extends TimedRobot {
 
 	private void SensorTester(){
 		/* Analog Sensor Testing */ 
-		// int raw = exampleAnalog.getValue();
-		// double volts = exampleAnalog.getVoltage();
-		// int averageRaw = exampleAnalog.getAverageValue();
-		// double averageVolts = exampleAnalog.getAverageVoltage();
-		//SmartDashboard.putNumber("Analog Raw Value", raw);
-		//SmartDashboard.putNumber("Analog  Volts", volts);
-		//SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
-		//SmartDashboard.putNumber("Analog Average Volts", averageVolts);
+		int raw = exampleAnalog.getValue();
+		double volts = exampleAnalog.getVoltage();
+		int averageRaw = exampleAnalog.getAverageValue();
+		double averageVolts = exampleAnalog.getAverageVoltage();
+		SmartDashboard.putNumber("Analog Raw Value", raw);
+		SmartDashboard.putNumber("Analog  Volts", volts);
+		SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
+	//	SmartDashboard.putNumber("Analog Average Volts", averageVolts);
 	
 		/* Ultrasonic Sensor Testing */
-		boolean direction = normalCounter.getDirection();
-		double rate = normalCounter.getRate();
-		double period = normalCounter.getPeriod();
-		double distance = normalCounter.getDistance();
-		int count = normalCounter.get();
-		//double pulse = 
+		// boolean direction = normalCounter.getDirection();
+		 double rate = normalCounter.getRate();
+		 double period = normalCounter.getPeriod();
+		// double distance = normalCounter.getDistance();
+		// int count = normalCounter.get();
 
-		SmartDashboard.putBoolean("direction", direction);
+		// counterHi.setSemiPeriodMode(true);
+		//SmartDashboard.putBoolean("direction", );
 		SmartDashboard.putNumber ("rate", rate);
 		SmartDashboard.putNumber ("period", period);
-		SmartDashboard.putNumber ("distance", distance);
-		SmartDashboard.putNumber ("count", count);
+		//SmartDashboard.putNumber ("distance", distance);
+		//SmartDashboard.putNumber ("count", count);
 	}
 
 	@Override
