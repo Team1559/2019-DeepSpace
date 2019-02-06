@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import org.usfirst.frc.team1559.robot.Robot;
@@ -102,11 +103,13 @@ private boolean isAxis = true;
 	public void goToPortPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, portPositions[pos]);
+		System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToHatchPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
+		System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToCargoShipHatch() {
@@ -119,6 +122,7 @@ private boolean isAxis = true;
 
 	public void goToBottom() {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
+		System.out.println(getPot()); //For testing purposes
 	}
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
@@ -207,3 +211,4 @@ private boolean isAxis = true;
 
 }
 //It's over!!!!
+
