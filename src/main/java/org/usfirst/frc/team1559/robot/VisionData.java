@@ -14,4 +14,8 @@ public class VisionData {
         else
             return true;
     }
+
+    public void Print() {
+        System.out.printf("%3.1f %3.1f  %3.1f  %d", x, y, r, status);
+    }
 }
