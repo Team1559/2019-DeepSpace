@@ -153,41 +153,38 @@ private boolean isAxis = true;
 	 */
 	public void driveLifter() {
 		/**
-		 * IMPORTANT!!!! Please note that the changed button orientation has occured on multiple occasions.
-		 * It seems that if the Driver's Station says Controller (MAYFLASH Arcade Fightstick F300), it will
-		 * have the current button configuration listed in the code. However, if it just says
-		 * MAYFLASH Arcade Fightstick F300, then it will use the commented button positions.
-		 * It seems that if the computer chooses to configure the Fightstick, it will change the button configuration.
-		 * KEEP AN EYE ON THIS AS IT WILL AFFECT THE ROBOT'S FUNCTIONALITY!!!!
+		 * IMPORTANT!!!! 
+		 * Use the Fightstick in the XInput option to make sure it has the correct buttons!
+		 * Otherwise it won't work!!!!
 		*/
-		if(oi.getCopilotButton(0).isPressed()) { //button 1 if Fightstick changes button orientation, normal is button 0.
+		if(oi.getCopilotButton(0).isPressed()) { 
 			goToPortPos(1);
 			isAxis = false;
 		}
-		else if(oi.getCopilotButton(1).isPressed()) { //button 2 if Fightstick changes button orientation, normal is button 1.
+		else if(oi.getCopilotButton(1).isPressed()) { 
 			goToPortPos(2);
 			isAxis = false;
 		}
-		else if(oi.getCopilotAxis(3) == 1) { //button 7 if Fightstick changes button orientation, normal is Axis 3.
+		else if(oi.getCopilotAxis(3) == 1) { 
 			goToPortPos(3);
 			isAxis = false;
 		}
-		else if(oi.getCopilotButton(2).isPressed()) { //button 0 if Fightstick changes button orientation, normal is button 2.
+		else if(oi.getCopilotButton(2).isPressed()) { 
 			goToCargoShipHatch();
 			isAxis = false;
 		}
-		else if(oi.getCopilotButton(3).isPressed()) { //button 3 if Fightstick changes button orientation, normal is button 3.
+		else if(oi.getCopilotButton(3).isPressed()) { 
 			goToCargoShipCargoDrop();
 			isAxis = false;
 		}
-		else if(oi.getCopilotButton(5).isPressed()) { //button 5 for either button orientation
+		else if(oi.getCopilotButton(5).isPressed()) { 
 			goToHatchPos(3);
 			isAxis = false;
 		}
 		// else if(oi.getCopilotButton(4).isPressed()) {
 		// 	 goToBottom();
 		// }
-		else if(oi.getCopilotButton(6).isPressed()) { //button 8 if Fightstick changes button orientation, normal is button 6.
+		else if(oi.getCopilotButton(6).isPressed()) { 
 			recallibrateSystem();
 			isAxis = false;
 		}
