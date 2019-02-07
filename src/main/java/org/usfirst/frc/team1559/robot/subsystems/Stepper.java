@@ -56,7 +56,8 @@ public class Stepper {
 	private WPI_TalonSRX rotationalMotor;
 	private WPI_TalonSRX driveMotor;
 	private Solenoid pistons;
-	private double motorPositionValue = 0; //the encoder value that the lifterMotor should stop at
+	private double upperLifterValue = 0; //the potentiometer value of the highest position
+	private double lowerLifterValue = 0; //the potentiometer value of the lowest position
 	private double rotationPositionValue = 0; //the encoder value for the rotationalMotor; should be 180 degrees
 	private int rotationCounter = 0;
 
@@ -83,12 +84,6 @@ public class Stepper {
 		return lifterMotor.getSelectedSensorPosition(Wiring.STEPPER_POT);
 	}
 
-	//moves lifterMotor to correct position for rotationalMotor
-	public void positionLifter()
-	{
-		lifterMotor.set(ControlMode.Position, motorPositionValue);
-	}
-
 	//have back rotationalMotor spin 180 degrees to prepare for lifting
 	public void positionRotationMotor()
 	{
@@ -108,21 +103,13 @@ public class Stepper {
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
-		while(getPot() < 100) //change value to potentiometer value at max height
-		{
-			lifterMotor.set(0.8);
-		}
-		lifterMotor.set(0);
+		lifterMotor.set(ControlMode.Position, upperLifterValue);
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
-		while(getPot() > motorPositionValue)
-		{
-			lifterMotor.set(-0.8);
-		}
-		lifterMotor.set(0);
+		lifterMotor.set(ControlMode.Position, lowerLifterValue);
 	}
 
 	//resets the rotationCounter value
