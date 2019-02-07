@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 		
 		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
 		Kr = 0.014f; // maximum pixy angle
-		Ky = 0.01f;
+		Ky = 0.5f;
 
 		//dSensor = new DistSensor();
 		
@@ -104,19 +104,19 @@ public class Robot extends TimedRobot {
 		
 
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		if (v.status == 1){
+		if(v.status == 1)
+		{
+	
 			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
 			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
 			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
 			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			SmartDashboard.putNumber("__Kx",Kx );
 			SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky , Kr * pixy2.getEr());
 			
 		
-		}
-
-
+	}
 
 
 		else{

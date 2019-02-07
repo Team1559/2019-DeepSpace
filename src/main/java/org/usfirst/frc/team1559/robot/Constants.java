@@ -49,5 +49,6 @@ public interface Constants {
 
 	//Auto scoring
 	public static final int BTN_AUTO = 3;
+	public static final int BTN_AutoStop = 1;
 
 }
