@@ -105,6 +105,26 @@ public class Stepper {
 		driveMotor.set(percent);
 	}
 
+	//lifts the lifterMotor to its maximum height
+	public void liftStepper()
+	{
+		while(getPot() < 100) //change value to potentiometer value at max height
+		{
+			lifterMotor.set(0.8);
+		}
+		lifterMotor.set(0);
+	}
+
+	//brings lifter back to lowest position; lifts the front of the robot
+	public void lowerStepper()
+	{
+		while(getPot() > motorPositionValue)
+		{
+			lifterMotor.set(-0.8);
+		}
+		lifterMotor.set(0);
+	}
+
 	//resets the rotationCounter value
 	public void resetStepper()
 	{
