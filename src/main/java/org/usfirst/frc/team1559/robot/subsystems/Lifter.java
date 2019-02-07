@@ -65,9 +65,9 @@ private int potUseableTop = 150; //Placeholder
 private int potRange = 150; //This is just a placeholder value. Make sure we find the actual range that we want.
 private final int potMax = 300; // This is a placeholder. This is the farthest the pot can rotate.
 
-private double kP = 0;
+private double kP = 6; //Just for testing purposes
 private double kI = 0;
-private double kD = 0;
+private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
 private final int TIMEOUT = 0;
 
