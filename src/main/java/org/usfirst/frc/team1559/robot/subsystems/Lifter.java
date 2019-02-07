@@ -83,6 +83,16 @@ private boolean isAxis = true;
 		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
 
+		lifterMotor.configNominalOutputForward(+.05, TIMEOUT);
+		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
+		lifterMotor.configPeakOutputForward(+1, TIMEOUT);
+		lifterMotor.configPeakOutputReverse(-0.55, TIMEOUT);
+
+		lifterMotor.config_kP(0, kP, TIMEOUT);
+		lifterMotor.config_kI(0, kI, TIMEOUT);
+		lifterMotor.config_kD(0, kD, TIMEOUT);
+		lifterMotor.config_kF(0, kF, TIMEOUT);
+
 		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
@@ -172,7 +182,7 @@ private boolean isAxis = true;
 		 * Use the Fightstick in the XInput option to make sure it has the correct buttons!
 		 * Otherwise it won't work!!!!
 		*/
-		if(oi.getCopilotButton(1).isPressed()) { 
+		if(oi.copilot.getRawButton(1)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(1));
 			// System.out.println(1);
@@ -184,7 +194,7 @@ private boolean isAxis = true;
 		// 	isAxis = false;
 		// 	goToPortPos(1);
 		// }
-		else if(oi.getCopilotButton(2).isPressed()) { 
+		else if(oi.copilot.getRawButton(2)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(2));
 			// System.out.println(2);
@@ -195,21 +205,21 @@ private boolean isAxis = true;
 			isAxis = false;
 			goToPortPos(3);
 		}
-		else if(oi.getCopilotButton(3).isPressed()) { 
+		else if(oi.copilot.getRawButton(3)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(3));
 			// System.out.println(3);
 			goToCargoShipHatch();
 			
 		}
-		else if(oi.getCopilotButton(4).isPressed()) { 
+		else if(oi.copilot.getRawButton(4)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(4));
 			// System.out.println(4);
 			goToCargoShipCargoDrop();
 			
 		}
-		else if(oi.getCopilotButton(6).isPressed()) { 
+		else if(oi.copilot.getRawButton(6)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(6));
 			// System.out.println(5);
@@ -219,7 +229,7 @@ private boolean isAxis = true;
 		// else if(oi.getCopilotButton(4).isPressed()) {
 		// 	 goToBottom();
 		// }
-		else if(oi.getCopilotButton(7).isPressed()) { 
+		else if(oi.copilot.getRawButton(7)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(7));
 			// System.out.println(6);
@@ -242,6 +252,26 @@ private boolean isAxis = true;
 			stop();
 			// System.out.println((int)(oi.getCopilotAxis(1)));
 		}
+		// if(oi.copilot.getRawButton(1))
+		// 	System.out.println(1);
+		// else if(oi.copilot.getRawButton(2))
+		// 	System.out.println(2);
+		// else if(oi.copilot.getRawButton(3))
+		// 	System.out.println(3);
+		// else if(oi.copilot.getRawButton(4))
+		// 	System.out.println(4);
+		// else if(oi.copilot.getRawButton(5))
+		// 	System.out.println(5);
+		// else if(oi.copilot.getRawButton(6))
+		// 	System.out.println(6);
+		// else if(oi.copilot.getRawButton(7))
+		// 	System.out.println(7);
+		// else if(oi.copilot.getRawButton(8))
+		// 	System.out.println(8);
+		// else if(oi.copilot.getRawButton(9))
+		// 	System.out.println(9);
+		// else if(oi.copilot.getRawButton(10))
+		// 	System.out.println(10);
 	}
 
 
