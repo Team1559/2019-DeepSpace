@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 		
 		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
 		Kr = 0.014f; // maximum pixy angle
-		Ky = 0.0f;
+		Ky = 0.01f;
 
 		//dSensor = new DistSensor();
 		
@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
 
 
 		else{
-			drive.driveCartesian(0, 0, 0);
+			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 	}
 	// Grabber
