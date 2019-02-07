@@ -61,20 +61,20 @@ public class Stepper {
 	private int rotationCounter = 0;
 
 
-// 	//instantiates all talons and the solenoid, imports which port each is plugged into
-// 	public Stepper()
-// 	{
-// 		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
-// 		rotationalMotor = new WPI_TalonSRX(Wiring.STEPPER_ROTATIONAL_MOTOR);
-// 		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
-// 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
-// 	}
+ 	//instantiates all talons and the solenoid, imports which port each is plugged into
+ 	public Stepper()
+ 	{
+ 		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
+ 		rotationalMotor = new WPI_TalonSRX(Wiring.STEPPER_ROTATIONAL_MOTOR);
+ 		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
+ 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+	}
 
-// 	//extends or retracts both back pistons
-// 	public void extendPistons(boolean extend)
-// 	{
-// 		pistons.set(extend);
-// 	}
+ 	//extends or retracts both back pistons
+ 	public void extendPistons(boolean extend)
+ 	{
+ 		pistons.set(extend);
+ 	}
 
 
 	//gets potentiometer position
