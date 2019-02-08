@@ -37,11 +37,9 @@ public class Robot extends TimedRobot {
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
-	private static Grabber grabber; 
-
-	private Counter counterHi;
-	private AnalogInput exampleAnalog;
-	private Counter normalCounter;
+	private static Grabber grabber;
+	private AnalogInput ai;
+	private DistSensor ds;
 
 	@Override
 	public void robotInit() {
@@ -49,15 +47,9 @@ public class Robot extends TimedRobot {
 		oi = new OperatorInterface();
 
 		pixy2 = new SerialTest();
-		//grabber = new Grabber();
-		//DistSensor dSensor = new DistSensor();
-		//dSensor.setAutomaticMode(true);
-		//dSensor.stopRobot();
-		
-		//counterHi = new Counter (0);
-		normalCounter = new Counter(0);
-		normalCounter.setSemiPeriodMode(true);
-		exampleAnalog = new AnalogInput(0);
+		ai = new AnalogInput(0);
+
+	ds = new DistSensor(ai);
 	}	
 
 	@Override
@@ -76,60 +68,11 @@ public class Robot extends TimedRobot {
 		pixy2.start();
 	}
 
-	private void SensorTester(){
-		/* Analog Sensor Testing */ 
-		int raw = exampleAnalog.getValue();
-		double volts = exampleAnalog.getVoltage();
-		int averageRaw = exampleAnalog.getAverageValue();
-		double averageVolts = exampleAnalog.getAverageVoltage();
-	//	SmartDashboard.putNumber("Analog Raw Value", raw);
-		SmartDashboard.putNumber("Analog  Volts", volts);
-	//	SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
-		double IRdistance = 187754 * Math.pow(volts, -1.51);
-		SmartDashboard.putNumber("Analog Average Volts", averageVolts);
-		SmartDashboard.putNumber("Distance", IRdistance);
-	
-		/* Ultrasonic Sensor Testing */
-		// boolean direction = normalCounter.getDirection();
-		 double rate = normalCounter.getRate();
-		 double period = normalCounter.getPeriod();
-		// double distance = normalCounter.getDistance();
-		// int count = normalCounter.get();
-
-		// counterHi.setSemiPeriodMode(true);
-		//SmartDashboard.putBoolean("direction", );
-		SmartDashboard.putNumber ("rate", rate);
-		SmartDashboard.putNumber ("period", period);
-		//SmartDashboard.putNumber ("distance", distance);
-		//SmartDashboard.putNumber ("count", count);
-	}
-
 	@Override
 	public void teleopPeriodic() {
 		// Camera
 		// System.out.println(pixy2.read());
-
-		SensorTester();
-
-		// Drive Train
-		oi.checkFineControl();
-		drive.driveCartesian(oi.getPilotY(), oi.getPilotX(), oi.getPilotZ());
-
-		// Grabber
-		if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-			grabber.getCargo();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-			grabber.removeCargo();
-		}
-
-		if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
-			grabber.getHatch();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
-			grabber.bringHatch();
-
-		}
-		
-
+		double sensor = ds.getRange();
 	}
 
 	@Override
