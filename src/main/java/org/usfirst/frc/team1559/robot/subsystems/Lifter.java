@@ -60,10 +60,10 @@ private final int ticksToHatch1 = 10; //Placeholder value
 private final int ticksToHatch2 = 30; //Placeholder value
 private final int ticksToHatch3 = 50; //Placeholder value
 
-private int potUseableBottom = 0; //Placeholder value Code will auto adjust values based on this one.
-private int potUseableTop = 150; //Placeholder
+private int potUseableBottom; //Code will auto adjust values based on this one.
+private int potUseableTop; //Placeholder
 private int potRange = 150; //This is just a placeholder value. Make sure we find the actual range that we want.
-private final int potMax = 300; // This is a placeholder. This is the farthest the pot can rotate.
+private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 
 private double kP = 6; //Just for testing purposes
 private double kI = 0;
@@ -76,6 +76,9 @@ private boolean isAxis = true;
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
+
+		potUseableBottom = getPot();
+		potUseableTop = potUseableBottom + potRange;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
@@ -124,13 +127,13 @@ private boolean isAxis = true;
 	public void goToPortPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, portPositions[pos]);
-		System.out.println(getPot()); //For testing purposes
+		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToHatchPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
-		System.out.println(getPot()); //For testing purposes
+		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToCargoShipHatch() {
@@ -143,7 +146,7 @@ private boolean isAxis = true;
 
 	public void goToBottom() {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
-		System.out.println(getPot()); //For testing purposes
+		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
@@ -182,6 +185,7 @@ private boolean isAxis = true;
 		 * Use the Fightstick in the XInput option to make sure it has the correct buttons!
 		 * Otherwise it won't work!!!!
 		*/
+		// System.out.println(getPot()); //For testing purposes
 		if(oi.copilot.getRawButton(1)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(1));
