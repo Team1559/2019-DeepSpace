@@ -60,6 +60,7 @@ public class Stepper {
 	private double lowerLifterValue = 0; //the potentiometer value of the lowest position
 	private double rotationPositionValue = 0; //the encoder value for the rotationalMotor; should be 180 degrees
 	private int rotationCounter = 0;
+	private int lifterCounter = 0;
 
 
  	//instantiates all talons and the solenoid, imports which port each is plugged into
@@ -90,6 +91,7 @@ public class Stepper {
 		while(rotationCounter < 100) //change the value depending on how long motor needs to run for
 		{
 			rotationalMotor.set(0.8);
+			rotationCounter++;
 		}
 		rotationalMotor.set(0);
 	}
@@ -103,13 +105,24 @@ public class Stepper {
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
-		lifterMotor.set(ControlMode.Position, upperLifterValue);
+		while(lifterCounter < 100) //change the value depending on how long motor needs to run for
+		{
+			lifterMotor.set(0.8);
+			lifterCounter++;
+		}
+		lifterMotor.set(0);
+		lifterCounter = 0;
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
-		lifterMotor.set(ControlMode.Position, lowerLifterValue);
+		while(lifterCounter > 0) //change the value depending on how long motor needs to run for
+		{
+			lifterMotor.set(-0.8);
+			lifterCounter--;
+		}
+		lifterMotor.set(0);
 	}
 
 	//resets the rotationCounter value
