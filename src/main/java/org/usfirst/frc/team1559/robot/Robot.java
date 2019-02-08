@@ -82,10 +82,12 @@ public class Robot extends TimedRobot {
 		double volts = exampleAnalog.getVoltage();
 		int averageRaw = exampleAnalog.getAverageValue();
 		double averageVolts = exampleAnalog.getAverageVoltage();
-		SmartDashboard.putNumber("Analog Raw Value", raw);
+	//	SmartDashboard.putNumber("Analog Raw Value", raw);
 		SmartDashboard.putNumber("Analog  Volts", volts);
-		SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
-	//	SmartDashboard.putNumber("Analog Average Volts", averageVolts);
+	//	SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
+		double IRdistance = 187754 * Math.pow(volts, -1.51);
+		SmartDashboard.putNumber("Analog Average Volts", averageVolts);
+		SmartDashboard.putNumber("Distance", IRdistance);
 	
 		/* Ultrasonic Sensor Testing */
 		// boolean direction = normalCounter.getDirection();
