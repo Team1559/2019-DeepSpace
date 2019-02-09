@@ -1,65 +1,52 @@
 package org.usfirst.frc.team1559.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
-
 public class Vision {
 
-	private boolean connected;
-
 	UDPClient client;
-	private double angle;
-    private double x;
-    private double y; 
-
-	private Vision() {
+	
+	private  VisionData VData; 
+	double cameraYOffset = 28.75;
+	double cameraXOffset = 0;
+	public Vision() {
 		client = new UDPClient();
-		connected = true;
-    }
-
+		VData = new VisionData();
+		VData.status = 0;
+		
+	}
+	public void VisionInit()
+	{
+	//client.run();
+	}
 	public void update() {
 		try {
+			VisionData NewData = new VisionData();
+			NewData.status = 2;
+
 			String in = client.get();
-			
-				if (in.indexOf("f") >= 0) {
-					double temp1 = Double.parseDouble(in.substring(in.indexOf("f") + 1));
-					if (temp1 != -1000) {
-						x = temp1;
-					}
-                } 
-                else 
-                {
-					double temp = Double.parseDouble(in);
-					if (temp != -1000) {
-						angle = temp;
-					}
-				}
-			
+			//System.out.println(in);
+
+			if(in != null) {
+				String[] parameters = in.split(" ");
+
+				if(parameters.length >= 4){
+					NewData.x = Double.parseDouble(parameters[0])-cameraXOffset;
+					NewData.y = Double.parseDouble(parameters[1])-cameraYOffset;
+					NewData.r = Double.parseDouble(parameters[2]);
+					NewData.status = Integer.parseInt(parameters[3]);
+				}	
+			}
+			VData = NewData;	
         } 
         catch (NumberFormatException | NullPointerException e) {
-			System.err.println("nothing happening here");
+			System.err.println(e.toString());
 		}
 	}
 
-	public double getAngle() {
-		return angle;
+	public VisionData getData() {
+		return VData;
 	}
 
-	public double getX() {
-		return x;
-    }
-    
-    public double getY(){
-        return y;
-    }
 
-
-	public String getRaw() {
-		return client.get();
-	}
-
-	public boolean isConnected() {
-		return connected;
-	}
 
 	private static Vision instance;
 

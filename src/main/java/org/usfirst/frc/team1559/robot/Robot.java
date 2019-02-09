@@ -8,8 +8,9 @@
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
-
+import org.usfirst.frc.team1559.robot.Vision;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 
 
@@ -37,10 +38,13 @@ public class Robot extends TimedRobot {
 	private Pixy pixy2;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
-	private static Lifter lifter;
+	//private static Lifter lifter;
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
-	//public static DistSensor dist;
+
+	public static DistSensor dist;
+	public static Vision vision;
+
 	private float Kx;
     private float Ky;
 	private float Kr;
@@ -51,17 +55,16 @@ public class Robot extends TimedRobot {
 
 
 		oi = new OperatorInterface();
-		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
+		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
-		
+		vision = new Vision();
 		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
 		Kr = 0.014f; // maximum pixy angle
 		Ky = 0.5f;
 
-		//dSensor = new DistSensor();
 		
 		//grabber = new Grabber();
-		//DistSensor dSensor = new DistSensor();
+		dist = new DistSensor( new AnalogInput(0));
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
 	}
@@ -86,8 +89,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		//pixy2.start();
-		//pixy2.lampon();
+		pixy2.start();
+		pixy2.lampon();
+		vision.VisionInit();
 	}
 
 	@Override
@@ -102,7 +106,11 @@ public class Robot extends TimedRobot {
 		
 		//Camera
 
-		//pixylinevector v=pixy2.getvector();
+		pixylinevector v=pixy2.getvector();
+		vision.update();
+		VisionData vData = vision.getData();
+		vData.Print();
+
 		
 		
 		
@@ -112,27 +120,36 @@ public class Robot extends TimedRobot {
 		
 		
 		
+		double distance = dist.getRange();
+		double maxPixyRange = 24.0;
+		SmartDashboard.putNumber("IRDistance,", distance);
+		if(v.status == 1 && distance <= maxPixyRange)
+
 		//System.out.println("Y: " + oi.getPilotY() + " X: " + oi.getPilotX() + " Z: " + oi.getPilotZ());
 		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		//drive.driveCartesian(0.0, 0.1, 0.0);
 		/*
 		if(v.status == 1)
 		{
-	
-			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			SmartDashboard.putNumber("__Kx",Kx );
-			SmartDashboard.putNumber("__Kr",Kr);
-			//drive.driveCartesian(Kx * pixy2.getEx(), Ky , Kr * pixy2.getEr());
-			
-		
-	}
-
-
+			SmartDashboard.putNumber("__x",pixy2.getEx());
+			SmartDashboard.putNumber("__y", distance);
+			SmartDashboard.putNumber("__r",pixy2.getEr());
+			SmartDashboard.putString("Mode","pixy");
+			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+		}
+		else if (vData.status == 1) {
+			SmartDashboard.putNumber("__x",vData.x);
+			SmartDashboard.putNumber("__y",vData.y);
+			SmartDashboard.putNumber("__r",vData.r);	
+			SmartDashboard.putString("Mode","jetson");
+			drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
+		}
 		else{
-			//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+			SmartDashboard.putString("Mode","driver");
+			SmartDashboard.putNumber("__x",oi.getPilotX());
+			SmartDashboard.putNumber("__y",oi.getPilotY());
+			SmartDashboard.putNumber("__r",oi.getPilotZ());
+			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 		*/
 	}
