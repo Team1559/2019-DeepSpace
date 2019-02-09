@@ -89,34 +89,34 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		pixy2.start();
-		pixy2.lampon();
-		vision.VisionInit();
+		//pixy2.start();
+		//pixy2.lampon();
+		//vision.VisionInit();
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		
-		System.out.println(drive.FL_TALON.getControlMode());
-		System.out.println(drive.FR_TALON.getControlMode());
-		System.out.println(drive.RL_TALON.getControlMode());
-		System.out.println(drive.RR_TALON.getControlMode());
 		//Lifter
 		//lifter.driveLifter();
 		
 		//Camera
 
-		pixylinevector v=pixy2.getvector();
-		vision.update();
-		VisionData vData = vision.getData();
-		vData.Print();
+		//pixylinevector v=pixy2.getvector();
+		//vision.update();
+		//VisionData vData = vision.getData();
+		//vData.Print();
 
 		
 		
 		
 		// Drive Train
-		//System.out.println(drive.talons[0].getMotorOutputPercent());
+		//System.out.println(drive.talons[0].getMotorOutputPercent
+
+		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
+		if(v.status == 1)
+
 		double distance = dist.getRange();
 		double maxPixyRange = 24.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
