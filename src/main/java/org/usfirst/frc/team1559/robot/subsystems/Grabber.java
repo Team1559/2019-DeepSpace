@@ -19,6 +19,7 @@ public class Grabber
 
     public Grabber(OperatorInterface oi)
     {
+
         this.oi = oi;
         //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new WPI_TalonSRX(Wiring.NTK_TALONSRX_BI);
@@ -49,6 +50,7 @@ public class Grabber
 		}
 
     }
+
 
 
     public void getHatch()
