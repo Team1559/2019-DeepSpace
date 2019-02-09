@@ -17,7 +17,7 @@ public class DriveTrain
 	public static final double MAX_TICKS_PER_100MS = MAX_SPEED_FPS_TRACTION * 4096.0 / (Math.PI * WHEEL_RADIUS_INCHES_MECANUM * 2.0 / 12.0) / 10.0;
 	private DevilDrive drive;
 	public WPI_TalonSRX FL_TALON, RL_TALON, FR_TALON, RR_TALON;
-	private static final double kF = 0; //F-gain = (100% X 1023) / 7350 F-gain = 0.139183673 - (7350 is max speed)
+	private static final double kF = 0.139183673; //F-gain = (100% X 1023) / 7350 F-gain = 0.139183673 - (7350 is max speed)
 	private static final double kP = 0; // P-gain = (.1*1023)/(155) = 0.66 - (155 is average error)
 
 
@@ -28,25 +28,25 @@ public class DriveTrain
 		FR_TALON = new WPI_TalonSRX(Wiring.FRONT_RIGHT_MOTOR);
 		RR_TALON = new WPI_TalonSRX(Wiring.REAR_RIGHT_MOTOR);
 
-			
+		FL_TALON.set(ControlMode.Velocity, 0);	
 		FL_TALON.configClosedloopRamp(0.05, TIMEOUT);
 		FL_TALON.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		FL_TALON.config_kF(1, kF);
 		FL_TALON.config_kP(1, kP);
 
-		FR_TALON.set(ControlMode.Velocity, 2);
+		FR_TALON.set(ControlMode.Velocity, 0);
 		FR_TALON.configClosedloopRamp(0.05, TIMEOUT);
 		FR_TALON.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);	
 		FR_TALON.config_kF(2, kF);
 		FR_TALON.config_kP(2, kP);
 
-		RL_TALON.set(ControlMode.Velocity, 2);
+		RL_TALON.set(ControlMode.Velocity, 0);
 		RL_TALON.configClosedloopRamp(0.05, TIMEOUT);
 		RL_TALON.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);	
 		RL_TALON.config_kF(3, kF);
 		RL_TALON.config_kP(3, kP);
 
-		RR_TALON.set(ControlMode.Velocity, 2);
+		RR_TALON.set(ControlMode.Velocity, 0);
 		RR_TALON.configClosedloopRamp(0.05, TIMEOUT);
 		RR_TALON.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);	
 		RR_TALON.config_kF(4, kF);
