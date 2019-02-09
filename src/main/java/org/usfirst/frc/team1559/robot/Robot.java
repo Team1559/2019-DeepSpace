@@ -41,8 +41,10 @@ public class Robot extends TimedRobot {
 	private static Stepper stepper;
 	public static boolean dBounce = false;
 
+
 	public static DistSensor dist;
 	public static Vision vision;
+
 
 	private float Kx;
     private float Ky;
@@ -56,18 +58,26 @@ public class Robot extends TimedRobot {
 		oi = new OperatorInterface();
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
-		vision = new Vision();
-		stepper = new Stepper();
-		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
-		Kr = 0.014f; // maximum pixy angle
-		Ky = 0.5f;
+
+		
+		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
+		Kr = 0.014f; // maximum pixy angle0.014
+		Ky = 0.0416f;//1/24 for the distance sensors max speed; 0.416
+
+		pixy2 = new Pixy();
+		ai = new AnalogInput(0);
+
+		ds = new DistSensor(ai);
+	}	
+
+		//dSensor = new DistSensor();
 
 		
 		//grabber = new Grabber();
 		dist = new DistSensor( new AnalogInput(0));
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
-	}
+	
 		@Override
 		public void robotPeriodic() {
 
@@ -96,7 +106,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		
+
+
+		// Camera
+		// System.out.println(pixy2.read());
+		//double sensor = ds.getRange();
+
+
 		//Lifter
 		//lifter.driveLifter();
 		
@@ -163,8 +179,23 @@ public class Robot extends TimedRobot {
 		//retracts pistons
 		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
 		{
-			stepper.retractPistons();
-		}
+
+	
+			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
+			// SmartDashboard.putNumber("__getEr,", pixy2.getEr());
+			// SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
+			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
+			// SmartDashboard.putNumber("__Kx",Kx );
+			// SmartDashboard.putNumber("__Kr",Kr);
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
+			
+		//Kx * pixy2.getEx()
+		//Kr * pixy2.getEr()
+	}
+
+		//	stepper.retractPistons();
+	//	}
+
 
 		//lifter to top position
 		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
@@ -177,7 +208,7 @@ public class Robot extends TimedRobot {
 		{
 			stepper.lowerStepper();
 		}
-	}
+	
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
@@ -192,18 +223,22 @@ public class Robot extends TimedRobot {
 
 		// }
 
-		// if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		// 	dBounce = true;
-		// 	Auto.pixydrive();
+		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		 	dBounce = true;
 			
-			//drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-			/*if(dist.getRange() == 18)
+			
+			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
+			if(ds.getRange() == 18)
+
 			{
 			}*/
 			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
-				dBounce = false;
-			}*/
+
+				dBounce = false;}
+		 }
+	}
+
 		
 	@Override
 	public void testInit() {
