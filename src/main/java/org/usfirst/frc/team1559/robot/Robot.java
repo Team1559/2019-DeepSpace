@@ -89,9 +89,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		pixy2.start();
-		pixy2.lampon();
-		vision.VisionInit();
+		//pixy2.start();
+		//pixy2.lampon();
+		//vision.VisionInit();
 	}
 
 	@Override
@@ -106,10 +106,10 @@ public class Robot extends TimedRobot {
 		
 		//Camera
 
-		pixylinevector v=pixy2.getvector();
-		vision.update();
-		VisionData vData = vision.getData();
-		vData.Print();
+		//pixylinevector v=pixy2.getvector();
+		//vision.update();
+		//VisionData vData = vision.getData();
+		//vData.Print();
 
 		
 		
@@ -120,14 +120,14 @@ public class Robot extends TimedRobot {
 		
 		
 		
-		double distance = dist.getRange();
-		double maxPixyRange = 24.0;
-		SmartDashboard.putNumber("IRDistance,", distance);
-		if(v.status == 1 && distance <= maxPixyRange)
+		//double distance = dist.getRange();
+		//double maxPixyRange = 24.0;
+		//SmartDashboard.putNumber("IRDistance,", distance);
+		//if(v.status == 1 && distance <= maxPixyRange)
 
 		//System.out.println("Y: " + oi.getPilotY() + " X: " + oi.getPilotX() + " Z: " + oi.getPilotZ());
 		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		//drive.driveCartesian(0.0, 0.1, 0.0);
+		//drive.driveCartesian(0.0, 0.6, 0.0);
 		/*
 		if(v.status == 1)
 		{
