@@ -91,7 +91,7 @@ public class Stepper {
 	//gets potentiometer position
 	public int getPot()
 	{
-		return lifterMotor.getSelectedSensorPosition(Wiring.STEPPER_POT);
+		return lifterMotor.getSelectedSensorPosition();
 	}
 
 	//drives the front wheels forward
