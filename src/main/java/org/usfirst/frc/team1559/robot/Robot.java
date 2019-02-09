@@ -45,7 +45,6 @@ public class Robot extends TimedRobot {
 
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
-	public static DistSensor dist;
 	private float Kx;
     private float Ky;
 	private float Kr;
@@ -58,14 +57,14 @@ public class Robot extends TimedRobot {
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		
-		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
-		Kr = 0.014f; // maximum pixy angle
-		Ky = 0.03f;
+		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
+		Kr = 0.014f; // maximum pixy angle0.014
+		Ky = 0.416f;//1/24 for the distance sensors max speed; 0.416
 
 		pixy2 = new Pixy();
 		ai = new AnalogInput(0);
 
-	ds = new DistSensor(ai);
+		ds = new DistSensor(ai);
 	}	
 
 		//dSensor = new DistSensor();
@@ -126,15 +125,16 @@ public class Robot extends TimedRobot {
 		if(v.status == 1)
 		{
 	
-			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			SmartDashboard.putNumber("__Kx",Kx );
-			SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky * dist.getRange(), Kr * pixy2.getEr());
+			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
+			// SmartDashboard.putNumber("__getEr,", pixy2.getEr());
+			// SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
+			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
+			// SmartDashboard.putNumber("__Kx",Kx );
+			// SmartDashboard.putNumber("__Kr",Kr);
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
 			
-		
+		//Kx * pixy2.getEx()
+		//Kr * pixy2.getEr()
 	}
 
 
@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
 			
 			
 			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-			if(dist.getRange() == 18)
+			if(ds.getRange() == 18)
 			{
 			}
 			if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
