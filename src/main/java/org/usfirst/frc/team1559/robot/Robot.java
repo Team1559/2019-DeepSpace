@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 		
 		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
 		Kr = 0.014f; // maximum pixy angle0.014
-		Ky = 0.416f;//1/24 for the distance sensors max speed; 0.416
+		Ky = 0.0416f;//1/24 for the distance sensors max speed; 0.416
 
 		pixy2 = new Pixy();
 		ai = new AnalogInput(0);
@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
 
 		// Camera
 		// System.out.println(pixy2.read());
-		double sensor = ds.getRange();
+		//double sensor = ds.getRange();
 
 		//Lifter
 		lifter.driveLifter();
