@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -29,7 +32,7 @@ public class Robot extends TimedRobot {
 	 * annual update, classed are added, removed, or deprecated. The IterativeRobot class was
 	 * deprecated as of 2019. TimedRobot is the closest match to the IterativeRobot class.
 	*/
-	public static DriveTrain drive;
+	public DriveTrain drive;
 	private OperatorInterface oi;
 
 	private Pixy pixy2;
@@ -38,8 +41,10 @@ public class Robot extends TimedRobot {
 	//private static Lifter lifter;
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
+
 	public static DistSensor dist;
 	public static Vision vision;
+
 	private float Kx;
     private float Ky;
 	private float Kr;
@@ -47,6 +52,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
+
+
 		oi = new OperatorInterface();
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
@@ -89,6 +96,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		
+		System.out.println(drive.FL_TALON.getControlMode());
+		System.out.println(drive.FR_TALON.getControlMode());
+		System.out.println(drive.RL_TALON.getControlMode());
+		System.out.println(drive.RR_TALON.getControlMode());
 		//Lifter
 		//lifter.driveLifter();
 		
@@ -98,6 +110,9 @@ public class Robot extends TimedRobot {
 		vision.update();
 		VisionData vData = vision.getData();
 		vData.Print();
+
+		
+		
 		
 		// Drive Train
 		//System.out.println(drive.talons[0].getMotorOutputPercent());
@@ -105,12 +120,16 @@ public class Robot extends TimedRobot {
 		
 		
 		
-		//System.out.println(oi.getPilotY());
-		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		double distance = dist.getRange();
 		double maxPixyRange = 24.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
 		if(v.status == 1 && distance <= maxPixyRange)
+
+		//System.out.println("Y: " + oi.getPilotY() + " X: " + oi.getPilotX() + " Z: " + oi.getPilotZ());
+		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+		//drive.driveCartesian(0.0, 0.1, 0.0);
+		/*
+		if(v.status == 1)
 		{
 			SmartDashboard.putNumber("__x",pixy2.getEx());
 			SmartDashboard.putNumber("__y", distance);
@@ -132,6 +151,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
+		*/
 	}
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
@@ -181,7 +201,6 @@ public void disabledInit() {
 
 @Override
 public void disabledPeriodic() {
-	
 
 }
 

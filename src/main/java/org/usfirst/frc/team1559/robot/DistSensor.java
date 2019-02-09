@@ -40,14 +40,14 @@ public class DistSensor
     }
     public void drive() {}
 
-
+/*
     public void stopRobot() //Tells you if the robot needs to rostop (if its true you must rostop)
     {
 
 
         if(getRange() > Constants.STOPPING_DISTANCE)
         {
-            Robot.drive.driveCartesian(0, 0, 0);
+            //Robot.drive.driveCartesian(0, 0, 0);
             isStopped = !isStopped;
             SmartDashboard.putNumber("Robot Stopped " + isStopped, 0.0);
         }
@@ -56,12 +56,13 @@ public class DistSensor
         {
             b = true;
             SmartDashboard.putBoolean("Robot Stopped", b);
-            Robot.drive.driveCartesian(0,0,0);
+            //Robot.drive.driveCartesian(0,0,0);
         }
 
 
         
     }
+    */
 
 
 }
