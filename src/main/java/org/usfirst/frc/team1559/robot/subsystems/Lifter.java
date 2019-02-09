@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import org.usfirst.frc.team1559.robot.Robot;
@@ -5,11 +6,13 @@ import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
 
 import org.usfirst.frc.team1559.robot.MathUtils;
+import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+// import com.sun.tools.javac.util.Convert;
 
 // Lifter Programers are Jack and Nick. Please defer to them if you want to make changes.
 
@@ -18,14 +21,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 	 * Go to the specified rocket cargo port (1, 2 or 3)
 	 *      __
 	 *    /    \
-	 *    | [] |    3 (6 ft, 11.5 in)
+	 *    | [] |    port 3 (6 ft, 11.5 in)
 	 *    |    |
-	 *    | [] |    2 (4 ft, 7.5 in)
+	 *    | [] |    port 2 (4 ft, 7.5 in)
 	 *   /|    |\
-	 *  / | [] | \  1 (2 ft, 3.5 in)
-	 */
-
-	 /**
+	 *  / | [] | \  port 1 (2 ft, 3.5 in)
+	 *
+	 * 
 	 * Go to the specified rocket hatch holes (1, 2 or 3)
 	 *      __
 	 *    /    \
@@ -34,9 +36,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 	 *    | [] |    hatch 2 (3 ft, 11 in)
 	 *   /|    |\
 	 *  / | [] | \  hatch 1 (1 ft, 7 in)
-	 */
-
-	 /**
+	 *
+	 * 
 	 * Go to the cargo bay positions
 	 *  ________________________   ____ 4 ft _____
 	 * |      |      |      |   \  <--- (Drop off point) 3ft 3.75 in
@@ -46,158 +47,175 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 	 * |______|______|______|____|
 	 */
 public class Lifter {
+private WPI_TalonSRX lifterMotor;
+private OperatorInterface oi;
 
-private WPI_TalonSRX liftermotor; //Remember! This will need to be instantiated in the Lifter constructor!
-private static final int TIMEOUT = 0;
-private double kP = 0;// values for the PID loop
-private double kI = 0;
-private double kD = 0;
-private double kF = 0;
-private double setpoint;
+private double[] portPositions = new double[3];
+private double[] hatchPositions = new double[3];
 
-private static final double[] ROCKET_PORTS_INCHES = {27.5, 55.5, 83.5};
-private static final double[] ROCKET_HATCH_INCHES = {19.0, 47.0, 65.0};
-private static final double CARGO_SHIP_HATCH_INCHES = 19.0;
-private static final double CARGO_SHIP_DROPOFF_INCHES = 39.75;
-private static final double ROCKET_BOT_PORT = 27.5; //inches
-private static final double ROCKET_TOP_PORT = 83.5; //inches
-private static final double ROCKET_BOT_HATCH = 19.0; //inches
-private static final double ROCKET_TOP_HATCH = 65.0; //inches
-public int lowerbound = 0; //Find the lowest point on the potentiometer to make this integer.
-public int upperbound;
-private static final int RANGE = 0; //Find the range that we need from the pot!
-private double[] portPositionTicks = new double[ROCKET_PORTS_INCHES.length];
-private double[] hatchPositionTicks = new double[ROCKET_HATCH_INCHES.length];
-private double cargoShipHatchPositionTicks;
-private double cargoShipCargoBayPositionTicks;
+private final int ticksToPort1 = 20; //Placeholder value
+private final int ticksToPort2 = 40; //Placeholder value
+private final int ticksToPort3 = 60; //Placeholder value
 
-private int position = 1;
+private final int ticksToHatch1 = 10; //Placeholder value
+private final int ticksToHatch2 = 30; //Placeholder value
+private final int ticksToHatch3 = 50; //Placeholder value
 
-	public Lifter() {
-		// motors, ids, etc
-		liftermotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
-		liftermotor.set(ControlMode.Position, 0);
-		calculatePortPositions();
-		calculateHatchPositions();
-	}
+private int potUseableBottom = 0; //Placeholder value Code will auto adjust values based on this one.
+private int potUseableTop = 150; //Placeholder
+private int potRange = 150; //This is just a placeholder value. Make sure we find the actual range that we want.
+private final int potMax = 300; // This is a placeholder. This is the farthest the pot can rotate.
 
-	public double getPot(){
-		return liftermotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
-	}
+private boolean isAxis = true;
 
-	public void driveManual(double val) {
-		if (!Robot.fightstick) {
-			if(val >= 0) {
-				setpoint -= 3*val;
-			}
-			else if(val <= 0) {
-				setpoint -= 5*val;
+	public Lifter(OperatorInterface oiInput) {
+		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
+		oi = oiInput;
+
+		potUseableTop = potUseableBottom + potRange;
+		if(potUseableTop > potMax) {
+			for(int i = 0; i < 20; i++){
+				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+				//Do we want the motor to stop at the pot max?
 			}
 		}
-		else {
-			setpoint -= 5*val;
-		}
+		setupPortPos();
+		setupHatchPos();
+
 	}
 
-	public void update() {
-		liftermotor.set(ControlMode.Position, setpoint);
+	public int getPot() {
+		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
 	}
 
-	public void setPortPosition(int pos) {
+	public void setupPortPos() {
+		portPositions[0] = potUseableBottom + ticksToPort1;
+		portPositions[1] = potUseableBottom + ticksToPort2;
+		portPositions[2] = potUseableBottom + ticksToPort3;
+	}
+
+	public void setupHatchPos() {
+		hatchPositions[0] = potUseableBottom + ticksToHatch1;
+		hatchPositions[1] = potUseableBottom + ticksToHatch2;
+		hatchPositions[2] = potUseableBottom + ticksToHatch3;
+	}
+
+	public void goToPortPos(int pos) {
 		pos -= 1;
-		setpoint = portPositionTicks[position-1];
-		position = pos;
+		lifterMotor.set(ControlMode.Position, portPositions[pos]);
+		System.out.println(getPot()); //For testing purposes
 	}
 
-	public void setHatchPosition(int pos) {
+	public void goToHatchPos(int pos) {
 		pos -= 1;
-		setpoint = hatchPositionTicks[position-1];
-		position = pos;
+		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
+		System.out.println(getPot()); //For testing purposes
 	}
 
-	public boolean isAtPortPosition(int position) {
-		return setpoint == portPositionTicks[position-1];
+	public void goToCargoShipHatch() {
+		goToHatchPos(1);
 	}
 
-	public boolean isAtHatchPosition(int position) {
-		return setpoint == hatchPositionTicks[position-1];
+	public void goToCargoShipCargoDrop() {
+		goToHatchPos(2);
 	}
 
-	public void setMotor(double value) {
-		liftermotor.set(ControlMode.PercentOutput, value);
+	public void goToBottom() {
+		lifterMotor.set(ControlMode.Position, potUseableBottom);
+		System.out.println(getPot()); //For testing purposes
 	}
 
-	public void holdPosition() {
-		setpoint = getPot();
-	}
-
-	public void reset() {
-		lowerbound = (int) getPot();
-		calculatePortPositions();
-		calculateHatchPositions();
-	}
-	public void debug() {
-		// output things for debugging such as motor/encoder values
-	}
-
-	// public void home() {
-	// 	// change to ground() if that would make more sense
-	// 	moveTo(Constants.LIFTER_BOTTOM);
-	// }
-
-
-	//Will probably be removed due to other methods having its basic function. Keep just in case
-	// public void moveTo(int positionNumber) {
-	// 	// maybe instead of hardcoding each constant, just have their values as motor/position units for setPosition(int)
-	// 	switch ((short) positionNumber) {
-	// 		case Constants.LIFTER_POS1:
-	// 			// pos 1
-	// 			break;
-	// 		case Constants.LIFTER_POS2:
-	// 			// pos 2
-	// 			break;
-	// 		case Constants.LIFTER_POS3:
-	// 			// pos 3
-	// 			break;
-	// 		case Constants.LIFTER_POS4:
-	// 			// pos 4
-	// 			break;
-	// 		case Constants.LIFTER_TOP:
-	// 			// pos top (highest possible)
-	// 			break;
-	// 		case Constants.LIFTER_BOTTOM:
-	// 			// pos bottom (lowest possible)
-	// 			break;
-	// 		default:
-	// 			// unknown
-	// 	}
-	// }
-/**
-*Returns the value of the Potentiometer
-*/
-	
-	
-	public WPI_TalonSRX getTalon(){
-		return liftermotor;
-	}
-
-	private void calculatePortPositions() {
-		upperbound = lowerbound + RANGE;
-		int n = ROCKET_PORTS_INCHES.length;
-		for (int i = 0; i < n; i++) {
-			portPositionTicks[i] = MathUtils.mapRange(ROCKET_PORTS_INCHES[i], ROCKET_BOT_PORT, ROCKET_TOP_PORT, lowerbound, upperbound);
-
+	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
+		potUseableBottom = getPot();
+		potUseableTop = potUseableBottom + potRange;
+		if(potUseableTop > potMax) {
+			for(int i = 0; i < 20; i++){
+				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+			}
 		}
-		cargoShipCargoBayPositionTicks = MathUtils.mapRange(CARGO_SHIP_DROPOFF_INCHES, CARGO_SHIP_DROPOFF_INCHES, CARGO_SHIP_DROPOFF_INCHES, lowerbound, upperbound);
+		setupPortPos();
+		setupHatchPos();
 	}
 
-	private void calculateHatchPositions() {
-		upperbound = lowerbound + RANGE;
-		int n = ROCKET_HATCH_INCHES.length;
-		for(int i = 0; i < n; i++){
-			hatchPositionTicks[i] = MathUtils.mapRange(ROCKET_HATCH_INCHES[i], ROCKET_BOT_HATCH, ROCKET_TOP_HATCH, lowerbound, upperbound);
-		}
-		cargoShipHatchPositionTicks = MathUtils.mapRange(CARGO_SHIP_HATCH_INCHES, CARGO_SHIP_HATCH_INCHES, CARGO_SHIP_HATCH_INCHES, lowerbound, upperbound);
+	public void goUp() {
+		lifterMotor.set(0.3);
 	}
+
+	public void goDown() {
+		lifterMotor.set(-0.3);
+	}
+
+	public void stop() {
+		// lifterMotor.set(0.0);
+		lifterMotor.stopMotor();
+	}
+
+	/**
+	 * IMPORTANT!!!! VERY BIG DRIVE LIFTER METHOD!!!!
+	 * This method will do everything originally put into the robot.java class.
+	 * @author SonicDRJ
+	 */
+	public void driveLifter() {
+		/**
+		 * IMPORTANT!!!! 
+		 * Use the Fightstick in the XInput option to make sure it has the correct buttons!
+		 * Otherwise it won't work!!!!
+		*/
+		if(oi.getCopilotButton(0).isPressed()) { 
+			isAxis = false;
+			goToPortPos(1);
+			
+		}
+		else if(oi.getCopilotButton(1).isPressed()) { 
+			isAxis = false;
+			goToPortPos(2);
+			
+		}
+		else if(oi.getCopilotAxis(3) == 1) { 
+			isAxis = false;
+			goToPortPos(3);
+		}
+		else if(oi.getCopilotButton(2).isPressed()) { 
+			isAxis = false;
+			goToCargoShipHatch();
+			
+		}
+		else if(oi.getCopilotButton(3).isPressed()) { 
+			isAxis = false;
+			goToCargoShipCargoDrop();
+			
+		}
+		else if(oi.getCopilotButton(5).isPressed()) { 
+			isAxis = false;
+			goToHatchPos(3);
+			
+		}
+		// else if(oi.getCopilotButton(4).isPressed()) {
+		// 	 goToBottom();
+		// }
+		else if(oi.getCopilotButton(6).isPressed()) { 
+			isAxis = false;
+			recallibrateSystem();
+			
+		}
+		else if(oi.getCopilotAxis(1) == -1.0) {
+			isAxis = true;
+			goUp();
+			// System.out.println(oi.getCopilotAxis(1));
+			
+		}
+		else if(oi.getCopilotAxis(1) == 1) {
+			isAxis = true;
+			goDown();
+			// System.out.println(oi.getCopilotAxis(1));
+			
+		}
+		else if((int)(oi.getCopilotAxis(1)) == 0 && isAxis) {
+			stop();
+			// System.out.println((int)(oi.getCopilotAxis(1)));
+		}
+	}
+
 
 }
+//It's over!!!!

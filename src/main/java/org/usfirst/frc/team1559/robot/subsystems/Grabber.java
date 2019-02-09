@@ -34,7 +34,7 @@ public class Grabber
     }
 
     public void drive()
-    {
+
         if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
 			getCargo();
 		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
@@ -49,6 +49,7 @@ public class Grabber
 		}
 
     }
+
 
     public void getHatch()
     {
