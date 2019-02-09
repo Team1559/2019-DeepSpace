@@ -60,9 +60,9 @@ public class Robot extends TimedRobot {
 		
 		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
 		Kr = 0.014f; // maximum pixy angle
-		Ky = 0.5f;
+		Ky = 0.03f;
 
-		pixy2 = new SerialTest();
+		pixy2 = new Pixy();
 		ai = new AnalogInput(0);
 
 	ds = new DistSensor(ai);
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
-	}
+	
 		@Override
 		public void robotPeriodic() {
 
@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			SmartDashboard.putNumber("__Kx",Kx );
 			SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky , Kr * pixy2.getEr());
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky * dist.getRange(), Kr * pixy2.getEr());
 			
 		
 	}
@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
 		else{
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
-	}
+	
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
@@ -158,7 +158,7 @@ public class Robot extends TimedRobot {
 
 		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
 		 	dBounce = true;
-			Auto.pixydrive();
+			
 			
 			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 			if(dist.getRange() == 18)
@@ -166,8 +166,9 @@ public class Robot extends TimedRobot {
 			}
 			if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
-				dBounce = false;
-			}
+				dBounce = false;}
+		 }
+	}
 		
 	@Override
 	public void testInit() {
