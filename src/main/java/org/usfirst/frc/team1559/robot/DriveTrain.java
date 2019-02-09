@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public class DriveTrain 
 {
@@ -28,7 +30,7 @@ public class DriveTrain
 		frontRight = new WPI_TalonSRX(Wiring.FRONT_RIGHT_MOTOR);
 		rearRight = new WPI_TalonSRX(Wiring.REAR_RIGHT_MOTOR);
 
-		frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+	    frontLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		rearLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		frontRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 		rearRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -43,6 +45,8 @@ public class DriveTrain
 
 	public void driveCartesian(double ySpeed, double xSpeed, double zRotation) 
 	{
+		
 		drive.driveCartesian(ySpeed, xSpeed, zRotation);
 	}
 }
+
