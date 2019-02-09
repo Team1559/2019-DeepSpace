@@ -10,6 +10,7 @@ import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 
 
@@ -29,7 +30,7 @@ public class Robot extends TimedRobot {
 	 * annual update, classed are added, removed, or deprecated. The IterativeRobot class was
 	 * deprecated as of 2019. TimedRobot is the closest match to the IterativeRobot class.
 	*/
-	public static DriveTrain drive;
+	public DriveTrain drive;
 	private OperatorInterface oi;
 
 	private Pixy pixy2;
@@ -39,8 +40,10 @@ public class Robot extends TimedRobot {
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
+
 	public static DistSensor dist;
 	public static Vision vision;
+
 	private float Kx;
     private float Ky;
 	private float Kr;
@@ -48,6 +51,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
+
+
 		oi = new OperatorInterface();
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
@@ -57,10 +62,9 @@ public class Robot extends TimedRobot {
 		Kr = 0.014f; // maximum pixy angle
 		Ky = 0.5f;
 
-		//dSensor = new DistSensor();
 		
 		//grabber = new Grabber();
-		//DistSensor dSensor = new DistSensor();
+		dist = new DistSensor( new AnalogInput(0));
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
 	}
@@ -92,6 +96,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		
+		System.out.println(drive.FL_TALON.getControlMode());
+		System.out.println(drive.FR_TALON.getControlMode());
+		System.out.println(drive.RL_TALON.getControlMode());
+		System.out.println(drive.RR_TALON.getControlMode());
 		//Lifter
 		//lifter.driveLifter();
 		
@@ -101,27 +110,37 @@ public class Robot extends TimedRobot {
 		vision.update();
 		VisionData vData = vision.getData();
 		vData.Print();
+
+		
+		
 		
 		// Drive Train
 		//System.out.println(drive.talons[0].getMotorOutputPercent());
 		
+		double distance = dist.getRange();
+		double maxPixyRange = 24.0;
+		SmartDashboard.putNumber("IRDistance,", distance);
 		
-		
-		
-		//System.out.println(oi.getPilotY());
-		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		if(v.status == 1)
+		if(v.status == 1 && distance <= maxPixyRange)
 		{
-	
-			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			SmartDashboard.putNumber("__Kx",Kx );
-			SmartDashboard.putNumber("__Kr",Kr);
+			SmartDashboard.putNumber("__x",pixy2.getEx());
+			SmartDashboard.putNumber("__y", distance);
+			SmartDashboard.putNumber("__r",pixy2.getEr());
+			SmartDashboard.putString("Mode","pixy");
 			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
 		}
+		else if (vData.status == 1) {
+			SmartDashboard.putNumber("__x",vData.x);
+			SmartDashboard.putNumber("__y",vData.y);
+			SmartDashboard.putNumber("__r",vData.r);	
+			SmartDashboard.putString("Mode","jetson");
+			drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
+		}
 		else{
+			SmartDashboard.putString("Mode","driver");
+			SmartDashboard.putNumber("__x",oi.getPilotX());
+			SmartDashboard.putNumber("__y",oi.getPilotY());
+			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 
@@ -207,7 +226,6 @@ public void disabledInit() {
 
 @Override
 public void disabledPeriodic() {
-	
 
 }
 

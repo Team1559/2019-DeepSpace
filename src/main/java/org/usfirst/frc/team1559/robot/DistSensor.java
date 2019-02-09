@@ -31,23 +31,23 @@ public class DistSensor
 		int averageRaw = analogInput.getAverageValue();
 		double averageVolts = analogInput.getAverageVoltage();
 	//	SmartDashboard.putNumber("Analog Raw Value", raw);
-		SmartDashboard.putNumber("Analog  Volts", volts);
+	//	SmartDashboard.putNumber("Analog  Volts", volts);
 	//	SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
 		double IRdistance = 24.031 * Math.pow(volts, -1.5549);
-		SmartDashboard.putNumber("Analog Average Volts", averageVolts);
-		SmartDashboard.putNumber("Distance", IRdistance);
+	//	SmartDashboard.putNumber("Analog Average Volts", averageVolts);
+	//	SmartDashboard.putNumber("Distance", IRdistance);
         return IRdistance;
     }
     public void drive() {}
 
-
+/*
     public void stopRobot() //Tells you if the robot needs to rostop (if its true you must rostop)
     {
 
 
         if(getRange() > Constants.STOPPING_DISTANCE)
         {
-            Robot.drive.driveCartesian(0, 0, 0);
+            //Robot.drive.driveCartesian(0, 0, 0);
             isStopped = !isStopped;
             SmartDashboard.putNumber("Robot Stopped " + isStopped, 0.0);
         }
@@ -56,12 +56,13 @@ public class DistSensor
         {
             b = true;
             SmartDashboard.putBoolean("Robot Stopped", b);
-            Robot.drive.driveCartesian(0,0,0);
+            //Robot.drive.driveCartesian(0,0,0);
         }
 
 
         
     }
+    */
 
 
 }
