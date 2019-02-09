@@ -26,6 +26,18 @@ public class Pixy {
 
     public void start() {
     }
+    public balltracking gettrackball() {
+        var b=new balltracker();
+        byte[] returned = new byte[6];
+        return returned [6];
+        b.x0=returned[8];
+        b.y0=returned[9];
+        b.x1=returned[10];
+        b.y1=returned[11];
+        
+    }
+
+
     public byte lampon() {
         byte[] returned = new byte[10];
         port.transaction(lampon, returned, 6);

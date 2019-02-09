@@ -9,7 +9,10 @@ package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PWM;
 
 
 
@@ -35,13 +38,18 @@ public class Robot extends TimedRobot {
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
+
+
+	private AnalogInput ai;
+	private DistSensor ds;
+
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
-	public static DistSensor dist;
 	private float Kx;
     private float Ky;
 	private float Kr;
 	
+
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
@@ -49,9 +57,15 @@ public class Robot extends TimedRobot {
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		
-		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
-		Kr = 0.014f; // maximum pixy angle
-		Ky = 0.5f;
+		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
+		Kr = 0.014f; // maximum pixy angle0.014
+		Ky = 0.0416f;//1/24 for the distance sensors max speed; 0.416
+
+		pixy2 = new Pixy();
+		ai = new AnalogInput(0);
+
+		ds = new DistSensor(ai);
+	}	
 
 		//dSensor = new DistSensor();
 		
@@ -59,14 +73,13 @@ public class Robot extends TimedRobot {
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
-	}
+	
 		@Override
 		public void robotPeriodic() {
 
 		
 		}
 	
-
 
 	@Override
 	public void autonomousInit() {
@@ -81,14 +94,19 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		//pixy2.start();
-		//pixy2.lampon();
+		pixy2.start();
+		pixy2.lampon();
 	}
 
 	@Override
 	public void teleopPeriodic() {
+
+		// Camera
+		// System.out.println(pixy2.read());
+		double sensor = ds.getRange();
+
 		//Lifter
-		//lifter.driveLifter();
+		lifter.driveLifter();
 		
 		//Camera
 
@@ -97,62 +115,64 @@ public class Robot extends TimedRobot {
 		
 		
 		// Drive Train
-		//System.out.println(drive.talons[0].getMotorOutputPercent());
+
 		
 		
 		
 		
-		System.out.println(oi.getPilotY());
-		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+
+		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		if(v.status == 1)
 		{
 	
-			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			SmartDashboard.putNumber("__Kx",Kx );
-			SmartDashboard.putNumber("__Kr",Kr);
-			//drive.driveCartesian(Kx * pixy2.getEx(), Ky , Kr * pixy2.getEr());
+			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
+			// SmartDashboard.putNumber("__getEr,", pixy2.getEr());
+			// SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
+			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
+			// SmartDashboard.putNumber("__Kx",Kx );
+			// SmartDashboard.putNumber("__Kr",Kr);
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
 			
-		
+		//Kx * pixy2.getEx()
+		//Kr * pixy2.getEr()
 	}
 
 
 		else{
-			//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
-	}
+	
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-		// 	grabber.removeCargo();
-		// }
+		 //	grabber.removeCargo();
+		 //}
 
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
 		// 	grabber.getHatch();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
-		// 	grabber.bringHatch();
+		 //	grabber.bringHatch();
 
-		// }
+		  // }
 
-		// if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		// 	dBounce = true;
-		// 	Auto.pixydrive();
+		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		 	dBounce = true;
 			
-			//drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-			/*if(dist.getRange() == 18)
+			
+			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
+			if(ds.getRange() == 18)
 			{
-			}*/
-			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
+			}
+			if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
-				dBounce = false;
-			}*/
+				dBounce = false;}
+		 }
+	}
 		
 	@Override
 	public void testInit() {
-		
+
 	}
 
 
@@ -177,3 +197,4 @@ public void disabledPeriodic() {
 
 
 }
+
