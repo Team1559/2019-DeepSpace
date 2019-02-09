@@ -35,10 +35,11 @@ public class Vision {
 					NewData.status = Integer.parseInt(parameters[3]);
 				}	
 			}
-			VData = NewData;	
+			VData = NewData;
+			VData.Print();
         } 
         catch (NumberFormatException | NullPointerException e) {
-			System.err.println(e.toString());
+			//System.err.println(e.toString());
 		}
 	}
 

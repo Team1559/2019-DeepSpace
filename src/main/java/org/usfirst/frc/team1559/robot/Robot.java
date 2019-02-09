@@ -58,25 +58,15 @@ public class Robot extends TimedRobot {
 		oi = new OperatorInterface();
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
-
+		vision = new Vision();
 		
 		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
 		Kr = 0.014f; // maximum pixy angle0.014
 		Ky = 0.0416f;//1/24 for the distance sensors max speed; 0.416
 
 		pixy2 = new Pixy();
-		ai = new AnalogInput(0);
-
-		ds = new DistSensor(ai);
-	}	
-
-		//dSensor = new DistSensor();
-
-		
-		//grabber = new Grabber();
 		dist = new DistSensor( new AnalogInput(0));
-		//dSensor.setAutomaticMode(true);
-		//dSensor.stopRobot();
+	}	
 	
 		@Override
 		public void robotPeriodic() {
@@ -99,9 +89,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		//pixy2.start();
-		//pixy2.lampon();
-		//vision.VisionInit();
+		pixy2.start();
+		pixy2.lampon();
+		vision.VisionInit();
 	}
 
 	@Override
@@ -121,7 +111,7 @@ public class Robot extends TimedRobot {
 		pixylinevector v=pixy2.getvector();
 		vision.update();
 		VisionData vData = vision.getData();
-		vData.Print();
+		//vData.Print();
 
 		
 		
@@ -129,7 +119,7 @@ public class Robot extends TimedRobot {
 		// Drive Train
 		//System.out.println(drive.talons[0].getMotorOutputPercent
 
-		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
 		//if(v.status == 1)
 
@@ -143,7 +133,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__y", distance);
 			SmartDashboard.putNumber("__r",pixy2.getEr());
 			SmartDashboard.putString("Mode","pixy");
-			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky * distance , Kr * pixy2.getEr());
 		}
 		else if (vData.status == 1) {
 			SmartDashboard.putNumber("__x",vData.x);
@@ -161,7 +151,7 @@ public class Robot extends TimedRobot {
 		}
 
 		//Stepper button controls
-		
+		/*
 		//drive wheel button control
 		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
 		{
@@ -187,13 +177,13 @@ public class Robot extends TimedRobot {
 			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			// SmartDashboard.putNumber("__Kx",Kx );
 			// SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky * distance, Kr * pixy2.getEr());
 			
 		//Kx * pixy2.getEx()
 		//Kr * pixy2.getEr()
 	}
 
-		//	stepper.retractPistons();
+	//	stepper.retractPistons();
 	//	}
 
 
@@ -228,15 +218,9 @@ public class Robot extends TimedRobot {
 			
 			
 			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-			if(ds.getRange() == 18)
 
-			{
-			}*/
-			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
-			{
-
-				dBounce = false;}
 		 }
+		 */
 	}
 
 		
