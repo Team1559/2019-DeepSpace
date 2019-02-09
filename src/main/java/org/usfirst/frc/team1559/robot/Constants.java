@@ -20,11 +20,16 @@ public interface Constants {
 	
 	// DriveTrain
 
+		// Array positions
+		public static final int FL_TALON = 0;
+		public static final int RL_TALON = 1;
+		public static final int FR_TALON = 2;
+		public static final int RR_TALON = 3;
 	// Grabber
 	public static final int BTN_OUTTAKE = 3;
 	public static final int BTN_INTAKE = 1;
-	public static final int BTN_HATCH_UNLOCK = 6;
-	public static final int BTN_HATCH_LOCK = 7;
+	public static final int BTN_HATCH_SLAP = 6;
+	public static final int BTN_HATCH_UNSLAP = 5;
 
 	// Lifter
 	// public static final short LIFTER_POS1 = 1;
@@ -49,5 +54,6 @@ public interface Constants {
 
 	//Auto scoring
 	public static final int BTN_AUTO = 3;
+	public static final int BTN_AutoStop = 1;
 
 }

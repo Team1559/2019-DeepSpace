@@ -19,18 +19,27 @@ public interface Wiring {
 	 */
 	
 	// DriveTrain
-	public static final int FRONT_LEFT_MOTOR = 0;
-	public static final int FRONT_RIGHT_MOTOR = 100; //Temporary for testing Lifter.
-	public static final int REAR_LEFT_MOTOR = 2;
-	public static final int REAR_RIGHT_MOTOR = 3;
-	
+	public static final int FRONT_LEFT_MOTOR = 1;
+
+	public static final int FRONT_RIGHT_MOTOR = 2;
+	public static final int REAR_LEFT_MOTOR = 3;
+	public static final int REAR_RIGHT_MOTOR = 4;
+
 	// Grabber
 	public static final int NTK_SOLENOID = -1; // This variable needs to be set 
-	public static final int NTK_SPARK = -1; // This variable needs to be set 
-	
-	// Lifter
+	public static final int NTK_TALONSRX_BI = 2; // This variable needs to be set 
+	public static final int NTK_TALONSRX_HR = 1; // This variable needs to be set 
+	public static final int NTK_TALONSRX_HL = 1; // This variable needs to be set 
+	public static final int NTK_DIGITALINPUT_LS1 = 0; // This variable needs to be set 
+	public static final int NTK_DIGITALINPUT_LS2 = 1; // This variable needs to be set  
+	public static final int NTK_DIGITALINPUT_LS3 = 2; // This variable needs to be set 
+	public static final int NTK_DIGITALINPUT_LS4 = 3; // This variable needs to be set 
+
+
+	// Lifter   
 	public static final int LIFTER_POT = 0; //This needs to be set
-	public static final int LIFTER_TALON = 1; //This needs to be set. Temporary for testing Lifter
+	public static final int LIFTER_TALON = 5; //This needs to be set
+
 	
 	// Stepper
 	public static final int STEPPER_LIFTER_MOTOR = 10;

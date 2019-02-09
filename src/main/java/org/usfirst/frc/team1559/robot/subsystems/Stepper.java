@@ -56,25 +56,27 @@ public class Stepper {
 	private WPI_TalonSRX rotationalMotor;
 	private WPI_TalonSRX driveMotor;
 	private Solenoid pistons;
-	private double motorPositionValue = 0; //the encoder value that the lifterMotor should stop at
+	private double upperLifterValue = 0; //the potentiometer value of the highest position
+	private double lowerLifterValue = 0; //the potentiometer value of the lowest position
 	private double rotationPositionValue = 0; //the encoder value for the rotationalMotor; should be 180 degrees
 	private int rotationCounter = 0;
+	private int lifterCounter = 0;
 
 
-// 	//instantiates all talons and the solenoid, imports which port each is plugged into
-// 	public Stepper()
-// 	{
-// 		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
-// 		rotationalMotor = new WPI_TalonSRX(Wiring.STEPPER_ROTATIONAL_MOTOR);
-// 		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
-// 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
-// 	}
+ 	//instantiates all talons and the solenoid, imports which port each is plugged into
+ 	public Stepper()
+ 	{
+ 		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
+ 		rotationalMotor = new WPI_TalonSRX(Wiring.STEPPER_ROTATIONAL_MOTOR);
+ 		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
+ 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+	}
 
-// 	//extends or retracts both back pistons
-// 	public void extendPistons(boolean extend)
-// 	{
-// 		pistons.set(extend);
-// 	}
+ 	//extends or retracts both back pistons
+ 	public void extendPistons(boolean extend)
+ 	{
+ 		pistons.set(extend);
+ 	}
 
 
 	//gets potentiometer position
@@ -83,18 +85,13 @@ public class Stepper {
 		return lifterMotor.getSelectedSensorPosition(Wiring.STEPPER_POT);
 	}
 
-	//moves lifterMotor to correct position for rotationalMotor
-	public void positionLifter()
-	{
-		lifterMotor.set(ControlMode.Position, motorPositionValue);
-	}
-
 	//have back rotationalMotor spin 180 degrees to prepare for lifting
 	public void positionRotationMotor()
 	{
 		while(rotationCounter < 100) //change the value depending on how long motor needs to run for
 		{
 			rotationalMotor.set(0.8);
+			rotationCounter++;
 		}
 		rotationalMotor.set(0);
 	}
@@ -103,6 +100,29 @@ public class Stepper {
 	public void setDriveSpeed(double percent)
 	{
 		driveMotor.set(percent);
+	}
+
+	//lifts the lifterMotor to its maximum height
+	public void liftStepper()
+	{
+		while(lifterCounter < 100) //change the value depending on how long motor needs to run for
+		{
+			lifterMotor.set(0.8);
+			lifterCounter++;
+		}
+		lifterMotor.set(0);
+		lifterCounter = 0;
+	}
+
+	//brings lifter back to lowest position; lifts the front of the robot
+	public void lowerStepper()
+	{
+		while(lifterCounter > 0) //change the value depending on how long motor needs to run for
+		{
+			lifterMotor.set(-0.8);
+			lifterCounter--;
+		}
+		lifterMotor.set(0);
 	}
 
 	//resets the rotationCounter value

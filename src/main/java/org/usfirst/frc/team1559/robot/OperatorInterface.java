@@ -55,4 +55,6 @@ public class OperatorInterface {
     public boolean axisToButtonIsPressed(int axis) {
         return (copilot.getRawAxis(axis) == 1);
     }
+
+    
 }

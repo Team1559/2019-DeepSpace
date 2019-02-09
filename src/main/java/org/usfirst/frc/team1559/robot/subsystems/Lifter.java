@@ -162,45 +162,53 @@ private boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		if(oi.getCopilotButton(0).isPressed()) { 
-			goToPortPos(1);
 			isAxis = false;
+			goToPortPos(1);
+			
 		}
 		else if(oi.getCopilotButton(1).isPressed()) { 
-			goToPortPos(2);
 			isAxis = false;
+			goToPortPos(2);
+			
 		}
 		else if(oi.getCopilotAxis(3) == 1) { 
-			goToPortPos(3);
 			isAxis = false;
+			goToPortPos(3);
 		}
 		else if(oi.getCopilotButton(2).isPressed()) { 
-			goToCargoShipHatch();
 			isAxis = false;
+			goToCargoShipHatch();
+			
 		}
 		else if(oi.getCopilotButton(3).isPressed()) { 
-			goToCargoShipCargoDrop();
 			isAxis = false;
+			goToCargoShipCargoDrop();
+			
 		}
 		else if(oi.getCopilotButton(5).isPressed()) { 
-			goToHatchPos(3);
 			isAxis = false;
+			goToHatchPos(3);
+			
 		}
 		// else if(oi.getCopilotButton(4).isPressed()) {
 		// 	 goToBottom();
 		// }
 		else if(oi.getCopilotButton(6).isPressed()) { 
-			recallibrateSystem();
 			isAxis = false;
+			recallibrateSystem();
+			
 		}
 		else if(oi.getCopilotAxis(1) == -1.0) {
+			isAxis = true;
 			goUp();
 			// System.out.println(oi.getCopilotAxis(1));
-			isAxis = true;
+			
 		}
 		else if(oi.getCopilotAxis(1) == 1) {
+			isAxis = true;
 			goDown();
 			// System.out.println(oi.getCopilotAxis(1));
-			isAxis = true;
+			
 		}
 		else if((int)(oi.getCopilotAxis(1)) == 0 && isAxis) {
 			stop();
@@ -211,4 +219,3 @@ private boolean isAxis = true;
 
 }
 //It's over!!!!
-

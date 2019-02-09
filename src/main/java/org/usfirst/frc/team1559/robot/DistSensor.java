@@ -4,39 +4,46 @@ import com.sun.net.httpserver.Authenticator.Result;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 
 public class DistSensor
 {
 
     Boolean isStopped;
-
-    public DistSensor()
+    private AnalogInput analogInput; 
+    public DistSensor(AnalogInput ai)
     {
-        ultra = new Ultrasonic(1,1);
-        isStopped = false;
+        analogInput = ai; 
     }
-
-    Ultrasonic ultra = new Ultrasonic(1,1); //Change this to the appropriate port #
-    DriveTrain drive =  new DriveTrain();
 
 
     public void setAutomaticMode(boolean b)
     {
-        ultra.setAutomaticMode(b);
     }
 
     public double getRange()
     {
 
-        double range = ultra.getRangeInches();
-        SmartDashboard.putNumber("Robot inches", range);
-        return range;
-
+        		/* Analog Sensor Testing */ 
+		int raw = analogInput.getValue();
+		double volts = analogInput.getVoltage();
+		int averageRaw = analogInput.getAverageValue();
+		double averageVolts = analogInput.getAverageVoltage();
+	//	SmartDashboard.putNumber("Analog Raw Value", raw);
+		SmartDashboard.putNumber("Analog  Volts", volts);
+	//	SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
+		double IRdistance = 24.031 * Math.pow(volts, -1.5549);
+		SmartDashboard.putNumber("Analog Average Volts", averageVolts);
+		SmartDashboard.putNumber("Distance", IRdistance);
+        return IRdistance;
     }
+    public void drive() {}
+
 
     public void stopRobot() //Tells you if the robot needs to rostop (if its true you must rostop)
     {
+
 
         if(getRange() > Constants.STOPPING_DISTANCE)
         {
@@ -49,8 +56,9 @@ public class DistSensor
         {
             b = true;
             SmartDashboard.putBoolean("Robot Stopped", b);
-            drive.driveCartesian(0,0,0);
+            Robot.drive.driveCartesian(0,0,0);
         }
+
 
         
     }
