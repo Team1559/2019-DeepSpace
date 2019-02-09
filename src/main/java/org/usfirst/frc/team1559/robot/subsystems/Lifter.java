@@ -187,7 +187,7 @@ private boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		// System.out.println(getPot()); //For testing purposes
-		if(oi.copilot.getRawButton(1)) { 
+		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(1));
 			// System.out.println(1);
@@ -199,42 +199,42 @@ private boolean isAxis = true;
 		// 	isAxis = false;
 		// 	goToPortPos(1);
 		// }
-		else if(oi.copilot.getRawButton(2)) { 
+		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(2));
 			// System.out.println(2);
 			goToPortPos(2);
 			
 		}
-		else if(oi.getCopilotAxis(3) == 1) { 
+		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(3);
 		}
-		else if(oi.copilot.getRawButton(3)) { 
+		else if(oi.copilot.getRawButton(4)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(3));
 			// System.out.println(3);
 			goToCargoShipHatch();
 			
 		}
-		else if(oi.copilot.getRawButton(4)) { 
+		else if(oi.copilot.getRawButton(6)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(4));
 			// System.out.println(4);
 			goToCargoShipCargoDrop();
 			
 		}
-		else if(oi.copilot.getRawButton(6)) { 
+		else if(oi.copilot.getRawButton(5)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(6));
 			// System.out.println(5);
 			goToHatchPos(3);
 			
 		}
-		// else if(oi.getCopilotButton(4).isPressed()) {
-		// 	 goToBottom();
-		// }
-		else if(oi.copilot.getRawButton(7)) { 
+		else if(oi.copilot.getRawButton(3)) {
+			 goToBottom();
+		}
+		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
 			// System.out.println(oi.copilot.getRawButton(7));
 			// System.out.println(6);
