@@ -102,10 +102,10 @@ public class Robot extends TimedRobot {
 		
 		//Camera
 
-		//pixylinevector v=pixy2.getvector();
-		//vision.update();
-		//VisionData vData = vision.getData();
-		//vData.Print();
+		pixylinevector v=pixy2.getvector();
+		vision.update();
+		VisionData vData = vision.getData();
+		vData.Print();
 
 		
 		
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
 
 		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
-		if(v.status == 1)
+		//if(v.status == 1)
 
 		double distance = dist.getRange();
 		double maxPixyRange = 24.0;
