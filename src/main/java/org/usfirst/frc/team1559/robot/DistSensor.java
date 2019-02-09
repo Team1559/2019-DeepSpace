@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1559.robot;
 
+import com.sun.net.httpserver.Authenticator.Result;
+
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -43,6 +45,23 @@ public class DistSensor
 
     public void stopRobot() //Tells you if the robot needs to rostop (if its true you must rostop)
     {
+
+
+        if(getRange() > Constants.STOPPING_DISTANCE)
+        {
+            Robot.drive.driveCartesian(0, 0, 0);
+            isStopped = !isStopped;
+            SmartDashboard.putNumber("Robot Stopped " + isStopped, 0.0);
+        }
+        boolean b  = false;
+        if(getRange() < 12) //Set this to an actual value
+        {
+            b = true;
+            SmartDashboard.putBoolean("Robot Stopped", b);
+            drive.driveCartesian(0,0,0);
+        }
+
+
         
     }
 
