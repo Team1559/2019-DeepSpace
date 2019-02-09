@@ -10,6 +10,7 @@ import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 
 
@@ -54,10 +55,9 @@ public class Robot extends TimedRobot {
 		Kr = 0.014f; // maximum pixy angle
 		Ky = 0.5f;
 
-		//dSensor = new DistSensor();
 		
 		//grabber = new Grabber();
-		//DistSensor dSensor = new DistSensor();
+		dist = new DistSensor( new AnalogInput(0));
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
 	}
@@ -107,18 +107,29 @@ public class Robot extends TimedRobot {
 		
 		//System.out.println(oi.getPilotY());
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		if(v.status == 1)
+		double distance = dist.getRange();
+		double maxPixyRange = 24.0;
+		SmartDashboard.putNumber("IRDistance,", distance);
+		if(v.status == 1 && distance <= maxPixyRange)
 		{
-	
-			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			SmartDashboard.putNumber("__Kx",Kx );
-			SmartDashboard.putNumber("__Kr",Kr);
+			SmartDashboard.putNumber("__x",pixy2.getEx());
+			SmartDashboard.putNumber("__y", distance);
+			SmartDashboard.putNumber("__r",pixy2.getEr());
+			SmartDashboard.putString("Mode","pixy");
 			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
 		}
+		else if (vData.status == 1) {
+			SmartDashboard.putNumber("__x",vData.x);
+			SmartDashboard.putNumber("__y",vData.y);
+			SmartDashboard.putNumber("__r",vData.r);	
+			SmartDashboard.putString("Mode","jetson");
+			drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
+		}
 		else{
+			SmartDashboard.putString("Mode","driver");
+			SmartDashboard.putNumber("__x",oi.getPilotX());
+			SmartDashboard.putNumber("__y",oi.getPilotY());
+			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 	}
