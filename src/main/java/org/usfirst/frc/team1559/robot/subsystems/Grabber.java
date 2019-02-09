@@ -1,29 +1,56 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DigitalInput;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Wiring;
-
+import org.usfirst.frc.team1559.robot.Constants;
 //dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
-    private Spark ballIntake, hatchSlapperL, hatchSlapperR;
+    private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
+    private double speedBall, speedHatch, stopHatch;
+    private OperatorInterface oi;
 
-
-    public Grabber()
+    public Grabber(OperatorInterface oi)
     {
 
-        solenoid = new Solenoid(Wiring.NTK_SOLENOID);
-        //ballIntake = new Spark(Wiring.NTK_SPARK_BI);
-        //hatchSlapperL = new Spark(Wiring.NTK_SPARK_HL);
-        //hatchSlapperR = new Spark(Wiring.NTK_SPARK_HR);
-        ballIntake.enableDeadbandElimination(true);
+        this.oi = oi;
+        //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
+        ballIntake = new WPI_TalonSRX(Wiring.NTK_TALONSRX_BI);
+        hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
+        hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
+        //limitSwitch1 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS1);
+        //limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
+        //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
+        //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
+        speedBall = .3; //FIND A SPEED THAT WORKSs
+        speedHatch = .5; //FIND A SPEED THAT WORKS
+        stopHatch = .5;
     }
+
+    public void drive() {
+
+        if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
+			getCargo();
+		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
+			removeCargo();
+		}
+
+		if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
+			slapHatch();
+		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
+			unslapHatch();
+
+		}
+
+    }
+
 
 
     public void getHatch()
@@ -36,51 +63,62 @@ public class Grabber
         solenoid.set(false); //bring that hatch in bb
     }
 
-    public void setSpark(double speed)
+    public void setSpeedBall(double speed)
     {
-        ballIntake.set(speed); //sets the motor value
+        speedBall = speed; //sets the motor value
     }
+    public void setSpeedHatch(double speed)
+    {
+        speedHatch = speed; //sets the motor value
+    }
+
     public void getCargo()
     {
-        ballIntake.set(1);  //activates intake for cargo mechanism wheel motor guy
+        ballIntake.set(ControlMode.PercentOutput, speedBall);
     }
 
     public void removeCargo()
     {
-        ballIntake.set(0); //spits that cargo out like expired food
-    }
-
-    public double getSpark()
-    {
-        return ballIntake.get(); //give spark value
+        ballIntake.set(ControlMode.PercentOutput, -speedBall);
     }
 
     public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
     {
-        hatchSlapperL.set(1);
-        hatchSlapperR.set(1);
-        if(getLimitValue(1) == true);
+        hatchSlapperL.set(ControlMode.PercentOutput, speedHatch);
+        hatchSlapperR.set(ControlMode.PercentOutput, speedHatch);
         {
-            hatchSlapperL.set(0);
-            hatchSlapperR.set(0);
+            if(getLimitValue(2) == true)
+            {
+                stopHatch = 0;
+                hatchSlapperL.set(ControlMode.PercentOutput, stopHatch);
+                hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
+            }
         }
+        while(stopHatch != 0); 
     }
 
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
     {
-        hatchSlapperL.set(0);
-        hatchSlapperR.set(0);
-        if(getLimitValue(1) == true);
+        hatchSlapperL.set(ControlMode.PercentOutput, -speedHatch);
+        hatchSlapperR.set(ControlMode.PercentOutput, -speedHatch);
         {
-            hatchSlapperL.set(0);
-            hatchSlapperR.set(0);
-        }
+            if(getLimitValue(1) == true)
+            {
+                stopHatch = 0;
+                hatchSlapperL.set(ControlMode.PercentOutput, stopHatch);
+                hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
+            }
+        } 
+        while(stopHatch != 0);
     }
 
-    public boolean getLimitValue(int x) //x will be 1 or 2 (1 is for checking if the arms are on the robot, 2 is for checking if the arms are deployed)
+    //Limit Switches positions: 
+    //Upper Left (1) Upper Right (2)
+    //Lower Left (3) Lower Right (4)
+    public boolean getLimitValue(int x) 
     {
         boolean b = false;
-        if(x == 1)
+        if(x == 1) //Stop at upper pos
         {
             if(limitSwitch1.get() == true && limitSwitch2.get() == true)
             {
@@ -91,7 +129,7 @@ public class Grabber
                 b = false;
             }
         }
-        if(x == 2)
+        else if(x == 2) //Stop at floor
         {
             if(limitSwitch3.get() == true && limitSwitch4.get() == true)
             {
@@ -105,5 +143,6 @@ public class Grabber
         return b;
         /*if it returns true then the switches are activated.*/
     }
+
 
 }

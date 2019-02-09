@@ -18,12 +18,15 @@ public class OperatorInterface {
         copilot = new Joystick(Constants.COPILOT_JOYSTICK);
         copilotButtons = new DTButton[20];
         for(int i = 0; i < copilotButtons.length; i++) {
-            copilotButtons[i] = new DTButton(copilot, i);
+            copilotButtons[i] = new DTButton(copilot, i + 1);
         }
     }
 
     public double getPilotX() {
-        return (-1)*pilot.getRawAxis(0);
+        if((pilot.getRawAxis(0))/(Math.abs(pilot.getRawAxis(0))) == 1) {
+            return (-1)*(Math.pow(pilot.getRawAxis(0), 2));
+        }
+            return (Math.pow(pilot.getRawAxis(0), 2));
     }
 
     public double getPilotY() {
@@ -34,7 +37,10 @@ public class OperatorInterface {
     }
 
     public double getPilotZ() {
-        return pilot.getRawAxis(2);
+        if((pilot.getRawAxis(2))/(Math.abs(pilot.getRawAxis(2))) == 1) {
+            return (-1)*(Math.pow(pilot.getRawAxis(2), 2));
+        }
+            return (Math.pow(pilot.getRawAxis(2), 2));
     }
 
     public DTButton getCopilotButton(int num) {
@@ -55,4 +61,6 @@ public class OperatorInterface {
     public boolean axisToButtonIsPressed(int axis) {
         return (copilot.getRawAxis(axis) == 1);
     }
+
+    
 }

@@ -20,11 +20,16 @@ public interface Constants {
 	
 	// DriveTrain
 
+		// Array positions
+		public static final int FL_TALON = 0;
+		public static final int RL_TALON = 1;
+		public static final int FR_TALON = 2;
+		public static final int RR_TALON = 3;
 	// Grabber
 	public static final int BTN_OUTTAKE = 3;
 	public static final int BTN_INTAKE = 1;
-	public static final int BTN_HATCH_UNLOCK = 6;
-	public static final int BTN_HATCH_LOCK = 7;
+	public static final int BTN_HATCH_SLAP = 6;
+	public static final int BTN_HATCH_UNSLAP = 5;
 
 	// Lifter
 	// public static final short LIFTER_POS1 = 1;
@@ -35,7 +40,13 @@ public interface Constants {
 	// public static final short LIFTER_BOTTOM = 98; //Lowest point on the lifter
 	public static final int POT_BOTTOM = 0; //Lowest possible pot value (is probably zero)
 	public static final int POT_TOP = 0; //Highest possible pot value
-	// Stepper
+	
+	// Stepper button values
+	public static final int STEPPER_COPILOT_LIFT_UP = 0; //bottom left button on fightstick
+	public static final int STEPPER_COPILOT_LIFT_DOWN = 1; //button to the right of bottom left on fightstick
+	public static final int STEPPER_PILOT_DRIVE_FORWARD = 0; //Square on controller
+	public static final int STEPPER_PILOT_DRIVE_BACKWARD = 2; //Circle on controller
+	public static final int STEPPER_PILOT_PULL_PISTONS = 9; //button to the right of touchpad on controller
 
 	// Ultrasonic Stopper
 	public static final int STOPPING_DISTANCE = -1; // TODO: Find this value.

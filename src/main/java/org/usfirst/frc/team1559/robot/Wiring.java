@@ -27,19 +27,24 @@ public interface Wiring {
 
 	// Grabber
 	public static final int NTK_SOLENOID = -1; // This variable needs to be set 
-	public static final int NTK_SPARK = -1; // This variable needs to be set 
-	
-	// Lifter
+	public static final int NTK_TALONSRX_BI = 2; // This variable needs to be set 
+	public static final int NTK_TALONSRX_HR = 1; // This variable needs to be set 
+	public static final int NTK_TALONSRX_HL = 1; // This variable needs to be set 
+	public static final int NTK_DIGITALINPUT_LS1 = 0; // This variable needs to be set 
+	public static final int NTK_DIGITALINPUT_LS2 = 1; // This variable needs to be set  
+	public static final int NTK_DIGITALINPUT_LS3 = 2; // This variable needs to be set 
+	public static final int NTK_DIGITALINPUT_LS4 = 3; // This variable needs to be set 
+
+
+	// Lifter   
 	public static final int LIFTER_POT = 0; //This needs to be set
 	public static final int LIFTER_TALON = 5; //This needs to be set
 
 	
-	// Stepper
-	public static final int STEPPER_LIFTER_MOTOR = 10;
-	public static final int STEPPER_ROTATIONAL_MOTOR = 11;
-	public static final int STEPPER_DRIVE_MOTOR = 12;
-	public static final int STEPPER_PISTONS = 9;
-	public static final int STEPPER_POT = 0; //TODO: set the value for the potentiometer port
+	//Stepper port constants
+	public static final int STEPPER_LIFTER_MOTOR = 6;
+	public static final int STEPPER_DRIVE_MOTOR = 2; //needs to be set
+	public static final int STEPPER_PISTONS = 1; //needs to be set
 
 	//DistSesnsor
 	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 0; //This needs to be set
