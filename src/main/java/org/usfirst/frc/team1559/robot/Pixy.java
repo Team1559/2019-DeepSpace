@@ -9,6 +9,7 @@ public class Pixy {
     private byte[] getFeatures = {(byte)0xae, (byte)0xc1, (byte)0x30, (byte)0x02, (byte)0x00, (byte)0x07, 0, 0};
     private byte[] lampon = {(byte)0xae, (byte)0xc1, (byte)0x16, (byte)0x02, (byte)0x01, (byte)0x01, 0, 0};
     private byte[] lampoff = {(byte)0xae, (byte)0xc1, (byte)0x16, (byte)0x02, (byte)0x00, (byte)0x00, 0, 0};
+    private byte[] balltracking ={(byte)0xae, (byte)0xc1, (byte)0x20, (byte)0x2, (byte)0x1, (byte)0x1, 0, 0};
     public float Ex;
     public float Er;
 	public Object v;
