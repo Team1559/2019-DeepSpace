@@ -23,7 +23,10 @@ public class OperatorInterface {
     }
 
     public double getPilotX() {
-        return (-1)*pilot.getRawAxis(0);
+        if((pilot.getRawAxis(0))/(Math.abs(pilot.getRawAxis(0))) == 1) {
+            return (-1)*(Math.pow(pilot.getRawAxis(0), 2));
+        }
+            return (Math.pow(pilot.getRawAxis(0), 2));
     }
 
     public double getPilotY() {
@@ -34,7 +37,10 @@ public class OperatorInterface {
     }
 
     public double getPilotZ() {
-        return pilot.getRawAxis(2);
+        if((pilot.getRawAxis(2))/(Math.abs(pilot.getRawAxis(2))) == 1) {
+            return (-1)*(Math.pow(pilot.getRawAxis(2), 2));
+        }
+            return (Math.pow(pilot.getRawAxis(2), 2));
     }
 
     public DTButton getCopilotButton(int num) {
