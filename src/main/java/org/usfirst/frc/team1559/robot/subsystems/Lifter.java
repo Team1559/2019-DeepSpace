@@ -61,16 +61,41 @@ private final int ticksToHatch1 = 10; //Placeholder value
 private final int ticksToHatch2 = 30; //Placeholder value
 private final int ticksToHatch3 = 50; //Placeholder value
 
-private int potUseableBottom = 0; //Placeholder value Code will auto adjust values based on this one.
-private int potUseableTop = 150; //Placeholder
+private int potUseableBottom; //Code will auto adjust values based on this one.
+private int potUseableTop; //Placeholder
 private int potRange = 150; //This is just a placeholder value. Make sure we find the actual range that we want.
-private final int potMax = 300; // This is a placeholder. This is the farthest the pot can rotate.
+private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
+
+private double kP = 6; //Just for testing purposes
+private double kI = 0;
+private double kD = 10*kP; //Just for testing purposes
+private double kF = 0;
+private final int TIMEOUT = 0;
 
 private boolean isAxis = true;
 
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
+
+		potUseableBottom = getPot();
+		potUseableTop = potUseableBottom + potRange;
+
+		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
+		lifterMotor.enableCurrentLimit(true);
+		lifterMotor.configPeakCurrentLimit(0,TIMEOUT);
+		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
+		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
+
+		lifterMotor.configNominalOutputForward(+.05, TIMEOUT);
+		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
+		lifterMotor.configPeakOutputForward(+1, TIMEOUT);
+		lifterMotor.configPeakOutputReverse(-0.55, TIMEOUT);
+
+		lifterMotor.config_kP(0, kP, TIMEOUT);
+		lifterMotor.config_kI(0, kI, TIMEOUT);
+		lifterMotor.config_kD(0, kD, TIMEOUT);
+		lifterMotor.config_kF(0, kF, TIMEOUT);
 
 		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
@@ -103,13 +128,13 @@ private boolean isAxis = true;
 	public void goToPortPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, portPositions[pos]);
-		System.out.println(getPot()); //For testing purposes
+		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToHatchPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
-		System.out.println(getPot()); //For testing purposes
+		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToCargoShipHatch() {
@@ -122,7 +147,7 @@ private boolean isAxis = true;
 
 	public void goToBottom() {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
-		System.out.println(getPot()); //For testing purposes
+		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
@@ -161,40 +186,59 @@ private boolean isAxis = true;
 		 * Use the Fightstick in the XInput option to make sure it has the correct buttons!
 		 * Otherwise it won't work!!!!
 		*/
-		if(oi.getCopilotButton(0).isPressed()) { 
+		// System.out.println(getPot()); //For testing purposes
+		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(1));
+			// System.out.println(1);
 			goToPortPos(1);
 			
 		}
-		else if(oi.getCopilotButton(1).isPressed()) { 
+		// else if(oi.copilot.getRawButton(1) == true)
+		// {
+		// 	isAxis = false;
+		// 	goToPortPos(1);
+		// }
+		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(2));
+			// System.out.println(2);
 			goToPortPos(2);
 			
 		}
-		else if(oi.getCopilotAxis(3) == 1) { 
+		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(3);
 		}
-		else if(oi.getCopilotButton(2).isPressed()) { 
+		else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(3));
+			// System.out.println(3);
 			goToCargoShipHatch();
 			
 		}
-		else if(oi.getCopilotButton(3).isPressed()) { 
+		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(4));
+			// System.out.println(4);
 			goToCargoShipCargoDrop();
 			
 		}
-		else if(oi.getCopilotButton(5).isPressed()) { 
+		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(6));
+			// System.out.println(5);
 			goToHatchPos(3);
 			
 		}
-		// else if(oi.getCopilotButton(4).isPressed()) {
-		// 	 goToBottom();
-		// }
-		else if(oi.getCopilotButton(6).isPressed()) { 
+		else if(oi.copilot.getRawButton(3)) {
+			isAxis = false; 
+			goToBottom();
+		}
+		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
+			// System.out.println(oi.copilot.getRawButton(7));
+			// System.out.println(6);
 			recallibrateSystem();
 			
 		}
@@ -214,6 +258,26 @@ private boolean isAxis = true;
 			stop();
 			// System.out.println((int)(oi.getCopilotAxis(1)));
 		}
+		// if(oi.copilot.getRawButton(1))
+		// 	System.out.println(1);
+		// else if(oi.copilot.getRawButton(2))
+		// 	System.out.println(2);
+		// else if(oi.copilot.getRawButton(3))
+		// 	System.out.println(3);
+		// else if(oi.copilot.getRawButton(4))
+		// 	System.out.println(4);
+		// else if(oi.copilot.getRawButton(5))
+		// 	System.out.println(5);
+		// else if(oi.copilot.getRawButton(6))
+		// 	System.out.println(6);
+		// else if(oi.copilot.getRawButton(7))
+		// 	System.out.println(7);
+		// else if(oi.copilot.getRawButton(8))
+		// 	System.out.println(8);
+		// else if(oi.copilot.getRawButton(9))
+		// 	System.out.println(9);
+		// else if(oi.copilot.getRawButton(10))
+		// 	System.out.println(10);
 	}
 
 

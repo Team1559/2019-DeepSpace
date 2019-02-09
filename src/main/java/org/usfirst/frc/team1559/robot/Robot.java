@@ -19,9 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
+import org.usfirst.frc.team1559.robot.subsystems.Stepper;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -40,6 +38,7 @@ public class Robot extends TimedRobot {
 	private boolean isCargo = true;
 	//private static Lifter lifter;
 	private static Grabber grabber; 
+	private static Stepper stepper;
 	public static boolean dBounce = false;
 
 	public static DistSensor dist;
@@ -58,6 +57,7 @@ public class Robot extends TimedRobot {
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		vision = new Vision();
+		stepper = new Stepper();
 		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
 		Kr = 0.014f; // maximum pixy angle
 		Ky = 0.5f;
@@ -97,10 +97,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		System.out.println(drive.FL_TALON.getControlMode());
-		System.out.println(drive.FR_TALON.getControlMode());
-		System.out.println(drive.RL_TALON.getControlMode());
-		System.out.println(drive.RR_TALON.getControlMode());
 		//Lifter
 		//lifter.driveLifter();
 		
@@ -115,21 +111,17 @@ public class Robot extends TimedRobot {
 		
 		
 		// Drive Train
-		//System.out.println(drive.talons[0].getMotorOutputPercent());
-		
-		
-		
-		
-		//double distance = dist.getRange();
-		//double maxPixyRange = 24.0;
-		//SmartDashboard.putNumber("IRDistance,", distance);
-		//if(v.status == 1 && distance <= maxPixyRange)
+		//System.out.println(drive.talons[0].getMotorOutputPercent
 
-		//System.out.println("Y: " + oi.getPilotY() + " X: " + oi.getPilotX() + " Z: " + oi.getPilotZ());
 		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		//drive.driveCartesian(0.0, 0.6, 0.0);
-		/*
+		
 		if(v.status == 1)
+
+		double distance = dist.getRange();
+		double maxPixyRange = 24.0;
+		SmartDashboard.putNumber("IRDistance,", distance);
+		
+		if(v.status == 1 && distance <= maxPixyRange)
 		{
 			SmartDashboard.putNumber("__x",pixy2.getEx());
 			SmartDashboard.putNumber("__y", distance);
@@ -151,7 +143,40 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
-		*/
+
+		//Stepper button controls
+		
+		//drive wheel button control
+		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
+		{
+			stepper.driveForward();
+		}
+		else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
+		{
+			stepper.driveBackward();
+		}
+		else
+		{
+			stepper.stopDrive();
+		}
+
+		//retracts pistons
+		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
+		{
+			stepper.retractPistons();
+		}
+
+		//lifter to top position
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
+		{
+			stepper.liftStepper();
+		}
+
+		//lifter to lowest position
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		{
+			stepper.lowerStepper();
+		}
 	}
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {

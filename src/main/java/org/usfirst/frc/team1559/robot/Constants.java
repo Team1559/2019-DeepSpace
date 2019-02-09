@@ -40,7 +40,13 @@ public interface Constants {
 	// public static final short LIFTER_BOTTOM = 98; //Lowest point on the lifter
 	public static final int POT_BOTTOM = 0; //Lowest possible pot value (is probably zero)
 	public static final int POT_TOP = 0; //Highest possible pot value
-	// Stepper
+	
+	// Stepper button values
+	public static final int STEPPER_COPILOT_LIFT_UP = 0; //bottom left button on fightstick
+	public static final int STEPPER_COPILOT_LIFT_DOWN = 1; //button to the right of bottom left on fightstick
+	public static final int STEPPER_PILOT_DRIVE_FORWARD = 0; //Square on controller
+	public static final int STEPPER_PILOT_DRIVE_BACKWARD = 2; //Circle on controller
+	public static final int STEPPER_PILOT_PULL_PISTONS = 9; //button to the right of touchpad on controller
 
 	// Ultrasonic Stopper
 	public static final int STOPPING_DISTANCE = -1; // TODO: Find this value.
