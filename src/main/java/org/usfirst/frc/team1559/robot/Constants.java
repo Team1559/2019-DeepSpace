@@ -23,8 +23,8 @@ public interface Constants {
 	// Grabber
 	public static final int BTN_OUTTAKE = 3;
 	public static final int BTN_INTAKE = 1;
-	public static final int BTN_HATCH_UNLOCK = 6;
-	public static final int BTN_HATCH_LOCK = 7;
+	public static final int BTN_HATCH_SLAP = 6;
+	public static final int BTN_HATCH_UNSLAP = 5;
 
 	// Lifter
 	// public static final short LIFTER_POS1 = 1;

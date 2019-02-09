@@ -9,6 +9,9 @@ package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,6 +19,8 @@ import edu.wpi.first.wpilibj.PWM;
 
 
 
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +49,7 @@ public class Robot extends TimedRobot {
 	private DistSensor ds;
 
 	private static Grabber grabber; 
+
 	public static boolean dBounce = false;
 	public static DistSensor dist;
 	private float Kx;
@@ -55,6 +61,9 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
+
+		grabber = new Grabber(oi);
+
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		
@@ -71,6 +80,7 @@ public class Robot extends TimedRobot {
 		//dSensor = new DistSensor();
 		
 		//grabber = new Grabber();
+
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
@@ -84,7 +94,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		pixy2.start();
+		//pixy2.start();
 		// No autonomous neccesary
 	}
 
@@ -95,12 +105,15 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+
 		pixy2.start();
 		pixy2.lampon();
+
 	}
 
 	@Override
 	public void teleopPeriodic() {
+
 
 		// Camera
 		// System.out.println(pixy2.read());
@@ -111,11 +124,16 @@ public class Robot extends TimedRobot {
 		
 		//Camera
 
+
 		pixylinevector v=pixy2.getvector();
 		
 		
 		
 		// Drive Train
+
+
+		// Grabber
+		grabber.drive();
 
 		
 		
@@ -172,6 +190,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testInit() {
 
+
 	}
 
 
@@ -179,7 +198,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
-	
+
 	}
 
 
