@@ -20,6 +20,11 @@ public interface Constants {
 	
 	// DriveTrain
 
+		// Array positions
+		public static final int FL_TALON = 0;
+		public static final int RL_TALON = 1;
+		public static final int FR_TALON = 2;
+		public static final int RR_TALON = 3;
 	// Grabber
 	public static final int BTN_OUTTAKE = 3;
 	public static final int BTN_INTAKE = 1;

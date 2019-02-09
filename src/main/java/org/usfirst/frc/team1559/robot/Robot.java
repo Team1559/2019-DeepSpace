@@ -9,18 +9,10 @@ package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWM;
 
 
 
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,27 +35,17 @@ public class Robot extends TimedRobot {
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
-
-
-	private AnalogInput ai;
-	private DistSensor ds;
-
 	private static Grabber grabber; 
-
 	public static boolean dBounce = false;
 	public static DistSensor dist;
 	private float Kx;
     private float Ky;
 	private float Kr;
 	
-
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
-
-		grabber = new Grabber(oi);
-
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		
@@ -71,16 +53,9 @@ public class Robot extends TimedRobot {
 		Kr = 0.014f; // maximum pixy angle
 		Ky = 0.5f;
 
-		pixy2 = new SerialTest();
-		ai = new AnalogInput(0);
-
-	ds = new DistSensor(ai);
-	}	
-
 		//dSensor = new DistSensor();
 		
 		//grabber = new Grabber();
-
 		//DistSensor dSensor = new DistSensor();
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
@@ -92,9 +67,10 @@ public class Robot extends TimedRobot {
 		}
 	
 
+
 	@Override
 	public void autonomousInit() {
-		//pixy2.start();
+		pixy2.start();
 		// No autonomous neccesary
 	}
 
@@ -105,42 +81,29 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-
-		pixy2.start();
-		pixy2.lampon();
-
+		//pixy2.start();
+		//pixy2.lampon();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-
-
-		// Camera
-		// System.out.println(pixy2.read());
-		double sensor = ds.getRange();
-
 		//Lifter
-		lifter.driveLifter();
+		//lifter.driveLifter();
 		
 		//Camera
-
 
 		pixylinevector v=pixy2.getvector();
 		
 		
 		
 		// Drive Train
-
-
-		// Grabber
-		grabber.drive();
-
+		//System.out.println(drive.talons[0].getMotorOutputPercent());
 		
 		
 		
 		
-
-		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+		System.out.println(oi.getPilotY());
+		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		if(v.status == 1)
 		{
 	
@@ -150,47 +113,46 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			SmartDashboard.putNumber("__Kx",Kx );
 			SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky , Kr * pixy2.getEr());
+			//drive.driveCartesian(Kx * pixy2.getEx(), Ky , Kr * pixy2.getEr());
 			
 		
 	}
 
 
 		else{
-			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+			//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 	}
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-		 //	grabber.removeCargo();
-		 //}
+		// 	grabber.removeCargo();
+		// }
 
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
 		// 	grabber.getHatch();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
-		 //	grabber.bringHatch();
+		// 	grabber.bringHatch();
 
-		  // }
+		// }
 
-		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		 	dBounce = true;
-			Auto.pixydrive();
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		// 	dBounce = true;
+		// 	Auto.pixydrive();
 			
-			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-			if(dist.getRange() == 18)
+			//drive.driveCartesian(.5, .5, 0); //replace with Jetson data
+			/*if(dist.getRange() == 18)
 			{
-			}
-			if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
+			}*/
+			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
 				dBounce = false;
-			}
+			}*/
 		
 	@Override
 	public void testInit() {
-
-
+		
 	}
 
 
@@ -198,7 +160,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
-
+	
 	}
 
 
@@ -215,4 +177,3 @@ public void disabledPeriodic() {
 
 
 }
-

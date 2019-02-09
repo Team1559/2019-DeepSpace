@@ -34,7 +34,7 @@ public class Grabber
         stopHatch = .5;
     }
 
-    public void drive()
+    public void drive() {
 
         if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
 			getCargo();
