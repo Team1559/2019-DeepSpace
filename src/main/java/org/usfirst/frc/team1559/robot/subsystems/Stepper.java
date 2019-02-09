@@ -52,13 +52,20 @@ public class Stepper {
 	 * robot will be backing onto the step. All names are based on this fact.
 	 */
 
+	//creates all objects
 	private WPI_TalonSRX lifterMotor;
 	private WPI_TalonSRX rotationalMotor;
 	private WPI_TalonSRX driveMotor;
 	private Solenoid pistons;
-	private double upperLifterValue = 0; //the potentiometer value of the highest position
-	private double lowerLifterValue = 0; //the potentiometer value of the lowest position
+
+	//lifter potentiometer values
+	private double upperLifterValue = 0; //highest position
+	private double lowerLifterValue = 0; //lowest position
+
+	//value that determines the time that the rotationalMotor spins for
 	private double rotationPositionValue = 0; //the encoder value for the rotationalMotor; should be 180 degrees
+	
+	//the counter variables to keep track of time
 	private int rotationCounter = 0;
 	private int lifterCounter = 0;
 
@@ -105,7 +112,7 @@ public class Stepper {
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
-		while(lifterCounter < 100) //change the value depending on how long motor needs to run for
+		while(lifterCounter < upperLifterValue) //change the value depending on how long motor needs to run for
 		{
 			lifterMotor.set(0.8);
 			lifterCounter++;
@@ -117,7 +124,7 @@ public class Stepper {
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
-		while(lifterCounter > 0) //change the value depending on how long motor needs to run for
+		while(lifterCounter > lowerLifterValue) //change the value depending on how long motor needs to run for
 		{
 			lifterMotor.set(-0.8);
 			lifterCounter--;
@@ -128,6 +135,7 @@ public class Stepper {
 	//resets the rotationCounter value
 	public void resetStepper()
 	{
+		lifterCounter = 0;
 		rotationCounter = 0;
 	}
 }
