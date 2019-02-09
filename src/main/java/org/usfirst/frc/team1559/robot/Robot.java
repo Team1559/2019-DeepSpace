@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		pixy2.start();
 		pixy2.lampon();
+		vision.VisionInit();
 	}
 
 	@Override
@@ -94,15 +95,12 @@ public class Robot extends TimedRobot {
 		//Camera
 
 		pixylinevector v=pixy2.getvector();
+		vision.update();
 		VisionData vData = vision.getData();
 		vData.Print();
 		
 		// Drive Train
 
-		
-		
-		
-		
 
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		if (v.status == 1){
@@ -112,14 +110,8 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			SmartDashboard.putNumber("__Kx",Kx );
 			SmartDashboard.putNumber("__Kr",Kr);
-			//drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
-			
-		
+			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
 		}
-
-
-
-
 		else{
 			drive.driveCartesian(0, 0, 0);
 		}
