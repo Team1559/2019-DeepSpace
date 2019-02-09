@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.subsystems.Stepper;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 	private boolean isCargo = true;
 	//private static Lifter lifter;
 	private static Grabber grabber; 
+	private static Stepper stepper;
 	public static boolean dBounce = false;
 	public static DistSensor dist;
 	public static Vision vision;
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		vision = new Vision();
+		stepper = new Stepper();
 		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
 		Kr = 0.014f; // maximum pixy angle
 		Ky = 0.5f;
@@ -120,6 +123,40 @@ public class Robot extends TimedRobot {
 		}
 		else{
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+		}
+
+		//Stepper button controls
+		
+		//drive wheel button control
+		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
+		{
+			stepper.driveForward();
+		}
+		else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
+		{
+			stepper.driveBackward();
+		}
+		else
+		{
+			stepper.stopDrive();
+		}
+
+		//retracts pistons
+		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
+		{
+			stepper.retractPistons();
+		}
+
+		//lifter to top position
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
+		{
+			stepper.liftStepper();
+		}
+
+		//lifter to lowest position
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		{
+			stepper.lowerStepper();
 		}
 	}
 	// Grabber

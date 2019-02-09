@@ -94,13 +94,19 @@ public class Stepper {
 		return lifterMotor.getSelectedSensorPosition(Wiring.STEPPER_POT);
 	}
 
-	//drives the front wheels on a scale of -1.0 to 1.0
+	//drives the front wheels forward
 	public void driveForward()
 	{
 		driveMotor.set(wheelSpeed);
 	}
 
-	//stops the drive wheels
+	//drives the front wheels backward
+	public void driveBackward()
+	{
+		driveMotor.set(-wheelSpeed);
+	}
+
+	//stops drive wheels
 	public void stopDrive()
 	{
 		driveMotor.set(0);
