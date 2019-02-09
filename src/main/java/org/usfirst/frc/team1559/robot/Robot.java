@@ -11,7 +11,7 @@ import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-//import edu.wpi.first.wpilibj.Joystick;
+
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
 
 	private Pixy pixy2;
 	public static boolean fightstick = true;
+	private boolean isCargo = true;
 	private static Lifter lifter;
 	private static Grabber grabber; 
 	public static boolean dBounce = false;
@@ -40,18 +41,17 @@ public class Robot extends TimedRobot {
 	private float Kx;
     private float Ky;
 	private float Kr;
-
+	
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
 		oi = new OperatorInterface();
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
-		Kx = -0.07f;
-		//Ky= 0.00f;
-		Kr = -0.07f;
 		
-
+		Kx = 0.025f; // maximum pixy translation (1/2 frame with)
+		Kr = 0.014f; // maximum pixy angle
+		Ky = 0.5f;
 
 		//dSensor = new DistSensor();
 		
@@ -97,17 +97,33 @@ public class Robot extends TimedRobot {
 		
 		
 		// Drive Train
+
+		
+		
+		
+		
+
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		if (v.status == 1){
+		if(v.status == 1)
+		{
+	
 			SmartDashboard.putNumber("__getEx,", pixy2.getEx());
 			SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
-		}
+			SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
+			SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
+			SmartDashboard.putNumber("__Kx",Kx );
+			SmartDashboard.putNumber("__Kr",Kr);
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky , Kr * pixy2.getEr());
+			
+		
+	}
+
+
 		else{
-			drive.driveCartesian(0, 0, 0);
+			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 	}
-		// Grabber
+	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
@@ -128,17 +144,12 @@ public class Robot extends TimedRobot {
 			//drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 			/*if(dist.getRange() == 18)
 			{
-
 			}*/
 			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 			{
 				dBounce = false;
 			}*/
 		
-		
-		
-
-	
 	@Override
 	public void testInit() {
 		
