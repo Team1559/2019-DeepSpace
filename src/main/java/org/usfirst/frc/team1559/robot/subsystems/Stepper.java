@@ -9,7 +9,6 @@ import org.usfirst.frc.team1559.robot.Wiring;
 
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 public class Stepper {
@@ -58,7 +57,7 @@ public class Stepper {
 
 	//creates all objects
 	private WPI_TalonSRX lifterMotor;
-	private Spark driveMotor;
+	private WPI_TalonSRX driveMotor;
 	private Solenoid pistons;
 
 	//positioning values for lifter
@@ -73,7 +72,7 @@ public class Stepper {
  	public Stepper()
  	{
  		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
- 		driveMotor = new Spark(Wiring.STEPPER_DRIVE_MOTOR);
+ 		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
  		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
 	}
 
