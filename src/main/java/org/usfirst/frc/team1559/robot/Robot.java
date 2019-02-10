@@ -43,9 +43,12 @@ public class Robot extends TimedRobot {
 
 
 	public static DistSensor dist;
+	private static DistSensor ds;
+	private static AnalogInput ai;
+
 	public static Vision vision;
 
-
+	
 	private float Kx;
     private float Ky;
 	private float Kr;
@@ -74,7 +77,7 @@ public class Robot extends TimedRobot {
 
 		
 		//grabber = new Grabber();
-		dist = new DistSensor( new AnalogInput(0));
+		//dist = new DistSensor( new AnalogInput(0));
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
 	
@@ -208,6 +211,8 @@ public class Robot extends TimedRobot {
 		{
 			stepper.lowerStepper();
 		}
+	}
+}
 	
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
@@ -223,46 +228,45 @@ public class Robot extends TimedRobot {
 
 		// }
 
-		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		 	dBounce = true;
+		//  if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		//  	dBounce = true;
 			
 			
-			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-			if(ds.getRange() == 18)
+		// 	drive.driveCartesian(.5, .5, 0); //replace with Jetson data
+		// 	if(ds.getRange() == 18)
 
-			{
-			}*/
-			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
-			{
+		//  }
+// 			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
+// 			{
 
-				dBounce = false;}
-		 }
-	}
+// 				dBounce = false;}
+// 		 }
+// 	}
 
 		
-	@Override
-	public void testInit() {
+// 	@Override
+// 	public void testInit() {
 		
-	}
+// 	}
 
 
 
 
-	@Override
-	public void testPeriodic() {
+// 	@Override
+// 	public void testPeriodic() {
 	
-	}
+// 	}
 
 
-@Override
-public void disabledInit() {
-	pixy2.lampoff();
-}
+// @Override
+// public void disabledInit() {
+// 	pixy2.lampoff();
+// }
 
-@Override
-public void disabledPeriodic() {
+// @Override
+// public void disabledPeriodic() {
 
-}
+// }
 
 
-}
+// }
