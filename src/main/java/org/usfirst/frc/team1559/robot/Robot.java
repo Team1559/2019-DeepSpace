@@ -142,24 +142,24 @@ public class Robot extends TimedRobot {
 		
 		if(v.status == 1 )//&& distance <= maxPixyRange)
 		{
-			SmartDashboard.putNumber("__x",pixy2.getEx());
-			SmartDashboard.putNumber("__y", distance);
-			SmartDashboard.putNumber("__r",pixy2.getEr());
+			// SmartDashboard.putNumber("__x",pixy2.getEx());
+			// SmartDashboard.putNumber("__y", distance);
+			// SmartDashboard.putNumber("__r",pixy2.getEr());
 			SmartDashboard.putString("Mode","pixy");
 			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange() , Kr * pixy2.getEr());
 		}
 		else if (vData.status == 1) {
-			SmartDashboard.putNumber("__x",vData.x);
-			SmartDashboard.putNumber("__y",vData.y);
-			SmartDashboard.putNumber("__r",vData.r);	
+			// SmartDashboard.putNumber("__x",vData.x);
+			// SmartDashboard.putNumber("__y",vData.y);
+			// SmartDashboard.putNumber("__r",vData.r);	
 			SmartDashboard.putString("Mode","jetson");
 			drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
 		}
 		else{
 			SmartDashboard.putString("Mode","driver");
-			SmartDashboard.putNumber("__x",oi.getPilotX());
-			SmartDashboard.putNumber("__y",oi.getPilotY());
-			SmartDashboard.putNumber("__r",oi.getPilotZ());
+			// SmartDashboard.putNumber("__x",oi.getPilotX());
+			// SmartDashboard.putNumber("__y",oi.getPilotY());
+			// SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 
