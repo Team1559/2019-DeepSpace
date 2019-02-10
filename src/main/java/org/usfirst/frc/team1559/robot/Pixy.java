@@ -116,15 +116,5 @@ public class Pixy {
         public double getBr()
         {
             return Ber;
-        }
-        
-
-
-
-
-    
+        }   
 }
-
-
-
-
