@@ -23,12 +23,12 @@ public class pixylinevector {
     public int timer;
     
     
-    public double error_x(double x0, double x1){
+    public double verror_x(double x0, double x1){
         double xError=(40-x0);
             return xError;
     }
 
-    public double error_r(double y0, double y1, double x0, double x1){
+    public double verror_r(double y0, double y1, double x0, double x1){
        double rError;
         double error_tan;
        if (x1==x0){

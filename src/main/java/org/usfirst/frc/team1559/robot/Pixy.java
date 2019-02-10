@@ -12,8 +12,10 @@ public class Pixy {
     private byte[] balltracking ={(byte)0xae, (byte)0xc1, (byte)0x20, (byte)0x2, (byte)0x1, (byte)0x1, 0, 0};
     public float Ex;
     public float Er;
-	public Object v;
-   
+    public Object v;
+    public Object b;
+    public double Ber;
+    public double Bex;
     public Pixy() {
         port = new SPI(SPI.Port.kOnboardCS1);
 
@@ -54,6 +56,8 @@ public class Pixy {
         b.timer++;
         b.x0=returned[7];
         b.x1=returned[8];
+        b.Bex = (int)b.berror_x(b.x0, b.x1);
+        Bex=b.Bex;
 
         return b;
     }
@@ -74,9 +78,9 @@ public class Pixy {
             v.y1=returned[11];
             v.index=returned[12];
             v.flags=returned[7];
-            v.Ex = (int)v.error_x(v.x0, v.x1);
+            v.Ex = (int)v.verror_x(v.x0, v.x1);
             Ex = v.Ex;
-            v.Er = (int)v.error_r(v.y0, v.y1, v.x0, v.x1);
+            v.Er = (int)v.verror_r(v.y0, v.y1, v.x0, v.x1);
             Er = v.Er;
 
             if(v.flags==6) {
@@ -105,7 +109,14 @@ public class Pixy {
             return Er;
         }
 
-
+        public double getBx()
+        {
+            return Bex;
+        }
+        public double getBr()
+        {
+            return Ber;
+        }
         
 
 
