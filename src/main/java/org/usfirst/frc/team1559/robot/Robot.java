@@ -190,7 +190,7 @@ public class Robot extends TimedRobot {
 			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			// SmartDashboard.putNumber("__Kx",Kx );
 			// SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
+			//drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
 			
 		//Kx * pixy2.getEx()
 		//Kr * pixy2.getEr()
