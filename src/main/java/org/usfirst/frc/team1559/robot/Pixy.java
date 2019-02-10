@@ -2,7 +2,7 @@ package org.usfirst.frc.team1559.robot;
 
 import edu.wpi.first.wpilibj.*;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
-
+import org.usfirst.frc.team1559.robot.subsystems.Pixyballtracking;;
 public class Pixy {
 
     public SPI port;
@@ -43,9 +43,19 @@ public class Pixy {
 
     }
 
-    public balltracking getCenter()
+    public Pixyballtracking getCenter()
     {
-        
+        byte[] returned = new byte[2];
+        port.write(balltracking, 8);
+
+
+        port.read(false, returned, 2);
+        var b=new Pixyballtracking();
+        b.timer++;
+        b.x0=returned[7];
+        b.x1=returned[8];
+
+        return b;
     }
     public pixylinevector getvector() {
         byte[] returned = new byte[16];
@@ -70,10 +80,10 @@ public class Pixy {
             Er = v.Er;
 
             if(v.flags==6) {
-                v.status=1;
+                v.vStatus=1;
             }
             else {
-                v.status=0;
+                v.vStatus=0;
             }
             //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
             //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);

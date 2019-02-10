@@ -11,7 +11,7 @@ import java.lang.Math;
 
 
 public class pixylinevector {
-    public int status;
+    public int vStatus;
     public int x0;
     public int y0;
    public int x1;

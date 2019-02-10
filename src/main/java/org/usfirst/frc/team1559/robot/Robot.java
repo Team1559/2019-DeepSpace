@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
 		
 
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		if(v.status == 1)
+		if(v.vStatus == 1)
 		{
 	
 			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
