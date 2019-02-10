@@ -140,13 +140,13 @@ public class Robot extends TimedRobot {
 		double maxPixyRange = 24.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
 		
-		if(v.status == 1 && distance <= maxPixyRange)
+		if(v.status == 1 )//&& distance <= maxPixyRange)
 		{
 			SmartDashboard.putNumber("__x",pixy2.getEx());
 			SmartDashboard.putNumber("__y", distance);
 			SmartDashboard.putNumber("__r",pixy2.getEr());
 			SmartDashboard.putString("Mode","pixy");
-			drive.driveCartesian(Kx * pixy2.getEx(), 0 , Kr * pixy2.getEr());
+			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange() , Kr * pixy2.getEr());
 		}
 		else if (vData.status == 1) {
 			SmartDashboard.putNumber("__x",vData.x);
