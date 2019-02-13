@@ -102,9 +102,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		//pixy2.start();
-		//pixy2.lampon();
-		//vision.VisionInit();
+		pixy2.start();
+		pixy2.lampon();
+		vision.VisionInit();
 	}
 
 	@Override
@@ -122,9 +122,9 @@ public class Robot extends TimedRobot {
 		//Camera
 
 		pixylinevector v=pixy2.getvector();
-		vision.update();
-		VisionData vData = vision.getData();
-		vData.Print();
+		 vision.update();
+		 VisionData vData = vision.getData();
+		 vData.Print();
 
 		
 		
@@ -132,31 +132,31 @@ public class Robot extends TimedRobot {
 		// Drive Train
 		//System.out.println(drive.talons[0].getMotorOutputPercent
 
-		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
 		//if(v.status == 1)
 
-		double distance = dist.getRange();
+		double distance = ds.getRange();
 		double maxPixyRange = 24.0;
-		SmartDashboard.putNumber("IRDistance,", distance);
+		//SmartDashboard.putNumber("IRDistance,", distance);
 		
-		if(v.status == 1 )//&& distance <= maxPixyRange)
+		if(v.status == 1 && distance <= maxPixyRange)
 		{
 			// SmartDashboard.putNumber("__x",pixy2.getEx());
 			// SmartDashboard.putNumber("__y", distance);
 			// SmartDashboard.putNumber("__r",pixy2.getEr());
-			SmartDashboard.putString("Mode","pixy");
+			//SmartDashboard.putString("Mode","pixy");
 			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange() , Kr * pixy2.getEr());
 		}
 		else if (vData.status == 1) {
 			// SmartDashboard.putNumber("__x",vData.x);
 			// SmartDashboard.putNumber("__y",vData.y);
 			// SmartDashboard.putNumber("__r",vData.r);	
-			SmartDashboard.putString("Mode","jetson");
+			//SmartDashboard.putString("Mode","jetson");
 			drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
 		}
 		else{
-			SmartDashboard.putString("Mode","driver");
+			//SmartDashboard.putString("Mode","driver");
 			// SmartDashboard.putNumber("__x",oi.getPilotX());
 			// SmartDashboard.putNumber("__y",oi.getPilotY());
 			// SmartDashboard.putNumber("__r",oi.getPilotZ());
@@ -166,22 +166,22 @@ public class Robot extends TimedRobot {
 		//Stepper button controls
 		
 		//drive wheel button control
-		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
-		{
-			stepper.driveForward();
-		}
-		else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
-		{
-			stepper.driveBackward();
-		}
-		else
-		{
-			stepper.stopDrive();
-		}
+		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
+		// {
+		// 	stepper.driveForward();
+		// }
+		// else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
+		// {
+		// 	stepper.driveBackward();
+		// }
+		// else
+		// {
+		// 	stepper.stopDrive();
+		// }
 
 		//retracts pistons
-		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
-		{
+		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
+		// {
 
 	
 			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
@@ -201,18 +201,18 @@ public class Robot extends TimedRobot {
 
 
 		//lifter to top position
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
-		{
-			stepper.liftStepper();
-		}
+	// 	if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
+	// 	{
+	// 		stepper.liftStepper();
+	// 	}
 
-		//lifter to lowest position
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
-		{
-			stepper.lowerStepper();
-		}
-	}
-}
+	// 	//lifter to lowest position
+	// 	if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+	// 	{
+	// 		stepper.lowerStepper();
+	// 	}
+	// }
+//}
 	
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
@@ -258,15 +258,15 @@ public class Robot extends TimedRobot {
 // 	}
 
 
-// @Override
-// public void disabledInit() {
-// 	pixy2.lampoff();
-// }
+@Override
+public void disabledInit() {
+	pixy2.lampoff();
+}
 
-// @Override
-// public void disabledPeriodic() {
+@Override
+public void disabledPeriodic() {
 
-// }
+}
 
 
-// }
+}
