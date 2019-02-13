@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1559.robot;
 
 import edu.wpi.first.wpilibj.*;
-import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
+//import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.subsystems.Pixyballtracking;;
 public class Pixy {
 
@@ -54,50 +54,50 @@ public class Pixy {
         port.read(false, returned, 2);
         var b=new Pixyballtracking();
         b.timer++;
-        b.x0=returned[7];
-        b.x1=returned[8];
-        b.Bex = (int)b.berror_x(b.x0, b.x1);
-        Bex=b.Bex;
+        b.r0=returned[7];
+        b.r1=returned[8];
+        b.Ber = (int)b.berror_r(b.r0, b.r1);
+        Ber=b.Ber;
 
         return b;
     }
-    public pixylinevector getvector() {
-        byte[] returned = new byte[16];
-        port.write(getFeatures, 8);
+    // public pixylinevector getvector() {
+    //     byte[] returned = new byte[16];
+    //     port.write(getFeatures, 8);
     
     
-        port.read(false, returned, 6);
-        port.read(false, returned, 16);
-         var v=new pixylinevector();
-         v.timer++;
-         if (returned[2]==49 && returned[7]>0){
+    //     port.read(false, returned, 6);
+    //     port.read(false, returned, 16);
+    //      var v=new pixylinevector();
+    //      v.timer++;
+    //      if (returned[2]==49 && returned[7]>0){
             
-            v.x0=returned[8];
-            v.y0=returned[9];
-            v.x1=returned[10];
-            v.y1=returned[11];
-            v.index=returned[12];
-            v.flags=returned[7];
-            v.Ex = (int)v.verror_x(v.x0, v.x1);
-            Ex = v.Ex;
-            v.Er = (int)v.verror_r(v.y0, v.y1, v.x0, v.x1);
-            Er = v.Er;
+    //         v.x0=returned[8];
+    //         v.y0=returned[9];
+    //         v.x1=returned[10];
+    //         v.y1=returned[11];
+    //         v.index=returned[12];
+    //         v.flags=returned[7];
+    //         v.Ex = (int)v.verror_x(v.x0, v.x1);
+    //         Ex = v.Ex;
+    //         v.Er = (int)v.verror_r(v.y0, v.y1, v.x0, v.x1);
+    //         Er = v.Er;
 
-            if(v.flags==6) {
-                v.vStatus=1;
-            }
-            else {
-                v.vStatus=0;
-            }
-            //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
-            //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);
-            //System.out.println("");
-            //System.out.printf("( %d , %d) %d", v.Ex, v.Er, v.flags);
-            //System.out.println("");
-        }
+    //         if(v.flags==6) {
+    //             v.vStatus=1;
+    //         }
+    //         else {
+    //             v.vStatus=0;
+    //         }
+    //         //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
+    //         //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);
+    //         //System.out.println("");
+    //         //System.out.printf("( %d , %d) %d", v.Ex, v.Er, v.flags);
+    //         //System.out.println("");
+    //     }
 
-        return v;
-    }
+    //     return v;
+    // }
         
         public float getEx()
         {

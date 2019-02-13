@@ -12,14 +12,14 @@ package org.usfirst.frc.team1559.robot.subsystems;
  */
 public class Pixyballtracking {
     public int timer;
-    public double x0;
-    public double x1;
+    public double r0;
+    public double r1;
     public int bStatus;
     public int Ber;
     public int Bex;
 
-    public double berror_x(double x0, double x1){
-        double bxError=(40-x0);
-            return bxError;
+    public double berror_r(double x0, double x1){
+        double brError=(r0-r1);
+            return brError;
         }
 }

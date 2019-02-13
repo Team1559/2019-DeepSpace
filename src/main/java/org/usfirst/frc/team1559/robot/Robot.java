@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team1559.robot;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
-import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
+//import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Counter;
@@ -106,11 +106,11 @@ public class Robot extends TimedRobot {
 		double sensor = ds.getRange();
 
 		//Lifter
-		lifter.driveLifter();
+		//lifter.driveLifter();
 		
 		//Camera
 
-		pixylinevector v=pixy2.getvector();
+		//pixylinevector v=pixy2.getvector();
 		
 		
 		
@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
 		
 
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		if(v.vStatus == 1)
+		
 		{
 	
 			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
@@ -131,14 +131,15 @@ public class Robot extends TimedRobot {
 			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			// SmartDashboard.putNumber("__Kx",Kx );
 			// SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
+			SmartDashboard.putNumber("__Br",Kr * pixy2.getBr());
+			drive.driveCartesian(oi.getPilotX(), Ky * ds.getRange(), Kr * pixy2.getBr());
 			
 		//Kx * pixy2.getEx()
 		//Kr * pixy2.getEr()
 	}
 
 
-		else{
+	//else{
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 	
@@ -156,24 +157,24 @@ public class Robot extends TimedRobot {
 
 		  // }
 
-		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		 	dBounce = true;
+	// 	 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+	// 	 	dBounce = true;
 			
 			
-			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-			if(ds.getRange() == 18)
-			{
-			}
-			if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
-			{
-				dBounce = false;}
-		 }
-	}
+	// 		drive.driveCartesian(.5, .5, 0); //replace with Jetson data
+	// 		if(ds.getRange() == 18)
+	// 		{
+	// 		}
+	// 		if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
+	// 		{
+	// 			dBounce = false;}
+	// 	 }
+	// }
 		
-	@Override
-	public void testInit() {
+	// @Override
+	// public void testInit() {
 
-	}
+	//}
 
 
 
