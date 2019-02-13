@@ -5,8 +5,8 @@ public class Vision {
 	UDPClient client;
 	
 	private  VisionData VData; 
-	double cameraYOffset = 28.75;
-	double cameraXOffset = 0;
+	double cameraYOffset = 11.6;
+	double cameraXOffset = 2.6;
 	public Vision() {
 		client = new UDPClient();
 		VData = new VisionData();

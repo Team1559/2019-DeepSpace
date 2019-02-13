@@ -62,10 +62,10 @@ public class Robot extends TimedRobot {
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 
-		
-		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
-		Kr = 0.014f; // maximum pixy angle0.014
-		Ky = 0.0416f;//1/24 for the distance sensors max speed; 0.416
+		vision = new Vision();
+		Kx = 0.0025f;// maximum pixy translation (1/2 frame with)0.025
+		Kr = 0.0112f; // maximum pixy angle0.014
+		Ky = 0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 
 		pixy2 = new Pixy();
 		ai = new AnalogInput(0);
@@ -138,31 +138,40 @@ public class Robot extends TimedRobot {
 
 		double distance = ds.getRange();
 		double maxPixyRange = 24.0;
-		//SmartDashboard.putNumber("IRDistance,", distance);
-		
-		if(v.status == 1 && distance <= maxPixyRange)
-		{
-			// SmartDashboard.putNumber("__x",pixy2.getEx());
-			// SmartDashboard.putNumber("__y", distance);
-			// SmartDashboard.putNumber("__r",pixy2.getEr());
-			//SmartDashboard.putString("Mode","pixy");
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange() , Kr * pixy2.getEr());
-		}
-		else if (vData.status == 1) {
-			// SmartDashboard.putNumber("__x",vData.x);
-			// SmartDashboard.putNumber("__y",vData.y);
-			// SmartDashboard.putNumber("__r",vData.r);	
-			//SmartDashboard.putString("Mode","jetson");
-			drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
-		}
-		else{
-			//SmartDashboard.putString("Mode","driver");
-			// SmartDashboard.putNumber("__x",oi.getPilotX());
-			// SmartDashboard.putNumber("__y",oi.getPilotY());
-			// SmartDashboard.putNumber("__r",oi.getPilotZ());
-			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		}
+		SmartDashboard.putNumber("IRDistance,", distance);
 
+		if(vData.status==1){
+			if(vData.y >= maxPixyRange){
+					SmartDashboard.putNumber("__x",vData.x);
+					SmartDashboard.putNumber("__y",vData.y);
+					SmartDashboard.putNumber("__r",vData.r);	
+					SmartDashboard.putString("Mode","jetson");
+					drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
+				}
+			else if(v.status ==1){
+				SmartDashboard.putNumber("__x",pixy2.getEx());
+				SmartDashboard.putNumber("__y", distance);
+				SmartDashboard.putNumber("__r",pixy2.getEr());
+				SmartDashboard.putString("Mode","pixy");
+				drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange() , Kr * pixy2.getEr());
+			}
+			else{
+				SmartDashboard.putString("Mode","driver");
+				SmartDashboard.putNumber("__x",oi.getPilotX());
+				SmartDashboard.putNumber("__y",oi.getPilotY());
+				SmartDashboard.putNumber("__r",oi.getPilotZ());
+				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+			}
+		}
+		else {
+				SmartDashboard.putString("Mode","driver");
+				SmartDashboard.putNumber("__x",oi.getPilotX());
+				SmartDashboard.putNumber("__y",oi.getPilotY());
+				SmartDashboard.putNumber("__r",oi.getPilotZ());
+				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+			}
+		
+	
 		//Stepper button controls
 		
 		//drive wheel button control
@@ -194,7 +203,7 @@ public class Robot extends TimedRobot {
 			
 		//Kx * pixy2.getEx()
 		//Kr * pixy2.getEr()
-	}
+	
 
 		//	stepper.retractPistons();
 	//	}
@@ -255,7 +264,7 @@ public class Robot extends TimedRobot {
 // 	@Override
 // 	public void testPeriodic() {
 	
-// 	}
+}
 
 
 @Override
