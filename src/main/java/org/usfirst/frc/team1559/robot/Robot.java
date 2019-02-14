@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.subsystems.Stepper;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
@@ -49,10 +50,13 @@ public class Robot extends TimedRobot {
 	public static Vision vision;
 
 	
-	private float Kx;
-    private float Ky;
-	private float Kr;
-	
+	private float jKx;
+    private float jKy;
+	private float jKr;
+	private float pKx;
+    private float pKy;
+	private float pKr;
+
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
@@ -63,9 +67,13 @@ public class Robot extends TimedRobot {
 		pixy2 = new Pixy();
 
 		vision = new Vision();
-		Kx = 0.002f;// maximum pixy translation (1/2 frame with)0.025
-		Kr = 0.021f; // maximum pixy angle0.014
-		Ky = 0.004f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
+
+		jKx = 0.002f;
+		jKr = 0.014f; 
+		jKy = 0.004f;
+		pKx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
+		pKr = 0.014f;// maximum pixy angle0.014
+		pKy = 0.0416f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 
 		pixy2 = new Pixy();
 		ai = new AnalogInput(0); 
@@ -146,14 +154,16 @@ public class Robot extends TimedRobot {
 					SmartDashboard.putNumber("__y",vData.y);
 					SmartDashboard.putNumber("__r",vData.r);	
 					SmartDashboard.putString("Mode","jetson");
-					drive.driveCartesian(Kx * vData.x, Ky * vData.y , Kr * vData.r);
+
+					drive.driveCartesian(jKx * vData.x, jKy * vData.y , jKr * vData.r);
 				}
 			else if(v.status ==1){
 				SmartDashboard.putNumber("__x",pixy2.getEx());
 				SmartDashboard.putNumber("__y", distance);
 				SmartDashboard.putNumber("__r",pixy2.getEr());
 				SmartDashboard.putString("Mode","pixy");
-				drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange() , Kr * pixy2.getEr());
+
+				drive.driveCartesian(pKx * pixy2.getEx(), pKy * ds.getRange() , pKr * pixy2.getEr());
 			}
 			else{
 				SmartDashboard.putString("Mode","driver");
@@ -163,6 +173,7 @@ public class Robot extends TimedRobot {
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 			}
 		}
+
 		else {
 				SmartDashboard.putString("Mode","driver");
 				SmartDashboard.putNumber("__x",oi.getPilotX());
@@ -170,6 +181,7 @@ public class Robot extends TimedRobot {
 				SmartDashboard.putNumber("__r",oi.getPilotZ());
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 			}
+
 		
 	
 		//Stepper button controls
