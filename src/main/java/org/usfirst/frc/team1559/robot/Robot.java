@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
 
 		vision = new Vision();
 		Kx = 0.002f;// maximum pixy translation (1/2 frame with)0.025
-		Kr = 0.014f; // maximum pixy angle0.014
+		Kr = 0.021f; // maximum pixy angle0.014
 		Ky = 0.004f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 
 		pixy2 = new Pixy();
@@ -137,7 +137,7 @@ public class Robot extends TimedRobot {
 		//if(v.status == 1)
 
 		double distance = ds.getRange();
-		double maxPixyRange = 24.0;
+		double maxPixyRange = 18.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
 
 		if(vData.status==1){
