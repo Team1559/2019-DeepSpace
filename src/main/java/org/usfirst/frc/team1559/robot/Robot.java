@@ -172,13 +172,7 @@ public class Robot extends TimedRobot {
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 			}
 		}
-		else {
-				SmartDashboard.putString("Mode","driver");
-				SmartDashboard.putNumber("__x",oi.getPilotX());
-				SmartDashboard.putNumber("__y",oi.getPilotY());
-				SmartDashboard.putNumber("__r",oi.getPilotZ());
-				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-			}
+		
 		
 	
 		//Stepper button controls
