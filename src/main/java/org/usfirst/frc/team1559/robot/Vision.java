@@ -29,7 +29,7 @@ public class Vision {
 				String[] parameters = in.split(" ");
 
 				if(parameters.length >= 4){
-					NewData.x = Double.parseDouble(parameters[0])-cameraXOffset;
+					NewData.x = -(Double.parseDouble(parameters[0])-cameraXOffset);
 					NewData.y = Double.parseDouble(parameters[1])-cameraYOffset;
 					NewData.r = Double.parseDouble(parameters[2]);
 					NewData.status = Integer.parseInt(parameters[3]);

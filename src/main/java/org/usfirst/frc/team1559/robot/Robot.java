@@ -63,12 +63,12 @@ public class Robot extends TimedRobot {
 		pixy2 = new Pixy();
 
 		vision = new Vision();
-		Kx = 0.0025f;// maximum pixy translation (1/2 frame with)0.025
-		Kr = 0.0112f; // maximum pixy angle0.014
-		Ky = 0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
+		Kx = 0.002f;// maximum pixy translation (1/2 frame with)0.025
+		Kr = 0.014f; // maximum pixy angle0.014
+		Ky = 0.004f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 
 		pixy2 = new Pixy();
-		ai = new AnalogInput(0);
+		ai = new AnalogInput(0); 
 
 		ds = new DistSensor(ai);
 	}	
