@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.subsystems.Pixyballtracking;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -109,7 +110,7 @@ public class Robot extends TimedRobot {
 		//lifter.driveLifter();
 		
 		//Camera
-
+		pixy2.getCenter();
 		//pixylinevector v=pixy2.getvector();
 		
 		
@@ -131,7 +132,7 @@ public class Robot extends TimedRobot {
 			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
 			// SmartDashboard.putNumber("__Kx",Kx );
 			// SmartDashboard.putNumber("__Kr",Kr);
-			SmartDashboard.putNumber("__Br",Kr * pixy2.getBr());
+			//SmartDashboard.putNumber("__Br",Kr * pixy2.getBr());
 			drive.driveCartesian(oi.getPilotX(), Ky * ds.getRange(), Kr * pixy2.getBr());
 			
 		//Kx * pixy2.getEx()

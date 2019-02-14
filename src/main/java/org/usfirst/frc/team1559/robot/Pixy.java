@@ -16,9 +16,10 @@ public class Pixy {
     public Object b;
     public double Ber;
     public double Bex;
+    private Pixyballtracking balltracker;
     public Pixy() {
         port = new SPI(SPI.Port.kOnboardCS1);
-
+         balltracker=new Pixyballtracking();
         port.setMSBFirst();
         port.setChipSelectActiveLow();
         port.setClockRate(2000000);
@@ -52,14 +53,14 @@ public class Pixy {
 
 
         port.read(false, returned, 2);
-        var b=new Pixyballtracking();
-        b.timer++;
-        b.r0=returned[7];
-        b.r1=returned[8];
-        b.Ber = (int)b.berror_r(b.r0, b.r1);
-        Ber=b.Ber;
+        
+        balltracker.timer++;
+        balltracker.r0=returned[7];
+        balltracker.r1=returned[8];
+        balltracker.Ber = (int)balltracker.berror_r(balltracker.r0, balltracker.r1);
+        Ber=balltracker.Ber;
 
-        return b;
+        return balltracker;
     }
     // public pixylinevector getvector() {
     //     byte[] returned = new byte[16];

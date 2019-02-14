@@ -31,11 +31,11 @@ public class DistSensor
 		int averageRaw = analogInput.getAverageValue();
 		double averageVolts = analogInput.getAverageVoltage();
 	//	SmartDashboard.putNumber("Analog Raw Value", raw);
-		SmartDashboard.putNumber("Analog  Volts", volts);
+	//	SmartDashboard.putNumber("Analog  Volts", volts);
 	//	SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
 		double IRdistance = 24.031 * Math.pow(volts, -1.5549);
-		SmartDashboard.putNumber("Analog Average Volts", averageVolts);
-		SmartDashboard.putNumber("Distance", IRdistance);
+		//SmartDashboard.putNumber("Analog Average Volts", averageVolts);
+		//SmartDashboard.putNumber("Distance", IRdistance);
         return IRdistance;
     }
     public void drive() {}

@@ -6,6 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team1559.robot.subsystems;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * Add your docs here.
@@ -19,7 +21,14 @@ public class Pixyballtracking {
     public int Bex;
 
     public double berror_r(double x0, double x1){
-        double brError=(r0-r1);
-            return brError;
+        double brError=(r0);
+        SmartDashboard.putNumber("__r1",r1);
+        SmartDashboard.putNumber("__r0",r0);
+        return brError;
+            
+            
         }
-}
+
+    
+    
+    } 
