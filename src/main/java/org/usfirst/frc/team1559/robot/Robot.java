@@ -56,7 +56,12 @@ public class Robot extends TimedRobot {
 	private float pKx;
     private float pKy;
 	private float pKr;
-
+	private float Er;
+	private float Ex;
+	private double Ey;
+	private double errorX;
+	private double errorR;
+	private double errorY;
 	@Override
 	public void robotInit() {
 		drive = new DriveTrain();
@@ -67,14 +72,15 @@ public class Robot extends TimedRobot {
 		pixy2 = new Pixy();
 
 		vision = new Vision();
+		
 
-		jKx = 0.002f;
-		jKr = 0.014f; 
-		jKy = 0.004f;
-		pKx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
-		pKr = 0.014f;// maximum pixy angle0.014
-		pKy = 0.0416f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
-
+		jKx = -0.015f;
+		jKr = 0.014f;//0.014 
+		jKy = 0.004f;//shold be .009
+		pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
+		pKr = 0.007f;// maximum pixy angle0.014
+		pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
+		
 		pixy2 = new Pixy();
 		ai = new AnalogInput(0); 
 
@@ -133,7 +139,9 @@ public class Robot extends TimedRobot {
 		 vision.update();
 		 VisionData vData = vision.getData();
 		 vData.Print();
-
+		 Ex = pixy2.getEx();
+		 Er = pixy2.getEr();
+	     
 		
 		
 		
@@ -145,26 +153,60 @@ public class Robot extends TimedRobot {
 		//if(v.status == 1)
 
 		double distance = ds.getRange();
+		Ey = distance - 5;
 		double maxPixyRange = 18.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
 
 		if(vData.status==1){
 			if(vData.y >= maxPixyRange){
-					SmartDashboard.putNumber("__x",vData.x);
-					SmartDashboard.putNumber("__y",vData.y);
-					SmartDashboard.putNumber("__r",vData.r);	
-					SmartDashboard.putString("Mode","jetson");
+					errorX = vData.x;
+					if ((errorX > -7.0) && (errorX < 7.0)){
+						SmartDashboard.putNumber("__Close enough x", errorX);
+						errorX = errorX/10.0;
+					}
 
-					drive.driveCartesian(jKx * vData.x, jKy * vData.y , jKr * vData.r);
+					errorR = vData.r;
+					if ((errorR>-1.0)&&(errorR<1.0))
+						errorR = 0.01;
+					if ((errorR > -5.0) && (errorR < 5.0)){
+						SmartDashboard.putNumber("__Close enough r", errorR);
+						errorR = errorR/10.0;
+					}
+					double xDrive = jKx * errorX;
+					if(xDrive > 1.0)
+						xDrive = 1.0;
+					else if(xDrive < -1.0)
+						xDrive = -1.0;
+
+						errorY = vData.y;
+
+					SmartDashboard.putNumber("__x",xDrive);
+					SmartDashboard.putNumber("__y", jKy * errorY);
+					SmartDashboard.putNumber("__r",jKr * errorR);	
+					SmartDashboard.putString("Mode","jetson");
+					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);
+					
 				}
-			else if(v.status ==1){
-				SmartDashboard.putNumber("__x",pixy2.getEx());
+			else if(v.status ==1 ){
+				/*SmartDashboard.putNumber("__x",pixy2.getEx());
 				SmartDashboard.putNumber("__y", distance);
 				SmartDashboard.putNumber("__r",pixy2.getEr());
-				SmartDashboard.putString("Mode","pixy");
+				SmartDashboard.putString("Mode","pixy");*/
+				System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
 
-				drive.driveCartesian(pKx * pixy2.getEx(), pKy * ds.getRange() , pKr * pixy2.getEr());
-			}
+				if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
+					SmartDashboard.putNumber("__Close enough x", Ex);
+					Ex = Ex/10;
+				}
+				if (pixy2.getEr() > -5.5 && pixy2.getEr() < 5.5){
+					SmartDashboard.putNumber("__Close enough r", Er);
+					Er = Er/15; 
+				}
+				if(Er < -3 && Er > 3){
+				pKy=0.416f;
+				}
+				//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+					}
 			else{
 				SmartDashboard.putString("Mode","driver");
 				SmartDashboard.putNumber("__x",oi.getPilotX());
@@ -174,13 +216,6 @@ public class Robot extends TimedRobot {
 			}
 		}
 
-		else {
-				SmartDashboard.putString("Mode","driver");
-				SmartDashboard.putNumber("__x",oi.getPilotX());
-				SmartDashboard.putNumber("__y",oi.getPilotY());
-				SmartDashboard.putNumber("__r",oi.getPilotZ());
-				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-			}
 
 		
 	

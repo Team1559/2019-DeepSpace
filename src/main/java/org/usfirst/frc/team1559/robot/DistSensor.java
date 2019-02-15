@@ -38,7 +38,7 @@ public class DistSensor
    
 
 
-		double IRdistance = (24.031 * Math.pow(volts, -1.5549))-18;
+		double IRdistance = (24.031 * Math.pow(volts, -1.5549))-11;
 
 	//	SmartDashboard.putNumber("Analog Average Volts", averageVolts);
 	//	SmartDashboard.putNumber("Distance", IRdistance);
