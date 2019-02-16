@@ -11,9 +11,7 @@ import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.AnalogInput;
-
-
-
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +30,7 @@ public class Robot extends TimedRobot {
 	*/
 	public DriveTrain drive;
 	private OperatorInterface oi;
+	private Compressor pcm = new Compressor(32);
 
 	private Pixy pixy2;
 	public static boolean fightstick = true;
@@ -52,6 +51,8 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void robotInit() {
+		pcm.start();
+
 		drive = new DriveTrain();
 
 
@@ -245,7 +246,7 @@ public void disabledInit() {
 
 @Override
 public void disabledPeriodic() {
-
+	pcm.stop();
 }
 
 
