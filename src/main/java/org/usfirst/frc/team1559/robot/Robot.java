@@ -159,11 +159,12 @@ public class Robot extends TimedRobot {
 		Ey = distance - 5;
 		double maxPixyRange = 18.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
-		if(oi.copilot.getRawAxis(Constants.LINEASSIST) == 1) {
-		pixy2.lampon();
-		LED_Relay.set(Value.kOn);
-		if(vData.status==1){
-			if(vData.y >= maxPixyRange){
+		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) {
+			System.out.println("It's alive");
+			pixy2.lampon();
+			LED_Relay.set(Value.kOn);
+			if(vData.status==1){
+				if(vData.y >= maxPixyRange){
 					errorX = vData.x;
 					if ((errorX > -7.0) && (errorX < 7.0)){
 						SmartDashboard.putNumber("__Close enough x", errorX);
@@ -183,40 +184,45 @@ public class Robot extends TimedRobot {
 					else if(xDrive < -1.0)
 						xDrive = -1.0;
 
-						errorY = vData.y;
+					errorY = vData.y;
 
-					SmartDashboard.putNumber("__error_r",vData.r);	
-					SmartDashboard.putNumber("__error_x",vData.x);
-					SmartDashboard.putNumber("__error_y",vData.y);
+					
 					SmartDashboard.putNumber("__x",xDrive);
 					SmartDashboard.putNumber("__y", jKy * errorY);
 					SmartDashboard.putNumber("__r",jKr * errorR);	
 					SmartDashboard.putString("Mode","jetson");
-					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);
-					
+					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
 				}
-			else if(v.status ==1 ){
-				/*SmartDashboard.putNumber("__x",pixy2.getEx());
-				SmartDashboard.putNumber("__y", distance);
-				SmartDashboard.putNumber("__r",pixy2.getEr());
-				SmartDashboard.putString("Mode","pixy");*/
-				System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
+				else if(v.status ==1 ){
+					/*SmartDashboard.putNumber("__x",pixy2.getEx());
+					SmartDashboard.putNumber("__y", distance);
+					SmartDashboard.putNumber("__r",pixy2.getEr());
+					SmartDashboard.putString("Mode","pixy");*/
+					System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
 
-				if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
-					SmartDashboard.putNumber("__Close enough x", Ex);
-					Ex = Ex/10;
-				}
-				if (pixy2.getEr() > -5.5 && pixy2.getEr() < 5.5){
-					SmartDashboard.putNumber("__Close enough r", Er);
-					Er = Er/15; 
-				}
-				if(Er < -3 && Er > 3){
-				pKy=0.416f;
-				}
-				//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+					if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
+						SmartDashboard.putNumber("__Close enough x", Ex);
+						Ex = Ex/10;
 					}
+					if (pixy2.getEr() > -5.5 && pixy2.getEr() < 5.5){
+						SmartDashboard.putNumber("__Close enough r", Er);
+						Er = Er/15; 
+					}
+					if(Er < -3 && Er > 3){
+						pKy=0.416f;	
+					}
+					//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+				}
+				else{
+					SmartDashboard.putString("Mode","driver-1");
+					SmartDashboard.putNumber("__x",oi.getPilotX());
+					SmartDashboard.putNumber("__y",oi.getPilotY());
+					SmartDashboard.putNumber("__r",oi.getPilotZ());
+					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+				}
+			}
 			else{
-				SmartDashboard.putString("Mode","driver");
+				SmartDashboard.putString("Mode","driver-2");
 				SmartDashboard.putNumber("__x",oi.getPilotX());
 				SmartDashboard.putNumber("__y",oi.getPilotY());
 				SmartDashboard.putNumber("__r",oi.getPilotZ());
@@ -225,8 +231,14 @@ public class Robot extends TimedRobot {
 		}
 		else{
 			LED_Relay.set(Value.kOff);
+			pixy2.lampoff();
+			SmartDashboard.putString("Mode","driver");
+			SmartDashboard.putNumber("__x",oi.getPilotX());
+			SmartDashboard.putNumber("__y",oi.getPilotY());
+			SmartDashboard.putNumber("__r",oi.getPilotZ());
+			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
-	}
+	
 
 
 		
