@@ -180,6 +180,9 @@ public class Robot extends TimedRobot {
 
 						errorY = vData.y;
 
+					SmartDashboard.putNumber("__error_r",vData.r);	
+					SmartDashboard.putNumber("__error_x",vData.x);
+					SmartDashboard.putNumber("__error_y",vData.y);
 					SmartDashboard.putNumber("__x",xDrive);
 					SmartDashboard.putNumber("__y", jKy * errorY);
 					SmartDashboard.putNumber("__r",jKr * errorR);	
