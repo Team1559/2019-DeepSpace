@@ -56,20 +56,22 @@ private OperatorInterface oi;
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
 
-private final int ticksToPort1 = 20; //Placeholder value
-private final int ticksToPort2 = 40; //Placeholder value
-private final int ticksToPort3 = 60; //Placeholder value
+private final double ticksPerInch = 1.79;
 
-private final int ticksToHatch1 = 10; //Placeholder value
-private final int ticksToHatch2 = 30; //Placeholder value
-private final int ticksToHatch3 = 50; //Placeholder value
+private final double ticksToPort1 = 27.5 * ticksPerInch; //Placeholder value
+private final double ticksToPort2 = 55.5 * ticksPerInch; //Placeholder value
+private final double ticksToPort3 = 83.5 * ticksPerInch; //Placeholder value
 
-private int potUseableBottom; //Code will auto adjust values based on this one.
-private int potUseableTop; //Placeholder
-private int potRange = 150; //This is just a placeholder value. Make sure we find the actual range that we want.
+private final double ticksToHatch1 = 19 * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = 47 * ticksPerInch; //Placeholder value
+private final double ticksToHatch3 = 75 * ticksPerInch; //Placeholder value
+
+private int potUseableBottom = -291; //Code will auto adjust values based on this one.
+private int potUseableTop = -894; //Placeholder
+private int potRange = 603; //This is just a placeholder value. Make sure we find the actual range that we want.
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 
-private double kP = 6; //Just for testing purposes
+private double kP = 1; //Just for testing purposes
 private double kI = 0;
 private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
@@ -81,26 +83,31 @@ private boolean isAxis = true;
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
 
-		potUseableBottom = getPot();
-		potUseableTop = potUseableBottom + potRange;
+		// potUseableBottom = getPot();
+		potUseableTop = potUseableBottom - potRange;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
 		lifterMotor.configPeakCurrentLimit(0,TIMEOUT);
 		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
+		lifterMotor.setInverted(true);
 
-		lifterMotor.configNominalOutputForward(+.05, TIMEOUT);
+		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
-		lifterMotor.configPeakOutputForward(+1, TIMEOUT);
+		lifterMotor.configPeakOutputForward(1, TIMEOUT);
 		lifterMotor.configPeakOutputReverse(-0.55, TIMEOUT);
+
+		// lifterMotor.configForwardSoftLimitEnable(true);
+		// lifterMotor.configReverseSoftLimitEnable(true);
+		// lifterMotor.configForwardSoftLimitThreshold(potUseableTop);
+		// lifterMotor.configReverseSoftLimitThreshold(potUseableBottom);
 
 		lifterMotor.config_kP(0, kP, TIMEOUT);
 		lifterMotor.config_kI(0, kI, TIMEOUT);
 		lifterMotor.config_kD(0, kD, TIMEOUT);
 		lifterMotor.config_kF(0, kF, TIMEOUT);
 
-		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
 				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
@@ -117,25 +124,27 @@ private boolean isAxis = true;
 	}
 
 	public void setupPortPos() {
-		portPositions[0] = potUseableBottom + ticksToPort1;
-		portPositions[1] = potUseableBottom + ticksToPort2;
-		portPositions[2] = potUseableBottom + ticksToPort3;
+		portPositions[0] = potUseableBottom - ticksToPort1;
+		portPositions[1] = potUseableBottom - ticksToPort2;
+		portPositions[2] = potUseableBottom - ticksToPort3;
 	}
 
 	public void setupHatchPos() {
-		hatchPositions[0] = potUseableBottom + ticksToHatch1;
-		hatchPositions[1] = potUseableBottom + ticksToHatch2;
-		hatchPositions[2] = potUseableBottom + ticksToHatch3;
+		hatchPositions[0] = potUseableBottom - ticksToHatch1;
+		hatchPositions[1] = potUseableBottom - ticksToHatch2;
+		hatchPositions[2] = potUseableBottom - ticksToHatch3;
 	}
 
 	public void goToPortPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, portPositions[pos]);
+		SmartDashboard.putNumber("Pot going to", portPositions[pos]);
 	}
 
 	public void goToHatchPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
+		SmartDashboard.putNumber("Pot going to", hatchPositions[pos]);
 	}
 
 	public void goToCargoShipHatch() {
@@ -148,11 +157,12 @@ private boolean isAxis = true;
 
 	public void goToBottom() {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
+		SmartDashboard.putNumber("Pot going to", potUseableBottom);
 	}
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
 		potUseableBottom = getPot();
-		potUseableTop = potUseableBottom + potRange;
+		potUseableTop = potUseableBottom - potRange;
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
 				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
@@ -163,22 +173,25 @@ private boolean isAxis = true;
 	}
 
 	public void goUp() {
-		lifterMotor.set(0.3);
+		lifterMotor.set(ControlMode.PercentOutput,0.3);
+		System.out.println("Going up!!!!");
 	}
 
 	public void goDown() {
-		lifterMotor.set(-0.3);
+		lifterMotor.set(ControlMode.PercentOutput,-0.3);
+		System.out.println("Going down!!!!");
 	}
 
 	public void stop() {
 		lifterMotor.stopMotor();
 	}
 
-	public void maxOverride() {
-		if(getPot() == potMax) {
-			stop();
-		}
-	}
+	// public void maxOverride() {
+	// 	if(getPot() == potMax)
+	// 		stop();
+	// 	else if(getPot() == potUseableBottom)
+	// 		stop();
+	// }
 
 	/**
 	 * IMPORTANT!!!! VERY BIG DRIVE LIFTER METHOD!!!!
@@ -193,7 +206,10 @@ private boolean isAxis = true;
 		*/
 		// System.out.println(getPot()); //For testing purposes
 		SmartDashboard.putNumber("Pot", getPot());
-		maxOverride();
+		SmartDashboard.putNumber("Range", potRange);
+		SmartDashboard.putNumber("Pot Top", potUseableTop);
+		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);
+		// maxOverride();
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);
@@ -232,18 +248,19 @@ private boolean isAxis = true;
 			recallibrateSystem();
 			
 		}
-		else if(oi.getCopilotAxis(1) == -1.0) {
+		else if(oi.getCopilotAxis(1) <= -0.9) {
 			isAxis = true;
 			goUp();
 			
 		}
-		else if(oi.getCopilotAxis(1) == 1) {
+		else if(oi.getCopilotAxis(1) >= 0.9) {
 			isAxis = true;
 			goDown();
 			
 		}
-		else if((int)(oi.getCopilotAxis(1)) == 0 && isAxis) {
+		else if((Math.abs(oi.getCopilotAxis(1)) <= 0.1 ) && isAxis) {
 			stop();
+			System.out.println("Stopped");
 		}
 	}
 

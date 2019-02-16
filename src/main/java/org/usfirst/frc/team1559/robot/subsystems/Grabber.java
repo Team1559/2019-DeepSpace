@@ -14,6 +14,7 @@ public class Grabber
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
     private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
+
     private double speedBall, speedHatch, stopHatch;
     private OperatorInterface oi;
 
@@ -42,13 +43,13 @@ public class Grabber
 			removeCargo();
 		}
 
-		if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
+		/*if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
 			slapHatch();
 		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
 			unslapHatch();
 
 		}
-
+*/
     }
 
 
@@ -74,12 +75,14 @@ public class Grabber
 
     public void getCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, speedBall);
+        ballIntake.set(speedBall);
+        //ControlMode.PercentOutput,  was first argument
     }
 
     public void removeCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, -speedBall);
+        ballIntake.set(-speedBall);
+     //ControlMode.PercentOutput,  was first argument
     }
 
     public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH

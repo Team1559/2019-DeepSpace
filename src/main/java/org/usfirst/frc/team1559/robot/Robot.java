@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 	*/
 	public DriveTrain drive;
 	private OperatorInterface oi;
-	private Compressor pcm = new Compressor(32);
+	private Compressor pcm = new Compressor();
 
 	private Pixy pixy2;
 	public static boolean fightstick = true;
@@ -199,21 +199,22 @@ public class Robot extends TimedRobot {
 		{
 			stepper.lowerStepper();
 		}
-	
-	// Grabber
-		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-		// 	grabber.getCargo();
-		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-		// 	grabber.removeCargo();
-		// }
-
+	*/
+	//Grabber
+		//grabber.drive();
+		/*if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+			grabber.getCargo();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+			grabber.removeCargo();
+		}
+		*/
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
 		// 	grabber.getHatch();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
 		// 	grabber.bringHatch();
 
 		// }
-
+			/*
 		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
 		 	dBounce = true;
 			
