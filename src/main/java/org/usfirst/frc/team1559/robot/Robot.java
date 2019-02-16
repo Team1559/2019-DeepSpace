@@ -10,11 +10,13 @@ import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -35,6 +37,7 @@ public class Robot extends TimedRobot {
 	private OperatorInterface oi;
 
 	private Pixy pixy2;
+	private Relay LED_Relay;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	//private static Lifter lifter;
@@ -59,6 +62,7 @@ public class Robot extends TimedRobot {
 	private float Er;
 	private float Ex;
 	private double Ey;
+	private boolean Led;
 	private double errorX;
 	private double errorR;
 	private double errorY;
@@ -70,7 +74,7 @@ public class Robot extends TimedRobot {
 		oi = new OperatorInterface();
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
-
+		LED_Relay = new Relay(0);
 		vision = new Vision();
 		
 
@@ -157,6 +161,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("IRDistance,", distance);
 		if(oi.copilot.getRawAxis(Constants.LINEASSIST) == 1) {
 		pixy2.lampon();
+		LED_Relay.set(Value.kOn);
 		if(vData.status==1){
 			if(vData.y >= maxPixyRange){
 					errorX = vData.x;
@@ -218,7 +223,11 @@ public class Robot extends TimedRobot {
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 			}
 		}
+		else{
+			LED_Relay.set(Value.kOff);
+		}
 	}
+
 
 		
 	
