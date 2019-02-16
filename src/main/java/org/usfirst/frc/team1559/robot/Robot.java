@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		vision = new Vision();
+		stepper = new Stepper();
 		
 		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
 		Kr = 0.014f; // maximum pixy angle0.014
@@ -78,7 +79,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		pixy2.start();
+		//pixy2.start();
 		// No autonomous neccesary
 	}
 
@@ -89,9 +90,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		pixy2.start();
-		pixy2.lampon();
-		vision.VisionInit();
+		//pixy2.start();
+		//pixy2.lampon();
+		//vision.VisionInit();
 	}
 
 	@Override
@@ -108,9 +109,9 @@ public class Robot extends TimedRobot {
 		
 		//Camera
 
-		pixylinevector v=pixy2.getvector();
-		vision.update();
-		VisionData vData = vision.getData();
+		//pixylinevector v=pixy2.getvector();
+		//vision.update();
+		//VisionData vData = vision.getData();
 		//vData.Print();
 
 		
@@ -122,7 +123,7 @@ public class Robot extends TimedRobot {
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
 		//if(v.status == 1)
-
+/*
 		double distance = dist.getRange();
 		double maxPixyRange = 24.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
@@ -149,17 +150,19 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
-
+*/
 		//Stepper button controls
-		/*
+		
 		//drive wheel button control
-		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
+		if(oi.pilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_FORWARD))
 		{
 			stepper.driveForward();
+			System.out.println("Driving Forward");
 		}
-		else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
+		else if(oi.pilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
 		{
 			stepper.driveBackward();
+			System.out.println("Driving Backward");
 		}
 		else
 		{
@@ -169,36 +172,25 @@ public class Robot extends TimedRobot {
 		//retracts pistons
 		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
 		{
-
-	
-			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			// SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			// SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			// SmartDashboard.putNumber("__Kx",Kx );
-			// SmartDashboard.putNumber("__Kr",Kr);
-			drive.driveCartesian(Kx * pixy2.getEx(), Ky * distance, Kr * pixy2.getEr());
-			
-		//Kx * pixy2.getEx()
-		//Kr * pixy2.getEr()
-	}
-
-	//	stepper.retractPistons();
-	//	}
-
-
+			stepper.retractPistons();
+			System.out.println("Retract Pistons");
+		}
+		System.out.println(stepper.getPot());
+		
 		//lifter to top position
 		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
 		{
 			stepper.liftStepper();
+			System.out.println("Lift Up");
 		}
 
 		//lifter to lowest position
 		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			stepper.lowerStepper();
+			System.out.println("Lift Down");
 		}
-	
+	}
 	// Grabber
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
@@ -212,7 +204,7 @@ public class Robot extends TimedRobot {
 		// 	grabber.bringHatch();
 
 		// }
-
+/*
 		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
 		 	dBounce = true;
 			
@@ -220,9 +212,9 @@ public class Robot extends TimedRobot {
 			drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 
 		 }
-		 */
+		 
 	}
-
+*/
 		
 	@Override
 	public void testInit() {
@@ -240,7 +232,7 @@ public class Robot extends TimedRobot {
 
 @Override
 public void disabledInit() {
-	pixy2.lampoff();
+	//pixy2.lampoff();
 }
 
 @Override

@@ -2,6 +2,7 @@
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
@@ -61,19 +62,37 @@ public class Stepper {
 	private Solenoid pistons;
 
 	//positioning values for lifter
-	private double upperLifterValue = 0; //highest position
-	private double lowerLifterValue = 0; //lowest position
+	private double lifterDistance = 150; //the difference between the highest and lowest pot values
+	private double upperLifterValue; //highest position
+	private double lowerLifterValue; //lowest position
 	
 	//speed of motors (-1.0 to 1.0)
 	private double wheelSpeed = 0.8; //speed of the wheels
 
+	//stepper potentiometer constants
+	private final int potMin = 5;
+	private final int potMax = 1023;
 
  	//instantiates all talons and the solenoid, imports which port each is plugged into
  	public Stepper()
  	{
  		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
  		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
- 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+
+		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+		lowerLifterValue = getPot(); 
+		upperLifterValue = lowerLifterValue + lifterDistance;
+
+		//safeguard to make sure motor does not continually run if greater value than max is given
+		if(upperLifterValue > potMax)
+		{
+			for(int i = 1; i < 20; i++)
+			{	
+				System.out.println("WARNING: STEPPER UPPER LIFTER VALUE EXCEEDS MAX POT VALUE");
+			}
+			upperLifterValue = potMax;
+		}
 	}
 
  	//extends both back pistons
