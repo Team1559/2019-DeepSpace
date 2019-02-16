@@ -20,7 +20,6 @@ public interface Wiring {
 	
 	// DriveTrain
 	public static final int FRONT_LEFT_MOTOR = 1;
-
 	public static final int FRONT_RIGHT_MOTOR = 2;
 	public static final int REAR_LEFT_MOTOR = 3;
 	public static final int REAR_RIGHT_MOTOR = 4;

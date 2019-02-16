@@ -126,7 +126,7 @@ public class Robot extends TimedRobot {
 		double distance = dist.getRange();
 		double maxPixyRange = 24.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
-		
+		if(oi.coButtonIsPressed(Constants.BTN_AUTO)) {
 		if(v.status == 1 && distance <= maxPixyRange)
 		{
 			SmartDashboard.putNumber("__x",pixy2.getEx());
@@ -149,7 +149,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
-
+	}
 		//Stepper button controls
 		/*
 		//drive wheel button control
