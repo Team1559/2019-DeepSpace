@@ -117,7 +117,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		pixy2.start();
-		pixy2.lampon();
 		vision.VisionInit();
 	}
 
@@ -156,7 +155,8 @@ public class Robot extends TimedRobot {
 		Ey = distance - 5;
 		double maxPixyRange = 18.0;
 		SmartDashboard.putNumber("IRDistance,", distance);
-
+		if(oi.copilot.getRawAxis(Constants.LINEASSIST) == 1) {
+		pixy2.lampon();
 		if(vData.status==1){
 			if(vData.y >= maxPixyRange){
 					errorX = vData.x;
@@ -218,7 +218,7 @@ public class Robot extends TimedRobot {
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 			}
 		}
-
+	}
 
 		
 	
