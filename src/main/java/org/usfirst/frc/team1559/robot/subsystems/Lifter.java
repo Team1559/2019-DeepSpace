@@ -8,6 +8,9 @@ import org.usfirst.frc.team1559.robot.Constants;
 import org.usfirst.frc.team1559.robot.MathUtils;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -189,6 +192,7 @@ private boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		// System.out.println(getPot()); //For testing purposes
+		SmartDashboard.putNumber("Pot", getPot());
 		maxOverride();
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
