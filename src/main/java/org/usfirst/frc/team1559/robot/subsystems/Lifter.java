@@ -128,13 +128,11 @@ private boolean isAxis = true;
 	public void goToPortPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, portPositions[pos]);
-		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToHatchPos(int pos) {
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
-		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void goToCargoShipHatch() {
@@ -147,7 +145,6 @@ private boolean isAxis = true;
 
 	public void goToBottom() {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
-		// System.out.println(getPot()); //For testing purposes
 	}
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
@@ -171,8 +168,13 @@ private boolean isAxis = true;
 	}
 
 	public void stop() {
-		// lifterMotor.set(0.0);
 		lifterMotor.stopMotor();
+	}
+
+	public void maxOverride() {
+		if(getPot() == potMax) {
+			stop();
+		}
 	}
 
 	/**
@@ -187,22 +189,14 @@ private boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		// System.out.println(getPot()); //For testing purposes
+		maxOverride();
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
-			// System.out.println(oi.copilot.getRawButton(1));
-			// System.out.println(1);
 			goToPortPos(1);
-			
 		}
-		// else if(oi.copilot.getRawButton(1) == true)
-		// {
-		// 	isAxis = false;
-		// 	goToPortPos(1);
-		// }
+
 		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
-			// System.out.println(oi.copilot.getRawButton(2));
-			// System.out.println(2);
 			goToPortPos(2);
 			
 		}
@@ -212,22 +206,16 @@ private boolean isAxis = true;
 		}
 		else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
-			// System.out.println(oi.copilot.getRawButton(3));
-			// System.out.println(3);
 			goToCargoShipHatch();
 			
 		}
 		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
-			// System.out.println(oi.copilot.getRawButton(4));
-			// System.out.println(4);
 			goToCargoShipCargoDrop();
 			
 		}
 		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
-			// System.out.println(oi.copilot.getRawButton(6));
-			// System.out.println(5);
 			goToHatchPos(3);
 			
 		}
@@ -237,47 +225,22 @@ private boolean isAxis = true;
 		}
 		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
-			// System.out.println(oi.copilot.getRawButton(7));
-			// System.out.println(6);
 			recallibrateSystem();
 			
 		}
 		else if(oi.getCopilotAxis(1) == -1.0) {
 			isAxis = true;
 			goUp();
-			// System.out.println(oi.getCopilotAxis(1));
 			
 		}
 		else if(oi.getCopilotAxis(1) == 1) {
 			isAxis = true;
 			goDown();
-			// System.out.println(oi.getCopilotAxis(1));
 			
 		}
 		else if((int)(oi.getCopilotAxis(1)) == 0 && isAxis) {
 			stop();
-			// System.out.println((int)(oi.getCopilotAxis(1)));
 		}
-		// if(oi.copilot.getRawButton(1))
-		// 	System.out.println(1);
-		// else if(oi.copilot.getRawButton(2))
-		// 	System.out.println(2);
-		// else if(oi.copilot.getRawButton(3))
-		// 	System.out.println(3);
-		// else if(oi.copilot.getRawButton(4))
-		// 	System.out.println(4);
-		// else if(oi.copilot.getRawButton(5))
-		// 	System.out.println(5);
-		// else if(oi.copilot.getRawButton(6))
-		// 	System.out.println(6);
-		// else if(oi.copilot.getRawButton(7))
-		// 	System.out.println(7);
-		// else if(oi.copilot.getRawButton(8))
-		// 	System.out.println(8);
-		// else if(oi.copilot.getRawButton(9))
-		// 	System.out.println(9);
-		// else if(oi.copilot.getRawButton(10))
-		// 	System.out.println(10);
 	}
 
 

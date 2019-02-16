@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
 	private Pixy pixy2;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
-	//private static Lifter lifter;
+	private static Lifter lifter;
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
 
 
 		oi = new OperatorInterface();
-		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
+		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		vision = new Vision();
 		
@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
 
 
 		//Lifter
-		//lifter.driveLifter();
+		lifter.driveLifter();
 		
 		//Camera
 
