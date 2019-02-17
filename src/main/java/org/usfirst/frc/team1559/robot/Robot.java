@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
 		pixy2 = new Pixy();
 		LED_Relay = new Relay(0);
 		vision = new Vision();
-		
+		grabber = new Grabber(oi);
 
 		jKx = -0.015f;
 		jKr = 0.014f;//0.014 
@@ -123,6 +123,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		pixy2.start();
 		vision.VisionInit();
+		LED_Relay.set(Value.kOn);
 	}
 
 
@@ -164,7 +165,6 @@ public class Robot extends TimedRobot {
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) {
 			System.out.println("It's alive");
 			pixy2.lampon();
-			LED_Relay.set(Value.kOn);
 			if(vData.status==1){
 				if(vData.y >= maxPixyRange){
 					errorX = vData.x;
@@ -232,7 +232,6 @@ public class Robot extends TimedRobot {
 			}
 		}
 		else{
-			LED_Relay.set(Value.kOff);
 			pixy2.lampoff();
 			SmartDashboard.putString("Mode","driver");
 			SmartDashboard.putNumber("__x",oi.getPilotX());
@@ -275,20 +274,22 @@ public class Robot extends TimedRobot {
 		}
 
 		//lifter to lowest position
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
-		{
-			stepper.lowerStepper();
-		}
+		// if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		// {
+		// 	stepper.lowerStepper();
+		// }
 	
 	
 	//Grabber
-		//grabber.drive();
-		/*if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-			grabber.getCargo();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-			grabber.removeCargo();
-		}
-		*/
+		grabber.drive();
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+		// 	grabber.getCargo();
+		// 	SmartDashboard.putNumber("__Ball", 1);
+		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+		// 	grabber.removeCargo();
+		// 	SmartDashboard.putNumber("__Ball", 2);
+		// }
+		
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
 		// 	grabber.getHatch();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
@@ -296,9 +297,9 @@ public class Robot extends TimedRobot {
 
 		// }
 			
-		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		 	dBounce = true;
-		 }
+		//  if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		//  	dBounce = true;
+		//  }
 			
 		// 	drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 		// 	if(ds.getRange() == 18)
@@ -329,6 +330,7 @@ public class Robot extends TimedRobot {
 @Override
 public void disabledInit() {
 	pixy2.lampoff();
+	LED_Relay.set(Value.kOff);
 }
 
 @Override

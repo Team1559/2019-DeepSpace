@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -8,13 +9,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
-    private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
-
+    private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
+    private Talon ballIntake;
     private double speedBall, speedHatch, stopHatch;
     private OperatorInterface oi;
 
@@ -23,14 +25,14 @@ public class Grabber
 
         this.oi = oi;
         //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
-        ballIntake = new WPI_TalonSRX(Wiring.NTK_TALONSRX_BI);
+        ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
         //limitSwitch1 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS1);
         //limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
         //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
         //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
-        speedBall = .3; //FIND A SPEED THAT WORKSs
+        speedBall = .51; //FIND A SPEED THAT WORKSs
         speedHatch = .5; //FIND A SPEED THAT WORKS
         stopHatch = .5;
     }
@@ -38,11 +40,19 @@ public class Grabber
     public void drive() {
 
         if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
-			getCargo();
+            getCargo();
+            SmartDashboard.putNumber("__Ball", 1);
 		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
-			removeCargo();
+            removeCargo();
+            SmartDashboard.putNumber("__Ball", 2);
 		}
+        else{
+            if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
+                StopBall();
+        }
+    }
 
+         
 		/*if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
 			slapHatch();
 		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
@@ -52,7 +62,10 @@ public class Grabber
 */
     }
 
-
+    public void StopBall()
+    {
+        ballIntake.set(0 * speedBall);
+    }
 
     public void getHatch()
     {

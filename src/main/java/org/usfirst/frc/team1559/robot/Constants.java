@@ -27,6 +27,7 @@ public interface Constants {
 		public static final int RR_TALON = 3;
 	// Grabber
 	public static final int BTN_OUTTAKE = 3;
+	public static final int BTN_STOP = 2;
 	public static final int BTN_INTAKE = 1;
 	public static final int BTN_HATCH_SLAP = 6;
 	public static final int BTN_HATCH_UNSLAP = 5;
