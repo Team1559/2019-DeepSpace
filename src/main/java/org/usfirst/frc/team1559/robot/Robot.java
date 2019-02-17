@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 	*/
 	public DriveTrain drive;
 	private OperatorInterface oi;
-	private Compressor pcm = new Compressor();
+	//private Compressor pcm = new Compressor();
 
 	private Pixy pixy2;
 	private Relay LED_Relay;
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 	private double errorY;
 	@Override
 	public void robotInit() {
-		pcm.start();
+		//pcm.start();
 
 		drive = new DriveTrain();
 
@@ -333,7 +333,7 @@ public void disabledInit() {
 
 @Override
 public void disabledPeriodic() {
-	pcm.stop();
+	//pcm.stop();
 }
 
 
