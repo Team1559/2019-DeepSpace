@@ -217,12 +217,12 @@ private boolean isAxis = true;
 
 		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
-			goToPortPos(2);
+			// goToPortPos(2);
 			
 		}
 		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
-			goToPortPos(3);
+			// goToPortPos(3);
 		}
 		else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
@@ -231,12 +231,12 @@ private boolean isAxis = true;
 		}
 		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
-			goToCargoShipCargoDrop();
+			// goToCargoShipCargoDrop();
 			
 		}
 		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
-			goToHatchPos(3);
+			// goToHatchPos(3);
 			
 		}
 		else if(oi.copilot.getRawButton(3)) {
