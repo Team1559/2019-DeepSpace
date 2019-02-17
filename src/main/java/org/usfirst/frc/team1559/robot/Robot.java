@@ -12,9 +12,7 @@ import org.usfirst.frc.team1559.robot.Vision;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.AnalogInput;
-
-
-
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,12 +33,13 @@ public class Robot extends TimedRobot {
 	*/
 	public DriveTrain drive;
 	private OperatorInterface oi;
+	private Compressor pcm = new Compressor();
 
 	private Pixy pixy2;
 	private Relay LED_Relay;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
-	//private static Lifter lifter;
+	private static Lifter lifter;
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
@@ -68,11 +67,13 @@ public class Robot extends TimedRobot {
 	private double errorY;
 	@Override
 	public void robotInit() {
+		pcm.start();
+
 		drive = new DriveTrain();
 
 
 		oi = new OperatorInterface();
-		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
+		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		LED_Relay = new Relay(0);
 		vision = new Vision();
@@ -124,6 +125,7 @@ public class Robot extends TimedRobot {
 		vision.VisionInit();
 	}
 
+
 	@Override
 	public void teleopPeriodic() {
 
@@ -134,7 +136,7 @@ public class Robot extends TimedRobot {
 
 
 		//Lifter
-		//lifter.driveLifter();
+		lifter.driveLifter();
 		
 		//Camera
 
@@ -194,10 +196,10 @@ public class Robot extends TimedRobot {
 					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
 				}
 				else if(v.status ==1 ){
-					/*SmartDashboard.putNumber("__x",pixy2.getEx());
+					SmartDashboard.putNumber("__x",pixy2.getEx());
 					SmartDashboard.putNumber("__y", distance);
 					SmartDashboard.putNumber("__r",pixy2.getEr());
-					SmartDashboard.putString("Mode","pixy");*/
+					SmartDashboard.putString("Mode","pixy");
 					System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
 
 					if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
@@ -261,56 +263,42 @@ public class Robot extends TimedRobot {
 
 		//retracts pistons
 		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
-		// {
-
-	
-			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			// SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			// SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			// SmartDashboard.putNumber("__Kx",Kx );
-			// SmartDashboard.putNumber("__Kr",Kr);
-			//drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
-			
-		//Kx * pixy2.getEx()
-		//Kr * pixy2.getEr()
-	
-
+		// 
 		//	stepper.retractPistons();
 	//	}
 
 
 		//lifter to top position
-	// 	if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
-	// 	{
-	// 		stepper.liftStepper();
-	// 	}
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
+		{
+			stepper.liftStepper();
+		}
 
-	// 	//lifter to lowest position
-	// 	if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
-	// 	{
-	// 		stepper.lowerStepper();
-	// 	}
-	// }
-//}
+		//lifter to lowest position
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		{
+			stepper.lowerStepper();
+		}
 	
-	// Grabber
-		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-		// 	grabber.getCargo();
-		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-		// 	grabber.removeCargo();
-		// }
-
+	
+	//Grabber
+		//grabber.drive();
+		/*if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+			grabber.getCargo();
+		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+			grabber.removeCargo();
+		}
+		*/
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
 		// 	grabber.getHatch();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
 		// 	grabber.bringHatch();
 
 		// }
-
-		//  if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		//  	dBounce = true;
 			
+		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		 	dBounce = true;
+		 }
 			
 		// 	drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 		// 	if(ds.getRange() == 18)
@@ -321,7 +309,7 @@ public class Robot extends TimedRobot {
 
 // 				dBounce = false;}
 // 		 }
-// 	}
+ 	}
 
 		
 // 	@Override
@@ -332,8 +320,8 @@ public class Robot extends TimedRobot {
 
 
 
-// 	@Override
-// 	public void testPeriodic() {
+ 	@Override
+ 	public void testPeriodic() {
 	
 }
 
@@ -345,7 +333,7 @@ public void disabledInit() {
 
 @Override
 public void disabledPeriodic() {
-
+	pcm.stop();
 }
 
 
