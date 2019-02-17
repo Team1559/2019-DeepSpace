@@ -193,7 +193,7 @@ public class Robot extends TimedRobot {
 					SmartDashboard.putNumber("__y", jKy * errorY);
 					SmartDashboard.putNumber("__r",jKr * errorR);	
 					SmartDashboard.putString("Mode","jetson");
-					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
+					//drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
 				}
 				else if(v.status ==1 ){
 					SmartDashboard.putNumber("__x",pixy2.getEx());
@@ -220,7 +220,7 @@ public class Robot extends TimedRobot {
 					SmartDashboard.putNumber("__x",oi.getPilotX());
 					SmartDashboard.putNumber("__y",oi.getPilotY());
 					SmartDashboard.putNumber("__r",oi.getPilotZ());
-					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+					//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 				}
 			}
 			else{

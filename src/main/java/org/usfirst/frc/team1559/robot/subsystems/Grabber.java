@@ -32,9 +32,9 @@ public class Grabber
         //limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
         //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
         //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
-        speedBall = .51; //FIND A SPEED THAT WORKSs
-        speedHatch = .5; //FIND A SPEED THAT WORKS
-        stopHatch = .5;
+        speedBall = 0.51; //FIND A SPEED THAT WORKSs
+        speedHatch = 0.5; //FIND A SPEED THAT WORKS
+        stopHatch = 0.5;
     }
 
     public void drive() {
@@ -45,11 +45,13 @@ public class Grabber
 		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
             removeCargo();
             SmartDashboard.putNumber("__Ball", 2);
-		}
-        else{
-            if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
-                StopBall();
         }
+        System.out.println("MIKE IS ALWAYS WATCHING!");
+         if(oi.pilot.getRawButton(2)) {
+                StopBall();
+                SmartDashboard.putNumber("__Ball", 0);
+                System.out.println("HI!");
+            }
     }
 
          
@@ -60,11 +62,11 @@ public class Grabber
 
 		}
 */
-    }
+    
 
     public void StopBall()
     {
-        ballIntake.set(0 * speedBall);
+        ballIntake.stopMotor();
     }
 
     public void getHatch()
