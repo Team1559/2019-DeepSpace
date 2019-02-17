@@ -17,10 +17,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Solenoid;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.subsystems.Stepper;
+
+import javax.lang.model.util.ElementScanner6;
+
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -43,7 +46,8 @@ public class Robot extends TimedRobot {
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
-
+	public Compressor c = new Compressor(0);
+	public Solenoid hatchsnatcher = new Solenoid(1);
 
 	public static DistSensor dist;
 	private static DistSensor ds;
@@ -65,13 +69,14 @@ public class Robot extends TimedRobot {
 	private double errorX;
 	private double errorR;
 	private double errorY;
+	private Solenoid hatchsnacher;
 	@Override
 	public void robotInit() {
 		//pcm.start();
 
 		drive = new DriveTrain();
 
-
+		hatchsnacher = new Solenoid(0);
 		oi = new OperatorInterface();
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
@@ -88,8 +93,16 @@ public class Robot extends TimedRobot {
 		
 		pixy2 = new Pixy();
 		ai = new AnalogInput(0); 
+		LED_Relay.set(Value.kOn);
 
 		ds = new DistSensor(ai);
+		c = new Compressor(7);
+
+		
+
+
+
+		
 	}	
 
 		//dSensor = new DistSensor();
@@ -129,11 +142,18 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-
+		c.setClosedLoopControl(true);
 
 		// Camera
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
+		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
+			hatchsnacher.set(true);
+		}
+		else{		
+			hatchsnatcher.set(false);
+		}
+
 
 
 		//Lifter
@@ -281,7 +301,7 @@ public class Robot extends TimedRobot {
 	
 	
 	//Grabber
-		grabber.drive();
+		//grabber.drive();
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// 	SmartDashboard.putNumber("__Ball", 1);
@@ -331,6 +351,7 @@ public class Robot extends TimedRobot {
 public void disabledInit() {
 	pixy2.lampoff();
 	LED_Relay.set(Value.kOff);
+	
 }
 
 @Override

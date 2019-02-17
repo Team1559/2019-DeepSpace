@@ -174,7 +174,7 @@ private boolean isAxis = true;
 	}
 
 	public void goUp() {
-		lifterMotor.set(ControlMode.PercentOutput,0.3);
+		lifterMotor.set(ControlMode.PercentOutput,0.5);
 		System.out.println("Going up!!!!");
 	}
 
