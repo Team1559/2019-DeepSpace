@@ -220,7 +220,7 @@ public class Robot extends TimedRobot {
 					//to go right increase, to go left decrease
 					 Ex = Rightdistance - Leftdistance;
 					
-				//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+				drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
 			}
 			else{
 				SmartDashboard.putString("Mode","driver");
