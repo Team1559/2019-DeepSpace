@@ -56,15 +56,16 @@ private OperatorInterface oi;
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
 
-private final double ticksPerInch = 1.79; // Maybe it should be 5.93 or a similar value
+private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
+private final double homeInches = 12;
 
-private final double ticksToPort1 = 27.5 * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = 55.5 * ticksPerInch; //Placeholder value
-private final double ticksToPort3 = 83.5 * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (27.5-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort2 = (55.5-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort3 = (83.5-homeInches) * ticksPerInch; //Placeholder value
 
-private final double ticksToHatch1 = 19 * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = 47 * ticksPerInch; //Placeholder value
-private final double ticksToHatch3 = 75 * ticksPerInch; //Placeholder value
+private final double ticksToHatch1 = (19-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = (47-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch3 = (75-homeInches) * ticksPerInch; //Placeholder value
 
 private int potUseableBottom = 50; //Code will auto adjust values based on this one.
 private int potUseableTop = 596; //Placeholder
@@ -72,7 +73,7 @@ private int potRange = 546; //This is just a placeholder value. Make sure we fin
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 private final int potMin = 5; // This is the lowest the pot can possibly go.
 
-private double kP = 0.001; //Just for testing purposes
+private double kP = 15; //Just for testing purposes
 private double kI = 0;
 private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
@@ -83,13 +84,14 @@ private boolean isAxis = true;
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
+		goToBottom();
 
 		// potUseableBottom = getPot();
 		potUseableTop = potUseableBottom + potRange;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
-		lifterMotor.configPeakCurrentLimit(0,TIMEOUT);
+		lifterMotor.configPeakCurrentLimit(75,TIMEOUT);
 		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
 		// lifterMotor.setInverted(true);
@@ -97,7 +99,7 @@ private boolean isAxis = true;
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
 		lifterMotor.configPeakOutputForward(1, TIMEOUT);
-		lifterMotor.configPeakOutputReverse(-0.55, TIMEOUT);
+		lifterMotor.configPeakOutputReverse(-0.65, TIMEOUT);
 
 		// lifterMotor.configForwardSoftLimitEnable(true);
 		// lifterMotor.configReverseSoftLimitEnable(true);
@@ -220,12 +222,12 @@ private boolean isAxis = true;
 
 		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
-			// goToPortPos(2);
+			goToPortPos(2);
 			
 		}
 		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
-			// goToPortPos(3);
+			goToPortPos(3);
 		}
 		else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
@@ -234,12 +236,12 @@ private boolean isAxis = true;
 		}
 		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
-			// goToCargoShipCargoDrop();
+			goToCargoShipCargoDrop();
 			
 		}
 		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
 			isAxis = false;
-			// goToHatchPos(3);
+			goToHatchPos(3);
 			
 		}
 		else if(oi.copilot.getRawButton(3)) {
