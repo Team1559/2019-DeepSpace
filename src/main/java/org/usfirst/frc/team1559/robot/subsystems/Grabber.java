@@ -50,7 +50,8 @@ public class Grabber
             SmartDashboard.putNumber("__Ball", 1);
         }
         else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
-            Cargocounter = Cargocounter + 1;
+            Cargocounter = 1;
+            Cargotimer = 0;
             removeCargo();
             
         }
@@ -63,7 +64,7 @@ public class Grabber
                 Cargocounter = 0;  
             }
 
-        if(Cargotimer>0){
+        if(Cargotimer>1 && Cargotimer <=100){
         Cargotimer = Cargotimer + 1;
         if(Cargotimer>100)
         slowBall();
