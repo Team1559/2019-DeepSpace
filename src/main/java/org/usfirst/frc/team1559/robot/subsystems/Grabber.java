@@ -55,27 +55,26 @@ public class Grabber
             removeCargo();
             
         }
-        if( Cargocounter>1 && Cargocounter <=50){
-            Cargocounter = Cargocounter + 1;
-            
-            }
-            if(Cargocounter>50){
-                StopBall(); 
-                Cargocounter = 0;  
-            }
+       
 
-        if(Cargotimer>1 && Cargotimer <=100){
+        if(Cargotimer>=1 && Cargotimer <=100){
         Cargotimer = Cargotimer + 1;
-        if(Cargotimer>100)
+        }
+        
+        else{ if(Cargotimer>100)
         slowBall();
         }
-        System.out.println("MIKE IS ALWAYS WATCHING!");
-        if(oi.pilot.getRawButton(2)) {
-                Cargotimer = 0;
-                SmartDashboard.putNumber("__Ball", 0);
-                System.out.println("HI!");
-            }
-    }
+            if( Cargocounter>=1 && Cargocounter <=50){
+                Cargocounter = Cargocounter + 1;
+                
+                }
+               else if(Cargocounter>50){
+                    StopBall(); 
+                    Cargocounter = 0;  
+                }
+    
+        }
+    
 
          
 		/*if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {

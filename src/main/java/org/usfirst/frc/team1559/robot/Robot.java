@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
 		LED_Relay.set(Value.kOn);
 
 		ds = new DistSensor(ai);
-		c = new Compressor(7);
+		//c = new Compressor(7);
 
 		
 
@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		c.setClosedLoopControl(true);
+		//c.setClosedLoopControl(true);
 
 		// Camera
 		// System.out.println(pixy2.read());
@@ -302,7 +302,7 @@ public class Robot extends TimedRobot {
 	
 	
 	//Grabber
-		//grabber.drive();
+		grabber.drive();
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// 	SmartDashboard.putNumber("__Ball", 1);
