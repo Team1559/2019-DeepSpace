@@ -20,16 +20,15 @@ public interface Wiring {
 	
 	// DriveTrain
 	public static final int FRONT_LEFT_MOTOR = 1;
-
 	public static final int FRONT_RIGHT_MOTOR = 2;
 	public static final int REAR_LEFT_MOTOR = 3;
 	public static final int REAR_RIGHT_MOTOR = 4;
 
 	// Grabber
 	public static final int NTK_SOLENOID = -1; // This variable needs to be set 
-	public static final int NTK_TALONSRX_BI = 2; // This variable needs to be set 
-	public static final int NTK_TALONSRX_HR = 1; // This variable needs to be set 
-	public static final int NTK_TALONSRX_HL = 1; // This variable needs to be set 
+	public static final int NTK_TALONSRX_BI =0  ; // This variable needs to be set 
+	public static final int NTK_TALONSRX_HR = 99 ; // This variable needs to be set 
+	public static final int NTK_TALONSRX_HL = 99 ; // This variable needs to be set 
 	public static final int NTK_DIGITALINPUT_LS1 = 0; // This variable needs to be set 
 	public static final int NTK_DIGITALINPUT_LS2 = 1; // This variable needs to be set  
 	public static final int NTK_DIGITALINPUT_LS3 = 2; // This variable needs to be set 

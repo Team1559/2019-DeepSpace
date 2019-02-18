@@ -10,17 +10,20 @@ import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.AnalogInput;
-
-
-
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Solenoid;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.subsystems.Stepper;
+
+import javax.lang.model.util.ElementScanner6;
+
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -33,15 +36,18 @@ public class Robot extends TimedRobot {
 	*/
 	public DriveTrain drive;
 	private OperatorInterface oi;
+	//private Compressor pcm = new Compressor();
 
 	private Pixy pixy2;
+	private Relay LED_Relay;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
-	//private static Lifter lifter;
+	private static Lifter lifter;
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
-
+	public Compressor c = new Compressor(0);
+	public Solenoid hatchsnatcher = new Solenoid(1);
 
 	public static DistSensor distRight; //right and left from Robots perspective (looking from the back of the robot)
 	public static DistSensor distLeft;
@@ -60,20 +66,24 @@ public class Robot extends TimedRobot {
 	private float Er;
 	private float Ex;
 	private double Ey;
+	private boolean Led;
 	private double errorX;
 	private double errorR;
 	private double errorY;
+	private Solenoid hatchsnacher;
 	@Override
 	public void robotInit() {
+		//pcm.start();
+
 		drive = new DriveTrain();
 
-
+		hatchsnacher = new Solenoid(0);
 		oi = new OperatorInterface();
-		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
+		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
-
+		LED_Relay = new Relay(0);
 		vision = new Vision();
-		
+		grabber = new Grabber(oi);
 
 		jKx = -0.015f;
 		jKr = 0.014f;//0.014 
@@ -86,20 +96,13 @@ public class Robot extends TimedRobot {
 
 		distRight = new DistSensor(new AnalogInput (0));
 		distLeft = new DistSensor(new AnalogInput (1));
-
+		LED_Relay.set(Value.kOn);
+		c = new Compressor(7);
 	}	
-		//dSensor = new DistSensor();
-	
-		//grabber = new Grabber();
-		//dist = new DistSensor( new AnalogInput(0));
-		//dSensor.setAutomaticMode(true);
-		//dSensor.stopRobot();
-	
-		@Override
-		public void robotPeriodic() {
-
 		
-		}
+	@Override
+	public void robotPeriodic() {
+	}
 	
 
 
@@ -117,21 +120,29 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		pixy2.start();
-		pixy2.lampon();
 		vision.VisionInit();
+		LED_Relay.set(Value.kOn);
 	}
+
 
 	@Override
 	public void teleopPeriodic() {
-
+		c.setClosedLoopControl(true);
 
 		// Camera
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
+		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
+			hatchsnacher.set(true);
+		}
+		else{		
+			hatchsnatcher.set(false);
+		}
+
 
 
 		//Lifter
-		//lifter.driveLifter();
+		lifter.driveLifter();
 		
 		//Camera
 
@@ -159,8 +170,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
 		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 
-		if(vData.status==1){
-			if(vData.y >= maxPixyRange){
+		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) {
+			System.out.println("It's alive");
+			pixy2.lampon();
+			if(vData.status==1){
+				if(vData.y >= maxPixyRange){
 					errorX = vData.x;
 				
 
@@ -189,47 +203,58 @@ public class Robot extends TimedRobot {
 
 					errorY = vData.y;
 
-					SmartDashboard.putNumber("__error_r",vData.r);	
-					SmartDashboard.putNumber("__error_x",vData.x);
-					SmartDashboard.putNumber("__error_y",vData.y);
+					
 					SmartDashboard.putNumber("__x",xDrive);
 					SmartDashboard.putNumber("__y", jKy * errorY);
 					SmartDashboard.putNumber("__r",jKr * errorR);	
 					SmartDashboard.putString("Mode","jetson");
-					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);
-					
+					//drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
 				}
-			else if(v.status ==1 ){
-				/*SmartDashboard.putNumber("__x",pixy2.getEx());
-				SmartDashboard.putNumber("__y", distance);
-				SmartDashboard.putNumber("__r",pixy2.getEr());
-				SmartDashboard.putString("Mode","pixy");*/
-				System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
+				else if(v.status ==1 ){
+					SmartDashboard.putNumber("__x",pixy2.getEx());
+					SmartDashboard.putNumber("__y", distance);
+					SmartDashboard.putNumber("__r",pixy2.getEr());
+					SmartDashboard.putString("Mode","pixy");
+					System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
 
-				if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
-					SmartDashboard.putNumber("__Close enough x", Ex);
-					Ex = Ex/10;
-				}
-				if (pixy2.getEr() > -5.5 && pixy2.getEr() < 5.5){
-					SmartDashboard.putNumber("__Close enough r", Er);
-					Er = Er/15; 
+					if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
+						SmartDashboard.putNumber("__Close enough x", Ex);
+						Ex = Ex/10;
+					}
+					if (pixy2.getEr() > -5.5 && pixy2.getEr() < 5.5){
+						SmartDashboard.putNumber("__Close enough r", Er);
+						Er = Er/15; 
+					}
+					if(Er < -3 && Er > 3){
+						pKy=0.416f;	
+					}
+					//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
 				}
 				if(Er < -3 && Er > 3){
 					pKy=0.416f;
 				}
-					//to go right increase, to go left decrease
-					 Ex = Rightdistance - Leftdistance;
+				//to go right increase, to go left decrease
+				Ex = Rightdistance - Leftdistance;
 					
 				drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
 			}
 			else{
-				SmartDashboard.putString("Mode","driver");
+				SmartDashboard.putString("Mode","driver-2");
 				SmartDashboard.putNumber("__x",oi.getPilotX());
 				SmartDashboard.putNumber("__y",oi.getPilotY());
 				SmartDashboard.putNumber("__r",oi.getPilotZ());
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 			}
 		}
+		else{
+			pixy2.lampoff();
+			SmartDashboard.putString("Mode","driver");
+			SmartDashboard.putNumber("__x",oi.getPilotX());
+			SmartDashboard.putNumber("__y",oi.getPilotY());
+			SmartDashboard.putNumber("__r",oi.getPilotZ());
+			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+		}
+	
 
 
 	
@@ -251,56 +276,44 @@ public class Robot extends TimedRobot {
 
 		//retracts pistons
 		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
-		// {
-
-	
-			// SmartDashboard.putNumber("__getEx,", pixy2.getEx());
-			// SmartDashboard.putNumber("__getEr,", pixy2.getEr());
-			// SmartDashboard.putNumber("__x",Kx * pixy2.getEx());
-			// SmartDashboard.putNumber("__r",Kr * pixy2.getEr());
-			// SmartDashboard.putNumber("__Kx",Kx );
-			// SmartDashboard.putNumber("__Kr",Kr);
-			//drive.driveCartesian(Kx * pixy2.getEx(), Ky * ds.getRange(), Kr * pixy2.getEr());
-			
-		//Kx * pixy2.getEx()
-		//Kr * pixy2.getEr()
-	
-
+		// 
 		//	stepper.retractPistons();
 	//	}
 
 
 		//lifter to top position
-	// 	if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
-	// 	{
-	// 		stepper.liftStepper();
-	// 	}
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
+		{
+			stepper.liftStepper();
+		}
 
-	// 	//lifter to lowest position
-	// 	if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
-	// 	{
-	// 		stepper.lowerStepper();
-	// 	}
-	// }
-//}
+		//lifter to lowest position
+		// if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		// {
+		// 	stepper.lowerStepper();
+		// }
 	
-	// Grabber
+	
+	//Grabber
+		//grabber.drive();
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
+		// 	SmartDashboard.putNumber("__Ball", 1);
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
 		// 	grabber.removeCargo();
+		// 	SmartDashboard.putNumber("__Ball", 2);
 		// }
-
+		
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
 		// 	grabber.getHatch();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
 		// 	grabber.bringHatch();
 
 		// }
-
+			
 		//  if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
 		//  	dBounce = true;
-			
+		//  }
 			
 		// 	drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 		// 	if(ds.getRange() == 18)
@@ -311,7 +324,7 @@ public class Robot extends TimedRobot {
 
 // 				dBounce = false;}
 // 		 }
-// 	}
+ 	}
 
 		
 // 	@Override
@@ -322,8 +335,8 @@ public class Robot extends TimedRobot {
 
 
 
-// 	@Override
-// 	public void testPeriodic() {
+ 	@Override
+ 	public void testPeriodic() {
 	
 }
 
@@ -331,11 +344,13 @@ public class Robot extends TimedRobot {
 @Override
 public void disabledInit() {
 	pixy2.lampoff();
+	LED_Relay.set(Value.kOff);
+	
 }
 
 @Override
 public void disabledPeriodic() {
-
+	//pcm.stop();
 }
 
 
