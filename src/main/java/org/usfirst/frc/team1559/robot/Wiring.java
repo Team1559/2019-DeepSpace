@@ -37,7 +37,7 @@ public interface Wiring {
 
 	// Lifter   
 	public static final int LIFTER_POT = 0; //This needs to be set
-	public static final int LIFTER_TALON = 5; //This needs to be set
+	public static final int LIFTER_TALON = 5; //Normal 5. Test roboRIO is 15
 
 	
 	//Stepper port constants
