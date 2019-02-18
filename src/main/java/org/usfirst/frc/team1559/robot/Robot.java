@@ -57,23 +57,23 @@ public class Robot extends TimedRobot {
 
 		oi = new OperatorInterface();
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
-		pixy2 = new Pixy();
-		vision = new Vision();
-		stepper = new Stepper();
+		// pixy2 = new Pixy();
+		// vision = new Vision();
+		// stepper = new Stepper();
 		
-		Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
-		Kr = 0.014f; // maximum pixy angle0.014
-		Ky = 0.0416f;//1/24 for the distance sensors max speed; 0.416
+		// Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
+		// Kr = 0.014f; // maximum pixy angle0.014
+		// Ky = 0.0416f;//1/24 for the distance sensors max speed; 0.416
 
-		pixy2 = new Pixy();
-		dist = new DistSensor( new AnalogInput(0));
+		// pixy2 = new Pixy();
+		// dist = new DistSensor( new AnalogInput(0));
 	}	
 	
-		@Override
-		public void robotPeriodic() {
+	@Override
+	public void robotPeriodic() {
 
 		
-		}
+	}
 	
 
 
@@ -93,6 +93,7 @@ public class Robot extends TimedRobot {
 		//pixy2.start();
 		//pixy2.lampon();
 		//vision.VisionInit();
+		
 	}
 
 	@Override
