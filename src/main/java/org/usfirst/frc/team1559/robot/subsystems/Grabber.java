@@ -42,36 +42,36 @@ public class Grabber
 
     }
 
-    public void drive() {
+    // public void drive() {
 
-        if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
-            Cargotimer = 1;
-            getCargo();
-            SmartDashboard.putNumber("__Ball", 1);
-        }
-        else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
-            if( Cargocounter++ <=800){
-            Cargocounter = Cargocounter + 1;
-            removeCargo();
-            }
-            else{
-                StopBall(); 
-                Cargocounter = 0;  
-            }
-            SmartDashboard.putNumber("__Ball", 2);
-        }
-        if(Cargotimer>0){
-        Cargotimer = Cargotimer + 1;
-        if(Cargotimer>100)
-        slowBall();
-        }
-        System.out.println("MIKE IS ALWAYS WATCHING!");
-        if(oi.pilot.getRawButton(2)) {
-                Cargotimer = 0;
-                SmartDashboard.putNumber("__Ball", 0);
-                System.out.println("HI!");
-            }
-    }
+    //     if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
+    //         Cargotimer = 1;
+    //         getCargo();
+    //         SmartDashboard.putNumber("__Ball", 1);
+    //     }
+    //     else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
+    //         if( Cargocounter++ <=800){
+    //         Cargocounter = Cargocounter + 1;
+    //         removeCargo();
+    //         }
+    //         else{
+    //             StopBall(); 
+    //             Cargocounter = 0;  
+    //         }
+    //         SmartDashboard.putNumber("__Ball", 2);
+    //     }
+    //     if(Cargotimer>0){
+    //     Cargotimer = Cargotimer + 1;
+    //     if(Cargotimer>100)
+    //     slowBall();
+    //     }
+    //     System.out.println("MIKE IS ALWAYS WATCHING!");
+    //     if(oi.pilot.getRawButton(2)) {
+    //             Cargotimer = 0;
+    //             SmartDashboard.putNumber("__Ball", 0);
+    //             System.out.println("HI!");
+    //         }
+    // }
 
          
 		/*if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {

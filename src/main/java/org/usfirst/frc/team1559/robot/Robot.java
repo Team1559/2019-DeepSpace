@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 
 		jKx = -0.015f;
 		jKr = 0.014f;//0.014 
-		jKy = 0.004f;//shold be .009
+		jKy = 0.005f;//shold be .009
 		pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
 		pKr = 0.007f;// maximum pixy angle0.014
 		pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
@@ -188,32 +188,33 @@ public class Robot extends TimedRobot {
 			if(vData.status==1){
 				if(vData.y >= maxPixyRange){
 					errorX = vData.x;
-					if ((errorX > -7.0) && (errorX < 7.0)){
+					if ((errorX > -4.0) && (errorX < 4.0)){
 						SmartDashboard.putNumber("__Close enough x", errorX);
-						errorX = errorX/10.0;
+						errorX = errorX/5.0;
 					}
 
 					errorR = vData.r;
-					if ((errorR>-1.0)&&(errorR<1.0))
-						errorR = 0.01;
-					if ((errorR > -5.0) && (errorR < 5.0)){
+					if ((errorR > -4.0) && (errorR < 4.0)){
 						SmartDashboard.putNumber("__Close enough r", errorR);
-						errorR = errorR/10.0;
+						errorR = errorR/5.0;
 					}
-					double xDrive = jKx * errorX;
+					double xDrive = jKx * -errorX;
 					if(xDrive > 1.0)
 						xDrive = 1.0;
 					else if(xDrive < -1.0)
 						xDrive = -1.0;
 
 					errorY = vData.y;
-
+					SmartDashboard.putNumber("ex",vData.x);
+					SmartDashboard.putNumber("ey", vData.y);
+					SmartDashboard.putNumber("er",vData.r);	
+					
 					
 					SmartDashboard.putNumber("__x",xDrive);
 					SmartDashboard.putNumber("__y", jKy * errorY);
 					SmartDashboard.putNumber("__r",jKr * errorR);	
 					SmartDashboard.putString("Mode","jetson");
-					//drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
+					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
 				}
 				else if(v.status ==1 ){
 					SmartDashboard.putNumber("__x",pixy2.getEx());
@@ -233,14 +234,14 @@ public class Robot extends TimedRobot {
 					if(Er < -3 && Er > 3){
 						pKy=0.416f;	
 					}
-					//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
 				}
 				else{
 					SmartDashboard.putString("Mode","driver-1");
 					SmartDashboard.putNumber("__x",oi.getPilotX());
 					SmartDashboard.putNumber("__y",oi.getPilotY());
 					SmartDashboard.putNumber("__r",oi.getPilotZ());
-					//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 				}
 			}
 			else{
