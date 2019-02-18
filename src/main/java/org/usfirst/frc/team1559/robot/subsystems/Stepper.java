@@ -60,18 +60,10 @@ public class Stepper {
 	private WPI_TalonSRX lifterMotor;
 	private WPI_TalonSRX driveMotor;
 	private Solenoid pistons;
-
-	//positioning values for lifter
-	private double lifterDistance = 150; //the difference between the highest and lowest pot values
-	private double upperLifterValue; //highest position
-	private double lowerLifterValue; //lowest position
 	
 	//speed of motors (-1.0 to 1.0)
 	private double wheelSpeed = 0.8; //speed of the wheels
-
-	//stepper potentiometer constants
-	private final int potMin = 5;
-	private final int potMax = 1023;
+	private double liftSpeed = 0.5; //speed of lifterMotor
 
  	//instantiates all talons and the solenoid, imports which port each is plugged into
  	public Stepper()
@@ -81,18 +73,7 @@ public class Stepper {
 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
-		lowerLifterValue = getPot(); 
-		upperLifterValue = lowerLifterValue + lifterDistance;
 
-		//safeguard to make sure motor does not continually run if greater value than max is given
-		if(upperLifterValue > potMax)
-		{
-			for(int i = 1; i < 20; i++)
-			{	
-				System.out.println("WARNING: STEPPER UPPER LIFTER VALUE EXCEEDS MAX POT VALUE");
-			}
-			upperLifterValue = potMax;
-		}
 	}
 
  	//extends both back pistons
@@ -105,12 +86,6 @@ public class Stepper {
 	public void retractPistons()
 	{
 		pistons.set(false);
-	}
-
-	//gets potentiometer position
-	public int getPot()
-	{
-		return lifterMotor.getSelectedSensorPosition();
 	}
 
 	//drives the front wheels forward
@@ -134,12 +109,18 @@ public class Stepper {
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
-		lifterMotor.set(ControlMode.Position, upperLifterValue);
+		lifterMotor.set(liftSpeed);
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
-		lifterMotor.set(ControlMode.Position, lowerLifterValue);
+		lifterMotor.set(-liftSpeed);
+	}
+
+	//stops the stepper motor
+	public void stopStepper()
+	{
+		lifterMotor.set(0);
 	}
 }

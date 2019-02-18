@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 		//lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		// pixy2 = new Pixy();
 		// vision = new Vision();
-		// stepper = new Stepper();
+		stepper = new Stepper();
 		
 		// Kx = 0.025f;// maximum pixy translation (1/2 frame with)0.025
 		// Kr = 0.014f; // maximum pixy angle0.014
@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
 		//pixy2.start();
 		//pixy2.lampon();
 		//vision.VisionInit();
-		
+
 	}
 
 	@Override
@@ -176,20 +176,22 @@ public class Robot extends TimedRobot {
 			stepper.retractPistons();
 			System.out.println("Retract Pistons");
 		}
-		System.out.println(stepper.getPot());
 		
-		//lifter to top position
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
+		//manually moves lifter
+		if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
 		{
 			stepper.liftStepper();
 			System.out.println("Lift Up");
 		}
-
-		//lifter to lowest position
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			stepper.lowerStepper();
 			System.out.println("Lift Down");
+		}
+		else
+		{
+			stepper.stopStepper();
+			System.out.println("Stepper Stopped Lifting");
 		}
 	}
 	// Grabber

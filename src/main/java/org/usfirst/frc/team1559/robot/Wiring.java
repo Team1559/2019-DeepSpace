@@ -43,8 +43,8 @@ public interface Wiring {
 	
 	//Stepper port constants
 	public static final int STEPPER_LIFTER_MOTOR = 15;
-	public static final int STEPPER_DRIVE_MOTOR = 16; //needs to be set
-	public static final int STEPPER_PISTONS = 1; //needs to be set
+	public static final int STEPPER_DRIVE_MOTOR = 16;
+	public static final int STEPPER_PISTONS = 1;
 
 	//DistSesnsor
 	public static final int ULTRASONIC_TRIGGER_PULSE_INPUT = 0; //This needs to be set
