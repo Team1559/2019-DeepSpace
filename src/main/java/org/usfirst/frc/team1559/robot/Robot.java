@@ -85,8 +85,8 @@ public class Robot extends TimedRobot {
 		grabber = new Grabber(oi);
 
 		jKx = -0.015f;
-		jKr = 0.014f;//0.014 
-		jKy = 0.005f;//shold be .009
+		jKr = 0.016f;//0.014 
+		jKy = 0.007f;//shold be .009
 		pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
 		pKr = 0.007f;// maximum pixy angle0.014
 		pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
