@@ -56,7 +56,7 @@ private OperatorInterface oi;
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
 
-private final double ticksPerInch = 1.79;
+private final double ticksPerInch = 1.79; // Maybe it should be 5.93 or a similar value
 
 private final double ticksToPort1 = 27.5 * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = 55.5 * ticksPerInch; //Placeholder value
@@ -66,12 +66,13 @@ private final double ticksToHatch1 = 19 * ticksPerInch; //Placeholder value
 private final double ticksToHatch2 = 47 * ticksPerInch; //Placeholder value
 private final double ticksToHatch3 = 75 * ticksPerInch; //Placeholder value
 
-private int potUseableBottom = -291; //Code will auto adjust values based on this one.
-private int potUseableTop = -894; //Placeholder
-private int potRange = 603; //This is just a placeholder value. Make sure we find the actual range that we want.
+private int potUseableBottom = 50; //Code will auto adjust values based on this one.
+private int potUseableTop = 596; //Placeholder
+private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
+private final int potMin = 5; // This is the lowest the pot can possibly go.
 
-private double kP = 1; //Just for testing purposes
+private double kP = 0.001; //Just for testing purposes
 private double kI = 0;
 private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
@@ -84,14 +85,14 @@ private boolean isAxis = true;
 		oi = oiInput;
 
 		// potUseableBottom = getPot();
-		potUseableTop = potUseableBottom - potRange;
+		potUseableTop = potUseableBottom + potRange;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
 		lifterMotor.configPeakCurrentLimit(0,TIMEOUT);
 		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
-		lifterMotor.setInverted(true);
+		// lifterMotor.setInverted(true);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
@@ -124,15 +125,15 @@ private boolean isAxis = true;
 	}
 
 	public void setupPortPos() {
-		portPositions[0] = potUseableBottom - ticksToPort1;
-		portPositions[1] = potUseableBottom - ticksToPort2;
-		portPositions[2] = potUseableBottom - ticksToPort3;
+		portPositions[0] = potUseableBottom + ticksToPort1;
+		portPositions[1] = potUseableBottom + ticksToPort2;
+		portPositions[2] = potUseableBottom + ticksToPort3;
 	}
 
 	public void setupHatchPos() {
-		hatchPositions[0] = potUseableBottom - ticksToHatch1;
-		hatchPositions[1] = potUseableBottom - ticksToHatch2;
-		hatchPositions[2] = potUseableBottom - ticksToHatch3;
+		hatchPositions[0] = potUseableBottom + ticksToHatch1;
+		hatchPositions[1] = potUseableBottom + ticksToHatch2;
+		hatchPositions[2] = potUseableBottom + ticksToHatch3;
 	}
 
 	public void goToPortPos(int pos) {
@@ -162,7 +163,7 @@ private boolean isAxis = true;
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
 		potUseableBottom = getPot();
-		potUseableTop = potUseableBottom - potRange;
+		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
 				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
@@ -189,7 +190,7 @@ private boolean isAxis = true;
 	// public void maxOverride() {
 	// 	if(getPot() == potMax)
 	// 		stop();
-	// 	else if(getPot() == potUseableBottom)
+	// 	else if(getPot() == potMin)
 	// 		stop();
 	// }
 
@@ -209,6 +210,8 @@ private boolean isAxis = true;
 		SmartDashboard.putNumber("Range", potRange);
 		SmartDashboard.putNumber("Pot Top", potUseableTop);
 		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);
+		SmartDashboard.putNumber("Pot Max", potMax);
+		SmartDashboard.putNumber("Pot Min", potMin);
 		// maxOverride();
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
@@ -260,7 +263,7 @@ private boolean isAxis = true;
 		}
 		else if((Math.abs(oi.getCopilotAxis(1)) <= 0.1 ) && isAxis) {
 			stop();
-			System.out.println("Stopped");
+			// System.out.println("Stopped");
 		}
 	}
 
