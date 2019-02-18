@@ -67,9 +67,11 @@ private final double ticksToHatch1 = (19-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch2 = (47-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToHatch3 = (75-homeInches) * ticksPerInch; //Placeholder value
 
+
 private int potUseableBottom = 50; //Code will auto adjust values based on this one.
 private int potUseableTop = 596; //Placeholder
 private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 private final int potMin = 5; // This is the lowest the pot can possibly go.
 
@@ -117,6 +119,7 @@ private boolean isAxis = true;
 				//Do we want the motor to stop at the pot max?
 			}
 		}
+		
 		setupPortPos();
 		setupHatchPos();
 
@@ -176,7 +179,7 @@ private boolean isAxis = true;
 	}
 
 	public void goUp() {
-		lifterMotor.set(ControlMode.PercentOutput,0.3);
+		lifterMotor.set(ControlMode.PercentOutput,0.5);
 		System.out.println("Going up!!!!");
 	}
 
@@ -215,58 +218,63 @@ private boolean isAxis = true;
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
 		// maxOverride();
-		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
-			isAxis = false;
-			goToPortPos(1);
-		}
+		// if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
+		// 	isAxis = false;
+		// 	goToPortPos(1);
+		// }
 
-		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
-			isAxis = false;
-			goToPortPos(2);
+		// else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
+		// 	isAxis = false;
+		// 	goToPortPos(2);
 			
-		}
-		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
-			isAxis = false;
-			goToPortPos(3);
-		}
-		else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
-			isAxis = false;
-			goToCargoShipHatch();
+		// }
+		// else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
+		// 	isAxis = false;
+		// 	goToPortPos(3);
+		// }
+		// else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
+		// 	isAxis = false;
+		// 	goToCargoShipHatch();
 			
-		}
-		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
-			isAxis = false;
-			goToCargoShipCargoDrop();
+		// }
+		// else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
+		// 	isAxis = false;
+		// 	goToCargoShipCargoDrop();
 			
-		}
-		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
-			isAxis = false;
-			goToHatchPos(3);
+		// }
+		// else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
+		// 	isAxis = false;
+		// 	goToHatchPos(3);
 			
-		}
-		else if(oi.copilot.getRawButton(3)) {
-			isAxis = false; 
-			goToBottom();
-		}
-		else if(oi.copilot.getRawButton(8)) { 
-			isAxis = false;
-			recallibrateSystem();
+		// }
+		// else if(oi.copilot.getRawButton(3)) {
+		// 	isAxis = false; 
+		// 	goToBottom();
+		// }
+		// else if(oi.copilot.getRawButton(8)) { 
+		// 	isAxis = false;
+		// 	recallibrateSystem();
 			
-		}
-		else if(oi.getCopilotAxis(1) <= -0.9) {
+		// }
+		if(oi.getCopilotAxis(1) <= -0.9) {
 			isAxis = true;
-			goUp();
-			
+			//if(getPot() < potUseableTop) 
+				//stop();
+			//else	
+				goUp();
 		}
 		else if(oi.getCopilotAxis(1) >= 0.9) {
 			isAxis = true;
-			goDown();
-			
+			//if(getPot() > potUseableBottom) 
+				//stop();
+			//else	
+				goDown();
 		}
 		else if((Math.abs(oi.getCopilotAxis(1)) <= 0.1 ) && isAxis) {
 			stop();
 			// System.out.println("Stopped");
 		}
+		
 	}
 
 

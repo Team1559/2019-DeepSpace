@@ -17,10 +17,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Solenoid;
 
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.subsystems.Stepper;
+
+import javax.lang.model.util.ElementScanner6;
+
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
@@ -43,7 +46,8 @@ public class Robot extends TimedRobot {
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
-
+	public Compressor c = new Compressor(0);
+	public Solenoid hatchsnatcher = new Solenoid(1);
 
 	public static DistSensor dist;
 	private static DistSensor ds;
@@ -65,31 +69,40 @@ public class Robot extends TimedRobot {
 	private double errorX;
 	private double errorR;
 	private double errorY;
+	private Solenoid hatchsnacher;
 	@Override
 	public void robotInit() {
 		//pcm.start();
 
 		drive = new DriveTrain();
 
-
+		hatchsnacher = new Solenoid(0);
 		oi = new OperatorInterface();
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		LED_Relay = new Relay(0);
 		vision = new Vision();
-		
+		grabber = new Grabber(oi);
 
 		jKx = -0.015f;
 		jKr = 0.014f;//0.014 
-		jKy = 0.004f;//shold be .009
+		jKy = 0.005f;//shold be .009
 		pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
 		pKr = 0.007f;// maximum pixy angle0.014
 		pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 		
 		pixy2 = new Pixy();
 		ai = new AnalogInput(0); 
+		LED_Relay.set(Value.kOn);
 
 		ds = new DistSensor(ai);
+		c = new Compressor(7);
+
+		
+
+
+
+		
 	}	
 
 		//dSensor = new DistSensor();
@@ -123,16 +136,24 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		pixy2.start();
 		vision.VisionInit();
+		LED_Relay.set(Value.kOn);
 	}
 
 
 	@Override
 	public void teleopPeriodic() {
-
+		c.setClosedLoopControl(true);
 
 		// Camera
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
+		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
+			hatchsnacher.set(true);
+		}
+		else{		
+			hatchsnatcher.set(false);
+		}
+
 
 
 		//Lifter
@@ -164,30 +185,30 @@ public class Robot extends TimedRobot {
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) {
 			System.out.println("It's alive");
 			pixy2.lampon();
-			LED_Relay.set(Value.kOn);
 			if(vData.status==1){
 				if(vData.y >= maxPixyRange){
 					errorX = vData.x;
-					if ((errorX > -7.0) && (errorX < 7.0)){
+					if ((errorX > -4.0) && (errorX < 4.0)){
 						SmartDashboard.putNumber("__Close enough x", errorX);
-						errorX = errorX/10.0;
+						errorX = errorX/5.0;
 					}
 
 					errorR = vData.r;
-					if ((errorR>-1.0)&&(errorR<1.0))
-						errorR = 0.01;
-					if ((errorR > -5.0) && (errorR < 5.0)){
+					if ((errorR > -4.0) && (errorR < 4.0)){
 						SmartDashboard.putNumber("__Close enough r", errorR);
-						errorR = errorR/10.0;
+						errorR = errorR/5.0;
 					}
-					double xDrive = jKx * errorX;
+					double xDrive = jKx * -errorX;
 					if(xDrive > 1.0)
 						xDrive = 1.0;
 					else if(xDrive < -1.0)
 						xDrive = -1.0;
 
 					errorY = vData.y;
-
+					SmartDashboard.putNumber("ex",vData.x);
+					SmartDashboard.putNumber("ey", vData.y);
+					SmartDashboard.putNumber("er",vData.r);	
+					
 					
 					SmartDashboard.putNumber("__x",xDrive);
 					SmartDashboard.putNumber("__y", jKy * errorY);
@@ -213,7 +234,7 @@ public class Robot extends TimedRobot {
 					if(Er < -3 && Er > 3){
 						pKy=0.416f;	
 					}
-					//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
 				}
 				else{
 					SmartDashboard.putString("Mode","driver-1");
@@ -232,7 +253,6 @@ public class Robot extends TimedRobot {
 			}
 		}
 		else{
-			LED_Relay.set(Value.kOff);
 			pixy2.lampoff();
 			SmartDashboard.putString("Mode","driver");
 			SmartDashboard.putNumber("__x",oi.getPilotX());
@@ -275,20 +295,22 @@ public class Robot extends TimedRobot {
 		}
 
 		//lifter to lowest position
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
-		{
-			stepper.lowerStepper();
-		}
+		// if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		// {
+		// 	stepper.lowerStepper();
+		// }
 	
 	
 	//Grabber
 		//grabber.drive();
-		/*if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-			grabber.getCargo();
-		} else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-			grabber.removeCargo();
-		}
-		*/
+		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
+		// 	grabber.getCargo();
+		// 	SmartDashboard.putNumber("__Ball", 1);
+		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
+		// 	grabber.removeCargo();
+		// 	SmartDashboard.putNumber("__Ball", 2);
+		// }
+		
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
 		// 	grabber.getHatch();
 		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
@@ -296,9 +318,9 @@ public class Robot extends TimedRobot {
 
 		// }
 			
-		 if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		 	dBounce = true;
-		 }
+		//  if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
+		//  	dBounce = true;
+		//  }
 			
 		// 	drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 		// 	if(ds.getRange() == 18)
@@ -329,6 +351,8 @@ public class Robot extends TimedRobot {
 @Override
 public void disabledInit() {
 	pixy2.lampoff();
+	LED_Relay.set(Value.kOff);
+	
 }
 
 @Override

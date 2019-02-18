@@ -6,7 +6,8 @@ public class Vision {
 	
 	private  VisionData VData; 
 	double cameraYOffset = 11.6;
-	double cameraXOffset = 2.6;
+	double cameraXOffset = 9;//5.0;
+	double cameraROffset = -9;
 	public Vision() {
 		client = new UDPClient();
 		VData = new VisionData();
@@ -31,7 +32,7 @@ public class Vision {
 				if(parameters.length >= 4){
 					NewData.x = -(Double.parseDouble(parameters[0])-cameraXOffset);
 					NewData.y = Double.parseDouble(parameters[1])-cameraYOffset;
-					NewData.r = Double.parseDouble(parameters[2]);
+					NewData.r = Double.parseDouble(parameters[2])-cameraROffset;
 					NewData.status = Integer.parseInt(parameters[3]);
 				}	
 			}
