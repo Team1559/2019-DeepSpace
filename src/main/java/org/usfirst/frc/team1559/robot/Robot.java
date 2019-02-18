@@ -43,8 +43,9 @@ public class Robot extends TimedRobot {
 	public static boolean dBounce = false;
 
 
-	public static DistSensor dist;
-	private static DistSensor ds;
+	public static DistSensor distRight; //right and left from Robots perspective (looking from the back of the robot)
+	public static DistSensor distLeft;
+	//private static DistSensor ds;
 	private static AnalogInput ai;
 
 	public static Vision vision;
@@ -82,14 +83,13 @@ public class Robot extends TimedRobot {
 		pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 		
 		pixy2 = new Pixy();
-		ai = new AnalogInput(0); 
 
-		ds = new DistSensor(ai);
+		distRight = new DistSensor(new AnalogInput (0));
+		distLeft = new DistSensor(new AnalogInput (1));
+
 	}	
-
 		//dSensor = new DistSensor();
-
-		
+	
 		//grabber = new Grabber();
 		//dist = new DistSensor( new AnalogInput(0));
 		//dSensor.setAutomaticMode(true);
@@ -151,15 +151,20 @@ public class Robot extends TimedRobot {
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
 		//if(v.status == 1)
-
-		double distance = ds.getRange();
-		Ey = distance - 5;
+		
+		float Rightdistance = (float)distRight.getRange();
+		float Leftdistance = (float)distLeft.getRange();
+		Ey = Rightdistance - 5;
 		double maxPixyRange = 18.0;
-		SmartDashboard.putNumber("IRDistance,", distance);
+		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
+		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 
 		if(vData.status==1){
 			if(vData.y >= maxPixyRange){
 					errorX = vData.x;
+				
+
+
 					if ((errorX > -7.0) && (errorX < 7.0)){
 						SmartDashboard.putNumber("__Close enough x", errorX);
 						errorX = errorX/10.0;
@@ -172,13 +177,17 @@ public class Robot extends TimedRobot {
 						SmartDashboard.putNumber("__Close enough r", errorR);
 						errorR = errorR/10.0;
 					}
+
 					double xDrive = jKx * errorX;
+
+					
+
 					if(xDrive > 1.0)
 						xDrive = 1.0;
 					else if(xDrive < -1.0)
 						xDrive = -1.0;
 
-						errorY = vData.y;
+					errorY = vData.y;
 
 					SmartDashboard.putNumber("__error_r",vData.r);	
 					SmartDashboard.putNumber("__error_x",vData.x);
@@ -195,7 +204,7 @@ public class Robot extends TimedRobot {
 				SmartDashboard.putNumber("__y", distance);
 				SmartDashboard.putNumber("__r",pixy2.getEr());
 				SmartDashboard.putString("Mode","pixy");*/
-				System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
+				System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
 
 				if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
 					SmartDashboard.putNumber("__Close enough x", Ex);
@@ -206,10 +215,13 @@ public class Robot extends TimedRobot {
 					Er = Er/15; 
 				}
 				if(Er < -3 && Er > 3){
-				pKy=0.416f;
+					pKy=0.416f;
 				}
+					//to go right increase, to go left decrease
+					 Ex = Rightdistance - Leftdistance;
+					
 				//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
-					}
+			}
 			else{
 				SmartDashboard.putString("Mode","driver");
 				SmartDashboard.putNumber("__x",oi.getPilotX());
@@ -220,7 +232,6 @@ public class Robot extends TimedRobot {
 		}
 
 
-		
 	
 		//Stepper button controls
 		
