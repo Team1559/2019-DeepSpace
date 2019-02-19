@@ -34,11 +34,16 @@ public class DistSensor
 	//	SmartDashboard.putNumber("Analog  Volts", volts);
 	//	SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
 
-		double IRdistance = (24.031 * Math.pow(volts, -1.5549))-6;
+
+   
+
+
+		double IRdistance = (24.031 * Math.pow(volts, -1.5549))-11;
+
 	//	SmartDashboard.putNumber("Analog Average Volts", averageVolts);
 	//	SmartDashboard.putNumber("Distance", IRdistance);
         return IRdistance;
-    }
+}
     public void drive() {}
 
 /*

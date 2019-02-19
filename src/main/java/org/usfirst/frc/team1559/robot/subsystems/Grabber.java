@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -8,50 +9,90 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     private Solenoid solenoid;
-    private WPI_TalonSRX ballIntake, hatchSlapperL, hatchSlapperR;
-    private double speedBall, speedHatch, stopHatch;
+    private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
+    private Talon ballIntake;
+    private double speedBall, slowBall, speedHatch, stopHatch;
     private OperatorInterface oi;
-
+    private int Cargocounter;
+    private int Cargotimer;
     public Grabber(OperatorInterface oi)
     {
 
         this.oi = oi;
         //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
-        ballIntake = new WPI_TalonSRX(Wiring.NTK_TALONSRX_BI);
+        ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
         //limitSwitch1 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS1);
         //limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
         //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
         //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
-        speedBall = .3; //FIND A SPEED THAT WORKSs
-        speedHatch = .5; //FIND A SPEED THAT WORKS
-        stopHatch = .5;
+        speedBall = 0.8; //FIND A SPEED THAT WORKSs
+        slowBall = 0.4;
+        speedHatch = 0.5; //FIND A SPEED THAT WORKS
+        stopHatch = 0.5;
+        Cargocounter = 0;
+        Cargotimer = 0;
+
     }
 
     public void drive() {
 
         if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
-			getCargo();
-		} else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
-			removeCargo();
-		}
+            Cargotimer = 1;
+            getCargo();
+            SmartDashboard.putNumber("__Ball", 1);
+        }
+        else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
+            Cargocounter = 1;
+            Cargotimer = 0;
+            removeCargo();
+            
+        }
+       
 
-		if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
+        if(Cargotimer>=1 && Cargotimer <=8){
+        Cargotimer = Cargotimer + 1;
+        }
+        
+        else{ if(Cargotimer>4)
+        slowBall();
+        }
+            if( Cargocounter>=1 && Cargocounter <=7){
+                Cargocounter = Cargocounter + 1;
+                
+                }
+               else if(Cargocounter>3){
+                    StopBall(); 
+                    Cargocounter = 0;  
+                }
+    
+        }
+    
+
+         
+		/*if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
 			slapHatch();
 		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
 			unslapHatch();
 
 		}
-
+*/
+    public void slowBall()
+    {
+        ballIntake.set(slowBall);
     }
 
-
+    public void StopBall()
+    {
+        ballIntake.stopMotor();
+    }
 
     public void getHatch()
     {
@@ -74,12 +115,14 @@ public class Grabber
 
     public void getCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, speedBall);
+        ballIntake.set(speedBall);
+        //ControlMode.PercentOutput,  was first argument
     }
 
     public void removeCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, -speedBall);
+        ballIntake.set(-speedBall);
+     //ControlMode.PercentOutput,  was first argument
     }
 
     public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
