@@ -2,9 +2,10 @@
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
+import edu.wpi.first.wpilibj.Talon;
 import org.usfirst.frc.team1559.robot.Wiring;
 
 
@@ -57,23 +58,22 @@ public class Stepper {
 
 	//creates all objects
 	private WPI_TalonSRX lifterMotor;
-	private WPI_TalonSRX driveMotor;
+	private Talon driveMotor;
 	private Solenoid pistons;
-
-	//positioning values for lifter
-	private double upperLifterValue = 0; //highest position
-	private double lowerLifterValue = 0; //lowest position
 	
 	//speed of motors (-1.0 to 1.0)
-	private double wheelSpeed = 0.8; //speed of the wheels
-
+	private double wheelSpeed = 1; //speed of the wheels
+	private double liftSpeed = 0.8; //speed of lifterMotor
 
  	//instantiates all talons and the solenoid, imports which port each is plugged into
  	public Stepper()
  	{
  		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
- 		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
- 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+ 		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
+		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+
+		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+
 	}
 
  	//extends both back pistons
@@ -86,12 +86,6 @@ public class Stepper {
 	public void retractPistons()
 	{
 		pistons.set(false);
-	}
-
-	//gets potentiometer position
-	public int getPot()
-	{
-		return lifterMotor.getSelectedSensorPosition();
 	}
 
 	//drives the front wheels forward
@@ -115,12 +109,18 @@ public class Stepper {
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
-		lifterMotor.set(ControlMode.Position, upperLifterValue);
+		lifterMotor.set(liftSpeed);
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
-		lifterMotor.set(ControlMode.Position, lowerLifterValue);
+		lifterMotor.set(-liftSpeed);
+	}
+
+	//stops the stepper motor
+	public void stopStepper()
+	{
+		lifterMotor.set(0);
 	}
 }

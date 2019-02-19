@@ -77,12 +77,15 @@ public class Robot extends TimedRobot {
 
 		hatchsnacher = new Solenoid(0);
 		oi = new OperatorInterface();
+
+
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		LED_Relay = new Relay(0);
 		vision = new Vision();
 		grabber = new Grabber(oi);
-
+    stepper = new Stepper();
+    
 		jKx = -0.015f;
 		jKr = 0.016f;//0.014 
 		jKy = 0.007f;//shold be .009
@@ -95,13 +98,12 @@ public class Robot extends TimedRobot {
 		LED_Relay.set(Value.kOn);
 
 		ds = new DistSensor(ai);
-		//c = new Compressor(7);
+		c = new Compressor(7);
 
 		
 
 
 
-		
 	}	
 
 		//dSensor = new DistSensor();
@@ -112,18 +114,19 @@ public class Robot extends TimedRobot {
 		//dSensor.setAutomaticMode(true);
 		//dSensor.stopRobot();
 	
-		@Override
-		public void robotPeriodic() {
+	@Override
+	public void robotPeriodic() {
 
 		
-		}
+	}
 	
 
 
 	@Override
 	public void autonomousInit() {
+
 		teleopInit();
-		
+
 		//pixy2.start();
 		// No autonomous neccesary
 	}
@@ -136,6 +139,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+
 		pixy2.start();
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
@@ -183,6 +187,7 @@ public class Robot extends TimedRobot {
 		}
 		//Camera
 
+
 		pixylinevector v=pixy2.getvector();
 		 vision.update();
 		 VisionData vData = vision.getData();
@@ -199,6 +204,7 @@ public class Robot extends TimedRobot {
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
 		//if(v.status == 1)
+
 
 		double distance = ds.getRange();
 		Ey = distance - 5;
@@ -282,49 +288,57 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
-	
 
-
-		
-	
 		//Stepper button controls
 		
 		//drive wheel button control
-		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
-		// {
-		// 	stepper.driveForward();
-		// }
-		// else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
-		// {
-		// 	stepper.driveBackward();
-		// }
-		// else
-		// {
-		// 	stepper.stopDrive();
-		// }
-
-		//retracts pistons
-		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
-		// 
-		//	stepper.retractPistons();
-	//	}
-
-
-		//lifter to top position
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_UP))
+		if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_FORWARD))
 		{
-			stepper.liftStepper();
+			stepper.driveForward();
+			System.out.println("Driving Forward");
+		}
+		else if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
+		{
+			stepper.driveBackward();
+			System.out.println("Driving Backward");
+		}
+		else
+		{
+			stepper.stopDrive();
 		}
 
-		//lifter to lowest position
-		// if(oi.copilot.getRawButtonPressed(Constants.STEPPER_COPILOT_LIFT_DOWN))
-		// {
-		// 	stepper.lowerStepper();
-		// }
-	
-	
-	//Grabber
+		//retracts pistons
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
+		{
+			stepper.retractPistons();
+			System.out.println("Retract Pistons");
+		}
+		
+		//manually moves lifter
+		if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
+
+		{
+			stepper.liftStepper();
+			stepper.extendPistons();
+			//stepper.driveForward();
+			System.out.println("Lift Up");
+		}
+		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		{
+			stepper.lowerStepper();
+			stepper.retractPistons();
+			System.out.println("Lift Down");
+		}
+		else
+		{
+			stepper.stopStepper();
+			System.out.println("Stepper Stopped Lifting");
+		}
+	}
+
+
 		grabber.drive();
+
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// 	SmartDashboard.putNumber("__Ball", 1);
@@ -339,6 +353,7 @@ public class Robot extends TimedRobot {
 		// 	grabber.bringHatch();
 
 		// }
+
 			
 		//  if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
 		//  	dBounce = true;
@@ -347,6 +362,7 @@ public class Robot extends TimedRobot {
 		// 	drive.driveCartesian(.5, .5, 0); //replace with Jetson data
 		// 	if(ds.getRange() == 18)
 
+
 		//  }
 // 			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
 // 			{
@@ -354,6 +370,7 @@ public class Robot extends TimedRobot {
 // 				dBounce = false;}
 // 		 }
  	}
+
 
 		
 // 	@Override
@@ -372,9 +389,11 @@ public class Robot extends TimedRobot {
 
 @Override
 public void disabledInit() {
+
 	pixy2.lampoff();
 	LED_Relay.set(Value.kOff);
 	
+
 }
 
 @Override
