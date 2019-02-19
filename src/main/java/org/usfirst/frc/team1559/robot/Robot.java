@@ -45,9 +45,9 @@ public class Robot extends TimedRobot {
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
-	public Compressor c = new Compressor(0);
-	public Solenoid hatchsnatcher = new Solenoid(1);
-
+	public Compressor c = new Compressor(7);
+	public Solenoid hatchsnatcher;
+	private boolean steeperwheeles;
 	public static DistSensor dist;
 	private static DistSensor ds;
 	private static AnalogInput ai;
@@ -68,14 +68,14 @@ public class Robot extends TimedRobot {
 	private double errorX;
 	private double errorR;
 	private double errorY;
-	private Solenoid hatchsnacher;
+
+	public Solenoid pistions;
 	@Override
 	public void robotInit() {
 		//pcm.start();
-
+		steeperwheeles = false;
 		drive = new DriveTrain();
-
-		hatchsnacher = new Solenoid(0);
+		//hatchsnacher = new Solenoid(0);
 		oi = new OperatorInterface();
 
 
@@ -84,7 +84,7 @@ public class Robot extends TimedRobot {
 		LED_Relay = new Relay(0);
 		vision = new Vision();
 		grabber = new Grabber(oi);
-    stepper = new Stepper();
+    	stepper = new Stepper();
     
 		jKx = -0.015f;
 		jKr = 0.016f;//0.014 
@@ -99,6 +99,7 @@ public class Robot extends TimedRobot {
 
 		ds = new DistSensor(ai);
 		c = new Compressor(7);
+		
 
 		
 
@@ -148,16 +149,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		//c.setClosedLoopControl(true);
+		c.setClosedLoopControl(true);
 
 		// Camera
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
 		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
-			hatchsnacher.set(true);
+		//	hatchsnacher.set(true);
 		}
 		else{		
-			hatchsnatcher.set(false);
+		//	hatchsnatcher.set(false);
 		}
 
 
@@ -167,20 +168,22 @@ public class Robot extends TimedRobot {
 
 		if(oi.getCopilotAxis(1) <= -0.9) {
 			lifter.isAxis = true;
+			
+			if(lifter.getPot() >= lifter.potUseableTop) 
+			lifter.stop();
+			else	
 			lifter.goUp();
-			//if(getPot() < potUseableTop) 
-				//stop();
-			//else	
-				
+		
 		}
 		 if(oi.getCopilotAxis(1) >= 0.9) {
 			lifter.isAxis = true;
+			
+			if(lifter.getPot() <= lifter.potUseableBottom) 
+			lifter.stop();
+			else	
 			lifter.goDown();
-			//if(getPot() > potUseableBottom) 
-				//stop();
-		//	else	
-				
-		}
+		 }	
+		
 		 if((Math.abs(oi.getCopilotAxis(1)) <= 0.1)&& lifter.isAxis)  {
 			lifter.stop();
 			// System.out.println("Stopped");
@@ -205,7 +208,7 @@ public class Robot extends TimedRobot {
 		
 		//if(v.status == 1)
 
-
+		
 		double distance = ds.getRange();
 		Ey = distance - 5;
 		double maxPixyRange = 18.0;
@@ -292,7 +295,7 @@ public class Robot extends TimedRobot {
 		//Stepper button controls
 		
 		//drive wheel button control
-		if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_FORWARD))
+	/*	if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_FORWARD))
 		{
 			stepper.driveForward();
 			System.out.println("Driving Forward");
@@ -305,7 +308,7 @@ public class Robot extends TimedRobot {
 		else
 		{
 			stepper.stopDrive();
-		}
+		}*/
 
 		//retracts pistons
 		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
@@ -322,6 +325,7 @@ public class Robot extends TimedRobot {
 			stepper.extendPistons();
 			//stepper.driveForward();
 			System.out.println("Lift Up");
+			steeperwheeles = true;
 		}
 		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
@@ -334,11 +338,14 @@ public class Robot extends TimedRobot {
 			stepper.stopStepper();
 			System.out.println("Stepper Stopped Lifting");
 		}
+		grabber.drive();
+		if(steeperwheeles == true){
+			stepper.driveForward();
+		}
 	}
 
 
-		grabber.drive();
-
+		
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
 		// 	SmartDashboard.putNumber("__Ball", 1);
@@ -369,7 +376,7 @@ public class Robot extends TimedRobot {
 
 // 				dBounce = false;}
 // 		 }
- 	}
+ 	
 
 
 		
