@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
+import edu.wpi.first.wpilibj.Talon;
 import org.usfirst.frc.team1559.robot.Wiring;
 
 
@@ -58,18 +58,18 @@ public class Stepper {
 
 	//creates all objects
 	private WPI_TalonSRX lifterMotor;
-	private WPI_TalonSRX driveMotor;
+	private Talon driveMotor;
 	private Solenoid pistons;
 	
 	//speed of motors (-1.0 to 1.0)
-	private double wheelSpeed = 0.8; //speed of the wheels
-	private double liftSpeed = 0.5; //speed of lifterMotor
+	private double wheelSpeed = 1; //speed of the wheels
+	private double liftSpeed = 0.8; //speed of lifterMotor
 
  	//instantiates all talons and the solenoid, imports which port each is plugged into
  	public Stepper()
  	{
  		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
- 		driveMotor = new WPI_TalonSRX(Wiring.STEPPER_DRIVE_MOTOR);
+ 		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);

@@ -155,12 +155,12 @@ public class Robot extends TimedRobot {
 		//Stepper button controls
 		
 		//drive wheel button control
-		if(oi.pilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_FORWARD))
+		if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_FORWARD))
 		{
 			stepper.driveForward();
 			System.out.println("Driving Forward");
 		}
-		else if(oi.pilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
+		else if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
 		{
 			stepper.driveBackward();
 			System.out.println("Driving Backward");
@@ -171,7 +171,7 @@ public class Robot extends TimedRobot {
 		}
 
 		//retracts pistons
-		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
 		{
 			stepper.retractPistons();
 			System.out.println("Retract Pistons");
@@ -181,11 +181,14 @@ public class Robot extends TimedRobot {
 		if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
 		{
 			stepper.liftStepper();
+			stepper.extendPistons();
+			//stepper.driveForward();
 			System.out.println("Lift Up");
 		}
 		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			stepper.lowerStepper();
+			stepper.retractPistons();
 			System.out.println("Lift Down");
 		}
 		else
