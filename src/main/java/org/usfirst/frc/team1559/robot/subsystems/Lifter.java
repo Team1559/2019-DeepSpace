@@ -68,8 +68,8 @@ private final double ticksToHatch2 = (47-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (75-homeInches) * ticksPerInch; //Placeholder value
 
 
-public int potUseableBottom = 95; //Code will auto adjust values based on this one.
-public int potUseableTop = 731; //Placeholder
+private int potUseableBottom = 95; //Code will auto adjust values based on this one.
+private int potUseableTop = 731; //Placeholder
 private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.

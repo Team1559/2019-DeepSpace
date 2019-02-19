@@ -45,9 +45,9 @@ public interface Constants {
 	// Stepper button values
 	public static final int STEPPER_COPILOT_LIFT_UP = 1; //bottom left button on fightstick
 	public static final int STEPPER_COPILOT_LIFT_DOWN = 2; //button to the right of bottom left on fightstick
-	//public static final int STEPPER_PILOT_DRIVE_FORWARD = 3; //Square on controller
-	//public static final int STEPPER_PILOT_DRIVE_BACKWARD = 1; //Circle on controller
-	public static final int STEPPER_PILOT_PULL_PISTONS = 9; //button to the right of touchpad on controller
+	public static final int STEPPER_PILOT_DRIVE_FORWARD = 3; //Square on controller
+	public static final int STEPPER_PILOT_DRIVE_BACKWARD = 1; //Circle on controller
+	public static final int STEPPER_PILOT_PULL_PISTONS = 10; //button to the right of touchpad on controller
 
 	// Ultrasonic Stopper
 	public static final int STOPPING_DISTANCE = -1; // TODO: Find this value.

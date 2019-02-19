@@ -59,7 +59,7 @@ public class Stepper {
 	//creates all objects
 	private WPI_TalonSRX lifterMotor;
 	private Talon driveMotor;
-	private Solenoid solenoid;
+	private Solenoid pistons;
 	
 	//speed of motors (-1.0 to 1.0)
 	private double wheelSpeed = 1; //speed of the wheels
@@ -70,20 +70,22 @@ public class Stepper {
  	{
  		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
  		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
+		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
-		// solenoid = new Solenoid(Wiring.STEPPER_SOLENOID);
+
 	}
 
  	//extends both back pistons
  	public void extendPistons()
  	{
- 		//solenoid.set(true);
+ 		pistons.set(true);
 	}
 	 
 	//retracts back pistons
 	public void retractPistons()
 	{
-		//solenoid.set(false);
+		pistons.set(false);
 	}
 
 	//drives the front wheels forward
