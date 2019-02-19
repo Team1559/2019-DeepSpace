@@ -25,7 +25,7 @@ public class Grabber
     {
 
         this.oi = oi;
-        //solenoid = new Solenoid(Wiring.NTK_SOLENOID);
+        solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);

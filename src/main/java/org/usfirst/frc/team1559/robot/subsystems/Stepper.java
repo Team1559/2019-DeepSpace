@@ -1,16 +1,21 @@
  package org.usfirst.frc.team1559.robot.subsystems;
 
 
+import javax.swing.SpringLayout.Constraints;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Talon;
+
+import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Wiring;
 
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import org.usfirst.frc.team1559.robot.Constants;
 
 public class Stepper {
 	/*
@@ -60,17 +65,23 @@ public class Stepper {
 	private WPI_TalonSRX lifterMotor;
 	private Talon driveMotor;
 	private Solenoid pistons;
+	private OperatorInterface oi;
 	
 	//speed of motors (-1.0 to 1.0)
 	private double wheelSpeed = 1; //speed of the wheels
 	private double liftSpeed = 0.8; //speed of lifterMotor
 
+	//controls on and off of drive wheels
+	private boolean driving;
+
  	//instantiates all talons and the solenoid, imports which port each is plugged into
- 	public Stepper()
+ 	public Stepper(OperatorInterface oi)
  	{
  		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
  		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
+		this.oi = oi;
+		driving = false;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
 
@@ -79,13 +90,15 @@ public class Stepper {
  	//extends both back pistons
  	public void extendPistons()
  	{
- 		pistons.set(true);
+		 pistons.set(true);
+		 System.out.println("Extending pistons");
 	}
 	 
 	//retracts back pistons
 	public void retractPistons()
 	{
 		pistons.set(false);
+		System.out.println("Retract Pistons");
 	}
 
 	//drives the front wheels forward
@@ -103,24 +116,59 @@ public class Stepper {
 	//stops drive wheels
 	public void stopDrive()
 	{
-		driveMotor.set(0);
+		driveMotor.stopMotor();
 	}
 
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
 		lifterMotor.set(liftSpeed);
+		System.out.println("Lift Up");
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
 		lifterMotor.set(-liftSpeed);
+		driveMotor.set(wheelSpeed);
+		System.out.println("Lift Down");
 	}
 
 	//stops the stepper motor
 	public void stopStepper()
 	{
-		lifterMotor.set(0);
+		lifterMotor.stopMotor();
+		System.out.println("Stepper Stopped Lifting");
+	}
+
+	public void activate()
+	{
+		//Stepper button controls
+
+		//extends pistons
+		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_EXTEND_PISTONS))
+		{
+			extendPistons();
+		}
+		//retracts pistons
+		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
+		{
+			retractPistons();
+		}
+		
+		//manually moves lifter
+		if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
+		{
+			liftStepper();
+		}
+		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		{
+			lowerStepper();
+			driveMotor.set(wheelSpeed);
+		}
+		else
+		{
+			stopStepper();
+		}
 	}
 }
