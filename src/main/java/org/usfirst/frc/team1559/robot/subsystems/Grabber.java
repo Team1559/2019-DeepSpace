@@ -33,7 +33,7 @@ public class Grabber
         //limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
         //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
         //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
-        speedBall = 0.6; //FIND A SPEED THAT WORKSs
+        speedBall = 0.8; //FIND A SPEED THAT WORKSs
         slowBall = 0.4;
         speedHatch = 0.5; //FIND A SPEED THAT WORKS
         stopHatch = 0.5;
@@ -57,18 +57,18 @@ public class Grabber
         }
        
 
-        if(Cargotimer>=1 && Cargotimer <=4){
+        if(Cargotimer>=1 && Cargotimer <=8){
         Cargotimer = Cargotimer + 1;
         }
         
-        else{ if(Cargotimer>100)
+        else{ if(Cargotimer>4)
         slowBall();
         }
-            if( Cargocounter>=1 && Cargocounter <=2){
+            if( Cargocounter>=1 && Cargocounter <=4){
                 Cargocounter = Cargocounter + 1;
                 
                 }
-               else if(Cargocounter>50){
+               else if(Cargocounter>3){
                     StopBall(); 
                     Cargocounter = 0;  
                 }

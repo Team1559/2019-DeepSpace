@@ -68,8 +68,8 @@ private final double ticksToHatch2 = (47-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (75-homeInches) * ticksPerInch; //Placeholder value
 
 
-private int potUseableBottom = 48; //Code will auto adjust values based on this one.
-private int potUseableTop = 596; //Placeholder
+private int potUseableBottom = 95; //Code will auto adjust values based on this one.
+private int potUseableTop = 631; //Placeholder
 private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
@@ -81,7 +81,7 @@ private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
 private final int TIMEOUT = 0;
 
-private boolean isAxis = true;
+public boolean isAxis = true;
 
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
@@ -256,24 +256,7 @@ private boolean isAxis = true;
 			recallibrateSystem();
 			
 		// }
-		if(oi.getCopilotAxis(1) <= -0.9) {
-			isAxis = true;
-			//if(getPot() < potUseableTop) 
-				//stop();
-			//else	
-				goUp();
-		}
-		 if(oi.getCopilotAxis(1) >= 0.9) {
-			isAxis = true;
-			if(getPot() > potUseableBottom) 
-				stop();
-			else	
-				goDown();
-		}
-		 if((Math.abs(oi.getCopilotAxis(1)) <= 0.1 ) && isAxis) {
-			stop();
-			// System.out.println("Stopped");
-		}
+		
 		
 	}
 

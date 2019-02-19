@@ -157,8 +157,28 @@ public class Robot extends TimedRobot {
 
 
 		//Lifter
-		//lifter.driveLifter();
-		
+		lifter.driveLifter();
+
+		if(oi.getCopilotAxis(1) <= -0.9) {
+			lifter.isAxis = true;
+			lifter.goUp();
+			//if(getPot() < potUseableTop) 
+				//stop();
+			//else	
+				
+		}
+		 if(oi.getCopilotAxis(1) >= 0.9) {
+			lifter.isAxis = true;
+			lifter.goDown();
+			//if(getPot() > potUseableBottom) 
+				//stop();
+		//	else	
+				
+		}
+		 if((Math.abs(oi.getCopilotAxis(1)) <= 0.1)&& lifter.isAxis)  {
+			lifter.stop();
+			// System.out.println("Stopped");
+		}
 		//Camera
 
 		pixylinevector v=pixy2.getvector();
