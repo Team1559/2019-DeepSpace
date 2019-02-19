@@ -45,8 +45,7 @@ public class Robot extends TimedRobot {
 	private static Grabber grabber; 
 	private static Stepper stepper;
 	public static boolean dBounce = false;
-	public Compressor c = new Compressor(0);
-	public Solenoid hatchsnatcher = new Solenoid(1);
+	public Compressor c;
 
 	public static DistSensor dist;
 	private static DistSensor ds;
@@ -68,15 +67,16 @@ public class Robot extends TimedRobot {
 	private double errorX;
 	private double errorR;
 	private double errorY;
-	private Solenoid hatchsnacher;
+
 	@Override
 	public void robotInit() {
 		//pcm.start();
 
 		drive = new DriveTrain();
 
-		hatchsnacher = new Solenoid(0);
 		oi = new OperatorInterface();
+
+		c = new Compressor(7);
 
 
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
@@ -84,7 +84,8 @@ public class Robot extends TimedRobot {
 		LED_Relay = new Relay(0);
 		vision = new Vision();
 		grabber = new Grabber(oi);
-    stepper = new Stepper();
+
+		stepper = new Stepper(oi);
     
 		jKx = -0.015f;
 		jKr = 0.016f;//0.014 
@@ -148,19 +149,18 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		//c.setClosedLoopControl(true);
+		c.setClosedLoopControl(true);
 
 		// Camera
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
 		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
-			hatchsnacher.set(true);
+			grabber.getHatch();
 		}
-		else{		
-			hatchsnatcher.set(false);
+		else
+		{		
+			grabber.bringHatch();
 		}
-
-
 
 		//Lifter
 		lifter.driveLifter();
@@ -289,55 +289,10 @@ public class Robot extends TimedRobot {
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}
 
-		//Stepper button controls
-		
-		//drive wheel button control
-		if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_FORWARD))
-		{
-			stepper.driveForward();
-			System.out.println("Driving Forward");
-		}
-		else if(oi.copilot.getRawButton(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
-		{
-			stepper.driveBackward();
-			System.out.println("Driving Backward");
-		}
-		else
-		{
-			stepper.stopDrive();
-		}
-
-		//retracts pistons
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
-		{
-			stepper.retractPistons();
-			System.out.println("Retract Pistons");
-		}
-		
-		//manually moves lifter
-		if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
-
-		{
-			stepper.liftStepper();
-			stepper.extendPistons();
-			//stepper.driveForward();
-			System.out.println("Lift Up");
-		}
-		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
-		{
-			stepper.lowerStepper();
-			stepper.retractPistons();
-			System.out.println("Lift Down");
-		}
-		else
-		{
-			stepper.stopStepper();
-			System.out.println("Stepper Stopped Lifting");
-		}
+		grabber.drive();
+		stepper.activate();
 	}
 
-
-		grabber.drive();
 
 		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
 		// 	grabber.getCargo();
@@ -369,7 +324,6 @@ public class Robot extends TimedRobot {
 
 // 				dBounce = false;}
 // 		 }
- 	}
 
 
 		
