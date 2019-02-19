@@ -123,9 +123,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		pixy2.start();
-		vision.VisionInit();
-		LED_Relay.set(Value.kOn);
+		teleopInit();
 		
 		//pixy2.start();
 		// No autonomous neccesary
