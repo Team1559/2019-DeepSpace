@@ -68,14 +68,14 @@ private final double ticksToHatch2 = (47-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (75-homeInches) * ticksPerInch; //Placeholder value
 
 
-private int potUseableBottom = 50; //Code will auto adjust values based on this one.
+private int potUseableBottom = 48; //Code will auto adjust values based on this one.
 private int potUseableTop = 596; //Placeholder
 private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 private final int potMin = 5; // This is the lowest the pot can possibly go.
 
-private double kP = 15; //Just for testing purposes
+private double kP = 17; //Just for testing purposes
 private double kI = 0;
 private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
@@ -263,14 +263,14 @@ private boolean isAxis = true;
 			//else	
 				goUp();
 		}
-		else if(oi.getCopilotAxis(1) >= 0.9) {
+		 if(oi.getCopilotAxis(1) >= 0.9) {
 			isAxis = true;
-			//if(getPot() > potUseableBottom) 
-				//stop();
-			//else	
+			if(getPot() > potUseableBottom) 
+				stop();
+			else	
 				goDown();
 		}
-		else if((Math.abs(oi.getCopilotAxis(1)) <= 0.1 ) && isAxis) {
+		 if((Math.abs(oi.getCopilotAxis(1)) <= 0.1 ) && isAxis) {
 			stop();
 			// System.out.println("Stopped");
 		}

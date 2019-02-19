@@ -57,14 +57,14 @@ public class Grabber
         }
        
 
-        if(Cargotimer>=1 && Cargotimer <=100){
+        if(Cargotimer>=1 && Cargotimer <=4){
         Cargotimer = Cargotimer + 1;
         }
         
         else{ if(Cargotimer>100)
         slowBall();
         }
-            if( Cargocounter>=1 && Cargocounter <=50){
+            if( Cargocounter>=1 && Cargocounter <=2){
                 Cargocounter = Cargocounter + 1;
                 
                 }

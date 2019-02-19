@@ -157,7 +157,7 @@ public class Robot extends TimedRobot {
 
 
 		//Lifter
-		lifter.driveLifter();
+		//lifter.driveLifter();
 		
 		//Camera
 
