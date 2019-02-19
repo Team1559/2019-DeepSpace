@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
 		pixy2 = new Pixy();
 
 		distRight = new DistSensor(new AnalogInput (0));
-		distLeft = new DistSensor(new AnalogInput (1));
+		distLeft = new DistSensor(new AnalogInput (2));
 		LED_Relay.set(Value.kOn);
 		c = new Compressor(7);
 	}	
@@ -211,12 +211,7 @@ public class Robot extends TimedRobot {
 					//drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
 				}
 				else if(v.status ==1 ){
-					SmartDashboard.putNumber("__x",pixy2.getEx());
-					SmartDashboard.putNumber("__y", distance);
-					SmartDashboard.putNumber("__r",pixy2.getEr());
-					SmartDashboard.putString("Mode","pixy");
-					System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
-
+					
 					if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
 						SmartDashboard.putNumber("__Close enough x", Ex);
 						Ex = Ex/10;
@@ -229,14 +224,17 @@ public class Robot extends TimedRobot {
 						pKy=0.416f;	
 					}
 					//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
-				}
-				if(Er < -3 && Er > 3){
-					pKy=0.416f;
-				}
+				
+				
 				//to go right increase, to go left decrease
 				Ex = Rightdistance - Leftdistance;
-					
-				drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+				SmartDashboard.putNumber("__x",pixy2.getEx());
+				SmartDashboard.putNumber("__y", Rightdistance);
+				SmartDashboard.putNumber("__r",pixy2.getEr());
+				SmartDashboard.putString("Mode","pixy");
+				System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
+				}
+				//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
 			}
 			else{
 				SmartDashboard.putString("Mode","driver-2");
