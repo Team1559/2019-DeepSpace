@@ -217,43 +217,43 @@ private boolean isAxis = true;
 		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
-		// maxOverride();
-		// if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
-		// 	isAxis = false;
-		// 	goToPortPos(1);
-		// }
+		//maxOverride();
+		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
+			isAxis = false;
+			goToPortPos(1);
+		}
 
-		// else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
-		// 	isAxis = false;
-		// 	goToPortPos(2);
+		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) == 1) { 
+			isAxis = false;
+			goToPortPos(2);
 			
-		// }
-		// else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
-		// 	isAxis = false;
-		// 	goToPortPos(3);
-		// }
-		// else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
-		// 	isAxis = false;
-		// 	goToCargoShipHatch();
+		}
+		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) == 1) { 
+			isAxis = false;
+			goToPortPos(3);
+		}
+		else if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) != 1) { 
+			isAxis = false;
+			goToCargoShipHatch();
 			
-		// }
-		// else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
-		// 	isAxis = false;
-		// 	goToCargoShipCargoDrop();
+		}
+		else if(oi.copilot.getRawButton(6) && oi.getCopilotAxis(3) != 1) { 
+			isAxis = false;
+			goToCargoShipCargoDrop();
 			
-		// }
-		// else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
-		// 	isAxis = false;
-		// 	goToHatchPos(3);
+		}
+		else if(oi.copilot.getRawButton(5) && oi.getCopilotAxis(3) != 1) { 
+			isAxis = false;
+			goToHatchPos(3);
 			
-		// }
-		// else if(oi.copilot.getRawButton(3)) {
-		// 	isAxis = false; 
-		// 	goToBottom();
-		// }
-		// else if(oi.copilot.getRawButton(8)) { 
-		// 	isAxis = false;
-		// 	recallibrateSystem();
+		}
+		else if(oi.copilot.getRawButton(3)) {
+			isAxis = false; 
+			goToBottom();
+		}
+		else if(oi.copilot.getRawButton(8)) { 
+			isAxis = false;
+			recallibrateSystem();
 			
 		// }
 		if(oi.getCopilotAxis(1) <= -0.9) {
@@ -278,5 +278,6 @@ private boolean isAxis = true;
 	}
 
 
+	}
 }
 //It's over!!!!
