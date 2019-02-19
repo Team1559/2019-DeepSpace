@@ -64,7 +64,7 @@ public class Grabber
         else{ if(Cargotimer>4)
         slowBall();
         }
-            if( Cargocounter>=1 && Cargocounter <=4){
+            if( Cargocounter>=1 && Cargocounter <=7){
                 Cargocounter = Cargocounter + 1;
                 
                 }
