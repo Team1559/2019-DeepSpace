@@ -37,8 +37,8 @@ public class Robot extends TimedRobot {
 	public static OperatorInterface oi;
 	//private Compressor pcm = new Compressor();
 
-	private Pixy pixy2;
-	private Relay LED_Relay;
+	public static Pixy pixy2;
+	public static Relay LED_Relay;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
@@ -288,90 +288,31 @@ public class Robot extends TimedRobot {
 	
 		//Stepper button controls
 		
-		//drive wheel button control
-		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
-		// {
-		// 	stepper.driveForward();
-		// }
-		// else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
-		// {
-		// 	stepper.driveBackward();
-		// }
-		// else
-		// {
-		// 	stepper.stopDrive();
-		// }
-
-		//retracts pistons
-		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
-		// 
-		//	stepper.retractPistons();
-	//	}
-
 		grabber.drive();
 		stepper.activate();
 	}
 
 
-		// if(oi.pilot.getRawButtonPressed(Constants.BTN_INTAKE)) {
-		// 	grabber.getCargo();
-		// 	SmartDashboard.putNumber("__Ball", 1);
-		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_OUTTAKE)) {
-		// 	grabber.removeCargo();
-		// 	SmartDashboard.putNumber("__Ball", 2);
-		// }
-		
-		// if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_LOCK)) {
-		// 	grabber.getHatch();
-		// } else if(oi.pilot.getRawButtonPressed(Constants.BTN_HATCH_UNLOCK)) {
-		// 	grabber.bringHatch();
-
-		// }
-
-			
-		//  if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO) || dBounce == true){
-		//  	dBounce = true;
-		//  }
-			
-		// 	drive.driveCartesian(.5, .5, 0); //replace with Jetson data
-		// 	if(ds.getRange() == 18)
-
-
-		//  }
-// 			/*if(oi.pilot.getRawButtonPressed(Constants.BTN_AUTO))
-// 			{
-
-// 				dBounce = false;}
-// 		 }
-
 
 		
-// 	@Override
-// 	public void testInit() {
+	@Override
+	public void testInit() {
 		
-// 	}
-
-
-
-
+	}
  	@Override
  	public void testPeriodic() {
 	
 }
-
-
 @Override
 public void disabledInit() {
 
-	pixy2.lampoff();
-	LED_Relay.set(Value.kOff);
 	
 
 }
 
 @Override
 public void disabledPeriodic() {
-	//pcm.stop();
+	
 }
 
 

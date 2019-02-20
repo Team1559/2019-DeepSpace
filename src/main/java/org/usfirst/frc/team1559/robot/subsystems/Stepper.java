@@ -9,11 +9,11 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Talon;
-
+import edu.wpi.first.wpilibj.Relay.Value;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
-
+import org.usfirst.frc.team1559.robot.Pixy;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -146,6 +146,7 @@ public class Stepper {
 		//Stepper button controls
 
 		//extends pistons
+		
 		if(Robot.oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_EXTEND_PISTONS))
 		{
 			extendPistons();
@@ -175,10 +176,14 @@ public class Stepper {
 		//manually moves lifter
 		if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
 		{
+			pixy2.lampoff();
+			LED_Relay.set(Value.kOff);
 			liftStepper();
 		}
 		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
+			pixy2.lampoff();
+			LED_Relay.set(Value.kOff);
 			lowerStepper();
 		}
 		else
