@@ -4,13 +4,10 @@ package org.usfirst.frc.team1559.robot.subsystems;
 import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
-
 import org.usfirst.frc.team1559.robot.MathUtils;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
