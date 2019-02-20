@@ -146,12 +146,9 @@ public class Robot extends TimedRobot {
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
 		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
-			isGrabberSolenoidFired = !isGrabberSolenoidFired;
-		}
-		if(isGrabberSolenoidFired) {
-			grabber.releasePiston();
-		} else if(!isGrabberSolenoidFired) {
-			grabber.resetPiston();
+
+			grabber.toggleHatch();
+
 		}
 
 		//Lifter

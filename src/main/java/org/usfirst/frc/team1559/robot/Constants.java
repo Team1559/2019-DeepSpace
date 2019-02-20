@@ -31,7 +31,7 @@ public interface Constants {
 	public static final int BTN_INTAKE = 1;
 	public static final int BTN_HATCH_SLAP = 6;
 	public static final int BTN_HATCH_UNSLAP = 5;
-	public static final int HATCH_SNATCHER = 10;
+	public static final int HATCH_SNATCHER = 9;
 	// Lifter
 	// public static final short LIFTER_POS1 = 1;
 	// public static final short LIFTER_POS2 = 2;
@@ -47,6 +47,8 @@ public interface Constants {
 	public static final int STEPPER_COPILOT_LIFT_DOWN = 2; //button to the right of bottom left on fightstick
 	public static final int STEPPER_PILOT_EXTEND_PISTONS = 2; //X button on pilot controller
 	public static final int STEPPER_PILOT_RETRACT_PISTONS = 10; //button to the right of touchpad on controller
+	public static final int STEPPER_PILOT_DRIVE_FORWARD = 4; //right trigger on pilot
+	public static final int STEPPER_PILOT_DRIVE_BACKWARD = 3; //left trigger on pilot
 
 	// Ultrasonic Stopper
 	public static final int STOPPING_DISTANCE = -1; // TODO: Find this value.

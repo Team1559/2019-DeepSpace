@@ -21,7 +21,10 @@ public class Grabber
     private double speedBall, slowBall, speedHatch, stopHatch;
     private int Cargocounter;
     private int Cargotimer;
-    public Grabber()
+
+    private boolean hatchUp;
+    public Grabber(OperatorInterface oi)
+
     {
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
@@ -37,6 +40,7 @@ public class Grabber
         stopHatch = 0.5;
         Cargocounter = 0;
         Cargotimer = 0;
+        hatchUp = true;
 
     }
 
@@ -183,6 +187,20 @@ public class Grabber
         }
         return b;
         /*if it returns true then the switches are activated.*/
+    }
+
+    public void toggleHatch()
+    {
+        if(hatchUp)
+        {
+            hatchUp = false;
+            getHatch();
+        }
+        else if(!hatchUp)
+        {
+            hatchUp = true;
+            bringHatch();
+        }
     }
 
 

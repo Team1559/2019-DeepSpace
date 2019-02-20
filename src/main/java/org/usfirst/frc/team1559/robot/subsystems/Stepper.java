@@ -1,6 +1,7 @@
  package org.usfirst.frc.team1559.robot.subsystems;
 
 
+import javax.lang.model.util.ElementScanner6;
 import javax.swing.SpringLayout.Constraints;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -68,7 +69,7 @@ public class Stepper {
 	private Solenoid pistons;
 	
 	//speed of motors (-1.0 to 1.0)
-	private double wheelSpeed = 1; //speed of the wheels
+
 	private double liftSpeed = 1; //speed of lifterMotor
 
 	//controls on and off of drive wheels
@@ -101,15 +102,15 @@ public class Stepper {
 	}
 
 	//drives the front wheels forward
-	public void driveForward()
+	public void driveForward(double speed)
 	{
-		driveMotor.set(wheelSpeed);
+		driveMotor.set(speed);
 	}
 
 	//drives the front wheels backward
-	public void driveBackward()
+	public void driveBackward(double speed)
 	{
-		driveMotor.set(-wheelSpeed);
+		driveMotor.set(-speed);
 	}
 
 	//stops drive wheels
@@ -129,7 +130,7 @@ public class Stepper {
 	public void lowerStepper()
 	{
 		lifterMotor.set(liftSpeed);
-		driveMotor.set(wheelSpeed);
+
 		System.out.println("Lift Down");
 	}
 
@@ -150,9 +151,25 @@ public class Stepper {
 			extendPistons();
 		}
 		//retracts pistons
-		if(Robot.oi.copilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
+
+		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
+
 		{
 			retractPistons();
+		}
+
+		//drive controls for front wheels
+		if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
+		{
+			driveForward(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
+		}
+		else if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
+		{
+			driveBackward(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
+		}
+		else
+		{
+			stopDrive();
 		}
 		
 		//manually moves lifter
@@ -163,7 +180,6 @@ public class Stepper {
 		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			lowerStepper();
-			driveMotor.set(wheelSpeed);
 		}
 		else
 		{
