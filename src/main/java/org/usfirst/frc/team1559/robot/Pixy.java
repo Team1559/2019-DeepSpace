@@ -63,6 +63,7 @@ public class Pixy {
             if(v.flags==6) {
                 v.status=1;
             }
+           
         }
 
         return v;

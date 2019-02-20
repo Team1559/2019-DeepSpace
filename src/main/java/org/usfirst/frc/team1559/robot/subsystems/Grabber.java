@@ -21,7 +21,6 @@ public class Grabber
     private double speedBall, slowBall, speedHatch, stopHatch;
     private int Cargocounter;
     private int Cargotimer;
-
     private boolean hatchUp;
     public Grabber(OperatorInterface oi)
 
@@ -37,7 +36,6 @@ public class Grabber
         Cargocounter = 0;
         Cargotimer = 0;
         hatchUp = true;
-
     }
 
     public void drive() {
@@ -54,7 +52,6 @@ public class Grabber
             
         }
        
-
         if(Cargotimer>=1 && Cargotimer <=8){
         Cargotimer = Cargotimer + 1;
         }
@@ -69,10 +66,9 @@ public class Grabber
                else if(Cargocounter>3){
                     StopBall(); 
                     Cargocounter = 0;  
-                }
-    
-        }
- 
+               }
+    }
+
     public void slowBall()
     {
         ballIntake.set(slowBall);
@@ -173,7 +169,7 @@ public class Grabber
             }
         }
         return b;
-        /*if it returns true then the switches are activated.*/
+        //if it returns true then the switches are activated.
     }
 
     public void toggleHatch()
@@ -191,6 +187,4 @@ public class Grabber
             //this brings the hatch piston up
         }
     }
-
-
 }

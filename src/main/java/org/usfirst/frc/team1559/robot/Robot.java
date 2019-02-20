@@ -26,8 +26,10 @@ import org.usfirst.frc.team1559.robot.OperatorInterface;
 public class Robot extends TimedRobot {
 	public DriveTrain drive;
 	public static OperatorInterface oi;
-	private Pixy pixy2;
-	private Relay LED_Relay;
+	//private Compressor pcm = new Compressor();
+
+	public static Pixy pixy2;
+	public static Relay LED_Relay;
 	public static boolean fightstick = true;
 	private boolean isCargo = true;
 	private static Lifter lifter;
@@ -178,7 +180,6 @@ public class Robot extends TimedRobot {
 					SmartDashboard.putNumber("ey", vData.y);
 					SmartDashboard.putNumber("er",vData.r);	
 					
-					
 					SmartDashboard.putNumber("__x",xDrive);
 					SmartDashboard.putNumber("__y", jKy * errorY);
 					SmartDashboard.putNumber("__r",jKr * errorR);	
@@ -226,18 +227,36 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}	
+
+
+	
+		//Stepper button controls
+		
 		grabber.drive();
 		stepper.activate();
 	}
 
+
+
+		
+	@Override
+	public void testInit() {
+		
+	}
+ 	@Override
+ 	public void testPeriodic() {
+	
+}
 @Override
 public void disabledInit() {
-	pixy2.lampoff();
-	LED_Relay.set(Value.kOff);
+
+	
+
 }
 
 @Override
 public void disabledPeriodic() {
+	
 }
 
 }
