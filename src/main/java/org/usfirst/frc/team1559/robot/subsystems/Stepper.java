@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Talon;
 
 import org.usfirst.frc.team1559.robot.OperatorInterface;
+import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
 
 
@@ -66,9 +67,9 @@ public class Stepper {
 	private WPI_TalonSRX lifterMotor;
 	private Talon driveMotor;
 	private Solenoid pistons;
-	private OperatorInterface oi;
 	
 	//speed of motors (-1.0 to 1.0)
+
 	private double liftSpeed = 1; //speed of lifterMotor
 
 	//controls on and off of drive wheels
@@ -80,7 +81,6 @@ public class Stepper {
  		lifterMotor = new WPI_TalonSRX(Wiring.STEPPER_LIFTER_MOTOR);
  		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
-		this.oi = oi;
 		driving = false;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
@@ -130,6 +130,7 @@ public class Stepper {
 	public void lowerStepper()
 	{
 		lifterMotor.set(liftSpeed);
+
 		System.out.println("Lift Down");
 	}
 
@@ -145,12 +146,14 @@ public class Stepper {
 		//Stepper button controls
 
 		//extends pistons
-		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_EXTEND_PISTONS))
+		if(Robot.oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_EXTEND_PISTONS))
 		{
 			extendPistons();
 		}
 		//retracts pistons
+
 		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
+
 		{
 			retractPistons();
 		}
@@ -170,11 +173,11 @@ public class Stepper {
 		}
 		
 		//manually moves lifter
-		if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
+		if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
 		{
 			liftStepper();
 		}
-		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
+		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			lowerStepper();
 		}

@@ -64,8 +64,8 @@ private final double ticksToPort2 = (75-homeInches) * ticksPerInch; //Placeholde
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
 private final double ticksToHatch1 = (12-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (47-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch3 = (75-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = (35-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch3 = (63-homeInches) * ticksPerInch; //Placeholder value
 
 
 private int potUseableBottom = 95; //Code will auto adjust values based on this one.
@@ -86,7 +86,7 @@ public boolean isAxis = true;
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
-		goToBottom();
+		goToBottom(1);
 
 		// potUseableBottom = getPot();
 		potUseableTop = potUseableBottom + potRange;
@@ -161,9 +161,15 @@ public boolean isAxis = true;
 		goToHatchPos(2);
 	}
 
-	public void goToBottom() {
+	public void goToBottom(int whichHome) {
+		if(whichHome == 1) {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
 		SmartDashboard.putNumber("Pot going to", potUseableBottom);
+		}
+		else if(whichHome == 2) {
+		lifterMotor.set(ControlMode.Position, potUseableBottom + (3*ticksPerInch));
+		SmartDashboard.putNumber("Pot going to", potUseableBottom + (3*ticksPerInch));
+		}
 	}
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
@@ -247,9 +253,13 @@ public boolean isAxis = true;
 			goToHatchPos(3);
 			
 		}
-		else if(oi.copilot.getRawButton(3)) {
+		else if(oi.copilot.getRawButton(3) && oi.getCopilotAxis(3) != 1) {
 			isAxis = false; 
-			goToBottom();
+			goToBottom(1);
+		}
+		else if(oi.copilot.getRawButton(3) && oi.getCopilotAxis(3) == 1) {
+			isAxis = false;
+			goToBottom(2);
 		}
 		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;

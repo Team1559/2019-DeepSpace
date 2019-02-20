@@ -5,6 +5,7 @@ import com.sun.net.httpserver.Authenticator.Result;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 
 public class DistSensor
@@ -16,7 +17,7 @@ public class DistSensor
     {
         analogInput = ai; 
     }
-
+    
 
     public void setAutomaticMode(boolean b)
     {
@@ -34,16 +35,11 @@ public class DistSensor
 	//	SmartDashboard.putNumber("Analog  Volts", volts);
 	//	SmartDashboard.putNumber("Analog Average Raw Value", averageRaw);
 
-
-   
-
-
-		double IRdistance = (24.031 * Math.pow(volts, -1.5549))-11;
-
+		double IRdistance = (24.031 * Math.pow(volts, -1.5549))-16;
 	//	SmartDashboard.putNumber("Analog Average Volts", averageVolts);
 	//	SmartDashboard.putNumber("Distance", IRdistance);
         return IRdistance;
-}
+    }
     public void drive() {}
 
 /*
