@@ -161,9 +161,15 @@ public boolean isAxis = true;
 		goToHatchPos(2);
 	}
 
-	public void goToBottom() {
+	public void goToBottom(int whichHome) {
+		if(whichHome == 1) {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
 		SmartDashboard.putNumber("Pot going to", potUseableBottom);
+		}
+		else if(whichHome == 2) {
+		lifterMotor.set(ControlMode.Position, potUseableBottom + (3*ticksPerInch));
+		SmartDashboard.putNumber("Pot going to", potUseableBottom + (3*ticksPerInch));
+		}
 	}
 
 	public void recallibrateSystem() { //This method is in case the pot slips and we need to reset the other pot values based on it.
@@ -247,9 +253,13 @@ public boolean isAxis = true;
 			goToHatchPos(3);
 			
 		}
-		else if(oi.copilot.getRawButton(3)) {
+		else if(oi.copilot.getRawButton(3) && oi.getCopilotAxis(3) != 1) {
 			isAxis = false; 
 			goToBottom();
+		}
+		else if(oi.copilot.getRawButton(3) && oi.getCopilotAxis(3) == 1) {
+			isAxis = false;
+			goToPortPos(1);
 		}
 		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
