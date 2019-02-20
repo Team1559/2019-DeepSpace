@@ -15,7 +15,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-// import com.sun.tools.javac.util.Convert;
 
 // Lifter Programers are Jack and Nick. Please defer to them if you want to make changes.
 
@@ -96,7 +95,6 @@ public boolean isAxis = true;
 		lifterMotor.configPeakCurrentLimit(75,TIMEOUT);
 		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
-		// lifterMotor.setInverted(true);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
@@ -198,13 +196,6 @@ public boolean isAxis = true;
 		lifterMotor.stopMotor();
 	}
 
-	// public void maxOverride() {
-	// 	if(getPot() == potMax)
-	// 		stop();
-	// 	else if(getPot() == potMin)
-	// 		stop();
-	// }
-
 	/**
 	 * IMPORTANT!!!! VERY BIG DRIVE LIFTER METHOD!!!!
 	 * This method will do everything originally put into the robot.java class.
@@ -264,13 +255,8 @@ public boolean isAxis = true;
 		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
 			recallibrateSystem();
-			
-		// }
 		
-		
-	}
-
-
+		}
 	}
 }
 //It's over!!!!

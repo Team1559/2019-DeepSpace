@@ -2,7 +2,7 @@ package org.usfirst.frc.team1559.robot;
 
 import edu.wpi.first.wpilibj.*;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
-
+//this class returns the data from the pixy 2
 public class Pixy {
 
     public SPI port;
@@ -63,14 +63,6 @@ public class Pixy {
             if(v.flags==6) {
                 v.status=1;
             }
-            // else {
-            //     v.status=0;
-            // }
-            //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.flags);
-            //System.out.printf("( %d , %d)" + "( %d, %d)" +" %d", v.x0, v.y0, v.x1, v.y1, v.Er);
-            //System.out.println("");
-            //System.out.printf("( %d , %d) %d", v.Ex, v.Er, v.flags);
-            //System.out.println("");
         }
 
         return v;

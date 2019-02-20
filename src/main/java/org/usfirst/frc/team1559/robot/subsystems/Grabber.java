@@ -30,10 +30,6 @@ public class Grabber
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
-        //limitSwitch1 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS1);
-        //limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
-        //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
-        //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
         speedBall = 0.8; //FIND A SPEED THAT WORKSs
         slowBall = 0.4;
         speedHatch = 0.5; //FIND A SPEED THAT WORKS
@@ -76,16 +72,7 @@ public class Grabber
                 }
     
         }
-    
-
-         
-		/*if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
-			slapHatch();
-		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
-			unslapHatch();
-
-		}
-*/
+ 
     public void slowBall()
     {
         ballIntake.set(slowBall);
@@ -195,11 +182,13 @@ public class Grabber
         {
             hatchUp = false;
             releasePiston();
+            //this brings the hatch piston down
         }
         else if(!hatchUp)
         {
             hatchUp = true;
             resetPiston();
+            //this brings the hatch piston up
         }
     }
 

@@ -48,8 +48,6 @@ public class Vision {
 		return VData;
 	}
 
-
-
 	private static Vision instance;
 
 	public static Vision getInstance() {

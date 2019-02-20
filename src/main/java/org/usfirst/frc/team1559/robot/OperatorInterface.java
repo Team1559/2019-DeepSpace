@@ -23,6 +23,7 @@ public class OperatorInterface {
     }
 
     public double getPilotX() {
+        //gets the x axis on the ps4 contoller (side to side) 
         if((pilot.getRawAxis(0))/(Math.abs(pilot.getRawAxis(0))) == 1) {
             return (Math.pow(pilot.getRawAxis(0), 2));//robot with bad grabber and stepper is inverted in the second statement 
         }
@@ -30,6 +31,7 @@ public class OperatorInterface {
     }
 
     public double getPilotY() {
+        //gets the y axis on the ps4 controller (forward and back)
         if((pilot.getRawAxis(1))/(Math.abs(pilot.getRawAxis(1))) == 1) {
             return (-1)*(Math.pow(pilot.getRawAxis(1), 2));
         }
@@ -37,6 +39,7 @@ public class OperatorInterface {
     }
 
     public double getPilotZ() {
+        //gets the z axis on the ps4 controller (rotation)
         if((pilot.getRawAxis(2))/(Math.abs(pilot.getRawAxis(2))) == 1) {
             return (Math.pow(pilot.getRawAxis(2), 2));
         }
@@ -44,25 +47,27 @@ public class OperatorInterface {
     }
 
     public DTButton getCopilotButton(int num) {
-        //Enter important stuff here Mike!
+        //this gets the id number of the button on the copilot box
         return copilotButtons[num];
     }
 
     public boolean coButtonIsPressed(int button) {
+        //this will tell us if a button is pressed on the copilot box and return true
         return copilot.getRawButton(button);
     }
 
     public double getCopilotAxis(int num) {
-        //Enter important stuff here Mike!
+        //gets the axis on the copilot box
         return copilot.getRawAxis(num);
     }
 
     public DTButton getCocopilotButton(int num) {
-        //Enter important stuff here Mike!!!!
+        //returns the id num of the copilot box
         return cocopilotButtons[num];
     }
 
     public boolean axisToButtonIsPressed(int axis) {
+        //returns true if the axis button is pressed
         return (copilot.getRawAxis(axis) == 1);
     }
 
