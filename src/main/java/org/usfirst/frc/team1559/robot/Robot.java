@@ -47,8 +47,9 @@ public class Robot extends TimedRobot {
 	public static boolean dBounce = false;
 	public Compressor c;
 
-	public static DistSensor dist;
-	private static DistSensor ds;
+	public static DistSensor distRight; //right and left from Robots perspective (looking from the back of the robot)
+	public static DistSensor distLeft;
+	//private static DistSensor ds;
 	private static AnalogInput ai;
 
 	public static Vision vision;
@@ -96,30 +97,19 @@ public class Robot extends TimedRobot {
 		pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 		
 		pixy2 = new Pixy();
-		ai = new AnalogInput(0); 
-		LED_Relay.set(Value.kOn);
 
-		ds = new DistSensor(ai);
+		distRight = new DistSensor(new AnalogInput (0));
+		distLeft = new DistSensor(new AnalogInput (2));
+		LED_Relay.set(Value.kOn);
 		c = new Compressor(7);
+
 
 		isGrabberSolenoidFired = false;
 
-
-
 	}	
-
-		//dSensor = new DistSensor();
-
 		
-		//grabber = new Grabber();
-		//dist = new DistSensor( new AnalogInput(0));
-		//dSensor.setAutomaticMode(true);
-		//dSensor.stopRobot();
-	
 	@Override
 	public void robotPeriodic() {
-
-		
 	}
 	
 
@@ -206,19 +196,23 @@ public class Robot extends TimedRobot {
 		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		
 		//if(v.status == 1)
+		
+		float Rightdistance = (float)distRight.getRange();
+		float Leftdistance = (float)distLeft.getRange();
+		Ey = Rightdistance - 5;
 
-
-		double distance = ds.getRange();
-		Ey = distance - 5;
 		double maxPixyRange = 18.0;
-		SmartDashboard.putNumber("IRDistance,", distance);
+		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
+		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
+
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) {
 			System.out.println("It's alive");
 			pixy2.lampon();
 			if(vData.status==1){
 				if(vData.y >= maxPixyRange){
 					errorX = vData.x;
-					if ((errorX > -4.0) && (errorX < 4.0)){
+
+					if ((errorX > -7.0) && (errorX < 7.0)){
 						SmartDashboard.putNumber("__Close enough x", errorX);
 						errorX = errorX/5.0;
 					}
@@ -228,7 +222,10 @@ public class Robot extends TimedRobot {
 						SmartDashboard.putNumber("__Close enough r", errorR);
 						errorR = errorR/5.0;
 					}
-					double xDrive = jKx * -errorX;
+
+					double xDrive = jKx * errorX;
+
+			
 					if(xDrive > 1.0)
 						xDrive = 1.0;
 					else if(xDrive < -1.0)
@@ -247,12 +244,7 @@ public class Robot extends TimedRobot {
 					drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
 				}
 				else if(v.status ==1 ){
-					SmartDashboard.putNumber("__x",pixy2.getEx());
-					SmartDashboard.putNumber("__y", distance);
-					SmartDashboard.putNumber("__r",pixy2.getEr());
-					SmartDashboard.putString("Mode","pixy");
-					System.out.println("Pixy " + pixy2.getEx() + " " + distance + " " + pixy2.getEr());
-
+					
 					if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5){
 						SmartDashboard.putNumber("__Close enough x", Ex);
 						Ex = Ex/10;
@@ -264,15 +256,19 @@ public class Robot extends TimedRobot {
 					if(Er < -3 && Er > 3){
 						pKy=0.416f;	
 					}
-					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+
+					//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
+				
+				
+				//to go right increase, to go left decrease
+				Ex = Rightdistance - Leftdistance;
+				SmartDashboard.putNumber("__x",pixy2.getEx());
+				SmartDashboard.putNumber("__y", Rightdistance);
+				SmartDashboard.putNumber("__r",pixy2.getEr());
+				SmartDashboard.putString("Mode","pixy");
+				System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
 				}
-				else{
-					SmartDashboard.putString("Mode","driver-1");
-					SmartDashboard.putNumber("__x",oi.getPilotX());
-					SmartDashboard.putNumber("__y",oi.getPilotY());
-					SmartDashboard.putNumber("__r",oi.getPilotZ());
-					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-				}
+				
 			}
 			else{
 				SmartDashboard.putString("Mode","driver-2");
@@ -289,7 +285,31 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__y",oi.getPilotY());
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		}
+		}	
+
+
+	
+		//Stepper button controls
+		
+		//drive wheel button control
+		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_FORWARD))
+		// {
+		// 	stepper.driveForward();
+		// }
+		// else if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_DRIVE_BACKWARD))
+		// {
+		// 	stepper.driveBackward();
+		// }
+		// else
+		// {
+		// 	stepper.stopDrive();
+		// }
+
+		//retracts pistons
+		// if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_PULL_PISTONS))
+		// 
+		//	stepper.retractPistons();
+	//	}
 
 		grabber.drive();
 		stepper.activate();
