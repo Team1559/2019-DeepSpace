@@ -152,20 +152,20 @@ public class Stepper {
 		}
 		//retracts pistons
 
-		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
+		if(Robot.oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
 
 		{
 			retractPistons();
 		}
 
 		//drive controls for front wheels
-		if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
+		if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
 		{
-			driveForward(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
+			driveForward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
 		}
-		else if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
+		else if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
 		{
-			driveBackward(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
+			driveBackward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
 		}
 		else
 		{

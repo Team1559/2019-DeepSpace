@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
 		pixy2 = new Pixy();
 		LED_Relay = new Relay(0);
 		vision = new Vision();
-		grabber = new Grabber();
+		grabber = new Grabber(oi);
 
 		stepper = new Stepper(oi);
 		stepper.stopDrive();

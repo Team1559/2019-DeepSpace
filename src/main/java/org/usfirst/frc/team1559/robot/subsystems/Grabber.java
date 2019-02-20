@@ -194,12 +194,12 @@ public class Grabber
         if(hatchUp)
         {
             hatchUp = false;
-            getHatch();
+            releasePiston();
         }
         else if(!hatchUp)
         {
             hatchUp = true;
-            bringHatch();
+            resetPiston();
         }
     }
 
