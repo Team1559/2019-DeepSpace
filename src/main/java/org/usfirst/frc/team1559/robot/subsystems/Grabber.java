@@ -21,7 +21,6 @@ public class Grabber
     private double speedBall, slowBall, speedHatch, stopHatch;
     private int Cargocounter;
     private int Cargotimer;
-
     private boolean hatchUp;
     public Grabber(OperatorInterface oi)
 
@@ -30,10 +29,6 @@ public class Grabber
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
-        //limitSwitch1 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS1);
-        //limitSwitch2 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS2);
-        //limitSwitch3 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS3);
-        //limitSwitch4 = new DigitalInput(Wiring.NTK_DIGITALINPUT_LS4);
         speedBall = 0.8; //FIND A SPEED THAT WORKSs
         slowBall = 0.4;
         speedHatch = 0.5; //FIND A SPEED THAT WORKS
@@ -41,7 +36,6 @@ public class Grabber
         Cargocounter = 0;
         Cargotimer = 0;
         hatchUp = true;
-
     }
 
     public void drive() {
@@ -58,7 +52,6 @@ public class Grabber
             
         }
        
-
         if(Cargotimer>=1 && Cargotimer <=8){
         Cargotimer = Cargotimer + 1;
         }
@@ -73,19 +66,9 @@ public class Grabber
                else if(Cargocounter>3){
                     StopBall(); 
                     Cargocounter = 0;  
-                }
-    
-        }
-    
+               }
+    }
 
-         
-		/*if(oi.pilot.getRawButton(Constants.BTN_HATCH_SLAP)) {
-			slapHatch();
-		} else if(oi.pilot.getRawButton(Constants.BTN_HATCH_UNSLAP)) {
-			unslapHatch();
-
-		}
-*/
     public void slowBall()
     {
         ballIntake.set(slowBall);
@@ -186,7 +169,7 @@ public class Grabber
             }
         }
         return b;
-        /*if it returns true then the switches are activated.*/
+        //if it returns true then the switches are activated.
     }
 
     public void toggleHatch()
@@ -202,6 +185,4 @@ public class Grabber
             resetPiston();
         }
     }
-
-
 }

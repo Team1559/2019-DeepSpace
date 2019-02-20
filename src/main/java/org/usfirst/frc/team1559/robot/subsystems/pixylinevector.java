@@ -39,13 +39,6 @@ public class pixylinevector {
             error_tan=Math.atan((x1-40)/(Math.abs(y1-y0)));
             rError=Math.toDegrees(error_tan);
        
-            // if (rError<0){
-            //     rError=90+rError;
-            // }
-            // else if(rError>0){
-            //     rError=rError-90;
-            // }
-
         }  
         return rError;
     }
