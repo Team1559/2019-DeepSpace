@@ -15,6 +15,7 @@ import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Pixy;
 
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import org.usfirst.frc.team1559.robot.Constants;
@@ -82,7 +83,7 @@ public class Stepper {
  		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
 		driving = false;
-
+		
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
 
 	}
@@ -176,14 +177,14 @@ public class Stepper {
 		//manually moves lifter
 		if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
 		{
-			pixy2.lampoff();
-			LED_Relay.set(Value.kOff);
+			Robot.pixy2.lampoff();
+			Robot.LED_Relay.set(Value.kOff);
 			liftStepper();
 		}
 		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
-			pixy2.lampoff();
-			LED_Relay.set(Value.kOff);
+			Robot.pixy2.lampoff();
+			Robot.LED_Relay.set(Value.kOff);
 			lowerStepper();
 		}
 		else
