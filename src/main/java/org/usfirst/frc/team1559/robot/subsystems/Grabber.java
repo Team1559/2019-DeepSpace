@@ -94,12 +94,12 @@ public class Grabber
         ballIntake.stopMotor();
     }
 
-    public void getHatch()
+    public void releasePiston()
     {
         solenoid.set(true); //go Snatch that Hatch
     }
 
-    public void bringHatch()
+    public void resetPiston()
     {
         solenoid.set(false); //bring that hatch in bb
     }

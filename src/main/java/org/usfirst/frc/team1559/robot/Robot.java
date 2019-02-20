@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
 	private float Ex;
 	private double Ey;
 	private boolean Led;
+	private boolean isGrabberSolenoidFired;
 	private double errorX;
 	private double errorR;
 	private double errorY;
@@ -101,7 +102,7 @@ public class Robot extends TimedRobot {
 		ds = new DistSensor(ai);
 		c = new Compressor(7);
 
-		
+		isGrabberSolenoidFired = false;
 
 
 
@@ -155,11 +156,12 @@ public class Robot extends TimedRobot {
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
 		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
-			grabber.getHatch();
+			isGrabberSolenoidFired = !isGrabberSolenoidFired;
 		}
-		else
-		{		
-			grabber.bringHatch();
+		if(isGrabberSolenoidFired) {
+			grabber.releasePiston();
+		} else if(!isGrabberSolenoidFired) {
+			grabber.resetPiston();
 		}
 
 		//Lifter
