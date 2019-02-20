@@ -64,8 +64,8 @@ private final double ticksToPort2 = (75-homeInches) * ticksPerInch; //Placeholde
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
 private final double ticksToHatch1 = (12-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (47-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch3 = (75-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = (35-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch3 = (63-homeInches) * ticksPerInch; //Placeholder value
 
 
 private int potUseableBottom = 95; //Code will auto adjust values based on this one.
