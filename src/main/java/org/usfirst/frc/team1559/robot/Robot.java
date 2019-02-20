@@ -233,7 +233,6 @@ public class Robot extends TimedRobot {
 					SmartDashboard.putNumber("ey", vData.y);
 					SmartDashboard.putNumber("er",vData.r);	
 					
-					
 					SmartDashboard.putNumber("__x",xDrive);
 					SmartDashboard.putNumber("__y", jKy * errorY);
 					SmartDashboard.putNumber("__r",jKr * errorR);	
