@@ -66,9 +66,10 @@ public class Grabber
                else if(Cargocounter>3){
                     StopBall(); 
                     Cargocounter = 0;  
-               }
-    }
-
+                }
+    
+        }
+ 
     public void slowBall()
     {
         ballIntake.set(slowBall);
@@ -178,11 +179,13 @@ public class Grabber
         {
             hatchUp = false;
             releasePiston();
+            //this brings the hatch piston down
         }
         else if(!hatchUp)
         {
             hatchUp = true;
             resetPiston();
+            //this brings the hatch piston up
         }
     }
 }

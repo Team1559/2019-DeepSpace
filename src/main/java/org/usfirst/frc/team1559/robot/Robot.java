@@ -20,23 +20,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.subsystems.Stepper;
-
 import javax.lang.model.util.ElementScanner6;
-
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 
 public class Robot extends TimedRobot {
-	/*
-	 * ALL MEMBERS ARE REQUIRED TO IMPLEMENT THEIR SUBSYSTEM INTO THE ROBOT CLASS
-	 * 
-	 * From the seasons up to and including 2018, we used the IterativeRobot class. As per WPI's
-	 * annual update, classed are added, removed, or deprecated. The IterativeRobot class was
-	 * deprecated as of 2019. TimedRobot is the closest match to the IterativeRobot class.
-	*/
 	public DriveTrain drive;
 	public static OperatorInterface oi;
-	//private Compressor pcm = new Compressor();
-
 	public static Pixy pixy2;
 	public static Relay LED_Relay;
 	public static boolean fightstick = true;
@@ -46,15 +35,11 @@ public class Robot extends TimedRobot {
 	private static Stepper stepper;
 	public static boolean dBounce = false;
 	public Compressor c;
-
 	public static DistSensor distRight; //right and left from Robots perspective (looking from the back of the robot)
 	public static DistSensor distLeft;
-	//private static DistSensor ds;
 	private static AnalogInput ai;
-
 	public static Vision vision;
 
-	
 	private float jKx;
     private float jKy;
 	private float jKr;
@@ -72,61 +57,45 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		//pcm.start();
 
 		drive = new DriveTrain();
-
 		oi = new OperatorInterface();
-
 		c = new Compressor(7);
-
-
 		lifter = new Lifter(oi); //Keep this in mind for future games! This type of coding could prove useful!
 		pixy2 = new Pixy();
 		LED_Relay = new Relay(0);
 		vision = new Vision();
 		grabber = new Grabber(oi);
-
 		stepper = new Stepper(oi);
-		stepper.stopDrive();
+		distRight = new DistSensor(new AnalogInput (0));
+		distLeft = new DistSensor(new AnalogInput (2));
+
 		jKx = -0.015f;
 		jKr = 0.016f;//0.014 
 		jKy = 0.007f;//shold be .009
 		pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
 		pKr = 0.007f;// maximum pixy angle0.014
 		pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
-		
-		pixy2 = new Pixy();
 
-		distRight = new DistSensor(new AnalogInput (0));
-		distLeft = new DistSensor(new AnalogInput (2));
 		LED_Relay.set(Value.kOn);
-		c = new Compressor(7);
-
-
 		isGrabberSolenoidFired = false;
-
+		stepper.stopDrive();
 	}	
 		
 	@Override
 	public void robotPeriodic() {
 	}
-	
-
 
 	@Override
 	public void autonomousInit() {
 
 		teleopInit();
-
 		//pixy2.start();
-		// No autonomous neccesary
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		teleopPeriodic();
-		// No autonomous neccesary
 	}
 
 	@Override
@@ -142,9 +111,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		c.setClosedLoopControl(true);
 
-		// Camera
-		// System.out.println(pixy2.read());
-		//double sensor = ds.getRange();
 		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
 
 			grabber.toggleHatch();
@@ -157,25 +123,14 @@ public class Robot extends TimedRobot {
 		if(oi.getCopilotAxis(1) <= -0.9) {
 			lifter.isAxis = true;
 			lifter.goUp();
-			//if(getPot() < potUseableTop) 
-				//stop();
-			//else	
-				
 		}
 		 if(oi.getCopilotAxis(1) >= 0.9) {
 			lifter.isAxis = true;
 			lifter.goDown();
-			//if(getPot() > potUseableBottom) 
-				//stop();
-		//	else	
-				
 		}
 		 if((Math.abs(oi.getCopilotAxis(1)) <= 0.1)&& lifter.isAxis)  {
 			lifter.stop();
-			// System.out.println("Stopped");
 		}
-		//Camera
-
 
 		pixylinevector v=pixy2.getvector();
 		 vision.update();
@@ -184,15 +139,6 @@ public class Robot extends TimedRobot {
 		 Ex = pixy2.getEx();
 		 Er = pixy2.getEr();
 	     
-		
-		
-		
-		// Drive Train
-		//System.out.println(drive.talons[0].getMotorOutputPercent
-
-		//drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-		
-		//if(v.status == 1)
 		
 		float Rightdistance = (float)distRight.getRange();
 		float Leftdistance = (float)distLeft.getRange();
@@ -222,7 +168,6 @@ public class Robot extends TimedRobot {
 
 					double xDrive = jKx * errorX;
 
-			
 					if(xDrive > 1.0)
 						xDrive = 1.0;
 					else if(xDrive < -1.0)
@@ -253,9 +198,7 @@ public class Robot extends TimedRobot {
 						pKy=0.416f;	
 					}
 
-					//drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
-				
-				
+				drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
 				//to go right increase, to go left decrease
 				Ex = Rightdistance - Leftdistance;
 				SmartDashboard.putNumber("__x",pixy2.getEx());
@@ -282,37 +225,18 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("__r",oi.getPilotZ());
 			drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 		}	
-
-
-	
-		//Stepper button controls
-		
 		grabber.drive();
 		stepper.activate();
 	}
 
-
-
-		
-	@Override
-	public void testInit() {
-		
-	}
- 	@Override
- 	public void testPeriodic() {
-	
-}
 @Override
 public void disabledInit() {
-
-	
-
+	pixy2.lampoff();
+	LED_Relay.set(Value.kOff);
 }
 
 @Override
 public void disabledPeriodic() {
-	
 }
-
 
 }
