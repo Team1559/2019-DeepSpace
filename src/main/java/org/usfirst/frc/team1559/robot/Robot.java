@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 	 * deprecated as of 2019. TimedRobot is the closest match to the IterativeRobot class.
 	*/
 	public DriveTrain drive;
-	private OperatorInterface oi;
+	public static OperatorInterface oi;
 	//private Compressor pcm = new Compressor();
 
 	private Pixy pixy2;

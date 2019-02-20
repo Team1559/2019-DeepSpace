@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import org.usfirst.frc.team1559.robot.OperatorInterface;
+import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,13 +19,10 @@ public class Grabber
     private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
     private Talon ballIntake;
     private double speedBall, slowBall, speedHatch, stopHatch;
-    private OperatorInterface oi;
     private int Cargocounter;
     private int Cargotimer;
-    public Grabber(OperatorInterface oi)
+    public Grabber()
     {
-
-        this.oi = oi;
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
@@ -44,12 +42,12 @@ public class Grabber
 
     public void drive() {
 
-        if(oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
+        if(Robot.oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
             Cargotimer = 1;
             getCargo();
             SmartDashboard.putNumber("__Ball", 1);
         }
-        else if(oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
+        else if(Robot.oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
             Cargocounter = 1;
             Cargotimer = 0;
             removeCargo();
