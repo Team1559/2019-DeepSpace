@@ -14,6 +14,17 @@ import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class DevilDrive extends RobotDriveBase {
+  /*
+  * The purpose of DevilDrive is to re-implement the the WPI MecanumDrive to incorporate
+  * the velocity control mode. Velocity control is a control mode that allows the robot
+  * to move according to some speed in and allows it to hold its speed and position when
+  * it is hit by other objects. MecanumDrive is a drive system where each motor acts
+  * independently of each other (but they get the same values). This is different
+  * from TankDrive because in tank drive one motor is slaved (controlled) by another
+  * motor, and they are connected by a chain. Since in MecanumDrive each motor is 
+  * independently controlled, translational motion in the x-direction is possible, allowing
+  * for strafing.
+  */
     private static int instances;
 
   private final WPI_TalonSRX m_frontLeftMotor;

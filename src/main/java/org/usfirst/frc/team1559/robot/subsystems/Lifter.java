@@ -86,7 +86,7 @@ public boolean isAxis = true;
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
-		goToBottom();
+		goToBottom(1);
 
 		// potUseableBottom = getPot();
 		potUseableTop = potUseableBottom + potRange;
@@ -255,11 +255,11 @@ public boolean isAxis = true;
 		}
 		else if(oi.copilot.getRawButton(3) && oi.getCopilotAxis(3) != 1) {
 			isAxis = false; 
-			goToBottom();
+			goToBottom(1);
 		}
 		else if(oi.copilot.getRawButton(3) && oi.getCopilotAxis(3) == 1) {
 			isAxis = false;
-			goToPortPos(1);
+			goToBottom(2);
 		}
 		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
