@@ -1,6 +1,7 @@
  package org.usfirst.frc.team1559.robot.subsystems;
 
 
+import javax.lang.model.util.ElementScanner6;
 import javax.swing.SpringLayout.Constraints;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -68,8 +69,7 @@ public class Stepper {
 	private OperatorInterface oi;
 	
 	//speed of motors (-1.0 to 1.0)
-	private double wheelSpeed = 1; //speed of the wheels
-	private double liftSpeed = 0.8; //speed of lifterMotor
+	private double liftSpeed = 1; //speed of lifterMotor
 
 	//controls on and off of drive wheels
 	private boolean driving;
@@ -102,15 +102,15 @@ public class Stepper {
 	}
 
 	//drives the front wheels forward
-	public void driveForward()
+	public void driveForward(double speed)
 	{
-		driveMotor.set(wheelSpeed);
+		driveMotor.set(speed);
 	}
 
 	//drives the front wheels backward
-	public void driveBackward()
+	public void driveBackward(double speed)
 	{
-		driveMotor.set(-wheelSpeed);
+		driveMotor.set(-speed);
 	}
 
 	//stops drive wheels
@@ -155,6 +155,20 @@ public class Stepper {
 		{
 			retractPistons();
 		}
+
+		//drive controls for front wheels
+		if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) != 0)
+		{
+			driveForward((oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
+		}
+		else if((oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) != 0)
+		{
+			driveBackward((oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
+		}
+		else
+		{
+			stopDrive();
+		}
 		
 		//manually moves lifter
 		if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
@@ -164,7 +178,6 @@ public class Stepper {
 		else if(oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			lowerStepper();
-			driveMotor.set(wheelSpeed);
 		}
 		else
 		{
