@@ -21,6 +21,7 @@ public class Grabber
     private OperatorInterface oi;
     private int Cargocounter;
     private int Cargotimer;
+    private boolean hatchUp;
     public Grabber(OperatorInterface oi)
     {
 
@@ -39,6 +40,7 @@ public class Grabber
         stopHatch = 0.5;
         Cargocounter = 0;
         Cargotimer = 0;
+        hatchUp = true;
 
     }
 
@@ -185,6 +187,20 @@ public class Grabber
         }
         return b;
         /*if it returns true then the switches are activated.*/
+    }
+
+    public void toggleHatch()
+    {
+        if(hatchUp)
+        {
+            hatchUp = false;
+            getHatch();
+        }
+        else if(!hatchUp)
+        {
+            hatchUp = true;
+            bringHatch();
+        }
     }
 
 

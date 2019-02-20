@@ -155,11 +155,7 @@ public class Robot extends TimedRobot {
 		// System.out.println(pixy2.read());
 		//double sensor = ds.getRange();
 		if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER)){
-			grabber.getHatch();
-		}
-		else
-		{		
-			grabber.bringHatch();
+			grabber.toggleHatch();
 		}
 
 		//Lifter

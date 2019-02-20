@@ -122,15 +122,14 @@ public class Stepper {
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
-		lifterMotor.set(liftSpeed);
+		lifterMotor.set(-liftSpeed);
 		System.out.println("Lift Up");
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
-		lifterMotor.set(-liftSpeed);
-		driveMotor.set(wheelSpeed);
+		lifterMotor.set(liftSpeed);
 		System.out.println("Lift Down");
 	}
 
@@ -151,19 +150,19 @@ public class Stepper {
 			extendPistons();
 		}
 		//retracts pistons
-		if(oi.copilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
+		if(oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
 		{
 			retractPistons();
 		}
 
 		//drive controls for front wheels
-		if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) != 0)
+		if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
 		{
-			driveForward((oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
+			driveForward(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
 		}
-		else if((oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) != 0)
+		else if(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
 		{
-			driveBackward((oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
+			driveBackward(oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
 		}
 		else
 		{
