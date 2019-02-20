@@ -69,7 +69,7 @@ public class Stepper {
 	
 	//speed of motors (-1.0 to 1.0)
 	private double wheelSpeed = 1; //speed of the wheels
-	private double liftSpeed = 0.8; //speed of lifterMotor
+	private double liftSpeed = 1; //speed of lifterMotor
 
 	//controls on and off of drive wheels
 	private boolean driving;
@@ -122,14 +122,14 @@ public class Stepper {
 	//lifts the lifterMotor to its maximum height
 	public void liftStepper()
 	{
-		lifterMotor.set(liftSpeed);
+		lifterMotor.set(-liftSpeed);
 		System.out.println("Lift Up");
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
 	public void lowerStepper()
 	{
-		lifterMotor.set(-liftSpeed);
+		lifterMotor.set(liftSpeed);
 		driveMotor.set(wheelSpeed);
 		System.out.println("Lift Down");
 	}

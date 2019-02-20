@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 		grabber = new Grabber();
 
 		stepper = new Stepper(oi);
-    
+		stepper.stopDrive();
 		jKx = -0.015f;
 		jKr = 0.016f;//0.014 
 		jKy = 0.007f;//shold be .009
