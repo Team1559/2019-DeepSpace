@@ -52,19 +52,19 @@ public class Lifter {
 private WPI_TalonSRX lifterMotor;
 private OperatorInterface oi;
 
-private double[] portPositions = new double[3];
-private double[] hatchPositions = new double[3];
+private double[] portPositions = new double[3]; //Holds heights of the port positions
+private double[] hatchPositions = new double[3]; //Holds heights of the hatch positions
 
-private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
+private final double ticksPerInch = 7.2;
 private final double homeInches = 12;
 									//27.5
-private final double ticksToPort1 = (47-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = (75-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (47-homeInches) * ticksPerInch;
+private final double ticksToPort2 = (75-homeInches) * ticksPerInch;
+private final double ticksToPort3 = (89-homeInches) * ticksPerInch;
 
-private final double ticksToHatch1 = (12-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (35-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch3 = (63-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch1 = (12-homeInches) * ticksPerInch;
+private final double ticksToHatch2 = (35-homeInches) * ticksPerInch;
+private final double ticksToHatch3 = (63-homeInches) * ticksPerInch;
 
 
 private int potUseableBottom = 95; //Code will auto adjust values based on this one.
