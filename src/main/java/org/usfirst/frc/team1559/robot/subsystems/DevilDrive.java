@@ -1,10 +1,8 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import java.util.StringJoiner;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
@@ -124,7 +122,6 @@ public class DevilDrive extends RobotDriveBase {
 
     ySpeed = limit(ySpeed);
     ySpeed = applyDeadband(ySpeed, m_deadband);
-
     xSpeed = limit(xSpeed);
     xSpeed = applyDeadband(xSpeed, m_deadband);
 
