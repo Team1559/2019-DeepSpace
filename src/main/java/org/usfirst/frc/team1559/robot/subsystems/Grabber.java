@@ -62,7 +62,6 @@ public class Grabber
                     cargocounter = 0;  
                 }
         }
- 
     public void slowBall()
     {
         ballIntake.set(slowBall);
@@ -96,65 +95,6 @@ public class Grabber
     {
         ballIntake.set(-speedBall);
      //ControlMode.PercentOutput,  was first argument
-    }
-    public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
-    {
-        hatchSlapperL.set(ControlMode.PercentOutput, speedHatch);
-        hatchSlapperR.set(ControlMode.PercentOutput, speedHatch);
-        {
-            if(getLimitValue(2) == true)
-            {
-                stopHatch = 0;
-                hatchSlapperL.set(ControlMode.PercentOutput, stopHatch);
-                hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
-            }
-        }
-        while(stopHatch != 0); 
-    }
-    public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
-    {
-        hatchSlapperL.set(ControlMode.PercentOutput, -speedHatch);
-        hatchSlapperR.set(ControlMode.PercentOutput, -speedHatch);
-        {
-            if(getLimitValue(1) == true)
-            {
-                stopHatch = 0;
-                hatchSlapperL.set(ControlMode.PercentOutput, stopHatch);
-                hatchSlapperR.set(ControlMode.PercentOutput, stopHatch);
-            }
-        } 
-        while(stopHatch != 0);
-    }
-    //Limit Switches positions: 
-    //Upper Left (1) Upper Right (2)
-    //Lower Left (3) Lower Right (4)
-    public boolean getLimitValue(int x) 
-    {
-        boolean b = false;
-        if(x == 1) //Stop at upper pos
-        {
-            if(limitSwitch1.get() == true && limitSwitch2.get() == true)
-            {
-                b = true;
-            }
-            else
-            {
-                b = false;
-            }
-        }
-        else if(x == 2) //Stop at floor
-        {
-            if(limitSwitch3.get() == true && limitSwitch4.get() == true)
-            {
-                b = true;
-            }
-            else
-            {
-                b = false;
-            }
-        }
-        return b;
-        //if it returns true then the switches are activated.
     }
     public void toggleHatch()
     {
