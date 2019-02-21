@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1559.robot;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.SPI;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 //this class returns the data from the pixy 2
 public class Pixy {
@@ -23,8 +23,6 @@ public class Pixy {
         port.setClockActiveLow();
     }
 
-    public void start() {
-    }
     public byte lampon() {
         byte[] returned = new byte[10];
         port.transaction(lampon, returned, 6);

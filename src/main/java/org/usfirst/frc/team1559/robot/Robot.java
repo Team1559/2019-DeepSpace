@@ -57,7 +57,7 @@ public class Robot extends TimedRobot
 			distRight = new DistSensor(new AnalogInput (0));
 			distLeft = new DistSensor(new AnalogInput (2));
 
-		// Vision/Pixy Variables and Constants
+		// Jetson/Pixy Variables and Constants
 			jKx = -0.015f;
 			jKr = 0.016f;//0.014 
 			jKy = 0.007f;//shold be .009
@@ -91,7 +91,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopInit()
 	{
-		pixy2.start();
+		
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
 	}
