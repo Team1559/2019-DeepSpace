@@ -23,7 +23,6 @@ public class Grabber
     private int cargotimer;
     private boolean hatchUp;
     public Grabber(OperatorInterface oi)
-
     {
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
@@ -37,9 +36,7 @@ public class Grabber
         cargotimer = 0;
         hatchUp = true;
     }
-
     public void drive() {
-
         if(Robot.oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
             cargotimer = 1;
             getCargo();
@@ -48,18 +45,15 @@ public class Grabber
         else if(Robot.oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
             cargocounter = 1;
             cargotimer = 0;
-            removeCargo();
-            
+            removeCargo(); 
         }
-       
         if(cargotimer>=1 && cargotimer <=8){
         cargotimer = cargotimer + 1;
         }
-        
         else{ if(cargotimer>4)
         slowBall();
         }
-            if( cargocounter>=1 && cargocounter <=7){
+            if(cargocounter>=1 && cargocounter <=7){
                 cargocounter = cargocounter + 1;
                 
                 }
@@ -67,29 +61,24 @@ public class Grabber
                     StopBall(); 
                     cargocounter = 0;  
                 }
-    
         }
  
     public void slowBall()
     {
         ballIntake.set(slowBall);
     }
-
     public void StopBall()
     {
         ballIntake.stopMotor();
     }
-
     public void releasePiston()
     {
         solenoid.set(true); //go Snatch that Hatch
     }
-
     public void resetPiston()
     {
         solenoid.set(false); //bring that hatch in bb
     }
-
     public void setSpeedBall(double speed)
     {
         speedBall = speed; //sets the motor value
@@ -98,19 +87,16 @@ public class Grabber
     {
         speedHatch = speed; //sets the motor value
     }
-
     public void getCargo()
     {
         ballIntake.set(speedBall);
         //ControlMode.PercentOutput,  was first argument
     }
-
     public void removeCargo()
     {
         ballIntake.set(-speedBall);
      //ControlMode.PercentOutput,  was first argument
     }
-
     public void slapHatch() //Activates motors on hatch slapper that will SLAP THAT HATCH
     {
         hatchSlapperL.set(ControlMode.PercentOutput, speedHatch);
@@ -125,7 +111,6 @@ public class Grabber
         }
         while(stopHatch != 0); 
     }
-
     public void unslapHatch() //Brings the hatch slapper back into rest position (Should place the hatch on the hatch snatcher!!)
     {
         hatchSlapperL.set(ControlMode.PercentOutput, -speedHatch);
@@ -140,7 +125,6 @@ public class Grabber
         } 
         while(stopHatch != 0);
     }
-
     //Limit Switches positions: 
     //Upper Left (1) Upper Right (2)
     //Lower Left (3) Lower Right (4)
@@ -172,7 +156,6 @@ public class Grabber
         return b;
         //if it returns true then the switches are activated.
     }
-
     public void toggleHatch()
     {
         if(hatchUp)
