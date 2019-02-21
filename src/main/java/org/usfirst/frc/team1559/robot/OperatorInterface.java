@@ -25,9 +25,9 @@ public class OperatorInterface {
     public double getPilotX() {
         //gets the x axis on the ps4 contoller (side to side) 
         if((pilot.getRawAxis(0))/(Math.abs(pilot.getRawAxis(0))) == 1) {
-            return (Math.pow(pilot.getRawAxis(0), 2));//robot with bad grabber and stepper is inverted in the second statement 
+            return (-1)*(Math.pow(pilot.getRawAxis(0), 2));//robot with bad grabber and stepper is inverted in the second statement 
         }
-            return (-1)*(Math.pow(pilot.getRawAxis(0), 2));
+            return (Math.pow(pilot.getRawAxis(0), 2));
     }
 
     public double getPilotY() {
