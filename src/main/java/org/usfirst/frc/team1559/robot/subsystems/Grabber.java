@@ -19,8 +19,8 @@ public class Grabber
     private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
     private Talon ballIntake;
     private double speedBall, slowBall, speedHatch, stopHatch;
-    private int Cargocounter;
-    private int Cargotimer;
+    private int cargocounter;
+    private int cargotimer;
     private boolean hatchUp;
     public Grabber(OperatorInterface oi)
 
@@ -33,39 +33,39 @@ public class Grabber
         slowBall = 0.4;
         speedHatch = 0.5; //FIND A SPEED THAT WORKS
         stopHatch = 0.5;
-        Cargocounter = 0;
-        Cargotimer = 0;
+        cargocounter = 0;
+        cargotimer = 0;
         hatchUp = true;
     }
 
     public void drive() {
 
         if(Robot.oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
-            Cargotimer = 1;
+            cargotimer = 1;
             getCargo();
             SmartDashboard.putNumber("__Ball", 1);
         }
         else if(Robot.oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
-            Cargocounter = 1;
-            Cargotimer = 0;
+            cargocounter = 1;
+            cargotimer = 0;
             removeCargo();
             
         }
        
-        if(Cargotimer>=1 && Cargotimer <=8){
-        Cargotimer = Cargotimer + 1;
+        if(cargotimer>=1 && cargotimer <=8){
+        cargotimer = cargotimer + 1;
         }
         
-        else{ if(Cargotimer>4)
+        else{ if(cargotimer>4)
         slowBall();
         }
-            if( Cargocounter>=1 && Cargocounter <=7){
-                Cargocounter = Cargocounter + 1;
+            if( cargocounter>=1 && cargocounter <=7){
+                cargocounter = cargocounter + 1;
                 
                 }
-               else if(Cargocounter>3){
+               else if(cargocounter>3){
                     StopBall(); 
-                    Cargocounter = 0;  
+                    cargocounter = 0;  
                 }
     
         }

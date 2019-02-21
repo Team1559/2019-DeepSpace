@@ -1,5 +1,4 @@
 package org.usfirst.frc.team1559.robot;
-
 import edu.wpi.first.wpilibj.SPI;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 //this class returns the data from the pixy 2
@@ -12,10 +11,8 @@ public class Pixy {
     public float Ex;
     public float Er;
 	public Object v;
-   
     public Pixy() {
         port = new SPI(SPI.Port.kOnboardCS1);
-
         port.setMSBFirst();
         port.setChipSelectActiveLow();
         port.setClockRate(2000000);
@@ -29,24 +26,19 @@ public class Pixy {
         return returned[6];
     }
 
-
     public byte lampoff() {
         byte[] returned = new byte[10];
         port.transaction(lampoff, returned, 6);
         return returned[6];
-
     }
     public pixylinevector getvector() {
         byte[] returned = new byte[16];
         port.write(getFeatures, 8);
-    
-    
         port.read(false, returned, 6);
         port.read(false, returned, 16);
          var v=new pixylinevector();
          v.timer++;
          if (returned[2]==49 && returned[7]>0){
-            
             v.x0=returned[8];
             v.y0=returned[9];
             v.x1=returned[10];
@@ -57,19 +49,16 @@ public class Pixy {
             Ex = v.Ex;
             v.Er = (int)v.error_r(v.y0, v.y1, v.x0, v.x1);
             Er = v.Er;
-
             if(v.flags==6) {
                 v.status=1;
             }
         }
         return v;
     }
-        
     public float getEx()
         {
             return Ex;
         }
-    
     public float getEr()
         {
             return Er;
