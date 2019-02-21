@@ -74,28 +74,13 @@ public class DriveTrain
 		RR_TALON.configPeakOutputForward(+1, TIMEOUT);
 		RR_TALON.configPeakOutputReverse(-1, TIMEOUT);
 
-		System.out.println(FL_TALON.getControlMode());
-		System.out.println(FR_TALON.getControlMode());
-		System.out.println(RL_TALON.getControlMode());
-		System.out.println(RR_TALON.getControlMode());
-
-
-
-		
-		//talon.configOpenloopRamp(0.15, TIMEOUT);
-
-		
-
-
-		//talon.setNeutralMode(NeutralMode.Coast);
 		drive = new DevilDrive(FL_TALON, RL_TALON, FR_TALON, RR_TALON);
-		drive.setMaxOutput(7000); // Sets the maximum 'speed' // 7350
+		drive.setMaxOutput(7000);
 
 	}
 
 	public void driveCartesian(double ySpeed, double xSpeed, double zRotation) 
 	{
-
 		drive.driveCartesian(ySpeed, xSpeed, zRotation);
 	}
 }

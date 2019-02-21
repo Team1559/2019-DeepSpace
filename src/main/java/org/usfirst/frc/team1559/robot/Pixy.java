@@ -63,18 +63,16 @@ public class Pixy {
             if(v.flags==6) {
                 v.status=1;
             }
-           
         }
-
         return v;
     }
         
-        public float getEx()
+    public float getEx()
         {
             return Ex;
         }
     
-        public float getEr()
+    public float getEr()
         {
             return Er;
         }

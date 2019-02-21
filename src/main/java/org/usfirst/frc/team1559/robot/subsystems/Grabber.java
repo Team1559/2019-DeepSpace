@@ -66,9 +66,10 @@ public class Grabber
                else if(Cargocounter>3){
                     StopBall(); 
                     Cargocounter = 0;  
-               }
-    }
-
+                }
+    
+        }
+ 
     public void slowBall()
     {
         ballIntake.set(slowBall);

@@ -1,9 +1,7 @@
 {
     "fileName": "Phoenix.json",
     "name": "CTRE-Phoenix",
-
-    "version": "5.12.0",
-
+    "version": "5.14.0",
     "uuid": "ab676553-b602-441f-a38d-f1296eff6537",
     "mavenUrls": [
         "http://devsite.ctr-electronics.com/maven/release/"
@@ -13,25 +11,19 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "api-java",
-
-            "version": "5.12.0"
-
+            "version": "5.14.0"
         },
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "wpiapi-java",
-
-            "version": "5.12.0"
-
+            "version": "5.14.0"
         }
     ],
     "jniDependencies": [
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "cci",
-
-            "version": "5.12.0",
-
+            "version": "5.14.0",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -43,7 +35,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "canutils",
-            "version": "5.13.0",
+            "version": "5.14.0",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -54,7 +46,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "platform-stub",
-            "version": "5.13.0",
+            "version": "5.14.0",
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
@@ -67,9 +59,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "wpiapi-cpp",
-
-            "version": "5.12.0",
-
+            "version": "5.14.0",
             "libName": "CTRE_Phoenix_WPI",
             "headerClassifier": "headers",
             "sharedLibrary": false,
@@ -83,9 +73,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "api-cpp",
-
-            "version": "5.12.0",
-
+            "version": "5.14.0",
             "libName": "CTRE_Phoenix",
             "headerClassifier": "headers",
             "sharedLibrary": false,
@@ -99,9 +87,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "cci",
-
-            "version": "5.12.0",
-
+            "version": "5.14.0",
             "libName": "CTRE_PhoenixCCI",
             "headerClassifier": "headers",
             "sharedLibrary": false,
@@ -115,7 +101,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "canutils",
-            "version": "5.13.0",
+            "version": "5.14.0",
             "libName": "CTRE_PhoenixCanutils",
             "headerClassifier": "headers",
             "sharedLibrary": false,
@@ -128,7 +114,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "platform-stub",
-            "version": "5.13.0",
+            "version": "5.14.0",
             "libName": "CTRE_PhoenixPlatform",
             "headerClassifier": "headers",
             "sharedLibrary": false,
@@ -141,9 +127,7 @@
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "core",
-
-            "version": "5.12.0",
-
+            "version": "5.14.0",
             "libName": "CTRE_PhoenixCore",
             "headerClassifier": "headers"
         }
