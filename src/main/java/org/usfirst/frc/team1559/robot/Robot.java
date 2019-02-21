@@ -31,9 +31,9 @@ public class Robot extends TimedRobot
 	public Compressor airCompressor;
 
 	// Pixy and Vision Variables/Constants
-	private Pixy pixy2;
+	public static Pixy pixy2;
 	public static Vision vision;
-	private Relay LED_Relay;
+	public static Relay LED_Relay;
 	// The distance sensors are set right and left from the perspective of the back of the robot.
 	public static DistSensor distRight; 
 	public static DistSensor distLeft;
