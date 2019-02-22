@@ -105,10 +105,7 @@ public class Robot extends TimedRobot
 
 		// Grabber Functions
 			grabber.drive();
-			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
-			{
-				grabber.toggleHatch();
-			}
+			
 
 		//Lifter Functions
 			lifter.driveLifter();
