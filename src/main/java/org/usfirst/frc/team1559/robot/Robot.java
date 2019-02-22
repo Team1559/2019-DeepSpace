@@ -63,7 +63,7 @@ public class Robot extends TimedRobot
 			jKy = 0.007f;//shold be .009
 			pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
 			pKr = 0.007f;// maximum pixy angle0.014
-			pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
+			pKy = 0.015f;//1/24 for the distance sensors max speed; 0.416
 			LED_Relay.set(Value.kOn);
 
 		// Stepper
