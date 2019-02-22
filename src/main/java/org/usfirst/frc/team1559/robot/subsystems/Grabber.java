@@ -61,6 +61,11 @@ public class Grabber
                     StopBall(); 
                     cargocounter = 0;  
                 }
+        
+        if(Robot.oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
+			{
+				toggleHatch();
+            }
         }
     public void slowBall()
     {
