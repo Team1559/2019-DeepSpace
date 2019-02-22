@@ -57,13 +57,13 @@ public class Robot extends TimedRobot
 			distRight = new DistSensor(new AnalogInput (0));
 			distLeft = new DistSensor(new AnalogInput (2));
 
-		// Vision/Pixy Variables and Constants
+		// Jetson/Pixy Variables and Constants
 			jKx = -0.015f;
 			jKr = 0.016f;//0.014 
 			jKy = 0.007f;//shold be .009
 			pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
 			pKr = 0.007f;// maximum pixy angle0.014
-			pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
+			pKy = 0.015f;//slow mode for y on pixy
 			LED_Relay.set(Value.kOn);
 
 		// Stepper
@@ -91,7 +91,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopInit()
 	{
-		pixy2.start();
+		
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
 	}
@@ -105,10 +105,7 @@ public class Robot extends TimedRobot
 
 		// Grabber Functions
 			grabber.drive();
-			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
-			{
-				grabber.toggleHatch();
-			}
+			
 
 		//Lifter Functions
 			lifter.driveLifter();
@@ -202,7 +199,7 @@ public class Robot extends TimedRobot
 						}
 						if(Er < -3 && Er > 3)
 						{
-							pKy=0.416f;	
+							pKy=0.416f;//1/24 for the distance sensors max speed; 0.416
 						}
 
 					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	

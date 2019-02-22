@@ -97,12 +97,6 @@ public boolean isAxis = true;
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
 		lifterMotor.configPeakOutputForward(1, TIMEOUT);
 		lifterMotor.configPeakOutputReverse(-0.65, TIMEOUT);
-
-		// lifterMotor.configForwardSoftLimitEnable(true);
-		// lifterMotor.configReverseSoftLimitEnable(true);
-		// lifterMotor.configForwardSoftLimitThreshold(potUseableTop);
-		// lifterMotor.configReverseSoftLimitThreshold(potUseableBottom);
-
 		lifterMotor.config_kP(0, kP, TIMEOUT);
 		lifterMotor.config_kI(0, kI, TIMEOUT);
 		lifterMotor.config_kD(0, kD, TIMEOUT);
