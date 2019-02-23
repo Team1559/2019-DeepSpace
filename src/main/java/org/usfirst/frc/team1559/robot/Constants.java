@@ -46,7 +46,7 @@ public interface Constants {
 	public static final int STEPPER_COPILOT_LIFT_UP = 1; //bottom left button on fightstick
 	public static final int STEPPER_COPILOT_LIFT_DOWN = 2; //button to the right of bottom left on fightstick
 	public static final int STEPPER_PILOT_EXTEND_PISTONS = 2; //X button on pilot controller
-	public static final int STEPPER_PILOT_RETRACT_PISTONS = 10; //button to the right of touchpad on controller
+	public static final int STEPPER_PILOT_RETRACT_PISTONS = 4; //button to the right of touchpad on controller
 	public static final int STEPPER_PILOT_DRIVE_FORWARD = 4; //right trigger on pilot
 	public static final int STEPPER_PILOT_DRIVE_BACKWARD = 3; //left trigger on pilot
 

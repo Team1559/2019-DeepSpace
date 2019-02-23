@@ -36,6 +36,7 @@ public class Grabber
         Cargocounter = 0;
         Cargotimer = 0;
         hatchUp = true;
+        solenoid.set(true);
     }
 
     public void drive() {

@@ -54,9 +54,9 @@ public class Robot extends TimedRobot
 			vision = new Vision();
 			grabber = new Grabber(oi);
 			stepper = new Stepper(oi);
-			distRight = new DistSensor(new AnalogInput (0));
-			distLeft = new DistSensor(new AnalogInput (2));
-
+			distRight = new DistSensor(new AnalogInput (2));
+			distLeft = new DistSensor(new AnalogInput (0));
+			lifter.recallibrateSystem();
 		// Vision/Pixy Variables and Constants
 			jKx = -0.015f;
 			jKr = 0.016f;//0.014 
@@ -94,6 +94,8 @@ public class Robot extends TimedRobot
 		pixy2.start();
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
+		stepper.retractPistons();
+		lifter.recallibrateSystem();
 	}
 
 
