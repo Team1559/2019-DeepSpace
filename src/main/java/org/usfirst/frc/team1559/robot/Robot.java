@@ -56,6 +56,9 @@ public class Robot extends TimedRobot
 			stepper = new Stepper(oi);
 			distRight = new DistSensor(new AnalogInput (2));
 			distLeft = new DistSensor(new AnalogInput (0));
+			lifter.potUseableBottom = 240;
+			lifter.potUseableTop = 786;
+
 			lifter.recallibrateSystem();
 		// Vision/Pixy Variables and Constants
 			jKx = -0.015f;

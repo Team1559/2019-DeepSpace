@@ -64,8 +64,8 @@ private final double ticksToHatch2 = (40-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
-private int potUseableBottom = 240 ; //Code will auto adjust values based on this one.
-private int potUseableTop = 786; //Placeholder
+public int potUseableBottom; //Code will auto adjust values based on this one.
+public int potUseableTop; //Placeholder
 private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
@@ -252,6 +252,7 @@ public boolean isAxis = true;
 		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
 			recallibrateSystem();
+			SmartDashboard.putNumber("Lifter recalibrated", potUseableBottom);
 		
 		}
 	}
