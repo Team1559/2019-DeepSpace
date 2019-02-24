@@ -49,43 +49,43 @@ public class Lifter {
 private WPI_TalonSRX lifterMotor;
 private OperatorInterface oi;
 
-private double[] portPositions = new double[3];
-private double[] hatchPositions = new double[3];
+private double[] portPositions = new double[3]; //Holds heights of the port positions
+private double[] hatchPositions = new double[3]; //Holds heights of the hatch positions
 
-private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
+private final double ticksPerInch = 7.2;
 private final double homeInches = 12;
 									//27.5
-private final double ticksToPort1 = (47-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = (75-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (47-homeInches) * ticksPerInch; //The ticks to port 1
+private final double ticksToPort2 = (75-homeInches) * ticksPerInch; //The ticks to port 2
+private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //The ticks to port 3
 
-private final double ticksToHatch1 = (12-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (35-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch3 = (63-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch1 = (12-homeInches) * ticksPerInch; //The ticks to hatch 1
+private final double ticksToHatch2 = (35-homeInches) * ticksPerInch; //The ticks to hatch 2
+private final double ticksToHatch3 = (63-homeInches) * ticksPerInch; //The ticks to hatch 3
 
 
-private int potUseableBottom = 95; //Code will auto adjust values based on this one.
-private int potUseableTop = 731; //Placeholder
-private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+private int potUseableBottom = 95; //Bottom of the pot that we want
+private int potUseableTop = 731; //Top of the pot that we want
+private int potRange = 546; //Range of the pot that we will be using
 
-private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
-private final int potMin = 5; // This is the lowest the pot can possibly go.
+private final int potMax = 1023; //This is the farthest the pot can rotate without breaking
+private final int potMin = 5; //This is the lowest the pot can possibly go.
 
-private double kP = 17; //Just for testing purposes
-private double kI = 0;
-private double kD = 10*kP; //Just for testing purposes
-private double kF = 0;
-private final int TIMEOUT = 0;
+private double kP = 17; //Our P value for the PID loop
+private double kI = 0; //Our I value for the PID loop
+private double kD = 10*kP; //Our D value for the PID loop
+private double kF = 0; //Our F value for the PID loop
+private final int TIMEOUT = 0; //Our TIMEOUT value
 
-public boolean isAxis = true;
+public boolean isAxis = true; //Code uses this to determine if it is in manual control or copilot button mode
 
-	public Lifter(OperatorInterface oiInput) {
-		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
-		oi = oiInput;
-		goToBottom(1);
+	public Lifter(OperatorInterface oiInput) { //This is the constructor for the Lifter
+		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON); //Creates the Lifter TalonSRX
+		oi = oiInput; //Sets up the oi for the Lifter
+		goToBottom(1); //Goes to the bottom at the start of the match
 
 		// potUseableBottom = getPot();
-		potUseableTop = potUseableBottom + potRange;
+		potUseableTop = potUseableBottom + potRange; //Double checks the top value
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
@@ -102,55 +102,55 @@ public boolean isAxis = true;
 		lifterMotor.config_kD(0, kD, TIMEOUT);
 		lifterMotor.config_kF(0, kF, TIMEOUT);
 
-		if(potUseableTop > potMax) {
+		if(potUseableTop > potMax) { //Just a warning system to make sure we don't break our pot
 			for(int i = 0; i < 20; i++){
 				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
 				//Do we want the motor to stop at the pot max?
 			}
 		}
 		
-		setupPortPos();
-		setupHatchPos();
+		setupPortPos(); //Sets up the array of port positions
+		setupHatchPos(); //Sets up the array of hatch positions
 
 	}
 
-	public int getPot() {
+	public int getPot() { //Returns the pot value for use by the code
 		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
 	}
 
-	public void setupPortPos() {
+	public void setupPortPos() { //Sets up the array of port positions
 		portPositions[0] = potUseableBottom + ticksToPort1;
 		portPositions[1] = potUseableBottom + ticksToPort2;
 		portPositions[2] = potUseableBottom + ticksToPort3;
 	}
 
-	public void setupHatchPos() {
+	public void setupHatchPos() { //Sets up the array of hatch positions
 		hatchPositions[0] = potUseableBottom + ticksToHatch1;
 		hatchPositions[1] = potUseableBottom + ticksToHatch2;
 		hatchPositions[2] = potUseableBottom + ticksToHatch3;
 	}
 
-	public void goToPortPos(int pos) {
+	public void goToPortPos(int pos) { //Goes to the specified port position
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, portPositions[pos]);
 		SmartDashboard.putNumber("Pot going to", portPositions[pos]);
 	}
 
-	public void goToHatchPos(int pos) {
+	public void goToHatchPos(int pos) { //Goes to the specified hatch position
 		pos -= 1;
 		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
 		SmartDashboard.putNumber("Pot going to", hatchPositions[pos]);
 	}
 
-	public void goToCargoShipHatch() {
+	public void goToCargoShipHatch() { //Goes to the cargo ship hatch position
 		goToHatchPos(1);
 	}
 
-	public void goToCargoShipCargoDrop() {
+	public void goToCargoShipCargoDrop() { //Goes to the cargo ship cargo dropoff position
 		goToHatchPos(2);
 	}
 
-	public void goToBottom(int whichHome) {
+	public void goToBottom(int whichHome) { //Goes to a home position. 1 is standard home, 2 is if we have cargo in the cargo grabber
 		if(whichHome == 1) {
 		lifterMotor.set(ControlMode.Position, potUseableBottom);
 		SmartDashboard.putNumber("Pot going to", potUseableBottom);
@@ -173,17 +173,17 @@ public boolean isAxis = true;
 		setupHatchPos();
 	}
 
-	public void goUp() {
+	public void goUp() { //Drives up the motor
 		lifterMotor.set(ControlMode.PercentOutput,0.5);
 		System.out.println("Going up!!!!");
 	}
 
-	public void goDown() {
+	public void goDown() { //Drives down the motor
 		lifterMotor.set(ControlMode.PercentOutput,-0.3);
 		System.out.println("Going down!!!!");
 	}
 
-	public void stop() {
+	public void stop() { //Stops the motor
 		lifterMotor.stopMotor();
 	}
 
@@ -206,6 +206,14 @@ public boolean isAxis = true;
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
 		//maxOverride();
+		/**
+		 * The following methods all serve the same basic purpose:
+		 * To check if their corresponding button is pressed and if the cargo button is pressed as well
+		 * RawButton 4 corresponds to position 1
+		 * RawButton 6 corresponds to position 2
+		 * RawButton 5 corresponds to position 3
+		 * CopilotAxis 3 corresponds to the cargo button, which changes how the above three button function
+		 */
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);

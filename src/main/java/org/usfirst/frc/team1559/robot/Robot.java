@@ -108,19 +108,19 @@ public class Robot extends TimedRobot
 			
 
 		//Lifter Functions
-			lifter.driveLifter();
+			lifter.driveLifter(); //Main method for driving the Lifter (See Lifter class)
 
-			if(oi.getCopilotAxis(1) <= -0.9)
+			if(oi.getCopilotAxis(1) <= -0.9) //Manual control to go up
 			{
 				lifter.isAxis = true;
 				lifter.goUp();
 			}
-		 	if(oi.getCopilotAxis(1) >= 0.9)
+		 	if(oi.getCopilotAxis(1) >= 0.9) //Manual control to go down
 			{
 				lifter.isAxis = true;
 				lifter.goDown();
 			}
-			if((Math.abs(oi.getCopilotAxis(1)) <= 0.1)&& lifter.isAxis)
+			if((Math.abs(oi.getCopilotAxis(1)) <= 0.1)&& lifter.isAxis) //When in manual control, stops when the joystick is not being moved
 			{
 				lifter.stop();
 			}
