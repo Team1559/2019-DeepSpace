@@ -55,8 +55,8 @@ private double[] hatchPositions = new double[3];
 private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 12;
 									//27.5
-private final double ticksToPort1 = (47-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = (75-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (39-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort2 = (62-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
 private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
@@ -66,7 +66,7 @@ private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placehold
 
 public int potUseableBottom; //Code will auto adjust values based on this one.
 public int potUseableTop; //Placeholder
-private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+public int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 private final int potMin = 5; // This is the lowest the pot can possibly go.

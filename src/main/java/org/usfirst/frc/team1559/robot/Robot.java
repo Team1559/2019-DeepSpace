@@ -68,7 +68,8 @@ public class Robot extends TimedRobot
 			pKr = 0.007f;// maximum pixy angle0.014
 			pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
 			LED_Relay.set(Value.kOn);
-
+			lifter.potUseableBottom = 267;
+			lifter.potUseableTop = lifter.potUseableBottom + lifter.potRange;
 		// Stepper
 			stepper.stopDrive();
 	}	
