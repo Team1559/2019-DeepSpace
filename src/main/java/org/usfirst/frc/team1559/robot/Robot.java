@@ -211,7 +211,7 @@ public class Robot extends TimedRobot
 							pKy=0.416f;	
 						}
 
-					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * pixy2.getEr() );	
+					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);	
 					//to go right increase, to go left decrease
 					Ex = Rightdistance - Leftdistance;
 					SmartDashboard.putNumber("__x",pixy2.getEx());
