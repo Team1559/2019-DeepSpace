@@ -61,8 +61,8 @@ public class Robot extends TimedRobot
 
 			lifter.recallibrateSystem();
 		// Vision/Pixy Variables and Constants
-			jKx = 0.015f;
-			jKr = 0.016f;//0.014 
+			jKx = 0.012f;//.015
+			jKr = 0.025f;//0.016 
 			jKy = 0.007f;//shold be .009
 			pKx = -0.0125f;// maximum pixy translation (1/2 frame with)0.025
 			pKr = 0.007f;// maximum pixy angle0.014
@@ -145,7 +145,7 @@ public class Robot extends TimedRobot
 		
 			float Rightdistance = (float)distRight.getRange();
 			float Leftdistance = (float)distLeft.getRange();
-			Ey = Rightdistance - 5;
+			Ey = Rightdistance;
 
 			double maxPixyRange = 18.0;
 			SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
@@ -196,12 +196,12 @@ public class Robot extends TimedRobot
 					else if(v.status ==1 )
 					{
 					
-						if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5)
+						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						{
 							SmartDashboard.putNumber("__Close enough x", Ex);
 							Ex = Ex/10;
 						}
-						if (pixy2.getEr() > -5.5 && pixy2.getEr() < 5.5)
+						if (pixy2.getEr() > -4 && pixy2.getEr() < 4)
 						{
 							SmartDashboard.putNumber("__Close enough r", Er);
 							Er = Er/15; 
@@ -209,6 +209,9 @@ public class Robot extends TimedRobot
 						if(Er < -3 && Er > 3)
 						{
 							pKy=0.416f;	
+						}
+						if(Ey <= 2 && Ey >= -2){
+							Ey = 0;
 						}
 
 					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);	

@@ -92,14 +92,14 @@ public class Stepper {
  	public void extendPistons()
  	{
 		 pistons.set(true);
-		 System.out.println("Extending pistons");
+		// System.out.println("Extending pistons");
 	}
 	 
 	//retracts back pistons
 	public void retractPistons()
 	{
 		pistons.set(false);
-		System.out.println("Retract Pistons");
+		//System.out.println("Retract Pistons");
 	}
 
 	//drives the front wheels forward
@@ -124,7 +124,7 @@ public class Stepper {
 	public void liftStepper()
 	{
 		lifterMotor.set(-liftSpeed);
-		System.out.println("Lift Up");
+	//	System.out.println("Lift Up");
 	}
 
 	//brings lifter back to lowest position; lifts the front of the robot
@@ -132,14 +132,14 @@ public class Stepper {
 	{
 		lifterMotor.set(liftSpeed);
 
-		System.out.println("Lift Down");
+	//	System.out.println("Lift Down");
 	}
 
 	//stops the stepper motor
 	public void stopStepper()
 	{
 		lifterMotor.stopMotor();
-		System.out.println("Stepper Stopped Lifting");
+	//	System.out.println("Stepper Stopped Lifting");
 	}
 
 	public void activate()
