@@ -39,7 +39,15 @@ public class Robot extends TimedRobot
 	public static DistSensor distLeft;
 	private float jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex;
 	private double Ey, errorX, errorR, errorY;
-	
+	private int close_enough;
+	private int backuptimer;
+	private int scoreingcomplete;
+	private int grabberon;
+	private int cargodrop;
+	private int hatchtimer;
+	private int cargodroped;
+	private int state;
+	private int counter;
 
 	@Override
 	public void robotInit()
@@ -117,7 +125,8 @@ public class Robot extends TimedRobot
 			}
 
 		//Lifter Functions
-			lifter.driveLifter();
+			
+			
 
 			if(oi.getCopilotAxis(1) <= -0.9)
 			{
@@ -150,48 +159,83 @@ public class Robot extends TimedRobot
 			double maxPixyRange = 18.0;
 			SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
 			SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
+			//case 0=Driver
+			//case 1=jetson
+			//case 2=lift
+			//case 3=Pixy
+			//case 4=Retreat
+			
+			switch(state)
+			{
+				case 0: //DRIVE :(
+					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+					if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
+						state = 1;
+				break;
+				case 1: 			//JETSON
+					System.out.println("It's alive");
+					pixy2.lampon();
+					if(vData.status==1)
+					{
+						if(vData.y >= maxPixyRange)
+						{
+							errorX = vData.x;
+
+							if ((errorX > -7.0) && (errorX < 7.0))
+							{
+								SmartDashboard.putNumber("__Close enough x", errorX);
+								errorX = errorX/5.0;
+							}
+
+							errorR = vData.r;
+							if ((errorR > -4.0) && (errorR < 4.0))
+							{
+								SmartDashboard.putNumber("__Close enough r", errorR);
+								errorR = errorR/5.0;
+							}
+
+							double xDrive = (jKx * errorX)*24/vData.y;
+
+							if(xDrive > 1.0)
+								xDrive = 1.0;
+							else if(xDrive < -1.0)
+								xDrive = -1.0;
+
+							errorY = vData.y;
+							// SmartDashboard.putNumber("ex",vData.x);
+							// SmartDashboard.putNumber("ey", vData.y);
+							// SmartDashboard.putNumber("er",vData.r);	
+						
+						
+							SmartDashboard.putNumber("__x",xDrive);
+							SmartDashboard.putNumber("__y", jKy * errorY);
+							SmartDashboard.putNumber("__r",jKr * errorR);	
+							SmartDashboard.putString("Mode","jetson");
+							drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
+						}
+						else{
+							state = 2;
+						}
+					}
+					else{
+						state = 0;
+					}
+					break;
+				case 2:  //LIFTER
+					lifter.driveLifter();
+					//check to see if lifter is within a range of values
+					//if(lifter.targetPosition == 
+					//^^FIX THIS ^^
+				case 3: //PIXY
+				case 4: //RETREAT!!!
+
+				default: drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+
+			}
 
 			if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
 			{
-				System.out.println("It's alive");
-				pixy2.lampon();
-				if(vData.status==1)
-				{
-					if(vData.y >= maxPixyRange)
-					{
-						errorX = vData.x;
-
-						if ((errorX > -7.0) && (errorX < 7.0))
-						{
-							SmartDashboard.putNumber("__Close enough x", errorX);
-							errorX = errorX/5.0;
-						}
-
-						errorR = vData.r;
-						if ((errorR > -4.0) && (errorR < 4.0))
-						{
-							SmartDashboard.putNumber("__Close enough r", errorR);
-							errorR = errorR/5.0;
-						}
-
-						double xDrive = (jKx * errorX)*24/vData.y;
-
-						if(xDrive > 1.0)
-							xDrive = 1.0;
-						else if(xDrive < -1.0)
-							xDrive = -1.0;
-
-						errorY = vData.y;
-						SmartDashboard.putNumber("ex",vData.x);
-						SmartDashboard.putNumber("ey", vData.y);
-						SmartDashboard.putNumber("er",vData.r);	
-					
-					
-						SmartDashboard.putNumber("__x",xDrive);
-						SmartDashboard.putNumber("__y", jKy * errorY);
-						SmartDashboard.putNumber("__r",jKr * errorR);	
-						SmartDashboard.putString("Mode","jetson");
-						drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
+				
 					}
 					else if(v.status ==1 )
 					{
@@ -214,14 +258,18 @@ public class Robot extends TimedRobot
 							Ey = 0;
 						}
 
-					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);	
-					//to go right increase, to go left decrease
-					Ex = Rightdistance - Leftdistance;
-					SmartDashboard.putNumber("__x",pixy2.getEx());
-					SmartDashboard.putNumber("__y", Rightdistance);
-					SmartDashboard.putNumber("__r",pixy2.getEr());
-					SmartDashboard.putString("Mode","pixy");
-					System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
+						drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);
+						//to go right increase, to go left decrease
+						Ex = Rightdistance - Leftdistance;
+						if(Rightdistance == 8|| Leftdistance == 8)
+						{
+							
+						}
+						SmartDashboard.putNumber("__x",pixy2.getEx());
+						SmartDashboard.putNumber("__y", Rightdistance);
+						SmartDashboard.putNumber("__r",pixy2.getEr());
+						SmartDashboard.putString("Mode","pixy");
+						System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
 					}
 				
 				}
@@ -243,6 +291,75 @@ public class Robot extends TimedRobot
 				SmartDashboard.putNumber("__r",oi.getPilotZ());
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 			}	
+	
+			if(close_enough == 1 && oi.getCopilotAxis(3) >=0.9 && oi.copilot.getRawButton(4)){
+				lifter.isAxis = false;
+				lifter.goToPortPos(1);
+				scoreingcomplete = 1;
+				grabberon = 1;
+			}
+			if(oi.copilot.getRawButton(5)){
+				lifter.isAxis = false;
+				lifter.goToPortPos(3);
+			}
+		
+			if(close_enough == 1 && oi.getCopilotAxis(3) >=0.9 && oi.copilot.getRawButton(6)){
+				lifter.isAxis = false;
+				lifter.goToPortPos(2);
+				scoreingcomplete = 1;
+				grabberon = 1;
+			}
+			if(close_enough == 1 && oi.getCopilotAxis(3) <0.9 && oi.copilot.getRawButton(4)){
+				lifter.isAxis = false;
+				lifter.goToCargoShipHatch();
+				scoreingcomplete = 1;
+				hatchtimer = 1;
+			}
+			if(close_enough == 1 && oi.getCopilotAxis(3) <0.9 && oi.copilot.getRawButton(5)){
+				lifter.isAxis = false;
+				lifter.goToHatchPos(3);
+				scoreingcomplete = 1;
+				hatchtimer = 1;
+			}
+			if(close_enough == 1 && oi.getCopilotAxis(3) <0.9 && oi.copilot.getRawButton(6)){
+				lifter.isAxis = false;
+				lifter.goToCargoShipCargoDrop();
+				scoreingcomplete = 1;
+				hatchtimer = 1;
+			}	
+			if(grabberon == 1){
+				cargodrop = 1;	
+			}
+	
+			if(cargodrop>=1 && cargodrop <=7){
+				cargodrop = cargodrop + 1;
+				grabber.removeCargo();
+			}
+			if(cargodrop >= 7){
+				grabber.StopBall(); 
+				cargodrop = 0;  
+			}
+			if(hatchtimer >= 1 && hatchtimer <= 9){
+				hatchtimer = hatchtimer + 1;
+				drive.driveCartesian(0, -0.3, 0);
+			}
+			if(hatchtimer>=9){
+				hatchtimer = 0;
+				backuptimer = 1;
+			}
+			if(scoreingcomplete == 1 && cargodroped == 1){
+				backuptimer = 1;
+			}
+			if (backuptimer >=1 && backuptimer <=20 && Ey <= 8){
+				backuptimer = backuptimer + 1;
+				drive.driveCartesian(0, -0.3, 0);
+			}
+			if(backuptimer >= 20){
+				backuptimer = 0;
+				cargodroped = 0;
+				lifter.goToBottom(1);;
+			}
+			
 		// Stepper Functions
 			stepper.activate();
 	}
