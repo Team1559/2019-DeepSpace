@@ -35,6 +35,7 @@ public class Grabber
         cargocounter = 0;
         cargotimer = 0;
         hatchUp = true;
+        solenoid.set(true);
     }
     public void drive() {
         if(Robot.oi.pilot.getRawButton(Constants.BTN_INTAKE)) {

@@ -54,19 +54,19 @@ private double[] hatchPositions = new double[3];
 
 private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 12;
-									//27.5
-private final double ticksToPort1 = (47-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = (75-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (39-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort2 = (65-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
-private final double ticksToHatch1 = (12-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (35-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch3 = (63-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
-private int potUseableBottom = 95; //Code will auto adjust values based on this one.
-private int potUseableTop = 731; //Placeholder
-private int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+public int potUseableBottom; //Code will auto adjust values based on this one.
+public int potUseableTop; //Placeholder
+public int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+public int potError;
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 private final int potMin = 5; // This is the lowest the pot can possibly go.
@@ -116,6 +116,9 @@ public boolean isAxis = true;
 
 	public int getPot() {
 		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
+	}
+	public int getPoterror(){
+		return lifterMotor.getClosedLoopError(Wiring.LIFTER_POT);
 	}
 
 	public void setupPortPos() {
@@ -206,6 +209,7 @@ public boolean isAxis = true;
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
 		//maxOverride();
+		
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);
@@ -246,6 +250,7 @@ public boolean isAxis = true;
 		else if(oi.copilot.getRawButton(8)) { 
 			isAxis = false;
 			recallibrateSystem();
+			SmartDashboard.putNumber("Lifter recalibrated", potUseableBottom);
 		
 		}
 	}
