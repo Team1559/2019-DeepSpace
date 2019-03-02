@@ -115,7 +115,9 @@ public class Robot extends TimedRobot
 			{
 				grabber.toggleHatch();
 			}
-
+			else if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER2)) {
+				grabber.toggleHatch();
+			}
 		//Lifter Functions
 			lifter.driveLifter();
 
@@ -152,6 +154,7 @@ public class Robot extends TimedRobot
 			SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 
 			if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
+			//if(oi.getCopilotAxis(99) >= 0.9)
 			{
 				System.out.println("It's alive");
 				pixy2.lampon();

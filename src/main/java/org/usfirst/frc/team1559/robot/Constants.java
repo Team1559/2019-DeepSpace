@@ -26,12 +26,13 @@ public interface Constants {
 		public static final int FR_TALON = 2;
 		public static final int RR_TALON = 3;
 	// Grabber
-	public static final int BTN_OUTTAKE = 3;
+	public static final int BTN_OUTTAKE = 5;
 	public static final int BTN_STOP = 4;
-	public static final int BTN_INTAKE = 1;
+	public static final int BTN_INTAKE = 6;
 	public static final int BTN_HATCH_SLAP = 6;
 	public static final int BTN_HATCH_UNSLAP = 5;
-	public static final int HATCH_SNATCHER = 9;
+	public static final int HATCH_SNATCHER = 12;
+	public static final int HATCH_SNATCHER2 = 11;
 	// Lifter
 	// public static final short LIFTER_POS1 = 1;
 	// public static final short LIFTER_POS2 = 2;
