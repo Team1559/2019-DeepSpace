@@ -141,7 +141,7 @@ public class Robot extends TimedRobot
 			{
 				lifter.stop();
 			}
-			
+			pixy2.lampoff();
 			// Stepper Functions
 			stepper.activate();
 		}
