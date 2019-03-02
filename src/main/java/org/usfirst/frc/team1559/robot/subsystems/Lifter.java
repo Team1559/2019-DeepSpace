@@ -121,6 +121,10 @@ public boolean isAxis = true;
 		return lifterMotor.getClosedLoopError(Wiring.LIFTER_POT);
 	}
 
+	public double getPotError() {
+		return lifterMotor.getClosedLoopError(Wiring.LIFTER_POT) / ticksPerInch;
+	}
+
 	public void setupPortPos() {
 		portPositions[0] = potUseableBottom + ticksToPort1;
 		portPositions[1] = potUseableBottom + ticksToPort2;
@@ -209,7 +213,7 @@ public boolean isAxis = true;
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
 		//maxOverride();
-		
+		//need to add in auto button into this class
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);
