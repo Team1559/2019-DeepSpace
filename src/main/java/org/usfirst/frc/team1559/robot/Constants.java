@@ -38,15 +38,15 @@ public interface Constants {
 	public static final int POT_TOP = 0; //Highest possible pot value
 	
 	// Stepper button values
-	public static final int STEPPER_COPILOT_LIFT_UP = 1; //bottom left button on fightstick
-	public static final int STEPPER_COPILOT_LIFT_DOWN = 2; //button to the right of bottom left on fightstick
+	public static final int STEPPER_COPILOT_LIFT_UP = 99; //bottom left button on fightstick 1
+	public static final int STEPPER_COPILOT_LIFT_DOWN = 99; //button to the right of bottom left on fightstick 2
 	public static final int STEPPER_PILOT_EXTEND_PISTONS = 2; //X button on pilot controller
 	public static final int STEPPER_PILOT_RETRACT_PISTONS = 4; //button to the right of touchpad on controller
 	public static final int STEPPER_PILOT_DRIVE_FORWARD = 4; //right trigger on pilot
 	public static final int STEPPER_PILOT_DRIVE_BACKWARD = 3; //left trigger on pilot
 	//stepper potentiometer control buttons
-	public static final int STEPPER_COPILOT_LIFT_UP_POT = 99; //TODO: needs to be set
-	public static final int STEPPER_COPILOT_LIFT_DOWN_POT = 99; //TODO: needs to be set
+	public static final int STEPPER_COPILOT_LIFT_UP_POT = 1; //TODO: needs to be set
+	public static final int STEPPER_COPILOT_LIFT_DOWN_POT = 2; //TODO: needs to be set
 
 	// Ultrasonic Stopper
 	public static final int STOPPING_DISTANCE = -1; // TODO: Find this value.

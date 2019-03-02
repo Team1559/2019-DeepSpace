@@ -72,7 +72,7 @@ public class Stepper {
 	//speed of motors (-1.0 to 1.0)
 
 	private double liftSpeed = 1; //speed of lifterMotor
-
+	private int deployPistions = 999;//TODO: needs to be set
 	//controls on and off of drive wheels
 	private boolean driving;
 
@@ -93,7 +93,10 @@ public class Stepper {
 		canLower = false;
 	}
 
- 	//extends both back pistons
+	 //extends both back pistons
+	 public int getstepperpot() {
+		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
+	}
  	public void extendPistons()
  	{
 		 pistons.set(true);
@@ -219,6 +222,9 @@ public class Stepper {
 		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN_POT))
 		{
 			lowerStepperPot();
+		}
+		if(getstepperpot() == deployPistions ){
+			extendPistons();
 		}
 	}
 }
