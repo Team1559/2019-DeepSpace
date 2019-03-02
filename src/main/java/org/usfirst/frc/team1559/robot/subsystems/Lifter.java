@@ -216,6 +216,7 @@ public boolean isAxis = true;
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
 		//maxOverride();
+		//need to add in auto button into this class
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);

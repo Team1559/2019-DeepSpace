@@ -113,8 +113,9 @@ public class Robot extends TimedRobot
 	{
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
-		if(state == 0){//if in auto don't have maunual control
-			// Grabber Functions
+		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
+			lifter.driveLifter();
+		// Grabber Functions
 			grabber.drive();
 			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
 			{
@@ -160,7 +161,8 @@ public class Robot extends TimedRobot
 		//case 1=jetson
 		//case 2=lift
 		//case 3=Pixy
-		//case 4=Retreat
+		//case 4 = Ball
+		//case 5=Retreat
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) 
 		{
 			if(state == 0) {
@@ -233,7 +235,10 @@ public class Robot extends TimedRobot
 				System.out.println(lifter.getPotError());
 				//check to see if lifter is within a range of values
 				if(Math.abs(lifter.getPotError()) < 1) {
-				state = 3;
+					if(v.status == 1)
+					{
+					state = 3;
+					}
 				}
 				else{
 					drive.driveCartesian(0,0,0);//ALL STOP!!!!!
@@ -275,23 +280,45 @@ public class Robot extends TimedRobot
 					else
 					{
 						state = 4;
-						System.out.println("RETREAT MODE");
+						System.out.println("Ball MODE");
+						counter = 100;
 					}
 				}
 				else
 				{
-					state = 0;
-					System.out.println("RETREAT MODE");
+					state = 4;
+					System.out.println("Ball MODE");
+					counter = 10;
 				}
 				break;
-			case 4: //RETREAT!!!
+			case 4: //BALL MODE
 				lastState = state;
-				drive.driveCartesian(0, -0.5, 0);
+				
+				if(oi.getCopilotAxis(3)==1 && counter > 0)  
+				{
+					grabber.removeCargo();
+					counter-=1;
+				}
+				else {
+					state = 5;
+					System.out.println("Retreat Mode");
+				}
+			case 5: //RETREAT!!!
+				lastState = state;
+				if(Math.min(Leftdistance,Rightdistance)<= 24) {
+					drive.driveCartesian(0, -0.3, 0);
+				}
+				else {
+					drive.driveCartesian(0, 0, 0);
+				}
 				if(Math.min(Leftdistance,Rightdistance)>= 12){
-					grabber.toggleHatch();
+					//grabber.toggleHatch();
+					//^comment code when piston is reinstalled
 					lifter.goToBottom(1);
 				}
 				break;
+			
+				
 			default: 
 				state = 0;
 				System.out.println("GOING FROM UNKNOWN STATE TO DRIVE MODE ERROR ERROR ERROR ERROR ERROR ERROR");
