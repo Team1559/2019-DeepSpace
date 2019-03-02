@@ -124,6 +124,10 @@ public boolean isAxis = true;
 		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
 	}
 
+	public double getPotError() {
+		return lifterMotor.getClosedLoopError(Wiring.LIFTER_POT) / ticksPerInch;
+	}
+
 	public void setupPortPos() {
 		portPositions[0] = potUseableBottom + ticksToPort1;
 		portPositions[1] = potUseableBottom + ticksToPort2;
