@@ -182,6 +182,7 @@ public class Robot extends TimedRobot
 		{
 			case 0: //DRIVE :(
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+				pixy2.lampoff();
 				break;
 			case 1: 			//JETSON
 				lastState = state;		
