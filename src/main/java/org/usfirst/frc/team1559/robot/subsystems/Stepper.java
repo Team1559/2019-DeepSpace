@@ -70,12 +70,12 @@ public class Stepper {
 	private Solenoid pistons;
 	
 	//speed of motors (-1.0 to 1.0)
-
+	public boolean stepperWheeles;
 	private double liftSpeed = 1; //speed of lifterMotor
 	private int deployPistions = 999;//TODO: needs to be set
 	//controls on and off of drive wheels
 	private boolean driving;
-
+	private int down;
 	//potentiometer variables
 	public int topLifterValue = 200; //TODO: needs to be set
 	public int bottomLifterValue = 100; //TODO: needs to be set
@@ -88,9 +88,10 @@ public class Stepper {
  		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
 		driving = false;
-		
+		stepperWheeles = false;
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
 		canLower = false;
+		down = 0;
 	}
 
 	 //extends both back pistons
@@ -183,13 +184,9 @@ public class Stepper {
 		}
 
 		//drive controls for front wheels
-		if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
+		if(stepperWheeles == true)
 		{
-			driveForward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
-		}
-		else if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
-		{
-			driveBackward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
+			driveBackward(Robot.oi.pilot.getRawAxis(1));
 		}
 		else
 		{
@@ -202,12 +199,15 @@ public class Stepper {
 			Robot.pixy2.lampoff();
 			Robot.LED_Relay.set(Value.kOff);
 			liftStepper();
+			stepperWheeles = true;
 		}
 		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			Robot.pixy2.lampoff();
 			Robot.LED_Relay.set(Value.kOff);
 			lowerStepper();
+			stepperWheeles = true;
+			stepperWheeles = true;
 		}
 		else
 		{
@@ -218,12 +218,15 @@ public class Stepper {
 		if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP_POT))
 		{
 			liftStepperPot();
+			stepperWheeles = true;
 		}
 		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN_POT))
 		{
 			lowerStepperPot();
+			stepperWheeles = true;
+			stepperWheeles = true;
 		}
-		if(getstepperpot() == deployPistions ){
+		if(getstepperpot() == deployPistions && down == 1){
 			extendPistons();
 		}
 	}
