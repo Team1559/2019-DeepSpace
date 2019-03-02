@@ -69,10 +69,10 @@ public class Robot extends TimedRobot
 		// Vision/Pixy Variables and Constants
 			jKx = 0.012f;//.015
 			jKr = 0.025f;//0.016 
-			jKy = 0.007f;//shold be .009
+			jKy = 0.009f;//shold be .007
 			pKx = -0.0125f;// maximum pixy translation (1/2 frame with)0.025
 			pKr = 0.007f;// maximum pixy angle0.014
-			pKy = 0.015f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416
+			pKy = 0.018f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)
 			LED_Relay.set(Value.kOn);
 		
 		// Stepper
@@ -152,8 +152,8 @@ public class Robot extends TimedRobot
 	
 		float Rightdistance = (float)distRight.getRange();
 		float Leftdistance = (float)distLeft.getRange();
-		Ey = Rightdistance;
-
+		Ey = Math.min(Rightdistance,Leftdistance);
+		//Ey = Rightdistance;
 		double maxPixyRange = 18.0;
 		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
 		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
@@ -248,7 +248,7 @@ public class Robot extends TimedRobot
 				lastState = state;
 				if(v.status ==1 )
 				{
-					if(Math.abs(Ey)>=2)
+					if(Math.abs(Ey)>=1)
 					{
 						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						{
@@ -264,7 +264,7 @@ public class Robot extends TimedRobot
 						{
 							pKy=0.416f;	
 						}
-						if(Ey <= 2 && Ey >= -2){
+						if(Ey <= 1 && Ey >= -1){
 							Ey = 0;
 						}
 
@@ -288,7 +288,7 @@ public class Robot extends TimedRobot
 				{
 					state = 4;
 					System.out.println("Ball MODE");
-					counter = 10;
+					counter = 100;
 				}
 				break;
 			case 4: //BALL MODE
