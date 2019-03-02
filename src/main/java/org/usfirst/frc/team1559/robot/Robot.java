@@ -153,99 +153,99 @@ public class Robot extends TimedRobot
 			SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
 			SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 
-			if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
-			//if(oi.getCopilotAxis(99) >= 0.9)
-			{
-				System.out.println("It's alive");
-				pixy2.lampon();
-				if(vData.status==1)
-				{
-					if(vData.y >= maxPixyRange)
-					{
-						errorX = vData.x;
+			// if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
+			// //if(oi.getCopilotAxis(99) >= 0.9)
+			// {
+			// 	System.out.println("It's alive");
+			// 	pixy2.lampon();
+			// 	if(vData.status==1)
+			// 	{
+			// 		if(vData.y >= maxPixyRange)
+			// 		{
+			// 			errorX = vData.x;
 
-						if ((errorX > -7.0) && (errorX < 7.0))
-						{
-							SmartDashboard.putNumber("__Close enough x", errorX);
-							errorX = errorX/5.0;
-						}
+			// 			if ((errorX > -7.0) && (errorX < 7.0))
+			// 			{
+			// 				SmartDashboard.putNumber("__Close enough x", errorX);
+			// 				errorX = errorX/5.0;
+			// 			}
 
-						errorR = vData.r;
-						if ((errorR > -4.0) && (errorR < 4.0))
-						{
-							SmartDashboard.putNumber("__Close enough r", errorR);
-							errorR = errorR/5.0;
-						}
+			// 			errorR = vData.r;
+			// 			if ((errorR > -4.0) && (errorR < 4.0))
+			// 			{
+			// 				SmartDashboard.putNumber("__Close enough r", errorR);
+			// 				errorR = errorR/5.0;
+			// 			}
 
-						double xDrive = (jKx * errorX)*24/vData.y;
+			// 			double xDrive = (jKx * errorX)*24/vData.y;
 
-						if(xDrive > 1.0)
-							xDrive = 1.0;
-						else if(xDrive < -1.0)
-							xDrive = -1.0;
+			// 			if(xDrive > 1.0)
+			// 				xDrive = 1.0;
+			// 			else if(xDrive < -1.0)
+			// 				xDrive = -1.0;
 
-						errorY = vData.y;
-						SmartDashboard.putNumber("ex",vData.x);
-						SmartDashboard.putNumber("ey", vData.y);
-						SmartDashboard.putNumber("er",vData.r);	
+			// 			errorY = vData.y;
+			// 			SmartDashboard.putNumber("ex",vData.x);
+			// 			SmartDashboard.putNumber("ey", vData.y);
+			// 			SmartDashboard.putNumber("er",vData.r);	
 					
 					
-						SmartDashboard.putNumber("__x",xDrive);
-						SmartDashboard.putNumber("__y", jKy * errorY);
-						SmartDashboard.putNumber("__r",jKr * errorR);	
-						SmartDashboard.putString("Mode","jetson");
-						drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
-					}
-					else if(v.status ==1 )
-					{
+			// 			SmartDashboard.putNumber("__x",xDrive);
+			// 			SmartDashboard.putNumber("__y", jKy * errorY);
+			// 			SmartDashboard.putNumber("__r",jKr * errorR);	
+			// 			SmartDashboard.putString("Mode","jetson");
+			// 			drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
+			// 		}
+			// 		else if(v.status ==1 )
+			// 		{
 					
-						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
-						{
-							SmartDashboard.putNumber("__Close enough x", Ex);
-							Ex = Ex/10;
-						}
-						if (pixy2.getEr() > -4 && pixy2.getEr() < 4)
-						{
-							SmartDashboard.putNumber("__Close enough r", Er);
-							Er = Er/15; 
-						}
-						if(Er < -3 && Er > 3)
-						{
-							pKy=0.416f;	
-						}
-						if(Ey <= 2 && Ey >= -2){
-							Ey = 0;
-						}
+			// 			if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
+			// 			{
+			// 				SmartDashboard.putNumber("__Close enough x", Ex);
+			// 				Ex = Ex/10;
+			// 			}
+			// 			if (pixy2.getEr() > -4 && pixy2.getEr() < 4)
+			// 			{
+			// 				SmartDashboard.putNumber("__Close enough r", Er);
+			// 				Er = Er/15; 
+			// 			}
+			// 			if(Er < -3 && Er > 3)
+			// 			{
+			// 				pKy=0.416f;	
+			// 			}
+			// 			if(Ey <= 2 && Ey >= -2){
+			// 				Ey = 0;
+			// 			}
 
-					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);	
-					//to go right increase, to go left decrease
-					Ex = Rightdistance - Leftdistance;
-					SmartDashboard.putNumber("__x",pixy2.getEx());
-					SmartDashboard.putNumber("__y", Rightdistance);
-					SmartDashboard.putNumber("__r",pixy2.getEr());
-					SmartDashboard.putString("Mode","pixy");
-					System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
-					}
+			// 		drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);	
+			// 		//to go right increase, to go left decrease
+			// 		Ex = Rightdistance - Leftdistance;
+			// 		SmartDashboard.putNumber("__x",pixy2.getEx());
+			// 		SmartDashboard.putNumber("__y", Rightdistance);
+			// 		SmartDashboard.putNumber("__r",pixy2.getEr());
+			// 		SmartDashboard.putString("Mode","pixy");
+			// 		System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
+			// 		}
 				
-				}
-				else
-				{
-					SmartDashboard.putString("Mode","driver-2");
-					SmartDashboard.putNumber("__x",oi.getPilotX());
-					SmartDashboard.putNumber("__y",oi.getPilotY());
-					SmartDashboard.putNumber("__r",oi.getPilotZ());
-					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-				}
-			}
-			else
-			{
+			// 	}
+			// 	else
+			// 	{
+			// 		SmartDashboard.putString("Mode","driver-2");
+			// 		SmartDashboard.putNumber("__x",oi.getPilotX());
+			// 		SmartDashboard.putNumber("__y",oi.getPilotY());
+			// 		SmartDashboard.putNumber("__r",oi.getPilotZ());
+			// 		drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+			// 	}
+			// }
+			// else
+			// {
 				pixy2.lampoff();
 				SmartDashboard.putString("Mode","driver");
 				SmartDashboard.putNumber("__x",oi.getPilotX());
 				SmartDashboard.putNumber("__y",oi.getPilotY());
 				SmartDashboard.putNumber("__r",oi.getPilotZ());
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-			}	
+			//}	
 		// Stepper Functions
 			stepper.activate();
 	}
