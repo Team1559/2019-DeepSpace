@@ -227,9 +227,62 @@ public class Robot extends TimedRobot
 					//if(lifter.targetPosition == 
 					//^^FIX THIS ^^
 				case 3: //PIXY
-				case 4: //RETREAT!!!
+					if(v.status ==1 )
+					{
+						if(Ey != 0)
+						{
+						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
+						{
+							SmartDashboard.putNumber("__Close enough x", Ex);
+							Ex = Ex/10;
+						}
+						if (pixy2.getEr() > -4 && pixy2.getEr() < 4)
+						{
+							SmartDashboard.putNumber("__Close enough r", Er);
+							Er = Er/15; 
+						}
+						if(Er < -3 && Er > 3)
+						{
+							pKy=0.416f;	
+						}
+						if(Ey <= 2 && Ey >= -2){
+							Ey = 0;
+						}
 
-				default: drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+						drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);
+						//to go right increase, to go left decrease
+						Ex = Rightdistance - Leftdistance;
+						SmartDashboard.putNumber("__x",pixy2.getEx());
+						SmartDashboard.putNumber("__y", Rightdistance);
+						SmartDashboard.putNumber("__r",pixy2.getEr());
+						SmartDashboard.putString("Mode","pixy");
+						System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
+						}
+						else
+						{
+							state = 4;
+						}
+					}
+					else
+					{
+						state = 0;
+					}
+					break;
+				case 4: //RETREAT!!!
+					if(v.status == 1)
+					{
+					drive.driveCartesian(0, -0.5, 0);
+					lifter.goToBottom(1);
+					}
+					else
+					{
+						state = 0;
+					}
+
+
+				default: 
+					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+					break;
 
 			}
 
