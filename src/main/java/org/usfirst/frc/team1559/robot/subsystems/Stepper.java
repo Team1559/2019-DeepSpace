@@ -72,7 +72,7 @@ public class Stepper {
 	//speed of motors (-1.0 to 1.0)
 	public boolean stepperWheeles;
 	private double liftSpeed = 1; //speed of lifterMotor
-	private int deployPistions = 999;//TODO: needs to be set
+	private int deployPistions = 99999999;//TODO: needs to be set
 	//controls on and off of drive wheels
 	private boolean driving;
 	private int down;
@@ -96,7 +96,7 @@ public class Stepper {
 
 	 //extends both back pistons
 	 public int getstepperpot() {
-		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
+		return lifterMotor.getSelectedSensorPosition(Constants.STEPPER_POT);
 	}
  	public void extendPistons()
  	{
@@ -186,8 +186,9 @@ public class Stepper {
 		//drive controls for front wheels
 		if(stepperWheeles == true)
 		{
-			driveBackward(Robot.oi.pilot.getRawAxis(1));
+			driveBackward(Robot.oi.getPilotY());
 		}
+		
 		else
 		{
 			stopDrive();

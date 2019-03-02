@@ -47,7 +47,7 @@ public interface Constants {
 	//stepper potentiometer control buttons
 	public static final int STEPPER_COPILOT_LIFT_UP_POT = 99; //TODO: needs to be set 1
 	public static final int STEPPER_COPILOT_LIFT_DOWN_POT = 99; //TODO: needs to be set 1
-
+	public static final int STEPPER_POT = 0;
 	// Ultrasonic Stopper
 	public static final int STOPPING_DISTANCE = -1; // TODO: Find this value.
 	

@@ -145,6 +145,8 @@ public class Robot extends TimedRobot
 			// Stepper Functions
 			stepper.activate();
 		}
+		stepper.getstepperpot();
+		SmartDashboard.putNumber("stepper_pot", stepper.getstepperpot());
 		// Pixy and Vision Functions
 		pixylinevector v=pixy2.getvector();
 		vision.update();
