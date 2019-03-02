@@ -184,11 +184,14 @@ public class Stepper {
 		}
 
 		//drive controls for front wheels
-		if(stepperWheeles == true)
+		if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
 		{
-			driveBackward(Robot.oi.getPilotY());
+			driveForward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
 		}
-		
+		else if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
+		{
+			driveBackward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
+		}
 		else
 		{
 			stopDrive();
