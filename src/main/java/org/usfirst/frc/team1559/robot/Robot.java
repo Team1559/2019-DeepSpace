@@ -312,8 +312,7 @@ public class Robot extends TimedRobot
 					drive.driveCartesian(0, 0, 0);
 				}
 				if(Math.min(Leftdistance,Rightdistance)>= 12){
-					//grabber.toggleHatch();
-					//^comment code when piston is reinstalled
+					grabber.toggleHatch();
 					lifter.goToBottom(1);
 				}
 				break;
