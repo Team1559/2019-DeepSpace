@@ -70,11 +70,16 @@ public class Stepper {
 	private Solenoid pistons;
 	
 	//speed of motors (-1.0 to 1.0)
-
+	public boolean stepperWheeles;
 	private double liftSpeed = 1; //speed of lifterMotor
-
+	private int deployPistions = 99999999;//TODO: needs to be set
 	//controls on and off of drive wheels
 	private boolean driving;
+	private int down;
+	//potentiometer variables
+	public int topLifterValue = 200; //TODO: needs to be set
+	public int bottomLifterValue = 100; //TODO: needs to be set
+	public boolean canLower; //failsafe to prevent accidental lowering when lifter is still in starting position
 
  	//instantiates all talons and the solenoid, imports which port each is plugged into
  	public Stepper(OperatorInterface oi)
@@ -83,12 +88,16 @@ public class Stepper {
  		driveMotor = new Talon(Wiring.STEPPER_DRIVE_MOTOR);
 		pistons = new Solenoid(Wiring.STEPPER_PISTONS);
 		driving = false;
-		
+		stepperWheeles = false;
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
-
+		canLower = false;
+		down = 0;
 	}
 
- 	//extends both back pistons
+	 //extends both back pistons
+	 public int getstepperpot() {
+		return lifterMotor.getSelectedSensorPosition(Constants.STEPPER_POT);
+	}
  	public void extendPistons()
  	{
 		 pistons.set(true);
@@ -135,10 +144,25 @@ public class Stepper {
 	//	System.out.println("Lift Down");
 	}
 
+	//uses potentiometer to lift stepper to top position
+	public void liftStepperPot()
+	{
+		lifterMotor.set(ControlMode.Position, topLifterValue);
+		canLower = true;
+	}
+
+	//uses potentiometer to lower stepper to bottom position
+	public void lowerStepperPot()
+	{
+		if(canLower)
+			lifterMotor.set(ControlMode.Position, bottomLifterValue);
+	}
+
 	//stops the stepper motor
 	public void stopStepper()
 	{
 		lifterMotor.stopMotor();
+		canLower = false;
 	//	System.out.println("Stepper Stopped Lifting");
 	}
 
@@ -147,13 +171,12 @@ public class Stepper {
 		//Stepper button controls
 
 		//extends pistons
-		
 		if(Robot.oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_EXTEND_PISTONS))
 		{
 			extendPistons();
 		}
-		//retracts pistons
 
+		//retracts pistons
 		if(Robot.oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_RETRACT_PISTONS))
 
 		{
@@ -180,16 +203,35 @@ public class Stepper {
 			Robot.pixy2.lampoff();
 			Robot.LED_Relay.set(Value.kOff);
 			liftStepper();
+			stepperWheeles = true;
 		}
 		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN))
 		{
 			Robot.pixy2.lampoff();
 			Robot.LED_Relay.set(Value.kOff);
 			lowerStepper();
+			stepperWheeles = true;
+			stepperWheeles = true;
 		}
 		else
 		{
 			stopStepper();
+		}
+
+		//button controls to automatically lift and lower the stepper lifter
+		if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP_POT))
+		{
+			liftStepperPot();
+			stepperWheeles = true;
+		}
+		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN_POT))
+		{
+			lowerStepperPot();
+			stepperWheeles = true;
+			stepperWheeles = true;
+		}
+		if(getstepperpot() == deployPistions && down == 1){
+			extendPistons();
 		}
 	}
 }

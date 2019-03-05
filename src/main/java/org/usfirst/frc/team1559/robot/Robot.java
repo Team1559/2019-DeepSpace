@@ -100,7 +100,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopInit()
 	{
-		pixy2.start();
+		
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
 		stepper.retractPistons();
@@ -122,8 +122,12 @@ public class Robot extends TimedRobot
 			{
 				grabber.toggleHatch();
 			}
+			else if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER2)) {
+				grabber.toggleHatch();
+			}
+		//Lifter Functions
+			lifter.driveLifter();
 
-			//Lifter Functions
 			if(oi.getCopilotAxis(1) <= -0.9)
 			{
 				lifter.isAxis = true;
@@ -138,10 +142,12 @@ public class Robot extends TimedRobot
 			{
 				lifter.stop();
 			}
-			
+			pixy2.lampoff();
 			// Stepper Functions
 			stepper.activate();
 		}
+		stepper.getstepperpot();
+		SmartDashboard.putNumber("stepper_pot", stepper.getstepperpot());
 		// Pixy and Vision Functions
 		pixylinevector v=pixy2.getvector();
 		vision.update();
@@ -183,6 +189,7 @@ public class Robot extends TimedRobot
 		{
 			case 0: //DRIVE :(
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+				pixy2.lampoff();
 				break;
 			case 1: 			//JETSON
 				lastState = state;		

@@ -54,19 +54,19 @@ private double[] hatchPositions = new double[3];
 
 private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 12;
-									//27.5
 private final double ticksToPort1 = (39-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = (68-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort2 = (65-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
 private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (40-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
 public int potUseableBottom; //Code will auto adjust values based on this one.
 public int potUseableTop; //Placeholder
 public int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+public int potError;
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 private final int potMin = 5; // This is the lowest the pot can possibly go.
@@ -97,12 +97,6 @@ public boolean isAxis = true;
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
 		lifterMotor.configPeakOutputForward(1, TIMEOUT);
 		lifterMotor.configPeakOutputReverse(-0.65, TIMEOUT);
-
-		// lifterMotor.configForwardSoftLimitEnable(true);
-		// lifterMotor.configReverseSoftLimitEnable(true);
-		// lifterMotor.configForwardSoftLimitThreshold(potUseableTop);
-		// lifterMotor.configReverseSoftLimitThreshold(potUseableBottom);
-
 		lifterMotor.config_kP(0, kP, TIMEOUT);
 		lifterMotor.config_kI(0, kI, TIMEOUT);
 		lifterMotor.config_kD(0, kD, TIMEOUT);
@@ -122,6 +116,9 @@ public boolean isAxis = true;
 
 	public int getPot() {
 		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
+	}
+	public int getPoterror(){
+		return lifterMotor.getClosedLoopError(Wiring.LIFTER_POT);
 	}
 
 	public double getPotError() {
