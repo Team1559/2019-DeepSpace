@@ -39,13 +39,6 @@ public class Robot extends TimedRobot
 	public static DistSensor distLeft;
 	private float jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex;
 	private double Ey, errorX, errorR, errorY;
-	private int close_enough;
-	private int backuptimer;
-	private int scoreingcomplete;
-	private int grabberon;
-	private int cargodrop;
-	private int hatchtimer;
-	private int cargodroped;
 	private int state;
 	private int lastState;
 	private int counter;
@@ -73,7 +66,7 @@ public class Robot extends TimedRobot
 			pKx = -0.0125f;// maximum pixy translation (1/2 frame with)0.025
 			pKr = 0.005f;// maximum pixy angle0.005
 			pKy = 0.018f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)
-			LED_Relay.set(Value.kOn);
+			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive
 		
 		// Stepper
 			stepper.stopDrive();

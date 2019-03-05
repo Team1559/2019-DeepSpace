@@ -184,18 +184,21 @@ public class Stepper {
 		}
 
 		//drive controls for front wheels
-		if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
-		{
-			driveForward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
+		if(stepperWheeles == true){
+			driveForward(Robot.oi.getPilotY());
 		}
-		else if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
-		{
-			driveBackward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
-		}
-		else
-		{
-			stopDrive();
-		}
+		// if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
+		// {
+		// 	driveForward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
+		// }
+		// else if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD) >= 0.15)
+		// {
+		// 	driveBackward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_BACKWARD));
+		// }
+		// else
+		// {
+		// 	stopDrive();
+		// }
 		
 		//manually moves lifter
 		if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP))
