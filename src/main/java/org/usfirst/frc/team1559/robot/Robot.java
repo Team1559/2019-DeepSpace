@@ -67,11 +67,11 @@ public class Robot extends TimedRobot
 			distLeft = new DistSensor(new AnalogInput (0));
 
 		// Vision/Pixy Variables and Constants
-			jKx = 0.012f;//.015
-			jKr = 0.025f;//0.016 
-			jKy = 0.009f;//shold be .007
+			jKx = 0.015f;//.015
+			jKr = 0.016f;//0.016 
+			jKy = 0.007f;//shold be .009
 			pKx = -0.0125f;// maximum pixy translation (1/2 frame with)0.025
-			pKr = 0.007f;// maximum pixy angle0.014
+			pKr = 0.005f;// maximum pixy angle0.005
 			pKy = 0.018f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)
 			LED_Relay.set(Value.kOn);
 		
@@ -111,6 +111,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic()
 	{
+
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
@@ -152,7 +153,7 @@ public class Robot extends TimedRobot
 	
 		float Rightdistance = (float)distRight.getRange();
 		float Leftdistance = (float)distLeft.getRange();
-		Ey = Math.min(Rightdistance,Leftdistance);
+		Ey = Math.min(Rightdistance,Leftdistance)-3;
 		//Ey = Rightdistance;
 		double maxPixyRange = 18.0;
 		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
@@ -163,6 +164,10 @@ public class Robot extends TimedRobot
 		//case 3=Pixy
 		//case 4 = Ball
 		//case 5=Retreat
+		if(v.status == 1)
+		{
+			System.out.println("Pixy " + pixy2.getEx() + " " + Ey + " " + pixy2.getEr());
+		}
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) 
 		{
 			if(state == 0) {
@@ -182,7 +187,7 @@ public class Robot extends TimedRobot
 			case 1: 			//JETSON
 				lastState = state;		
 				System.out.println("It's alive");
-				pixy2.lampon();
+				//pixy2.lampon();
 				if(vData.status==1) {
 					if(vData.y >= maxPixyRange )
 					{
@@ -238,6 +243,7 @@ public class Robot extends TimedRobot
 					if(v.status == 1)
 					{
 					state = 3;
+					counter = 1000;
 					}
 				}
 				else{
@@ -246,8 +252,11 @@ public class Robot extends TimedRobot
 				break;
 			case 3: //PIXY
 				lastState = state;
-				if(v.status ==1 )
+				System.out.println("*** Reading above is in pixy state");
+
+				if(v.status == 1)
 				{
+					counter = 1000;
 					if(Math.abs(Ey)>=1)
 					{
 						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
@@ -260,35 +269,39 @@ public class Robot extends TimedRobot
 							SmartDashboard.putNumber("__Close enough r", Er);
 							Er = Er/15; 
 						}
-						if(Er < -3 && Er > 3)
-						{
-							pKy=0.416f;	
-						}
-						if(Ey <= 1 && Ey >= -1){
-							Ey = 0;
-						}
-
+						// if(Er < -3 && Er > 3)
+						// {
+						// 	pKy=0.416f;	
+						// }
 						drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);
 						//to go right increase, to go left decrease
-						Ex = Rightdistance - Leftdistance;
-						SmartDashboard.putNumber("__x",pixy2.getEx());
-						SmartDashboard.putNumber("__y", Rightdistance);
-						SmartDashboard.putNumber("__r",pixy2.getEr());
+						//Ex = Rightdistance - Leftdistance;
+						SmartDashboard.putNumber("Pixyx",pixy2.getEx());
+						SmartDashboard.putNumber("Pixyy", Ey);
+						SmartDashboard.putNumber("Pixyr",pixy2.getEr());
 						SmartDashboard.putString("Mode","pixy");
-						System.out.println("Pixy " + pixy2.getEx() + " " + Math.min(Rightdistance,Leftdistance) + " " + pixy2.getEr());
+						System.out.println("Pixy " + Ex + "EY " + Ey + "ER " + Er);
 					}
 					else
 					{
 						state = 4;
-						System.out.println("Ball MODE");
+						System.out.println("Ball MODE-Arrived");
 						counter = 100;
 					}
 				}
 				else
 				{
-					state = 4;
-					System.out.println("Ball MODE");
-					counter = 100;
+					if(counter<=1)
+					{
+						state = 4;
+						System.out.println("Ball MODE-No Pixy Reading");
+						counter = 100;
+					}
+					else
+					{
+						counter--;
+						System.out.println("No Pixy Reading, retrying");
+					}
 				}
 				break;
 			case 4: //BALL MODE
@@ -331,7 +344,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void disabledInit()
 	{
-		pixy2.lampoff();
+		//pixy2.lampoff();
 		LED_Relay.set(Value.kOff);
 	}
 
