@@ -92,6 +92,7 @@ public class Stepper {
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
 		canLower = false;
 		down = 0;
+		stepperWheeles = false;
 	}
 
 	 //extends both back pistons
@@ -163,6 +164,7 @@ public class Stepper {
 	{
 		lifterMotor.stopMotor();
 		canLower = false;
+		stepperWheeles = false;
 	//	System.out.println("Stepper Stopped Lifting");
 	}
 
@@ -184,9 +186,6 @@ public class Stepper {
 		}
 
 		//drive controls for front wheels
-		if(stepperWheeles == true){
-			driveForward(Robot.oi.getPilotY());
-		}
 		// if(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD) >= 0.15)
 		// {
 		// 	driveForward(Robot.oi.pilot.getRawAxis(Constants.STEPPER_PILOT_DRIVE_FORWARD));
@@ -235,6 +234,11 @@ public class Stepper {
 		}
 		if(getstepperpot() == deployPistions && down == 1){
 			extendPistons();
+			
+			
+			if(stepperWheeles == true){
+				driveForward(Robot.oi.getPilotY());
+			}
 		}
 	}
 }
