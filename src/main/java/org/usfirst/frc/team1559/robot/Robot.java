@@ -62,7 +62,7 @@ public class Robot extends TimedRobot
 		// Vision/Pixy Variables and Constants
 			jKx = 0.015f;//.015
 			jKr = 0.016f;//0.016 
-			jKy = 0.007f;//shold be .009
+			jKy = 0.0085f;//shold be .009
 			pKx = -0.0125f;// maximum pixy translation (1/2 frame with)0.025
 			pKr = 0.005f;// maximum pixy angle0.005
 			pKy = 0.018f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)
@@ -251,13 +251,19 @@ public class Robot extends TimedRobot
 				}
 				break;
 			case 3: //PIXY
+				int switchValue;
+				if(oi.getCopilotAxis(3) == 1)
+				{
+					switchValue = 3;
+				}
+				else
 				lastState = state;
 				System.out.println("*** Reading above is in pixy state");
 
 				if(v.status == 1)
 				{
-					counter = 1000;
-					if(Math.abs(Ey)>=1)
+					counter = 100;
+					if(Math.abs(Ey)>=3)
 					{
 						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						{
