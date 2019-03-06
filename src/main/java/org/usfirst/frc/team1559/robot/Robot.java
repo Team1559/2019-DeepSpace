@@ -251,19 +251,22 @@ public class Robot extends TimedRobot
 				}
 				break;
 			case 3: //PIXY
-				int switchValue;
+				float wallGap;
 				if(oi.getCopilotAxis(3) == 1)
 				{
-					switchValue = 3;
+					wallGap = 3;
 				}
 				else
+				{
+					wallGap = 1;
+				}
 				lastState = state;
 				System.out.println("*** Reading above is in pixy state");
 
 				if(v.status == 1)
 				{
 					counter = 100;
-					if(Math.abs(Ey)>=3)
+					if(Math.abs(Ey)>=wallGap)
 					{
 						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						{
