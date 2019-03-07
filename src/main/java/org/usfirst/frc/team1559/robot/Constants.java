@@ -17,7 +17,9 @@ public interface Constants {
 	 * static = Non-abstract reference
 	 * final = value can not be modified other than where it is declared
 	 */
-	
+	//IR sensor
+	public static final float IR_OFFSET_LEFT = 0;
+	public static final float IR_OFFSET_RIGHT = 0.5f;
 	// DriveTrain
 
 	// Array positions
