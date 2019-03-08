@@ -155,10 +155,18 @@ public class Robot extends TimedRobot
 		Ex = pixy2.getEx();
 		Er = pixy2.getEr();
 		
-	
+			if(oi.copilot.getRawButton(4) || oi.copilot.getRawButton(5) || oi.copilot.getRawButton(6))
+					{
+						wallGap = 3;
+					}
+					else 
+					{
+						wallGap = 1;
+					}
+		
 		float Rightdistance = (float)distRight.getRange()-Constants.IR_OFFSET_RIGHT;
 		float Leftdistance = (float)distLeft.getRange()-Constants.IR_OFFSET_LEFT;
-		Ey = Math.min(Rightdistance,Leftdistance)-1;
+		Ey = Math.min(Rightdistance,Leftdistance) + wallGap;
 		//Ey = Rightdistance;
 		double maxPixyRange = 18.0;
 		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
@@ -267,14 +275,7 @@ public class Robot extends TimedRobot
 				break;
 			case 3: //PIXY
 				
-				// if(oi.copilot.getRawButton(4) || oi.copilot.getRawButton(5) || oi.copilot.getRawButton(6))
-				// {
-				// 	wallGap = 3;
-				// }
-				// else 
-				// {
-				// 	wallGap = 1;
-				// }
+				
 
 				lastState = state;
 				System.out.println("*** Reading above is in pixy state");
@@ -288,7 +289,7 @@ public class Robot extends TimedRobot
 						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						{
 							SmartDashboard.putNumber("__Close enough x", Ex);
-							Ex = Ex/10;
+							Ex = Ex/10; //change to 8 and test
 						}
 						if (pixy2.getEr() > -4 && pixy2.getEr() < 4)
 						{

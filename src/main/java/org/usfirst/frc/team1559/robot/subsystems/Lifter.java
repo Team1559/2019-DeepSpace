@@ -54,8 +54,8 @@ private double[] hatchPositions = new double[3];
 
 private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 12;
-private final double ticksToPort1 = (39-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = (65-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (37-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
 private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
