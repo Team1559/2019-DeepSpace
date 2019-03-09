@@ -82,7 +82,7 @@ public boolean isAxis = true;
 	public Lifter(OperatorInterface oiInput) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
-		goToBottom(1);
+		//goToBottom(1);
 
 		// potUseableBottom = getPot();
 		potUseableTop = potUseableBottom + potRange;
@@ -90,7 +90,7 @@ public boolean isAxis = true;
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
 		lifterMotor.configPeakCurrentLimit(75,TIMEOUT);
-		lifterMotor.configContinuousCurrentLimit(40, TIMEOUT);
+		lifterMotor.configContinuousCurrentLimit(10, TIMEOUT);//40
 		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
@@ -113,6 +113,8 @@ public boolean isAxis = true;
 		setupHatchPos();
 
 	}
+
+
 
 	public int getPot() {
 		return lifterMotor.getSelectedSensorPosition(Wiring.LIFTER_POT);
@@ -199,6 +201,19 @@ public boolean isAxis = true;
 	 * This method will do everything originally put into the robot.java class.
 	 * @author SonicDRJ
 	 */
+
+	public boolean initCalLifter()
+	{
+		if(lifterMotor.getOutputCurrent() < 5){
+			lifterMotor.set(ControlMode.PercentOutput, -0.1);
+			return false;
+		}
+		else{
+			recallibrateSystem();
+			return true;
+		}
+	}
+
 	public void driveLifter() {
 		/**
 		 * IMPORTANT!!!! 

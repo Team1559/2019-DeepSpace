@@ -39,7 +39,7 @@ public class Robot extends TimedRobot
 	// The distance sensors are set right and left from the perspective of the back of the robot.
 	public static DistSensor distRight; 
 	public static DistSensor distLeft;
-	private float jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex;
+	private double jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex;
 	private double Ey, errorX, errorR, errorY;
 	private int state;
 	private int lastState;
@@ -48,6 +48,7 @@ public class Robot extends TimedRobot
 	private double liftPotError = 100;
 	public boolean flagHatch = false;
 	private int arriveCounter = 0;
+	public boolean lifterCal = true; /*initial lifter calibrsation */
 
 	@Override
 	public void robotInit()
@@ -69,8 +70,8 @@ public class Robot extends TimedRobot
 			jKx = 0.015f;//.015
 			jKr = 0.016f;//0.016 
 			jKy = 0.009f;//shold be .009
-			pKx = -0.0125f;// maximum pixy translation (1/2 frame with)0.025
-			pKr = 0.005f;// maximum pixy angle0.005
+			pKx = -0.015f;// maximum pixy translation (1/2 frame with)0.025
+			pKr = 0.008f;// maximum pixy angle0.005
 			pKy = 0.042f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
 		
@@ -99,22 +100,28 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopInit()
 	{
-		
+		stepper.stepperWheeles = false;
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
 		stepper.retractPistons();
 		lifter.recallibrateSystem();
+		
 	}
 
 
 	@Override
 	public void teleopPeriodic()
 	{
+		
+		VisionData vDataTemp = vision.getData();
+		//vDataTemp.Print();
 
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
-			lifter.driveLifter();
+			if(lifterCal == true){
+				lifter.driveLifter();
+			}
 		// Grabber Functions
 			grabber.drive();
 			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
@@ -125,8 +132,9 @@ public class Robot extends TimedRobot
 				grabber.toggleHatch();
 			}
 		//Lifter Functions
-			lifter.driveLifter();
-
+			if(lifterCal == false){
+				lifterCal = lifter.initCalLifter();
+			}	
 			if(oi.getCopilotAxis(1) <= -0.9)
 			{
 				lifter.isAxis = true;
@@ -141,7 +149,7 @@ public class Robot extends TimedRobot
 			{
 				lifter.stop();
 			}
-			pixy2.lampoff();
+		//	pixy2.lampoff();
 			// Stepper Functions
 			stepper.activate();
 		}
@@ -154,21 +162,25 @@ public class Robot extends TimedRobot
 		vData.Print();
 		Ex = pixy2.getEx();
 		Er = pixy2.getEr();
-		
+		float Rightdistance = (float)distRight.getRange()-Constants.IR_OFFSET_RIGHT;
+		float Leftdistance = (float)distLeft.getRange()-Constants.IR_OFFSET_LEFT;
+
 			if(oi.copilot.getRawButton(4) || oi.copilot.getRawButton(5) || oi.copilot.getRawButton(6))
 					{
-						wallGap = 3;
+						//wallGap = 3;
+						Ey = Math.min(Rightdistance,Leftdistance) - 3;
 					}
 					else 
 					{
-						wallGap = 1;
+						//wallGap = 1;
+						//Ey = Rightdistance + 1;
+						Ey = Math.min(Rightdistance,Leftdistance) - 1;
 					}
 		
-		float Rightdistance = (float)distRight.getRange()-Constants.IR_OFFSET_RIGHT;
-		float Leftdistance = (float)distLeft.getRange()-Constants.IR_OFFSET_LEFT;
-		Ey = Math.min(Rightdistance,Leftdistance) + wallGap;
+		
+		//Ey = Math.min(Rightdistance,Leftdistance) + wallGap;
 		//Ey = Rightdistance;
-		double maxPixyRange = 18.0;
+		double maxPixyRange = 15.0;
 		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
 		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 		SmartDashboard.putNumber("RiGhtIRDistance,", Rightdistance);
@@ -180,12 +192,13 @@ public class Robot extends TimedRobot
 		//case 3=Pixy
 		//case 4 = Ball
 		//case 5=Retreat
-		if(v.status == 1)
-		{
-			System.out.println("Pixy " + pixy2.getEx() + " " + Ey + " " + pixy2.getEr());
-		}
+		// if(v.status == 1)
+		// {
+		// 	System.out.println("Pixy " + pixy2.getEx() + " " + Ey + " " + pixy2.getEr());
+		// }
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) 
 		{
+			pixy2.lampon();
 			if(state == 0) {
 				state = 1;
 				System.out.println("JETSON MODE");
@@ -199,7 +212,6 @@ public class Robot extends TimedRobot
 		{
 			case 0: //DRIVE :(
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-				pixy2.lampoff();
 				break;
 			case 1: 			//JETSON
 				lastState = state;	
@@ -258,17 +270,42 @@ public class Robot extends TimedRobot
 				lifter.driveLifter();
 				SmartDashboard.putNumber("pot error", liftPotError);
 				//check to see if lifter is within a range of values
-				drive.driveCartesian(0,0,0);
+				if(v.status == 1)
+				{
+					counter = 100;
+					if (pixy2.getEx() > -1 && pixy2.getEx() < 1)
+					{
+						SmartDashboard.putNumber("__Close enough x", Ex);
+						Ex = Ex/11; //change to 8 and test
+					}
+					// if (pixy2.getEr() > -2 && pixy2.getEr() < 2)
+					// {
+					// 	SmartDashboard.putNumber("__Close enough r", Er);
+					// 	Er = Er/3; 
+					// }
+					drive.driveCartesian(pKx * Ex, 0.0, pKr * Er);
+					SmartDashboard.putNumber("Pixyx",pixy2.getEx());
+					SmartDashboard.putNumber("Pixyy", Ey);
+					SmartDashboard.putNumber("Pixyr",pixy2.getEr());
+					SmartDashboard.putString("Mode","pixy");
+					System.out.println("Pixy " + Ex + "EY " + Ey + "ER " + Er);
+				}
 				if(liftPotError < 1) {
 					if(v.status == 1)
 					{
-				    try{
-					Thread.sleep(500,0);
+						if(pixy2.getEr() >= -1.5 && pixy2.getEr() <= 1.5 && pixy2.getEx() >= -1.5 && pixy2.getEx() <= 1.5)
+						{
+				    // try{
+					// Thread.sleep(500,0);
+					// }
+					// catch (Exception e) {
+					// }
+						state = 3;
+						counter = 1000;
+						}
 					}
-					catch (Exception e) {
-					}
-					state = 3;
-					counter = 1000;
+					else{
+						drive.driveCartesian(0, 0.15, 0);
 					}
 				}
 				liftPotError = Math.abs(lifter.getPotError());
@@ -284,18 +321,18 @@ public class Robot extends TimedRobot
 				{
 					System.out.println("we are in the pixy state");
 					counter = 100;
-					if(Math.abs(Ey)>=2.5 || Math.abs(Er)>=4)
+					if(Math.abs(Ey)>=1.0) /*|| Math.abs(Er)>=4)*/
 					{
 						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						{
 							SmartDashboard.putNumber("__Close enough x", Ex);
-							Ex = Ex/10; //change to 8 and test
+							Ex = Ex/11; //change to 8 and test
 						}
-						if (pixy2.getEr() > -4 && pixy2.getEr() < 4)
-						{
-							SmartDashboard.putNumber("__Close enough r", Er);
-							Er = Er/15; 
-						}
+						// if (pixy2.getEr() > -3 && pixy2.getEr() < 3)
+						// {
+						// 	SmartDashboard.putNumber("__Close enough r", Er);
+						// 	Er = Er/3; 
+						// }
 						if(Er < -3 || Er > 3)
 						{
 							Ey /= 5;	
@@ -333,7 +370,7 @@ public class Robot extends TimedRobot
 					{
 						counter--;
 						System.out.println("No Pixy Reading, retrying");
-						drive.driveCartesian(0.1, 0, 0);
+						drive.driveCartesian(0, 0.1, 0);
 					}
 				}
 				break;
@@ -380,7 +417,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void disabledInit()
 	{
-		//pixy2.lampoff();
+		pixy2.lampoff();
 		LED_Relay.set(Value.kOff);
 	}
 
