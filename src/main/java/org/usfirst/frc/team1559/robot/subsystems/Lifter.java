@@ -54,7 +54,7 @@ private double[] hatchPositions = new double[3];
 
 private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 12;
-private final double ticksToPort1 = (37-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
@@ -183,12 +183,12 @@ public boolean isAxis = true;
 	}
 
 	public void goUp() {
-		lifterMotor.set(ControlMode.PercentOutput,0.5);
+		lifterMotor.set(ControlMode.PercentOutput,0.7); /* was 0.5 */
 		System.out.println("Going up!!!!");
 	}
 
 	public void goDown() {
-		lifterMotor.set(ControlMode.PercentOutput,-0.3);
+		lifterMotor.set(ControlMode.PercentOutput,-0.4); /* was -0.3 */
 		System.out.println("Going down!!!!");
 	}
 

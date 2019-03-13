@@ -45,9 +45,9 @@ public class Pixy {
             v.y1=returned[11];
             v.index=returned[12];
             v.flags=returned[7];
-            v.Ex = (int)v.error_x(v.x0, v.x1);
+            v.Ex = v.error_x(v.x0, v.x1);
             Ex = v.Ex;
-            v.Er = (int)v.error_r(v.y0, v.y1, v.x0, v.x1);
+            v.Er = v.error_r(v.y0, v.y1, v.x0, v.x1);
             Er = v.Er;
             if(v.flags==6) {
                 v.status=1;

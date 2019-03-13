@@ -49,6 +49,7 @@ public class Robot extends TimedRobot
 	public boolean flagHatch = false;
 	private int arriveCounter = 0;
 	public boolean lifterCal = true; /*initial lifter calibrsation */
+	private double xDrive1;
 
 	@Override
 	public void robotInit()
@@ -70,11 +71,11 @@ public class Robot extends TimedRobot
 			jKx = 0.015f;//.015
 			jKr = 0.016f;//0.016 
 			jKy = 0.009f;//shold be .009
-			pKx = -0.015f;// maximum pixy translation (1/2 frame with)0.025
-			pKr = 0.008f;// maximum pixy angle0.005
-			pKy = 0.042f;//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)
+			pKx = -0.015f;// maximum pixy translation (1/2 frame with)0.0250.007
+			pKr = 0.015f;// maximum pixy angle0.005//0.007
+			pKy = 0.075f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
-		
+			lifter.recallibrateSystem();
 		// Stepper
 			stepper.stopDrive();
 	}	
@@ -104,7 +105,7 @@ public class Robot extends TimedRobot
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
 		stepper.retractPistons();
-		lifter.recallibrateSystem();
+		
 		
 	}
 
@@ -114,7 +115,7 @@ public class Robot extends TimedRobot
 	{
 		
 		VisionData vDataTemp = vision.getData();
-		//vDataTemp.Print();
+		vDataTemp.Print();
 
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
@@ -173,8 +174,8 @@ public class Robot extends TimedRobot
 					else 
 					{
 						//wallGap = 1;
-						//Ey = Rightdistance + 1;
-						Ey = Math.min(Rightdistance,Leftdistance) - 1;
+						Ey =Math.min( Rightdistance, 48 )+ 1;
+						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
 					}
 		
 		
@@ -198,14 +199,25 @@ public class Robot extends TimedRobot
 		// }
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) 
 		{
-			pixy2.lampon();
+			// pixy2.lampon();
+			SmartDashboard.putNumber("Pixyx",pixy2.getEx());
+			SmartDashboard.putNumber("Pixyy", Ey);
+			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
+			SmartDashboard.putString("Mode","pixy");
+			
+			SmartDashboard.putNumber("__y", jKy * errorY);
+			SmartDashboard.putNumber("__r",jKr * errorR);	
+			SmartDashboard.putNumber("Pixyx",pixy2.getEx());
+			SmartDashboard.putNumber("Pixyy", Ey);
+			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
+			SmartDashboard.putString("Mode","pixy");
 			if(state == 0) {
-				state = 1;
-				System.out.println("JETSON MODE");
+				state = 1;//change back to state 1
 			}
 		}
 		else {
 			state = 0;
+			pixy2.lampoff();
 			//System.out.println("DRIVE MODE");
 		}
 		switch(state)
@@ -216,8 +228,9 @@ public class Robot extends TimedRobot
 			case 1: 			//JETSON
 				lastState = state;	
 				arriveCounter = 0;	
-				System.out.println("It's alive");
+				//System.out.println("It's alive");
 				//pixy2.lampon();
+				
 				if(vData.status==1) {
 					if(vData.y >= maxPixyRange )
 					{
@@ -235,34 +248,34 @@ public class Robot extends TimedRobot
 							errorR = errorR/5.0;
 						}
 
-						double xDrive = (jKx * errorX)*24/vData.y;
+						double xDrive = (jKx * errorX)*36/vData.y;
+						xDrive1 = xDrive;
 
 						if(xDrive > 1.0)
 							xDrive = 1.0;
 						else if(xDrive < -1.0)
 							xDrive = -1.0;
+						errorY = vData.y;	
+						double yDrive = jKy * errorY;
+						double ymax = 0.85;
+						
+						if(yDrive > .85)
+							yDrive = .85;
+						else if(yDrive < -.85)
+							yDrive = -.85;
 
-						errorY = vData.y;
-						// SmartDashboard.putNumber("ex",vData.x);
-						// SmartDashboard.putNumber("ey", vData.y);
-						// SmartDashboard.putNumber("er",vData.r);	
-					
-					
-						SmartDashboard.putNumber("__x",xDrive);
-						SmartDashboard.putNumber("__y", jKy * errorY);
-						SmartDashboard.putNumber("__r",jKr * errorR);	
-						SmartDashboard.putString("Mode","jetson");
-						drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
+									
+						drive.driveCartesian(xDrive, yDrive , jKr * errorR);	
 					}
 					else{
+						pixy2.lampon();
 						liftPotError = 100;
+						drive.driveCartesian(0, 0, 0);
 						state = 2;
-						System.out.println("LIFTER MODE");
 					}
 				}
 				else{
 					state = 0;
-					System.out.println("DRIVE MODE");
 				}
 				break;
 			case 2:  //LIFTER
@@ -273,104 +286,60 @@ public class Robot extends TimedRobot
 				if(v.status == 1)
 				{
 					counter = 100;
-					if (pixy2.getEx() > -1 && pixy2.getEx() < 1)
-					{
-						SmartDashboard.putNumber("__Close enough x", Ex);
-						Ex = Ex/11; //change to 8 and test
-					}
-					// if (pixy2.getEr() > -2 && pixy2.getEr() < 2)
+					// if (pixy2.getEx() > -2.0 && pixy2.getEx() < 2.0)
 					// {
-					// 	SmartDashboard.putNumber("__Close enough r", Er);
-					// 	Er = Er/3; 
+					// 	System.out.println("errorX" + errorX);
+					// 	Ex = Ex/6; //change to 8 and test
 					// }
-					drive.driveCartesian(pKx * Ex, 0.0, pKr * Er);
-					SmartDashboard.putNumber("Pixyx",pixy2.getEx());
-					SmartDashboard.putNumber("Pixyy", Ey);
-					SmartDashboard.putNumber("Pixyr",pixy2.getEr());
-					SmartDashboard.putString("Mode","pixy");
-					System.out.println("Pixy " + Ex + "EY " + Ey + "ER " + Er);
+
+					drive.driveCartesian(pKx * Ex, 0.05, pKr * Er); /* do we want a nominally small y? */
+					System.out.println("Pixy " + pixy2.getEx() + "EY " + Ey + "ER " + pixy2.getEr());
 				}
-				if(liftPotError < 1) {
-					if(v.status == 1)
-					{
-						if(pixy2.getEr() >= -1.5 && pixy2.getEr() <= 1.5 && pixy2.getEx() >= -1.5 && pixy2.getEx() <= 1.5)
-						{
-				    // try{
-					// Thread.sleep(500,0);
-					// }
-					// catch (Exception e) {
-					// }
-						state = 3;
-						counter = 1000;
-						}
-					}
-					else{
-						drive.driveCartesian(0, 0.15, 0);
-					}
+				else{
+					drive.driveCartesian((vData.x*jKx)*0.5, 0.1 , (vData.r*jKr)*0.5);
+					System.out.println("Using Jetson ");
 				}
 				liftPotError = Math.abs(lifter.getPotError());
-				break;
-			case 3: //PIXY
-				
-				
-
-				lastState = state;
-				System.out.println("*** Reading above is in pixy state");
-
-				if(v.status == 1)
-				{
-					System.out.println("we are in the pixy state");
-					counter = 100;
-					if(Math.abs(Ey)>=1.0) /*|| Math.abs(Er)>=4)*/
+				System.out.println(liftPotError + "" + v.status);
+				if(liftPotError < 1.0) {
+					System.out.println("lifter pos is correct");
+					if(v.status == 1)
 					{
-						if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
+						if((pixy2.getEr() >= -1.5) && (pixy2.getEr() <= 1.5) && (pixy2.getEx() >= -2.5) && (pixy2.getEx() <= 2.5))
 						{
-							SmartDashboard.putNumber("__Close enough x", Ex);
-							Ex = Ex/11; //change to 8 and test
+							System.out.println("You Enter into charge State");
+							drive.driveCartesian(0, 0, 0);
+							state = 3;
+							counter = 1000;
 						}
-						// if (pixy2.getEr() > -3 && pixy2.getEr() < 3)
-						// {
-						// 	SmartDashboard.putNumber("__Close enough r", Er);
-						// 	Er = Er/3; 
-						// }
-						if(Er < -3 || Er > 3)
-						{
-							Ey /= 5;	
-						}
-						drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er);
-						//to go right increase, to go left decrease
-						//Ex = Rightdistance - Leftdistance;
-						SmartDashboard.putNumber("Pixyx",pixy2.getEx());
-						SmartDashboard.putNumber("Pixyy", Ey);
-						SmartDashboard.putNumber("Pixyr",pixy2.getEr());
-						SmartDashboard.putString("Mode","pixy");
-						System.out.println("Pixy " + Ex + "EY " + Ey + "ER " + Er);
-						arriveCounter = 0;
 					}
-					 else
-					 {
-						 arriveCounter++;
-						 if(arriveCounter > 10)
-						 {
-							state = 4;
-							System.out.println("Ball MODE-Arrived");
-							counter = 100;
-						 }
-					 }
+				}
+				break;
+			case 3: //CHARGE
+				
+				lastState = state;
+				counter = 100;
+				if((Ey)>=1.0) /*|| Math.abs(Er)>=4)*/
+				{
+					arriveCounter = 0;
+					if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
+						Ex = Ex/6; //change to 8 and test
+					
+					if(v.status == 1)
+						drive.driveCartesian(0, pKy * Ey , (pKr * Er)/2);
+					else
+						drive.driveCartesian(0, pKy * Ey , 0);
+
 				}
 				else
 				{
-					if(counter<=1)
+					arriveCounter++;
+					drive.driveCartesian(0, 0.0, 0);
+					if(arriveCounter > 8)
 					{
-						state = 4;
-						System.out.println("Ball MODE-No Pixy Reading");
-						counter = 100;
-					}
-					else
-					{
-						counter--;
-						System.out.println("No Pixy Reading, retrying");
-						drive.driveCartesian(0, 0.1, 0);
+					state = 4;
+					System.out.println("Ball MODE-Arrived");
+					counter = 100;
 					}
 				}
 				break;
@@ -380,6 +349,8 @@ public class Robot extends TimedRobot
 				if(oi.getCopilotAxis(3)==1 && counter > 0)  
 				{
 					grabber.removeCargo();
+					grabber.cargocounter = 1;
+           			grabber.cargotimer = 0;
 					counter-=1;
 				}
 				else {
@@ -387,15 +358,16 @@ public class Robot extends TimedRobot
 					state = 5;
 					System.out.println("Retreat Mode");
 				}
+				break;
 			case 5: //RETREAT!!!
 				lastState = state;
-				if(Math.min(Leftdistance,Rightdistance)<= 36) {
-					drive.driveCartesian(0, -0.3, 0);
+				if(vData.y<= 30) {
+					drive.driveCartesian(0, -0.5, 0);
 				}
-				else {
+				else  {
 					drive.driveCartesian(0, 0, 0);
 				}
-				if(Math.min(Leftdistance,Rightdistance)>= 24){
+				if(Math.min(Leftdistance,Rightdistance)>= 12){
 					lifter.goToBottom(1);
 					if(flagHatch == true){
 						grabber.toggleHatch();
@@ -409,7 +381,7 @@ public class Robot extends TimedRobot
 				state = 0;
 				System.out.println("GOING FROM UNKNOWN STATE TO DRIVE MODE ERROR ERROR ERROR ERROR ERROR ERROR");
 				break;
-		}
+			}
 		SmartDashboard.putNumber("State", state);
 		SmartDashboard.putNumber("Last State", lastState);
 	}

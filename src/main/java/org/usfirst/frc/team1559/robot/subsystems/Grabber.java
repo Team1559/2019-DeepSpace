@@ -19,8 +19,8 @@ public class Grabber
     private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
     private Talon ballIntake;
     private double speedBall, slowBall, speedHatch, stopHatch;
-    private int cargocounter;
-    private int cargotimer;
+    public int cargocounter;
+    public int cargotimer;
     private boolean hatchUp;
     public Grabber(OperatorInterface oi)
     {
