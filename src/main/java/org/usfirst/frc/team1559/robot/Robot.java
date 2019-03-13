@@ -199,7 +199,7 @@ public class Robot extends TimedRobot
 		// }
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) 
 		{
-			// pixy2.lampon();
+			pixy2.lampon();
 			SmartDashboard.putNumber("Pixyx",pixy2.getEx());
 			SmartDashboard.putNumber("Pixyy", Ey);
 			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
