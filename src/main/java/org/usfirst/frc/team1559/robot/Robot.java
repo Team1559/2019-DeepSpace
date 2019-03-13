@@ -176,6 +176,7 @@ public class Robot extends TimedRobot
 						//wallGap = 1;
 						Ey =Math.min( Rightdistance, 48 )+ 1;
 						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
+						lifter.goToHatchPos(1);
 					}
 		
 		
