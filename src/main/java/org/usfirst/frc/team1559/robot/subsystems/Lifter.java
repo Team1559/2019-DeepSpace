@@ -52,7 +52,7 @@ private OperatorInterface oi;
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
 
-private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
+private final double ticksPerInch = 7.22; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 12;
 private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
@@ -63,13 +63,13 @@ private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
-public int potUseableBottom; //Code will auto adjust values based on this one.
+public int potUseableBottom = 3401; //Code will auto adjust values based on this one.
 public int potUseableTop; //Placeholder
-public int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+public int potRange = 543; //This is just a placeholder value. Make sure we find the actual range that we want.
 public int potError;
 
-private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
-private final int potMin = 5; // This is the lowest the pot can possibly go.
+private final int potMax = 4095; // This is a placeholder. This is the farthest the pot can rotate.
+private final int potMin = 3077; // This is the lowest the pot can possibly go.
 
 private double kP = 17; //Just for testing purposes
 private double kI = 0;
@@ -89,14 +89,15 @@ public boolean isAxis = true;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
-		lifterMotor.configPeakCurrentLimit(75,TIMEOUT);
-		lifterMotor.configContinuousCurrentLimit(10, TIMEOUT);//40
-		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
+		lifterMotor.configPeakCurrentLimit(40,TIMEOUT);//75
+		lifterMotor.configContinuousCurrentLimit(8, TIMEOUT);
+		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
+		lifterMotor.configForwardSoftLimitEnable(true);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
 		lifterMotor.configPeakOutputForward(1, TIMEOUT);
-		lifterMotor.configPeakOutputReverse(-0.65, TIMEOUT);
+		lifterMotor.configPeakOutputReverse(-0.75, TIMEOUT);
 		lifterMotor.config_kP(0, kP, TIMEOUT);
 		lifterMotor.config_kI(0, kI, TIMEOUT);
 		lifterMotor.config_kD(0, kD, TIMEOUT);
@@ -108,10 +109,8 @@ public boolean isAxis = true;
 				//Do we want the motor to stop at the pot max?
 			}
 		}
-		
 		setupPortPos();
 		setupHatchPos();
-
 	}
 
 
@@ -221,12 +220,13 @@ public boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		// System.out.println(getPot()); //For testing purposes
-		SmartDashboard.putNumber("Pot", getPot());
+		SmartDashboard.putNumber("Lifter Pot", getPot());
 		SmartDashboard.putNumber("Range", potRange);
 		SmartDashboard.putNumber("Pot Top", potUseableTop);
 		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
+		SmartDashboard.putNumber("Current", lifterMotor.getOutputCurrent());
 		//maxOverride();
 		//need to add in auto button into this class
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
