@@ -67,6 +67,8 @@ public class Robot extends TimedRobot
 			pKy = 0.015f;//slow mode for y on pixy
 			LED_Relay.set(Value.kOn);
 
+			pixy2.lampon();
+
 		// Stepper
 			stepper.stopDrive();
 	}	
@@ -146,7 +148,6 @@ public class Robot extends TimedRobot
 			if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
 			{
 				System.out.println("It's alive");
-				pixy2.lampon();
 				if(vData.status==1)
 				{
 					if(vData.y >= maxPixyRange)

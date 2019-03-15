@@ -53,7 +53,7 @@ private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
 
 private final double ticksPerInch = 7.22; // Maybe it should be 5.93 or a similar value. Original 1.79
-private final double homeInches = 12;
+private final double homeInches = 11.25;
 private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
@@ -63,13 +63,13 @@ private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
-public int potUseableBottom = 3401; //Code will auto adjust values based on this one.
+public int potUseableBottom = 284; //Code will auto adjust values based on this one.
 public int potUseableTop; //Placeholder
-public int potRange = 543; //This is just a placeholder value. Make sure we find the actual range that we want.
+public int potRange = 535; //This is just a placeholder value. Make sure we find the actual range that we want.
 public int potError;
 
 private final int potMax = 4095; // This is a placeholder. This is the farthest the pot can rotate.
-private final int potMin = 3077; // This is the lowest the pot can possibly go.
+private final int potMin = 284; // This is the lowest the pot can possibly go.
 
 private double kP = 17; //Just for testing purposes
 private double kI = 0;
@@ -93,6 +93,9 @@ public boolean isAxis = true;
 		lifterMotor.configContinuousCurrentLimit(8, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
 		lifterMotor.configForwardSoftLimitEnable(true);
+		lifterMotor.configForwardSoftLimitThreshold(824);
+		lifterMotor.configReverseSoftLimitEnable(true);
+		lifterMotor.configReverseSoftLimitThreshold(284);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
