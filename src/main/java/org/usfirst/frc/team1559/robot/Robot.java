@@ -75,7 +75,7 @@ public class Robot extends TimedRobot
 			pKr = 0.015f;// maximum pixy angle0.005//0.007
 			pKy = 0.075f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
-			lifter.recallibrateSystem();
+			//lifter.recallibrateSystem();
 		// Stepper
 			stepper.stopDrive();
 	}	
@@ -116,13 +116,17 @@ public class Robot extends TimedRobot
 		
 		VisionData vDataTemp = vision.getData();
 		vDataTemp.Print();
-
+		// if(lifterCal == true){
+		// 	lifter.initCalLifter();
+		// }
+		// else{
+		// 	lifter.driveLifter();
+		// }
+		lifter.driveLifter();
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
-			if(lifterCal == true){
-				lifter.driveLifter();
-			}
+			
 		// Grabber Functions
 			grabber.drive();
 			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
@@ -171,12 +175,12 @@ public class Robot extends TimedRobot
 						//wallGap = 3;
 						Ey = Math.min(Rightdistance,Leftdistance) - 3;
 					}
-					else 
+					else if(oi.copilot.getRawButton(Constants.LINEASSIST))
 					{
 						//wallGap = 1;
 						Ey =Math.min( Rightdistance, 48 )+ 1;
 						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
-						lifter.goToHatchPos(1);
+						//lifter.goToHatchPos(1);
 					}
 		
 		

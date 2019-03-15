@@ -63,15 +63,15 @@ private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
-public int potUseableBottom = 284; //Code will auto adjust values based on this one.
+public int potUseableBottom = 286; //Code will auto adjust values based on this one.
 public int potUseableTop; //Placeholder
 public int potRange = 535; //This is just a placeholder value. Make sure we find the actual range that we want.
 public int potError;
 
 private final int potMax = 4095; // This is a placeholder. This is the farthest the pot can rotate.
-private final int potMin = 284; // This is the lowest the pot can possibly go.
+private final int potMin = 285; // This is the lowest the pot can possibly go.
 
-private double kP = 17; //Just for testing purposes
+private double kP = 17; //Just for testing purposes 17
 private double kI = 0;
 private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
@@ -90,12 +90,12 @@ public boolean isAxis = true;
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
 		lifterMotor.configPeakCurrentLimit(40,TIMEOUT);//75
-		lifterMotor.configContinuousCurrentLimit(8, TIMEOUT);
+		lifterMotor.configContinuousCurrentLimit(12, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
-		lifterMotor.configForwardSoftLimitEnable(true);
-		lifterMotor.configForwardSoftLimitThreshold(824);
-		lifterMotor.configReverseSoftLimitEnable(true);
-		lifterMotor.configReverseSoftLimitThreshold(284);
+		lifterMotor.configForwardSoftLimitEnable(false);
+		// lifterMotor.configForwardSoftLimitThreshold(821);
+		 lifterMotor.configReverseSoftLimitEnable(false);
+		// lifterMotor.configReverseSoftLimitThreshold(287);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
