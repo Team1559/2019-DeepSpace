@@ -59,7 +59,7 @@ private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholde
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
 private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = (45-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
