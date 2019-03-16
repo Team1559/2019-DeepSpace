@@ -54,13 +54,13 @@ private double[] hatchPositions = new double[3];
 
 private final double ticksPerInch = 7.22; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 11.25;
-private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort1 = (27-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToPort2 = (58-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
 
 private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch2 = (45-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch2 = (46.5-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToHatch3 = (69-homeInches) * ticksPerInch; //Placeholder value
 
 
 public int potUseableBottom = 286; //Code will auto adjust values based on this one.
@@ -93,9 +93,9 @@ public boolean isAxis = true;
 		lifterMotor.configContinuousCurrentLimit(12, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
 		lifterMotor.configForwardSoftLimitEnable(false);
-		// lifterMotor.configForwardSoftLimitThreshold(821);
-		 lifterMotor.configReverseSoftLimitEnable(false);
-		// lifterMotor.configReverseSoftLimitThreshold(287);
+		//lifterMotor.configForwardSoftLimitThreshold(794);
+		lifterMotor.configReverseSoftLimitEnable(false);
+		//lifterMotor.configReverseSoftLimitThreshold(255);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);

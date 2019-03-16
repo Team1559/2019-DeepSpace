@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1559.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit()
 	{
+			CameraServer.getInstance().startAutomaticCapture();
 		// Sub-System Instantiations
 			drive = new DriveTrain();
 			oi = new OperatorInterface();
