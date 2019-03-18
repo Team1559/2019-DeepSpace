@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1559.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit()
 	{
+			CameraServer.getInstance().startAutomaticCapture();
 		// Sub-System Instantiations
 			drive = new DriveTrain();
 			oi = new OperatorInterface();
@@ -75,7 +77,7 @@ public class Robot extends TimedRobot
 			pKr = 0.015f;// maximum pixy angle0.005//0.007
 			pKy = 0.075f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
-			lifter.recallibrateSystem();
+			//lifter.recallibrateSystem();
 		// Stepper
 			stepper.stopDrive();
 	}	
@@ -116,13 +118,17 @@ public class Robot extends TimedRobot
 		
 		VisionData vDataTemp = vision.getData();
 		vDataTemp.Print();
-
+		// if(lifterCal == true){
+		// 	lifter.initCalLifter();
+		// }
+		// else{
+		// 	lifter.driveLifter();
+		// }
+		lifter.driveLifter();
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
-			if(lifterCal == true){
-				lifter.driveLifter();
-			}
+			
 		// Grabber Functions
 			grabber.drive();
 			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))

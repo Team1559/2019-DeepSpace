@@ -89,14 +89,18 @@ public boolean isAxis = true;
 
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, TIMEOUT);
 		lifterMotor.enableCurrentLimit(true);
-		lifterMotor.configPeakCurrentLimit(75,TIMEOUT);
-		lifterMotor.configContinuousCurrentLimit(10, TIMEOUT);//40
-		lifterMotor.configPeakCurrentDuration(1800,TIMEOUT);
+		lifterMotor.configPeakCurrentLimit(40,TIMEOUT);//75
+		lifterMotor.configContinuousCurrentLimit(12, TIMEOUT);
+		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
+		lifterMotor.configForwardSoftLimitEnable(false);
+		//lifterMotor.configForwardSoftLimitThreshold(794);
+		lifterMotor.configReverseSoftLimitEnable(false);
+		//lifterMotor.configReverseSoftLimitThreshold(255);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
 		lifterMotor.configPeakOutputForward(1, TIMEOUT);
-		lifterMotor.configPeakOutputReverse(-0.65, TIMEOUT);
+		lifterMotor.configPeakOutputReverse(-0.75, TIMEOUT);
 		lifterMotor.config_kP(0, kP, TIMEOUT);
 		lifterMotor.config_kI(0, kI, TIMEOUT);
 		lifterMotor.config_kD(0, kD, TIMEOUT);
@@ -108,10 +112,8 @@ public boolean isAxis = true;
 				//Do we want the motor to stop at the pot max?
 			}
 		}
-		
 		setupPortPos();
 		setupHatchPos();
-
 	}
 
 
@@ -221,12 +223,13 @@ public boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		// System.out.println(getPot()); //For testing purposes
-		SmartDashboard.putNumber("Pot", getPot());
+		SmartDashboard.putNumber("Lifter Pot", getPot());
 		SmartDashboard.putNumber("Range", potRange);
 		SmartDashboard.putNumber("Pot Top", potUseableTop);
 		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);
 		SmartDashboard.putNumber("Pot Max", potMax);
 		SmartDashboard.putNumber("Pot Min", potMin);
+		SmartDashboard.putNumber("Current", lifterMotor.getOutputCurrent());
 		//maxOverride();
 		//need to add in auto button into this class
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 

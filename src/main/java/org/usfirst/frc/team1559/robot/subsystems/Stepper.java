@@ -18,6 +18,8 @@ import org.usfirst.frc.team1559.robot.Pixy;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team1559.robot.Constants;
 
 public class Stepper {
@@ -238,5 +240,6 @@ public class Stepper {
 		if(stepperWheeles == true){
 			driveForward(Robot.oi.getPilotY());
 		}
+	SmartDashboard.putNumber("Stepper Pot", getstepperpot());
 	}
 }

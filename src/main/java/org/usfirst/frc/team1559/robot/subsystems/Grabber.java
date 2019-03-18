@@ -28,7 +28,7 @@ public class Grabber
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
-        speedBall = 0.8; //FIND A SPEED THAT WORKSs
+        speedBall = 0.85; //FIND A SPEED THAT WORKSs
         slowBall = 0.4;
         speedHatch = 0.5; //FIND A SPEED THAT WORKS
         stopHatch = 0.5;
@@ -99,7 +99,7 @@ public class Grabber
     }
     public void removeCargo()
     {
-        ballIntake.set(-speedBall);
+        ballIntake.set(-1);
      //ControlMode.PercentOutput,  was first argument
     }
     public void toggleHatch()
