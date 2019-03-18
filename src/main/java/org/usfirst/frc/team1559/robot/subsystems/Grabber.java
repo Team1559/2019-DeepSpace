@@ -16,7 +16,7 @@ public class Grabber
 {
 
     private Solenoid solenoid;
-    private Solenoid hatchsnatcher;
+    private static Solenoid hatchsnatcher;
     private Talon ballIntake;
     private double speedBall, slowBall, speedHatch, stopHatch;
     public int cargocounter;
@@ -88,7 +88,7 @@ public class Grabber
     {
         hatchsnatcher.set(true); //go Snatch that Hatch
     }
-    public void resetHatch()
+    public static void resetHatch()
     {
         hatchsnatcher.set(false); //bring that hatch in bb
     }

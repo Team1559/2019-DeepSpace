@@ -364,6 +364,7 @@ public class Robot extends TimedRobot
 					counter-=1;
 				}
 				else {
+					Grabber.resetHatch();
 					flagHatch = true;
 					state = 5;
 					System.out.println("Retreat Mode");
