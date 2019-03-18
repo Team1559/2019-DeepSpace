@@ -48,7 +48,6 @@ public class Grabber
             cargocounter = 1;
             cargotimer = 0;
             removeCargo();
-            releasePiston();
         }
         if(cargotimer>=1 && cargotimer <=8){
         cargotimer = cargotimer + 1;
