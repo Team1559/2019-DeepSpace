@@ -14,20 +14,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
-    private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
+
     private Solenoid solenoid;
-    private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
+    private Solenoid hatchsnatcher;
     private Talon ballIntake;
     private double speedBall, slowBall, speedHatch, stopHatch;
     public int cargocounter;
     public int cargotimer;
     private boolean hatchUp;
+    private boolean hatchGone;
     public Grabber(OperatorInterface oi)
     {
+        hatchsnatcher = new Solenoid(Wiring.HATCH_SNATCHER_PISTON);
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
-        hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
-        hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
         speedBall = 0.85; //FIND A SPEED THAT WORKSs
         slowBall = 0.4;
         speedHatch = 0.5; //FIND A SPEED THAT WORKS
@@ -84,6 +84,14 @@ public class Grabber
     {
         solenoid.set(false); //bring that hatch in bb
     }
+    public void releaseHatch()
+    {
+        hatchsnatcher.set(true); //go Snatch that Hatch
+    }
+    public void resetHatch()
+    {
+        hatchsnatcher.set(false); //bring that hatch in bb
+    }
     public void setSpeedBall(double speed)
     {
         speedBall = speed; //sets the motor value
@@ -114,6 +122,20 @@ public class Grabber
         {
             hatchUp = true;
             resetPiston();
+            //this brings the hatch piston up
+        }
+    }
+    public void reliceHatch(){
+        if(hatchGone)
+        {
+            hatchGone = false;
+            releaseHatch();
+            //this brings the hatch piston down
+        }
+        else if(!hatchGone)
+        {
+            hatchGone = true;
+            resetHatch();
             //this brings the hatch piston up
         }
     }

@@ -25,14 +25,10 @@ public interface Wiring {
 	public static final int REAR_RIGHT_MOTOR = 4;
 
 	// Grabber
+	public static final int HATCH_SNATCHER_PISTON = 3;
 	public static final int NTK_SOLENOID = 0; // hatch pistion
 	public static final int NTK_TALONSRX_BI = 0; // This variable needs to be set 
-	public static final int NTK_TALONSRX_HR = 99 ; // This variable needs to be set 
-	public static final int NTK_TALONSRX_HL = 99 ; // This variable needs to be set 
-	public static final int NTK_DIGITALINPUT_LS1 = 0; // This variable needs to be set 
-	public static final int NTK_DIGITALINPUT_LS2 = 1; // This variable needs to be set  
-	public static final int NTK_DIGITALINPUT_LS3 = 2; // This variable needs to be set 
-	public static final int NTK_DIGITALINPUT_LS4 = 3; // This variable needs to be set 
+	
 
 
 	// Lifter   

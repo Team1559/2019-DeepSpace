@@ -138,6 +138,9 @@ public class Robot extends TimedRobot
 			else if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER2)) {
 				grabber.toggleHatch();
 			}
+			if(oi.pilot.getRawButtonPressed(3)){
+				grabber.releaseHatch();
+			}
 		//Lifter Functions
 			if(lifterCal == false){
 				lifterCal = lifter.initCalLifter();
@@ -175,14 +178,14 @@ public class Robot extends TimedRobot
 			if(oi.copilot.getRawButton(4) || oi.copilot.getRawButton(5) || oi.copilot.getRawButton(6))
 					{
 						//wallGap = 3;
-						Ey = Math.min(Rightdistance,Leftdistance) - 3;
+						Ey = Math.min(Rightdistance,Leftdistance) + 3;
 					}
 					else if(oi.copilot.getRawButton(Constants.LINEASSIST))
 					{
 						//wallGap = 1;
-						Ey =Math.min( Rightdistance, 48 )+ 1;
+						Ey =Math.min( Rightdistance, 48 ) + 3; //1 // for the new hatch snatcher
 						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
-						//lifter.goToHatchPos(1);
+						lifter.goToHatchPos(1);
 					}
 		
 		
