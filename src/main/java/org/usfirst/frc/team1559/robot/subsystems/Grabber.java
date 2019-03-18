@@ -42,11 +42,13 @@ public class Grabber
             cargotimer = 1;
             getCargo();
             SmartDashboard.putNumber("__Ball", 1);
+            resetPiston();
         }
         else if(Robot.oi.pilot.getRawButton(Constants.BTN_OUTTAKE)) {
             cargocounter = 1;
             cargotimer = 0;
-            removeCargo(); 
+            removeCargo();
+            releasePiston();
         }
         if(cargotimer>=1 && cargotimer <=8){
         cargotimer = cargotimer + 1;
