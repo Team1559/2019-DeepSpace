@@ -55,7 +55,6 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit()
 	{
-			CameraServer.getInstance().startAutomaticCapture();
 		// Sub-System Instantiations
 			drive = new DriveTrain();
 			oi = new OperatorInterface();
@@ -70,8 +69,8 @@ public class Robot extends TimedRobot
 			distLeft = new DistSensor(new AnalogInput (0));
 
 		// Vision/Pixy Variables and Constants
-			jKx = 0.015f;//.015
-			jKr = 0.016f;//0.016 
+			jKx = 0.022f;//.015
+			jKr = 0.04f;//0.016 
 			jKy = 0.009f;//shold be .009
 			pKx = -0.015f;// maximum pixy translation (1/2 frame with)0.0250.007
 			pKr = 0.015f;// maximum pixy angle0.005//0.007
@@ -80,7 +79,8 @@ public class Robot extends TimedRobot
 			//lifter.recallibrateSystem();
 		// Stepper
 			stepper.stopDrive();
-	}	
+			CameraServer.getInstance().startAutomaticCapture();
+		}	
 		
 	@Override
 	public void robotPeriodic()
@@ -187,7 +187,7 @@ public class Robot extends TimedRobot
 		
 		//Ey = Math.min(Rightdistance,Leftdistance) + wallGap;
 		//Ey = Rightdistance;
-		double maxPixyRange = 15.0;
+		double maxPixyRange = 20.0;
 		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
 		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 		SmartDashboard.putNumber("RiGhtIRDistance,", Rightdistance);
@@ -238,29 +238,29 @@ public class Robot extends TimedRobot
 				//pixy2.lampon();
 				
 				if(vData.status==1) {
-					if(vData.y >= maxPixyRange )
+					if(vData.y >= maxPixyRange || v.status == 1)
 					{
 						errorX = vData.x;
 						if ((errorX > -7.0) && (errorX < 7.0))
 						{
 							SmartDashboard.putNumber("__Close enough x", errorX);
-							errorX = errorX/5.0;
+							//errorX = errorX/5.0;
 						}
 
 						errorR = vData.r;
 						if ((errorR > -4.0) && (errorR < 4.0))
 						{
 							SmartDashboard.putNumber("__Close enough r", errorR);
-							errorR = errorR/5.0;
+							//errorR = errorR/5.0;
 						}
 
 						double xDrive = (jKx * errorX)*36/vData.y;
 						xDrive1 = xDrive;
-
-						if(xDrive > 1.0)
-							xDrive = 1.0;
-						else if(xDrive < -1.0)
-							xDrive = -1.0;
+						double xbound = .28;
+						if(xDrive > xbound)
+							xDrive = xbound;
+						else if(xDrive < -xbound)
+							xDrive = -xbound;
 						errorY = vData.y;	
 						double yDrive = jKy * errorY;
 						double ymax = 0.85;
@@ -277,7 +277,7 @@ public class Robot extends TimedRobot
 						pixy2.lampon();
 						liftPotError = 100;
 						drive.driveCartesian(0, 0, 0);
-						state = 2;
+						state = 0;//should be 2
 					}
 				}
 				else{
