@@ -17,9 +17,9 @@ public class DriveTrain
 	public static final double MAX_TICKS_PER_100MS = MAX_SPEED_FPS_TRACTION * 4096.0 / (Math.PI * WHEEL_RADIUS_INCHES_MECANUM * 2.0 / 12.0) / 10.0;
 	private DevilDrive drive;
 	public WPI_TalonSRX FL_TALON, RL_TALON, FR_TALON, RR_TALON;
-	private static final double kF = 0.14614285; //F-gain = (100% X 1023) / 7350 F-gain = 0.139183673 - (7350 is max speed)
-	private static final double kP = 0.475; // P-gain = (.1*1023)/(155) = 0.66 - (350 is average error)
-	private static final double kD = (5.0*kP);
+	private static final double kF = 0.163314; //F-gain = (100% X 1023) / 7350 F-gain = 0.139183673 - (7350 is max speed)
+	private static final double kP = 2.5*0.2046; // P-gain = (.1*1023)/(155) = 0.66 - (350 is average error)
+	private static final double kD = (12.0*kP);
 	private static final double cLR = 0.1;
 
 
@@ -75,7 +75,7 @@ public class DriveTrain
 		RR_TALON.configPeakOutputReverse(-1, TIMEOUT);
 
 		drive = new DevilDrive(FL_TALON, RL_TALON, FR_TALON, RR_TALON);
-		drive.setMaxOutput(7000);
+		drive.setMaxOutput(6264);
 
 	}
 

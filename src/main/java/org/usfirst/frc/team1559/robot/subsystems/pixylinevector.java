@@ -15,8 +15,8 @@ public class pixylinevector {
     public int y1;
     public int index;
     public int flags;
-    public int Ex; 
-    public int Er;
+    public double Ex; 
+    public double Er;
     public int timer;
     public double error_x(double x0, double x1){
         double xError=(40-x0);

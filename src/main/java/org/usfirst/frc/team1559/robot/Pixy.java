@@ -8,8 +8,8 @@ public class Pixy {
     private byte[] getFeatures = {(byte)0xae, (byte)0xc1, (byte)0x30, (byte)0x02, (byte)0x00, (byte)0x07, 0, 0};
     private byte[] lampon = {(byte)0xae, (byte)0xc1, (byte)0x16, (byte)0x02, (byte)0x01, (byte)0x01, 0, 0};
     private byte[] lampoff = {(byte)0xae, (byte)0xc1, (byte)0x16, (byte)0x02, (byte)0x00, (byte)0x00, 0, 0};
-    public float Ex;
-    public float Er;
+    public double Ex;
+    public double Er;
 	public Object v;
     public Pixy() {
         port = new SPI(SPI.Port.kOnboardCS1);
@@ -45,9 +45,9 @@ public class Pixy {
             v.y1=returned[11];
             v.index=returned[12];
             v.flags=returned[7];
-            v.Ex = (int)v.error_x(v.x0, v.x1);
+            v.Ex = v.error_x(v.x0, v.x1);
             Ex = v.Ex;
-            v.Er = (int)v.error_r(v.y0, v.y1, v.x0, v.x1);
+            v.Er = v.error_r(v.y0, v.y1, v.x0, v.x1);
             Er = v.Er;
             if(v.flags==6) {
                 v.status=1;
@@ -55,11 +55,11 @@ public class Pixy {
         }
         return v;
     }
-    public float getEx()
+    public double getEx()
         {
             return Ex;
         }
-    public float getEr()
+    public double getEr()
         {
             return Er;
         }

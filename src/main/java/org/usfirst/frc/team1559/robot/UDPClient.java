@@ -9,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 /**
  * This class is responsible for communicating to a server over UDP.
  */

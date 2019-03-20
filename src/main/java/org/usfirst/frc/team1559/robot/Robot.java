@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1559.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 import org.usfirst.frc.team1559.robot.subsystems.pixylinevector;
 import org.usfirst.frc.team1559.robot.Vision;
@@ -19,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1559.robot.subsystems.Lifter;
 import org.usfirst.frc.team1559.robot.subsystems.Stepper;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
+
+import java.lang.Thread;
 
 public class Robot extends TimedRobot
 {
@@ -37,9 +40,17 @@ public class Robot extends TimedRobot
 	// The distance sensors are set right and left from the perspective of the back of the robot.
 	public static DistSensor distRight; 
 	public static DistSensor distLeft;
-	private float jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex;
+	private double jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex;
 	private double Ey, errorX, errorR, errorY;
-	
+	private int state;
+	private int lastState;
+	private int counter;
+	private float wallGap;
+	private double liftPotError = 100;
+	public boolean flagHatch = false;
+	private int arriveCounter = 0;
+	public boolean lifterCal = true; /*initial lifter calibrsation */
+	private double xDrive1;
 
 	@Override
 	public void robotInit()
@@ -54,21 +65,22 @@ public class Robot extends TimedRobot
 			vision = new Vision();
 			grabber = new Grabber(oi);
 			stepper = new Stepper(oi);
-			distRight = new DistSensor(new AnalogInput (0));
-			distLeft = new DistSensor(new AnalogInput (2));
+			distRight = new DistSensor(new AnalogInput (2));
+			distLeft = new DistSensor(new AnalogInput (0));
 
-		// Jetson/Pixy Variables and Constants
-			jKx = -0.015f;
-			jKr = 0.016f;//0.014 
-			jKy = 0.007f;//shold be .009
-			pKx = 0.0125f;// maximum pixy translation (1/2 frame with)0.025
-			pKr = 0.007f;// maximum pixy angle0.014
-			pKy = 0.015f;//slow mode for y on pixy
-			LED_Relay.set(Value.kOn);
-
+		// Vision/Pixy Variables and Constants
+			jKx = 0.022f;//.015
+			jKr = 0.04f;//0.016 
+			jKy = 0.009f;//shold be .009
+			pKx = -0.015f;// maximum pixy translation (1/2 frame with)0.0250.007
+			pKr = 0.015f;// maximum pixy angle0.005//0.007
+			pKy = 0.075f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
+			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
+			//lifter.recallibrateSystem();
 		// Stepper
 			stepper.stopDrive();
-	}	
+			CameraServer.getInstance().startAutomaticCapture();
+		}	
 		
 	@Override
 	public void robotPeriodic()
@@ -91,148 +103,293 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopInit()
 	{
-		
+		stepper.stepperWheeles = false;
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
+		stepper.retractPistons();
+		
+		
 	}
 
 
 	@Override
 	public void teleopPeriodic()
 	{
+		
+		VisionData vDataTemp = vision.getData();
+		vDataTemp.Print();
+		// if(lifterCal == true){
+		// 	lifter.initCalLifter();
+		// }
+		// else{
+		// 	lifter.driveLifter();
+		// }
+		lifter.driveLifter();
 		// Air Compressor
-			airCompressor.setClosedLoopControl(true);
-
+		airCompressor.setClosedLoopControl(true);
+		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
+			
 		// Grabber Functions
 			grabber.drive();
-			
-
+			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
+			{
+				grabber.toggleHatch();
+			}
+			else if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER2)) {
+				grabber.toggleHatch();
+			}
 		//Lifter Functions
-			lifter.driveLifter(); //Main method for driving the Lifter (See Lifter class)
-
-			if(oi.getCopilotAxis(1) <= -0.9) //Manual control to go up
+			if(lifterCal == false){
+				lifterCal = lifter.initCalLifter();
+			}	
+			if(oi.getCopilotAxis(1) <= -0.9)
 			{
 				lifter.isAxis = true;
 				lifter.goUp();
 			}
-		 	if(oi.getCopilotAxis(1) >= 0.9) //Manual control to go down
+			if(oi.getCopilotAxis(1) >= 0.9)
 			{
 				lifter.isAxis = true;
 				lifter.goDown();
 			}
-			if((Math.abs(oi.getCopilotAxis(1)) <= 0.1)&& lifter.isAxis) //When in manual control, stops when the joystick is not being moved
+			if((Math.abs(oi.getCopilotAxis(1)) <= 0.1)&& lifter.isAxis)
 			{
 				lifter.stop();
 			}
-
+		//	pixy2.lampoff();
+			// Stepper Functions
+			stepper.activate();
+		}
+		stepper.getstepperpot();
+		SmartDashboard.putNumber("stepper_pot", stepper.getstepperpot());
 		// Pixy and Vision Functions
-			pixylinevector v=pixy2.getvector();
-		 	vision.update();
-		 	VisionData vData = vision.getData();
-		 	vData.Print();
-		 	Ex = pixy2.getEx();
-		 	Er = pixy2.getEr();
-	     
+		pixylinevector v=pixy2.getvector();
+		vision.update();
+		VisionData vData = vision.getData();
+		vData.Print();
+		Ex = pixy2.getEx();
+		Er = pixy2.getEr();
+		float Rightdistance = (float)distRight.getRange()-Constants.IR_OFFSET_RIGHT;
+		float Leftdistance = (float)distLeft.getRange()-Constants.IR_OFFSET_LEFT;
+
+			if(oi.copilot.getRawButton(4) || oi.copilot.getRawButton(5) || oi.copilot.getRawButton(6))
+					{
+						//wallGap = 3;
+						Ey = Math.min(Rightdistance,Leftdistance) - 3;
+					}
+					else 
+					{
+						//wallGap = 1;
+						Ey =Math.min( Rightdistance, 48 )+ 1;
+						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
+					}
 		
-			float Rightdistance = (float)distRight.getRange();
-			float Leftdistance = (float)distLeft.getRange();
-			Ey = Rightdistance - 5;
-
-			double maxPixyRange = 18.0;
-			SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
-			SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
-
-			if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
-			{
-				System.out.println("It's alive");
-				pixy2.lampon();
-				if(vData.status==1)
-				{
-					if(vData.y >= maxPixyRange)
+		
+		//Ey = Math.min(Rightdistance,Leftdistance) + wallGap;
+		//Ey = Rightdistance;
+		double maxPixyRange = 20.0;
+		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
+		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
+		SmartDashboard.putNumber("RiGhtIRDistance,", Rightdistance);
+		SmartDashboard.putNumber("LeFtIRdistance", Leftdistance);
+		
+		//case 0=Driver
+		//case 1=jetson
+		//case 2=lift
+		//case 3=Pixy
+		//case 4 = Ball
+		//case 5=Retreat
+		// if(v.status == 1)
+		// {
+		// 	System.out.println("Pixy " + pixy2.getEx() + " " + Ey + " " + pixy2.getEr());
+		// }
+		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) 
+		{
+			pixy2.lampon();
+			SmartDashboard.putNumber("Pixyx",pixy2.getEx());
+			SmartDashboard.putNumber("Pixyy", Ey);
+			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
+			SmartDashboard.putString("Mode","pixy");
+			
+			SmartDashboard.putNumber("__y", jKy * errorY);
+			SmartDashboard.putNumber("__r",jKr * errorR);	
+			SmartDashboard.putNumber("Pixyx",pixy2.getEx());
+			SmartDashboard.putNumber("Pixyy", Ey);
+			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
+			SmartDashboard.putString("Mode","pixy");
+			if(state == 0) {
+				state = 1;//change back to state 1
+			}
+		}
+		else {
+			state = 0;
+			pixy2.lampoff();
+			//System.out.println("DRIVE MODE");
+		}
+		switch(state)
+		{
+			case 0: //DRIVE :(
+				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+				break;
+			case 1: 			//JETSON
+				lastState = state;	
+				arriveCounter = 0;	
+				//System.out.println("It's alive");
+				//pixy2.lampon();
+				
+				if(vData.status==1) {
+					if(vData.y >= maxPixyRange || v.status == 1)
 					{
 						errorX = vData.x;
-
 						if ((errorX > -7.0) && (errorX < 7.0))
 						{
 							SmartDashboard.putNumber("__Close enough x", errorX);
-							errorX = errorX/5.0;
+							//errorX = errorX/5.0;
 						}
 
 						errorR = vData.r;
 						if ((errorR > -4.0) && (errorR < 4.0))
 						{
 							SmartDashboard.putNumber("__Close enough r", errorR);
-							errorR = errorR/5.0;
+							//errorR = errorR/5.0;
 						}
 
-						double xDrive = jKx * errorX;
+						double xDrive = (jKx * errorX)*36/vData.y;
+						xDrive1 = xDrive;
+						double xbound = .28;
+						if(xDrive > xbound)
+							xDrive = xbound;
+						else if(xDrive < -xbound)
+							xDrive = -xbound;
+						errorY = vData.y;	
+						double yDrive = jKy * errorY;
+						double ymax = 0.85;
+						
+						if(yDrive > .85)
+							yDrive = .85;
+						else if(yDrive < -.85)
+							yDrive = -.85;
 
-						if(xDrive > 1.0)
-							xDrive = 1.0;
-						else if(xDrive < -1.0)
-							xDrive = -1.0;
-
-						errorY = vData.y;
-						SmartDashboard.putNumber("ex",vData.x);
-						SmartDashboard.putNumber("ey", vData.y);
-						SmartDashboard.putNumber("er",vData.r);	
-					
-					
-						SmartDashboard.putNumber("__x",xDrive);
-						SmartDashboard.putNumber("__y", jKy * errorY);
-						SmartDashboard.putNumber("__r",jKr * errorR);	
-						SmartDashboard.putString("Mode","jetson");
-						drive.driveCartesian(xDrive, jKy * errorY , jKr * errorR);	
+									
+						drive.driveCartesian(xDrive, yDrive , jKr * errorR);	
 					}
-					else if(v.status ==1 )
+					else{
+						pixy2.lampon();
+						liftPotError = 100;
+						drive.driveCartesian(0, 0, 0);
+						state = 0;//should be 2
+					}
+				}
+				else{
+					state = 0;
+				}
+				break;
+			case 2:  //LIFTER
+				lastState = state;
+				lifter.driveLifter();
+				SmartDashboard.putNumber("pot error", liftPotError);
+				//check to see if lifter is within a range of values
+				if(v.status == 1)
+				{
+					counter = 100;
+					// if (pixy2.getEx() > -2.0 && pixy2.getEx() < 2.0)
+					// {
+					// 	System.out.println("errorX" + errorX);
+					// 	Ex = Ex/6; //change to 8 and test
+					// }
+
+					drive.driveCartesian(pKx * Ex, 0.05, pKr * Er); /* do we want a nominally small y? */
+					System.out.println("Pixy " + pixy2.getEx() + "EY " + Ey + "ER " + pixy2.getEr());
+				}
+				else{
+					drive.driveCartesian((vData.x*jKx)*0.5, 0.1 , (vData.r*jKr)*0.5);
+					System.out.println("Using Jetson ");
+				}
+				liftPotError = Math.abs(lifter.getPotError());
+				System.out.println(liftPotError + "" + v.status);
+				if(liftPotError < 1.0) {
+					System.out.println("lifter pos is correct");
+					if(v.status == 1)
 					{
-					
-						if (pixy2.getEx() > -3.5 && pixy2.getEx() < 3.5)
+						if((pixy2.getEr() >= -1.5) && (pixy2.getEr() <= 1.5) && (pixy2.getEx() >= -2.5) && (pixy2.getEx() <= 2.5))
 						{
-							SmartDashboard.putNumber("__Close enough x", Ex);
-							Ex = Ex/10;
+							System.out.println("You Enter into charge State");
+							drive.driveCartesian(0, 0, 0);
+							state = 3;
+							counter = 1000;
 						}
-						if (pixy2.getEr() > -5.5 && pixy2.getEr() < 5.5)
-						{
-							SmartDashboard.putNumber("__Close enough r", Er);
-							Er = Er/15; 
-						}
-						if(Er < -3 && Er > 3)
-						{
-							pKy=0.416f;//1/24 for the distance sensors max speed; 0.416
-						}
-
-					drive.driveCartesian(pKx * Ex, pKy * Ey , pKr * Er );	
-					//to go right increase, to go left decrease
-					Ex = Rightdistance - Leftdistance;
-					SmartDashboard.putNumber("__x",pixy2.getEx());
-					SmartDashboard.putNumber("__y", Rightdistance);
-					SmartDashboard.putNumber("__r",pixy2.getEr());
-					SmartDashboard.putString("Mode","pixy");
-					System.out.println("Pixy " + pixy2.getEx() + " " + Rightdistance + " " + pixy2.getEr());
 					}
+				}
+				break;
+			case 3: //CHARGE
 				
+				lastState = state;
+				counter = 100;
+				if((Ey)>=1.0) /*|| Math.abs(Er)>=4)*/
+				{
+					arriveCounter = 0;
+					if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
+						Ex = Ex/6; //change to 8 and test
+					
+					if(v.status == 1)
+						drive.driveCartesian(0, pKy * Ey , (pKr * Er)/2);
+					else
+						drive.driveCartesian(0, pKy * Ey , 0);
+
 				}
 				else
 				{
-					SmartDashboard.putString("Mode","driver-2");
-					SmartDashboard.putNumber("__x",oi.getPilotX());
-					SmartDashboard.putNumber("__y",oi.getPilotY());
-					SmartDashboard.putNumber("__r",oi.getPilotZ());
-					drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+					arriveCounter++;
+					drive.driveCartesian(0, 0.0, 0);
+					if(arriveCounter > 8)
+					{
+					state = 4;
+					System.out.println("Ball MODE-Arrived");
+					counter = 100;
+					}
 				}
+				break;
+			case 4: //BALL MODE
+				lastState = state;
+				
+				if(oi.getCopilotAxis(3)==1 && counter > 0)  
+				{
+					grabber.removeCargo();
+					grabber.cargocounter = 1;
+           			grabber.cargotimer = 0;
+					counter-=1;
+				}
+				else {
+					flagHatch = true;
+					state = 5;
+					System.out.println("Retreat Mode");
+				}
+				break;
+			case 5: //RETREAT!!!
+				lastState = state;
+				if(vData.y<= 30) {
+					drive.driveCartesian(0, -0.5, 0);
+				}
+				else  {
+					drive.driveCartesian(0, 0, 0);
+				}
+				if(Math.min(Leftdistance,Rightdistance)>= 12){
+					lifter.goToBottom(1);
+					if(flagHatch == true){
+						grabber.toggleHatch();
+						flagHatch = false;
+					}
+				}
+				break;
+			
+				
+			default: 
+				state = 0;
+				System.out.println("GOING FROM UNKNOWN STATE TO DRIVE MODE ERROR ERROR ERROR ERROR ERROR ERROR");
+				break;
 			}
-			else
-			{
-				pixy2.lampoff();
-				SmartDashboard.putString("Mode","driver");
-				SmartDashboard.putNumber("__x",oi.getPilotX());
-				SmartDashboard.putNumber("__y",oi.getPilotY());
-				SmartDashboard.putNumber("__r",oi.getPilotZ());
-				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-			}	
-		// Stepper Functions
-			stepper.activate();
+		SmartDashboard.putNumber("State", state);
+		SmartDashboard.putNumber("Last State", lastState);
 	}
 
 	@Override

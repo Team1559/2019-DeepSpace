@@ -1,0 +1,117 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package org.usfirst.frc.team1559.robot;
+import org.usfirst.frc.team1559.robot.subsystems.Autosequence;
+import org.usfirst.frc.team1559.robot.subsystems.Grabber;
+import org.usfirst.frc.team1559.robot.Vision;
+import org.usfirst.frc.team1559.robot.Pixy;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Relay.Value;
+import org.usfirst.frc.team1559.robot.subsystems.Lifter;
+import org.usfirst.frc.team1559.robot.subsystems.Stepper;
+import org.usfirst.frc.team1559.robot.OperatorInterface;
+
+public class Robot extends TimedRobot
+{
+	public DriveTrain drive;
+	public static OperatorInterface oi;
+	
+	private static Lifter lifter;
+	private static Grabber grabber; 
+	private static Stepper stepper;
+	public Compressor airCompressor;
+	public static Relay LED_Relay;
+	private static Autosequence Autosequence;
+	
+	@Override
+	public void robotInit()
+	{
+		// Sub-System Instantiations
+			drive = new DriveTrain();
+			oi = new OperatorInterface();
+			airCompressor = new Compressor();
+			lifter = new Lifter(oi);
+			LED_Relay = new Relay(0);
+			
+			grabber = new Grabber(oi);
+			stepper = new Stepper(oi);
+			Autosequence = new Autosequence(oi,drive, lifter, grabber);
+		// Jetson/Pixy Variables and Constants
+
+			LED_Relay.set(Value.kOn);
+
+		// Stepper
+			stepper.stopDrive();
+	}	
+		
+	@Override
+	public void robotPeriodic()
+	{
+
+	}
+
+	@Override
+	public void autonomousInit()
+	{
+		//pixy2.start();
+		teleopInit();
+	}
+
+	@Override
+	public void autonomousPeriodic() {
+		teleopPeriodic();
+	}
+	@Override
+	public void teleopInit()
+	{
+		LED_Relay.set(Value.kOn);
+	}
+	@Override
+	public void teleopPeriodic()
+	{
+		// Air Compressor
+			airCompressor.setClosedLoopControl(true);
+		// Grabber Functions
+			grabber.drive();
+		//Visiion functions
+		Autosequence.autodrive();
+		//Lifter Functions
+			lifter.driveLifter(); //Main method for driving the Lifter (See Lifter class)
+		// Stepper Functions
+			Stepper.activate();
+	}
+	@Override
+	public void testInit(){
+	teleopInit();
+	}
+	@Override
+	public void testPeriodic(){
+	teleopPeriodic();
+	}	
+	
+	
+	
+	
+	
+	
+	@Override
+	public void disabledInit()
+	{
+		//pixy2.lampoff();
+		LED_Relay.set(Value.kOff);
+	}
+
+	@Override
+	public void disabledPeriodic() 
+	{
+		airCompressor.stop();
+	}
+}
