@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import org.usfirst.frc.team1559.robot.subsystems.Grabber;
 // Lifter Programers are Jack and Nick. Please defer to them if you want to make changes.
 
 //Important images:
@@ -48,10 +48,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Lifter {
 private WPI_TalonSRX lifterMotor;
 private OperatorInterface oi;
+private Grabber grabber;
 
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
-
 private final double ticksPerInch = 7.2; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 12;
 private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
@@ -79,9 +79,10 @@ private final int TIMEOUT = 0;
 
 public boolean isAxis = true;
 
-	public Lifter(OperatorInterface oiInput) {
+	public Lifter(OperatorInterface oiInput, Grabber g) {
 		lifterMotor = new WPI_TalonSRX(Wiring.LIFTER_TALON);
 		oi = oiInput;
+		grabber = g;
 		//goToBottom(1);
 
 		// potUseableBottom = getPot();
@@ -232,6 +233,12 @@ public boolean isAxis = true;
 		SmartDashboard.putNumber("Current", lifterMotor.getOutputCurrent());
 		//maxOverride();
 		//need to add in auto button into this class
+		if(oi.getCopilotAxis(3) == 1){
+			grabber.releasePiston();
+		}
+		else{
+			grabber.resetPiston();
+		}
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);

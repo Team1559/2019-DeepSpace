@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
-    private Solenoid solenoid;
+    public Solenoid solenoid;
     private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
-    private Talon ballIntake;
-    private double speedBall, slowBall, speedHatch, stopHatch;
+    public Talon ballIntake;
+    public double speedBall, slowBall, speedHatch, stopHatch;
     public int cargocounter;
     public int cargotimer;
-    private boolean hatchUp;
+    public boolean hatchUp;
     public Grabber(OperatorInterface oi)
     {
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);

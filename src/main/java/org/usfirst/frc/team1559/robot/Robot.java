@@ -60,11 +60,11 @@ public class Robot extends TimedRobot
 			drive = new DriveTrain();
 			oi = new OperatorInterface();
 			airCompressor = new Compressor();
-			lifter = new Lifter(oi);
+			grabber = new Grabber(oi);
+			lifter = new Lifter(oi, grabber);
 			pixy2 = new Pixy();
 			LED_Relay = new Relay(0);
 			vision = new Vision();
-			grabber = new Grabber(oi);
 			stepper = new Stepper(oi);
 			distRight = new DistSensor(new AnalogInput (2));
 			distLeft = new DistSensor(new AnalogInput (0));
