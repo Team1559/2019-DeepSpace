@@ -40,8 +40,9 @@ public class Robot extends TimedRobot
 	// The distance sensors are set right and left from the perspective of the back of the robot.
 	public static DistSensor distRight; 
 	public static DistSensor distLeft;
-	private double jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex;
+	private double jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex, pDx, pDr;
 	private double Ey, errorX, errorR, errorY;
+	private double prevXerror, prevRerror;
 	private int state;
 	private int lastState;
 	private int counter;
@@ -74,8 +75,11 @@ public class Robot extends TimedRobot
 			jKr = 0.04f;//0.016 
 			jKy = 0.009f;//shold be .009
 			pKx = -0.014f;// WAS -0.015 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
-			pKr = 0.01f;//was .012 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
-			pKy = 0.075f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
+			pKr = 0.009f;//was .012 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
+			pKy = 0.07f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
+			pDx = 8.0 * pKx;
+			pDr = 8.0 * pKr;
+
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
 			//lifter.recallibrateSystem();
 		// Stepper
@@ -235,6 +239,11 @@ public class Robot extends TimedRobot
 						vData.y = Math.min( Rightdistance, Leftdistance );
 						pixy2.lampon();
 					}
+					if(v.status==1)
+					{
+						prevRerror = Er;
+						prevXerror = Ex;
+					}
 					if(vData.y >= maxPixyRange || v.status != 1)
 					{
 						errorX = vData.x;
@@ -294,8 +303,11 @@ public class Robot extends TimedRobot
 					// 	System.out.println("errorX" + errorX);
 					// 	Ex = Ex/6; //change to 8 and test
 					// }
-					double PXDrive = pKx * Ex;
-					double PRDrive = pKr * Er;
+					double PXDrive = pKx * Ex + pDx * (Ex - prevXerror);
+					double PRDrive = pKr * Er + pDr * (Er - prevRerror);
+					prevXerror = Ex;
+					prevRerror = Er;
+
 					if(Math.abs(PXDrive) < Math.abs(PRDrive))
 					{
 						PXDrive = 0;
@@ -326,7 +338,7 @@ public class Robot extends TimedRobot
 				else{
 					if(vData.status==1)
 					{
-					drive.driveCartesian((0*vData.x*jKx)*0.5, 0.0 , (vData.r*jKr)*0.5);
+					drive.driveCartesian((vData.x*jKx)*0.5, 0.0 , (vData.r*jKr)*0.5);
 					System.out.println("Using Jetson ");
 					}
 					else{
