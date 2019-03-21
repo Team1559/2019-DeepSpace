@@ -36,6 +36,7 @@ public class DriveTrain
 		FL_TALON.config_kF(0, kF);
 		FL_TALON.config_kP(0, kP);
 		FL_TALON.config_kD(0, kD);
+		FL_TALON.config_kI(0, 0);
 		FL_TALON.configNominalOutputForward(0, TIMEOUT);
 		FL_TALON.configNominalOutputReverse(0, TIMEOUT);
 		FL_TALON.configPeakOutputForward(+1, TIMEOUT);
@@ -47,6 +48,7 @@ public class DriveTrain
 		FR_TALON.config_kF(0, kF);
 		FR_TALON.config_kP(0, kP);
 		FR_TALON.config_kD(0, kD);
+		FR_TALON.config_kI(0, 0);
 		FR_TALON.configNominalOutputForward(0, TIMEOUT);
 		FR_TALON.configNominalOutputReverse(0, TIMEOUT);
 		FR_TALON.configPeakOutputForward(+1, TIMEOUT);
@@ -58,6 +60,7 @@ public class DriveTrain
 		RL_TALON.config_kF(0, kF);
 		RL_TALON.config_kP(0, kP);
 		RL_TALON.config_kD(0, kD);
+		RL_TALON.config_kI(0, 0);
 		RL_TALON.configNominalOutputForward(0, TIMEOUT);
 		RL_TALON.configNominalOutputReverse(0, TIMEOUT);
 		RL_TALON.configPeakOutputForward(+1, TIMEOUT);
@@ -69,11 +72,12 @@ public class DriveTrain
 		RR_TALON.config_kF(0, kF);
 		RR_TALON.config_kP(0, kP);
 		RR_TALON.config_kD(0, kD);
+		RR_TALON.config_kI(0, 0);
 		RR_TALON.configNominalOutputForward(0, TIMEOUT);
 		RR_TALON.configNominalOutputReverse(0, TIMEOUT);
 		RR_TALON.configPeakOutputForward(+1, TIMEOUT);
 		RR_TALON.configPeakOutputReverse(-1, TIMEOUT);
-
+		
 		drive = new DevilDrive(FL_TALON, RL_TALON, FR_TALON, RR_TALON);
 		drive.setMaxOutput(6264);
 

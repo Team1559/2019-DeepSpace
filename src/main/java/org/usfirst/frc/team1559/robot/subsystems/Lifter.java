@@ -63,15 +63,15 @@ private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
-public int potUseableBottom; //Code will auto adjust values based on this one.
-public int potUseableTop; //Placeholder
+public int potUseableBottom = 255; //Code will auto adjust values based on this one.
+public int potUseableTop = 794; //Placeholder
 public int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
 public int potError;
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
 private final int potMin = 5; // This is the lowest the pot can possibly go.
 
-private double kP = 17; //Just for testing purposes
+private double kP = 22; //Just for testing purposes
 private double kI = 0;
 private double kD = 10*kP; //Just for testing purposes
 private double kF = 0;
@@ -92,10 +92,10 @@ public boolean isAxis = true;
 		lifterMotor.configPeakCurrentLimit(40,TIMEOUT);//75
 		lifterMotor.configContinuousCurrentLimit(12, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
-		lifterMotor.configForwardSoftLimitEnable(false);
-		//lifterMotor.configForwardSoftLimitThreshold(794);
-		lifterMotor.configReverseSoftLimitEnable(false);
-		//lifterMotor.configReverseSoftLimitThreshold(255);
+		lifterMotor.configForwardSoftLimitEnable(true);
+		lifterMotor.configForwardSoftLimitThreshold(769);
+		lifterMotor.configReverseSoftLimitEnable(true);
+		lifterMotor.configReverseSoftLimitThreshold(258);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
@@ -270,8 +270,22 @@ public boolean isAxis = true;
 			goToBottom(2);
 		}
 		else if(oi.copilot.getRawButton(8)) { 
-			isAxis = false;
-			recallibrateSystem();
+			//isAxis = false;
+			if(oi.getCopilotAxis(1) <= -0.9)
+			{
+				isAxis = true;
+				goUp();
+			}
+			if(oi.getCopilotAxis(1) >= 0.9)
+			{
+				isAxis = true;
+				goDown();
+			}
+			if((Math.abs(oi.getCopilotAxis(1)) <= 0.1))
+			{
+				stop();
+			}
+			//recallibrateSystem();
 			SmartDashboard.putNumber("Lifter recalibrated", potUseableBottom);
 		
 		}
