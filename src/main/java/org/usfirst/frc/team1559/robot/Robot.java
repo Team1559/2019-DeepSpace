@@ -78,8 +78,8 @@ public class Robot extends TimedRobot
 			pKx = -0.014f;// WAS -0.015 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
 			pKr = 0.009f;//was .012 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
 			pKy = 0.07f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
-			pDx = 8.0 * pKx;
-			pDr = 8.0 * pKr;
+			pDx = -16.0 * pKx;
+			pDr = -16.0 * pKr;
 
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
 			//lifter.recallibrateSystem();
