@@ -16,6 +16,7 @@ public class Grabber
 {
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     public Solenoid solenoid;
+    public Solenoid relice_hatch;
     private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
     public Talon ballIntake;
     public double speedBall, slowBall, speedHatch, stopHatch;
@@ -24,6 +25,7 @@ public class Grabber
     public boolean hatchUp;
     public Grabber(OperatorInterface oi)
     {
+        relice_hatch = new Solenoid(Wiring.Newhatchsoloniod);
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
         ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
@@ -63,11 +65,18 @@ public class Grabber
                     cargocounter = 0;  
                 }
         
-        if(Robot.oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
-			{
-				toggleHatch();
+        // if(Robot.oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
+		// 	{
+		// 		toggleHatch();
+        //     }
+            if(Robot.oi.pilot.getRawButtonPressed(Constants.LOWERHATCH)){
+                releaseHatch();
             }
-        }
+            else{
+                RealiceHatch();
+            }
+            }
+        
     public void slowBall()
     {
         ballIntake.set(slowBall);
@@ -75,6 +84,14 @@ public class Grabber
     public void StopBall()
     {
         ballIntake.stopMotor();
+    }
+    public void releaseHatch()
+    {
+        relice_hatch.set(true); //go Snatch that Hatch
+    }
+    public void RealiceHatch()
+    {
+        relice_hatch.set(false); //bring that hatch in bb
     }
     public void releasePiston()
     {
@@ -117,4 +134,5 @@ public class Grabber
             //this brings the hatch piston up
         }
     }
+
 }
