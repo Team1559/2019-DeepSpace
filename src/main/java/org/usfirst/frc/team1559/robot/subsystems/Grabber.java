@@ -73,7 +73,7 @@ public class Grabber
                 releaseHatch();
             }
             else{
-                RealiceHatch();
+                GrabHatch();
             }
             }
         
@@ -89,7 +89,7 @@ public class Grabber
     {
         relice_hatch.set(true); //go Snatch that Hatch
     }
-    public void RealiceHatch()
+    public void GrabHatch()
     {
         relice_hatch.set(false); //bring that hatch in bb
     }
