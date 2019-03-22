@@ -54,7 +54,6 @@ public class Robot extends TimedRobot
 	private double xDrive1;
 	private boolean prevPixyXSign = true;
 	private boolean Grabbinghatch = true;
-	private boolean scoringhatch = false;
 
 	@Override
 	public void robotInit()
@@ -169,8 +168,7 @@ public class Robot extends TimedRobot
 					{
 						//wallGap = 3;
 						Ey = Math.min(Rightdistance,Leftdistance) - 3;//think we are 3 in closer-go to bumper
-						Grabbinghatch = true;
-						scoringhatch = false;
+						Grabbinghatch = false;
 					}
 					else if(oi.copilot.getRawButton(Constants.LINEASSIST))
 					{
@@ -178,8 +176,7 @@ public class Robot extends TimedRobot
 						lifter.goToHatchPos(1);
 						Ey =Math.min( Rightdistance, Leftdistance) - 1;//think we are .5 in further
 						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
-						Grabbinghatch = false;
-						scoringhatch = true;
+						Grabbinghatch = true;
 					}
 		
 		
@@ -373,13 +370,6 @@ public class Robot extends TimedRobot
 				
 				lastState = state;
 				counter = 100;
-				if(Grabbinghatch == false){
-					grabber.releaseHatch();
-					
-				}
-				else{
-					grabber.GrabHatch();
-				}
 				if((Ey)>=1.0) /*|| Math.abs(Er)>=4)*/
 				{
 					arriveCounter = 0;
@@ -407,11 +397,13 @@ public class Robot extends TimedRobot
 				break;
 			case 4: //BALL MODE
 				lastState = state;
-				
+				if(Grabbinghatch == false){
 					grabber.releaseHatch();
-					if(scoringhatch == true){
-						grabber.releaseHatch();
-					}
+				}
+				else{
+					grabber.GrabHatch();
+				}
+
 				if(oi.getCopilotAxis(3)==1 && counter > 0)  
 				{
 					grabber.removeCargo();
