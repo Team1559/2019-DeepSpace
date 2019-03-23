@@ -57,6 +57,7 @@ private final double homeInches = 12;
 private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
+private final double ticksToLoadngStationExit = (16-homeInches) * ticksPerInch;
 
 private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placeholder value
@@ -153,6 +154,9 @@ public boolean isAxis = true;
 		lifterMotor.set(ControlMode.Position, hatchPositions[pos]);
 		SmartDashboard.putNumber("Pot going to", hatchPositions[pos]);
 	}
+	public void Exithatchstation(){
+		lifterMotor.set(ControlMode.Position, potUseableBottom + ticksToLoadngStationExit);
+	}
 
 	public void goToCargoShipHatch() {
 		goToHatchPos(1);
@@ -239,6 +243,7 @@ public boolean isAxis = true;
 		else{
 			grabber.resetPiston();
 		}
+		
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);
@@ -276,6 +281,10 @@ public boolean isAxis = true;
 			isAxis = false;
 			goToBottom(2);
 		}
+		else if(oi.pilot.getRawButton(1) && oi.getCopilotAxis(3) != 1) {
+			isAxis = false;
+			Exithatchstation();
+		}
 		else if(oi.copilot.getRawButton(8)) { 
 			//isAxis = false;
 			if(oi.getCopilotAxis(1) <= -0.9)
@@ -294,8 +303,9 @@ public boolean isAxis = true;
 			}
 			//recallibrateSystem();
 			SmartDashboard.putNumber("Lifter recalibrated", potUseableBottom);
-		
 		}
+		
+		
 	}
 }
 //It's over!!!!

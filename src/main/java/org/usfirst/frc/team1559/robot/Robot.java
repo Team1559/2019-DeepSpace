@@ -53,6 +53,7 @@ public class Robot extends TimedRobot
 	public boolean lifterCal = true; /*initial lifter calibrsation */
 	private double xDrive1;
 	private boolean prevPixyXSign = true;
+	private double yTarget = 6.0;
 
 	@Override
 	public void robotInit()
@@ -74,11 +75,11 @@ public class Robot extends TimedRobot
 			jKx = 0.022f;//.015
 			jKr = 0.04f;//0.016 
 			jKy = 0.009f;//shold be .009
-			pKx = -0.014f;// WAS -0.015 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
-			pKr = 0.009f;//was .012 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
+			pKx = -0.012f;// WAS -0.014 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
+			pKr = 0.009f;//was .007 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
 			pKy = 0.07f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
-			pDx = 8.0 * pKx;
-			pDr = 8.0 * pKr;
+			pDx = -12.0 * pKx;
+			pDr = -12.0 * pKr;
 
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
 			//lifter.recallibrateSystem();
@@ -267,7 +268,7 @@ public class Robot extends TimedRobot
 							xDrive = xbound;
 						else if(xDrive < -xbound)
 							xDrive = -xbound;
-						errorY = vData.y-10;//jetson trying to drive to 10in	
+						errorY = vData.y-yTarget;//jetson trying to drive to 10in	
 						double yDrive = jKy * errorY;
 						double ymax = 0.85;
 						
@@ -295,6 +296,8 @@ public class Robot extends TimedRobot
 				lifter.driveLifter();
 				SmartDashboard.putNumber("pot error", liftPotError);
 				//check to see if lifter is within a range of values
+				Ey = Math.min(Rightdistance,Leftdistance)-yTarget;
+
 				if(v.status == 1)
 				{
 					counter = 20;
@@ -325,7 +328,6 @@ public class Robot extends TimedRobot
 					{
 						PXDrive = -PXMinValue;
 					}
-					Ey = Math.min(Rightdistance,Leftdistance)-10;
 					// boolean pixysign  = (PXDrive > 0);
 					// if(pixysign != prevPixyXSign)
 					// {
@@ -338,7 +340,7 @@ public class Robot extends TimedRobot
 				else{
 					if(vData.status==1)
 					{
-					drive.driveCartesian((vData.x*jKx)*0.5, 0.0 , (vData.r*jKr)*0.5);
+					drive.driveCartesian((vData.x*jKx)*0.2, Ey * jKy , (vData.r*jKr)*0.2);
 					System.out.println("Using Jetson ");
 					}
 					else{
@@ -374,9 +376,9 @@ public class Robot extends TimedRobot
 					
 					
 					if(v.status == 1)
-						drive.driveCartesian(0, pKy * Ey , (pKr * Er)/2);
+						drive.driveCartesian(0, (pKy * Ey)*0.7 , (pKr * Er)*0.7);
 					else
-						drive.driveCartesian(0, pKy * Ey , 0);
+						drive.driveCartesian(0, (pKy * Ey)*0.7 , 0);
 
 				}
 				else
