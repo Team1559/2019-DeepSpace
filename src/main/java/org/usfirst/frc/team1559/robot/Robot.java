@@ -27,9 +27,9 @@ public class Robot extends TimedRobot
 {
 	public DriveTrain drive;
 	public static OperatorInterface oi;
-	
+
 	private static Lifter lifter;
-	private static Grabber grabber; 
+	private static Grabber grabber;
 	private static Stepper stepper;
 	public Compressor airCompressor;
 
@@ -38,7 +38,7 @@ public class Robot extends TimedRobot
 	public static Vision vision;
 	public static Relay LED_Relay;
 	// The distance sensors are set right and left from the perspective of the back of the robot.
-	public static DistSensor distRight; 
+	public static DistSensor distRight;
 	public static DistSensor distLeft;
 	private double jKx, jKy, jKr, pKx, pKy, pKr, Er, Ex, pDx, pDr;
 	private double Ey, errorX, errorR, errorY;
@@ -73,7 +73,7 @@ public class Robot extends TimedRobot
 
 		// Vision/Pixy Variables and Constants
 			jKx = 0.022f;//.015
-			jKr = 0.04f;//0.016 
+			jKr = 0.04f;//0.016
 			jKy = 0.009f;//shold be .009
 			pKx = -0.014f;// WAS -0.015 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
 			pKr = 0.009f;//was .012 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
@@ -86,8 +86,8 @@ public class Robot extends TimedRobot
 		// Stepper
 			stepper.stopDrive();
 			CameraServer.getInstance().startAutomaticCapture();
-		}	
-		
+		}
+
 	@Override
 	public void robotPeriodic()
 	{
@@ -113,15 +113,15 @@ public class Robot extends TimedRobot
 		vision.VisionInit();
 		LED_Relay.set(Value.kOn);
 		stepper.retractPistons();
-		
-		
+
+
 	}
 
 
 	@Override
 	public void teleopPeriodic()
 	{
-		
+
 		VisionData vDataTemp = vision.getData();
 		//vDataTemp.Print();
 		//drive.driveCartesian(0.12, 0.0, 0.0);
@@ -136,7 +136,7 @@ public class Robot extends TimedRobot
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
-			
+
 		// Grabber Functions
 			grabber.drive();
 			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
@@ -147,7 +147,7 @@ public class Robot extends TimedRobot
 				grabber.toggleHatch();
 			}
 		//Lifter Functions
-			// 
+			//
 		//	pixy2.lampoff();
 			// Stepper Functions
 			stepper.activate();
@@ -170,16 +170,15 @@ public class Robot extends TimedRobot
 						Ey = Math.min(Rightdistance,Leftdistance) - 3;//think we are 3 in closer-go to bumper
 						Grabbinghatch = false;
 					}
-					else if(oi.copilot.getRawButton(Constants.LINEASSIST))
+					else
 					{
 						//wallGap = 1;
-						lifter.goToHatchPos(1);
 						Ey =Math.min( Rightdistance, Leftdistance) - 1;//think we are .5 in further
 						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
 						Grabbinghatch = true;
 					}
-		
-		
+
+
 		//Ey = Math.min(Rightdistance,Leftdistance) + wallGap;
 		//Ey = Rightdistance;
 		double maxPixyRange = 16.0;
@@ -187,7 +186,7 @@ public class Robot extends TimedRobot
 		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 		SmartDashboard.putNumber("RiGhtIRDistance,", Rightdistance);
 		SmartDashboard.putNumber("LeFtIRdistance", Leftdistance);
-					
+
 		//case 0=Driver
 		//case 1=jetson
 		//case 2=lift
@@ -202,12 +201,12 @@ public class Robot extends TimedRobot
 		{
 			System.out.println("No Pixy");
 		}
-		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9) 
+		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
 		{
 			//pixy2.lampon();
-			
+
 			SmartDashboard.putNumber("__y", jKy * errorY);
-			SmartDashboard.putNumber("__r",jKr * errorR);	
+			SmartDashboard.putNumber("__r",jKr * errorR);
 			SmartDashboard.putNumber("Pixyx",pixy2.getEx());
 			SmartDashboard.putNumber("Pixyy", Ey);
 			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
@@ -228,11 +227,11 @@ public class Robot extends TimedRobot
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 				break;
 			case 1: 			//JETSON
-				lastState = state;	
-				arriveCounter = 0;	
+				lastState = state;
+				arriveCounter = 0;
 				//System.out.println("It's alive");
 				//pixy2.lampon();
-				
+
 				if(vData.status==1) {
 					// if(vData.y <=20)
 					// {
@@ -271,17 +270,17 @@ public class Robot extends TimedRobot
 							xDrive = xbound;
 						else if(xDrive < -xbound)
 							xDrive = -xbound;
-						errorY = vData.y-10;//jetson trying to drive to 10in	
+						errorY = vData.y-10;//jetson trying to drive to 10in
 						double yDrive = jKy * errorY;
 						double ymax = 0.85;
-						
+
 						if(yDrive > .85)
 							yDrive = .85;
 						else if(yDrive < -.85)
 							yDrive = -.85;
 
-									
-						drive.driveCartesian(xDrive, yDrive , jKr * errorR);	
+
+						drive.driveCartesian(xDrive, yDrive , jKr * errorR);
 					}
 					else{
 						pixy2.lampon();
@@ -367,7 +366,7 @@ public class Robot extends TimedRobot
 				}
 				break;
 			case 3: //CHARGE
-				
+
 				lastState = state;
 				counter = 100;
 				if((Ey)>=1.0) /*|| Math.abs(Er)>=4)*/
@@ -375,8 +374,8 @@ public class Robot extends TimedRobot
 					arriveCounter = 0;
 					if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						Ex = Ex/6; //change to 8 and test
-					
-					
+
+
 					if(v.status == 1)
 						drive.driveCartesian(0, pKy * Ey , (pKr * Er)/2);
 					else
@@ -397,14 +396,14 @@ public class Robot extends TimedRobot
 				break;
 			case 4: //BALL MODE
 				lastState = state;
-				if(Grabbinghatch == false){
-					grabber.releaseHatch();
-				}
-				else{
+				if(Grabbinghatch == true){
 					grabber.GrabHatch();
 				}
+				else{
+					grabber.releaseHatch();
+				}
 
-				if(oi.getCopilotAxis(3)==1 && counter > 0)  
+				if(oi.getCopilotAxis(3)==1 && counter > 0)
 				{
 					grabber.removeCargo();
 					grabber.cargocounter = 1;
@@ -433,16 +432,16 @@ public class Robot extends TimedRobot
 					}
 				}
 				break;
-			
-				
-			default: 
+
+
+			default:
 				state = 0;
 				System.out.println("GOING FROM UNKNOWN STATE TO DRIVE MODE ERROR ERROR ERROR ERROR ERROR ERROR");
 				break;
 			}
 		SmartDashboard.putNumber("State", state);
 		SmartDashboard.putNumber("Last State", lastState);
-		
+
 	}
 
 	@Override
@@ -453,7 +452,7 @@ public class Robot extends TimedRobot
 	}
 
 	@Override
-	public void disabledPeriodic() 
+	public void disabledPeriodic()
 	{
 		airCompressor.stop();
 	}
