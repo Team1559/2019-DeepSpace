@@ -69,7 +69,7 @@ public class Grabber
 		// 	{
 		// 		toggleHatch();
         //     }
-            if(Robot.oi.pilot.getRawButtonPressed(Constants.LOWERHATCH)){
+            if(Robot.oi.pilot.getRawButton(Constants.LOWERHATCH)){
                 releaseHatch();
             }
             else{
