@@ -82,7 +82,6 @@ public class Robot extends TimedRobot
 			pDr = -16.0 * pKr;
 
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
-			//lifter.recallibrateSystem();
 		// Stepper
 			stepper.stopDrive();
 			CameraServer.getInstance().startAutomaticCapture();
@@ -97,7 +96,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void autonomousInit()
 	{
-		//pixy2.start();
+		
 		teleopInit();
 	}
 
@@ -132,7 +131,6 @@ public class Robot extends TimedRobot
 		// else{
 		// 	lifter.driveLifter();
 		// }
-		lifter.driveLifter();
 		// Air Compressor
 		airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
@@ -173,7 +171,7 @@ public class Robot extends TimedRobot
 					else
 					{
 						//wallGap = 1;
-						Ey =Math.min( Rightdistance, Leftdistance) - 1;//think we are .5 in further
+						Ey =Math.min( Rightdistance, Leftdistance) - 3;//think we are .5 in further
 						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
 						Grabbinghatch = true;
 					}
@@ -376,11 +374,14 @@ public class Robot extends TimedRobot
 						Ex = Ex/6; //change to 8 and test
 
 
-					if(v.status == 1)
-						drive.driveCartesian(0, pKy * Ey , (pKr * Er)/2);
-					else
-						drive.driveCartesian(0, pKy * Ey , 0);
-
+					if(v.status == 1 && (pixy2.getEr() >= -1.2) && (pixy2.getEr() <= 1.2) && (pixy2.getEx() >= -2.6) && (pixy2.getEx() <= 2.6)) {
+						drive.driveCartesian(0, (pKy * Ey)/2 , (pKr * Er)/2);
+					}
+						else{
+						//drive.driveCartesian(0, (pKy * Ey)/2 , 0);
+							drive.driveCartesian(0, 0, 0);
+							state = 0;
+						}
 				}
 				else
 				{
