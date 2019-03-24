@@ -380,7 +380,7 @@ public class Robot extends TimedRobot
 						else{
 						//drive.driveCartesian(0, (pKy * Ey)/2 , 0);
 							drive.driveCartesian(0, 0, 0);
-							state = 0;
+							state = 5;
 						}
 				}
 				else
