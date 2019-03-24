@@ -376,7 +376,7 @@ public class Robot extends TimedRobot
 						Ex = Ex/6; //change to 8 and test
 
 					if(v.status == 1 && (pixy2.getEr() >= -1.2) && (pixy2.getEr() <= 1.2) && (pixy2.getEx() >= -2.6) && (pixy2.getEx() <= 2.6)) {
-						drive.driveCartesian((pKx * Ex)*0.7, (pKy * Ey)*0.7 , (pKr * Er)*0.7);
+						drive.driveCartesian((pKx * Ex)*0.2, (pKy * Ey)*0.7 , (pKr * Er)*0.4);
 					}
 						else{
 						//drive.driveCartesian(0, (pKy * Ey)/2 , 0);
