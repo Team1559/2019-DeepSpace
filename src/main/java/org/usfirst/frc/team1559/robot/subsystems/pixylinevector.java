@@ -18,8 +18,8 @@ public class pixylinevector {
     public double Ex; 
     public double Er;
     private double Pv;
-    private double Pt;
-    private double cx;
+    private double Pt = 5;
+    private double cx = 5;
     private double vp;
     public int timer;
 
@@ -35,7 +35,7 @@ public class pixylinevector {
         }
         else{       
             // error_tan=Math.atan((x1-40)/(Math.abs(y1-y0)));
-            Pv = Math.atan((x1-x0)/(y1-y0));
+            Pv = Math.atan((x1 - x0)/(y1 - y0));
             Pt = Math.atan((cx - x0)/(vp - y0));
             error_tan = Pt-Pv;
             rError=Math.toDegrees(error_tan);
