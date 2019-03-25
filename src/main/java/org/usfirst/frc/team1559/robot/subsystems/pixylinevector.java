@@ -17,7 +17,10 @@ public class pixylinevector {
     public int flags;
     public double Ex; 
     public double Er;
+    private double Pv;
+    private double Pt;
     public int timer;
+
     public double error_x(double x0, double x1){
         double xError=(40-x0);
             return xError;
@@ -29,7 +32,10 @@ public class pixylinevector {
             rError=0;
         }
         else{       
-            error_tan=Math.atan((x1-40)/(Math.abs(y1-y0)));
+            // error_tan=Math.atan((x1-40)/(Math.abs(y1-y0)));
+            Pv = Math.atan((x1-x0)/(y1-y0));
+            Pt = Math.atan(( - x0)/( - y0));
+            error_tan = Pt-Pv;
             rError=Math.toDegrees(error_tan);
         }  
         return rError;
