@@ -33,10 +33,9 @@ public class pixylinevector {
        if (x1==x0){
             rError=0;
         }
-        //43/7.166666666666667
         else{       
             // error_tan=Math.atan((x1-40)/(Math.abs(y1-y0)));
-            Pv = Math.atan((y1 - 7.166666666666667)*(cx - x1));
+            Pv = Math.atan((y1 - 7.17)*(cx - x1));
             Pt = Math.atan((cx - x0)/(vp - y0));
             error_tan = Pt-Pv;
             rError=Math.toDegrees(error_tan);
