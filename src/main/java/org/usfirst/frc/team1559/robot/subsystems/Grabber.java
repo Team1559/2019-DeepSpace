@@ -69,13 +69,8 @@ public class Grabber
 		// 	{
 		// 		toggleHatch();
         //     }
-            if(Robot.oi.pilot.getRawButton(Constants.LOWERHATCH)){
-                releaseHatch();
-            }
-            else{
-                GrabHatch();
-            }
-            }
+            
+    }
         
     public void slowBall()
     {
@@ -87,11 +82,13 @@ public class Grabber
     }
     public void releaseHatch()
     {
-        relice_hatch.set(true); //go Snatch that Hatch
+        SmartDashboard.putNumber("realice hatch", 5.0);
+        relice_hatch.set(false); //go Snatch that Hatch
     }
     public void GrabHatch()
     {
-        relice_hatch.set(false); //bring that hatch in bb
+        SmartDashboard.putNumber("realice hatch", 1.0);
+        relice_hatch.set(true); //bring that hatch in bb
     }
     public void releasePiston()
     {

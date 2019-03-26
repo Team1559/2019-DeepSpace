@@ -237,7 +237,7 @@ public boolean isAxis = true;
 		SmartDashboard.putNumber("Current", lifterMotor.getOutputCurrent());
 		//maxOverride();
 		//need to add in auto button into this class
-		if(oi.getCopilotAxis(3) == 1){
+		if(oi.getCopilotAxis(3) >= 0.9){
 			grabber.releasePiston();
 		}
 		else{

@@ -20,7 +20,7 @@ public class pixylinevector {
     private double Pv;
     private double Pt;
     private double cx = 39.5;
-    private double vp;
+    private double vp = -33.0;
     public int timer;
 
     public double error_x(double x0, double x1){
@@ -29,16 +29,19 @@ public class pixylinevector {
     }
     public double error_r(double y0, double y1, double x0, double x1){
        double rError;
-        double error_tan;
-       if (x1==x0){
+        double error;
+       if (y1==y0){
             rError=0;
         }
         else{       
             // error_tan=Math.atan((x1-40)/(Math.abs(y1-y0)));
-            Pv = Math.atan((y1 - 7.17)*(cx - x1));
-            Pt = Math.atan((cx - x0)/(vp - y0));
-            error_tan = Pt-Pv;
-            rError=Math.toDegrees(error_tan);
+            Pv = Math.atan((x1 - x0)/(y1 - y0));
+            Pt = Math.atan((cx - x1)/(vp - y1));
+            error = Pt-Pv;
+            rError=Math.toDegrees(error);
+            System.out.printf("%3.2f %3.2f %3.2f %3.2f\n", x0, y0, x1, y1);
+            System.out.printf("%3.2f %3.2f  %3.1f\n", Pt, Pv, rError);
+        
         }  
         return rError;
     }

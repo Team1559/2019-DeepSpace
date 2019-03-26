@@ -59,6 +59,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit()
 	{
+		
 		// Sub-System Instantiations
 			drive = new DriveTrain();
 			oi = new OperatorInterface();
@@ -79,13 +80,14 @@ public class Robot extends TimedRobot
 			pKx = -0.012f;// WAS -0.014 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
 			pKr = 0.009f;//was .007 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
 			pKy = 0.07f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
-			pDx = -12.0 * pKx;
-			pDr = -12.0 * pKr;
+			pDx = 0*-12.0 * pKx;
+			pDr = 0*-12.0 * pKr;
 
 			LED_Relay.set(Value.kOn);//turns on the greeen led ring for jetson autodrive]
 		// Stepper
 			stepper.stopDrive();
 			CameraServer.getInstance().startAutomaticCapture();
+			
 		}
 
 	@Override
@@ -121,7 +123,10 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic()
 	{
-
+		pixy2.lampon();//Temporary
+		SmartDashboard.putNumber("Pixyxzx",pixy2.getEx());
+			SmartDashboard.putNumber("Pixyy", Ey);
+			SmartDashboard.putNumber("Pixyrr",pixy2.getEr());
 		VisionData vDataTemp = vision.getData();
 		//vDataTemp.Print();
 		//drive.driveCartesian(0.12, 0.0, 0.0);
@@ -137,14 +142,6 @@ public class Robot extends TimedRobot
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
 
 		// Grabber Functions
-			grabber.drive();
-			if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
-			{
-				grabber.toggleHatch();
-			}
-			else if(oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER2)) {
-				grabber.toggleHatch();
-			}
 		//Lifter Functions
 			//
 		//	pixy2.lampoff();
@@ -192,14 +189,15 @@ public class Robot extends TimedRobot
 		//case 3=Pixy
 		//case 4 = Ball
 		//case 5=Retreat
-		if(v.status == 1)
-		{
-		 	System.out.println("Pixy " + pixy2.getEx() + " " + Ey + " " + pixy2.getEr());
-		}
-		else
-		{
-			System.out.println("No Pixy");
-		}
+
+		// if(v.status == 1)
+		// {
+		//  	System.out.println("Pixy " + pixy2.getEx() + " " + Ey + " " + pixy2.getEr());
+		// }
+		// else
+		// {
+		// 	System.out.println("No Pixy");
+		// }
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
 		{
 			//pixy2.lampon();
@@ -216,13 +214,21 @@ public class Robot extends TimedRobot
 		}
 		else {
 			state = 0;
-			pixy2.lampoff();
+			//pixy2.lampoff();
 			//System.out.println("DRIVE MODE");
 		}
 
 		switch(state)
 		{
 			case 0: //DRIVE :(
+				if(oi.pilot.getRawButton(Constants.LOWERHATCH)){
+					grabber.releaseHatch();
+				}
+				else{
+					grabber.GrabHatch();
+				}
+				lifter.driveLifter();
+				grabber.drive();
 				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 				break;
 			case 1: 			//JETSON
@@ -320,7 +326,7 @@ public class Robot extends TimedRobot
 					{
 						PRDrive = 0;
 					}
-					double PXMinValue = 0.10;
+					double PXMinValue = 0.09;
 					if(PXDrive <=PXMinValue && PXDrive > 0 )
 					{
 						PXDrive = PXMinValue;
@@ -341,7 +347,7 @@ public class Robot extends TimedRobot
 				else{
 					if(vData.status==1)
 					{
-					drive.driveCartesian((vData.x*jKx)*0.2, Ey * jKy , (vData.r*jKr)*0.2);
+					drive.driveCartesian((vData.x*jKx)*0.1, Ey * jKy , (vData.r*jKr)*0.1);
 					System.out.println("Using Jetson ");
 					}
 					else{
@@ -366,6 +372,9 @@ public class Robot extends TimedRobot
 				}
 				break;
 			case 3: //CHARGE
+				if(Grabbinghatch == true){
+					grabber.releaseHatch();
+				}
 
 				lastState = state;
 				counter = 100;
@@ -375,8 +384,8 @@ public class Robot extends TimedRobot
 					if (pixy2.getEx() > -0.3 && pixy2.getEx() < 0.3)
 						Ex = Ex/6; //change to 8 and test
 
-					if(v.status == 1 && (pixy2.getEr() >= -1.2) && (pixy2.getEr() <= 1.2) && (pixy2.getEx() >= -2.6) && (pixy2.getEx() <= 2.6)) {
-						drive.driveCartesian((pKx * Ex)*0.2, (pKy * Ey)*0.7 , (pKr * Er)*0.4);
+					if(v.status == 1 && (pixy2.getEr() >= -6.0) && (pixy2.getEr() <= 6.0) && (pixy2.getEx() >= -5.0) && (pixy2.getEx() <= 5.0)) {
+						drive.driveCartesian((pKx * Ex)*0.2, (pKy * Ey)*0.7 , (pKr * Er)*0.2);
 					}
 						else{
 						//drive.driveCartesian(0, (pKy * Ey)/2 , 0);
@@ -452,11 +461,14 @@ public class Robot extends TimedRobot
 	{
 		pixy2.lampoff();
 		LED_Relay.set(Value.kOff);
+		grabber.releasePiston();
 	}
 
 	@Override
 	public void disabledPeriodic()
 	{
+		grabber.releasePiston();
+		grabber.GrabHatch();
 		airCompressor.stop();
 	}
 }
