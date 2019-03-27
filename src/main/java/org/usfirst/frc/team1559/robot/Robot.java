@@ -190,17 +190,10 @@ public class Robot extends TimedRobot
 		//case 4 = Ball
 		//case 5=Retreat
 
-		// if(v.status == 1)
-		// {
-		//  	System.out.println("Pixy " + pixy2.getEx() + " " + Ey + " " + pixy2.getEr());
-		// }
-		// else
-		// {
-		// 	System.out.println("No Pixy");
-		// }
+		
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
 		{
-			//pixy2.lampon();
+			pixy2.lampon();
 
 			SmartDashboard.putNumber("__y", jKy * errorY);
 			SmartDashboard.putNumber("__r",jKr * errorR);
@@ -214,7 +207,7 @@ public class Robot extends TimedRobot
 		}
 		else {
 			state = 0;
-			//pixy2.lampoff();
+			pixy2.lampoff();
 			//System.out.println("DRIVE MODE");
 		}
 
@@ -235,13 +228,13 @@ public class Robot extends TimedRobot
 				lastState = state;
 				arriveCounter = 0;
 				//System.out.println("It's alive");
-				//pixy2.lampon();
+				pixy2.lampon();
 
 				if(vData.status==1) {
-					// if(vData.y <=20)
-					// {
-					// 	pixy2.lampon();
-					// }
+					if(vData.y <=20)
+					{
+						pixy2.lampon();
+					}
 					if(vData.y <= 20)
 					{
 						vData.y = Math.min( Rightdistance, Leftdistance );
@@ -308,11 +301,7 @@ public class Robot extends TimedRobot
 				if(v.status == 1)
 				{
 					counter = 20;
-					// if (pixy2.getEx() > -2.0 && pixy2.getEx() < 2.0)
-					// {
-					// 	System.out.println("errorX" + errorX);
-					// 	Ex = Ex/6; //change to 8 and test
-					// }
+					
 					double PXDrive = pKx * Ex + pDx * (Ex - prevXerror);
 					double PRDrive = pKr * Er + pDr * (Er - prevRerror);
 					prevXerror = Ex;
@@ -335,12 +324,7 @@ public class Robot extends TimedRobot
 					{
 						PXDrive = -PXMinValue;
 					}
-					// boolean pixysign  = (PXDrive > 0);
-					// if(pixysign != prevPixyXSign)
-					// {
-					// 	PXDrive = 0;
-					// 	prevPixyXSign = pixysign;
-					// }
+				
 					drive.driveCartesian(PXDrive,  pKy * Ey , PRDrive); /* do we want a nominally small y? */
 					System.out.println("Pixy " + pixy2.getEx() + "EY " + Ey + "ER " + pixy2.getEr());
 				}
