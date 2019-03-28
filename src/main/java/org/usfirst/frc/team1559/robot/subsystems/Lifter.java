@@ -53,7 +53,7 @@ private Grabber grabber;
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
 private final double ticksPerInch = 7.22; // Maybe it should be 5.93 or a similar value. Original 1.79
-private final double homeInches = 12;
+private final double homeInches = 11.25;
 private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
