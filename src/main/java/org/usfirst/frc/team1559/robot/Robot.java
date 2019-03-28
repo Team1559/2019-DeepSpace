@@ -348,7 +348,7 @@ public class Robot extends TimedRobot
 						{
 							System.out.println("You Enter into charge State");
 							drive.driveCartesian(0, 0, 0);
-							state = 3;
+							state = 0; //3 for the actual auto
 							counter = 1000;
 							drive.driveCartesian(0.0, 0.0, 0.0);
 						}
