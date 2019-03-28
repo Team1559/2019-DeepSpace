@@ -83,20 +83,20 @@ public class Grabber
     public void releaseHatch()
     {
         SmartDashboard.putNumber("realice hatch", 5.0);
-        relice_hatch.set(false); //go Snatch that Hatch
+        relice_hatch.set(true); //go Snatch that Hatch
     }
     public void GrabHatch()
     {
         SmartDashboard.putNumber("realice hatch", 1.0);
-        relice_hatch.set(true); //bring that hatch in bb
+        relice_hatch.set(false); //bring that hatch in bb
     }
     public void releasePiston()
     {
-        solenoid.set(true); //go Snatch that Hatch
+        solenoid.set(false); //go Snatch that Hatch
     }
     public void resetPiston()
     {
-        solenoid.set(false); //bring that hatch in bb
+        solenoid.set(true); //bring that hatch in bb
     }
     public void setSpeedBall(double speed)
     {

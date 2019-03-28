@@ -57,7 +57,7 @@ private final double homeInches = 11.25;
 private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = (63-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort3 = (89-homeInches) * ticksPerInch; //Placeholder value
-private final double ticksToLoadngStationExit = (16-homeInches) * ticksPerInch;
+private final double ticksToLoadngStationExit = (18-homeInches) * ticksPerInch;
 
 private final double ticksToHatch1 = (13-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placeholder value
