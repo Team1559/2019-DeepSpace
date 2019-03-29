@@ -75,6 +75,7 @@ public class Stepper {
 	public boolean stepperWheeles;
 	private double liftSpeed = 1; //speed of lifterMotor
 	private int deployPistions = 99999999;//TODO: needs to be set
+	private final int TIMEOUT = 0;
 	//controls on and off of drive wheels
 	private int down;
 	//potentiometer variables
@@ -91,6 +92,8 @@ public class Stepper {
 		lifterMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog);
 		canLower = false;
 		down = 0;
+		lifterMotor.enableCurrentLimit(true);
+		lifterMotor.configPeakCurrentLimit(24,TIMEOUT);
 	}
 
 	 //extends both back pistons
@@ -170,6 +173,7 @@ public class Stepper {
 
 	public void activate()
 	{
+		SmartDashboard.putNumber("Stepper Current", lifterMotor.getOutputCurrent());
 		//Stepper button controls
 
 		//extends pistons
