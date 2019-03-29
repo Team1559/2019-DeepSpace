@@ -20,7 +20,7 @@ public class pixylinevector {
     private double Pv;
     private double Pt;
     private double cx = 39.5;
-    private double vp = -33.0;
+    private double vp = -3.25;//-33.0//for practice bot
     public int timer;
 
     public double error_x(double x0, double x1){

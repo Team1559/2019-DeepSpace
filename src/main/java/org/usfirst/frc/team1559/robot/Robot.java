@@ -123,10 +123,12 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		pixy2.lampon();//Temporary
+		
+	//	pixy2.lampon();//Temporary
 		SmartDashboard.putNumber("Pixyxzx",pixy2.getEx());
 			SmartDashboard.putNumber("Pixyy", Ey);
 			SmartDashboard.putNumber("Pixyrr",pixy2.getEr());
+			
 		VisionData vDataTemp = vision.getData();
 		//vDataTemp.Print();
 		//drive.driveCartesian(0.12, 0.0, 0.0);
@@ -153,6 +155,7 @@ public class Robot extends TimedRobot
 		//SmartDashboard.putNumber("Lifter Pot", lifter.getPot());
 		// Pixy and Vision Functions
 		pixylinevector v=pixy2.getvector();
+		pixy2.getEr();
 		vision.update();
 		VisionData vData = vision.getData();
 		//vData.Print();
@@ -215,7 +218,7 @@ public class Robot extends TimedRobot
 		switch(state)
 		{
 			case 0: //DRIVE :(
-				if(oi.pilot.getRawButton(Constants.LOWERHATCH)){
+				if(oi.pilot.getRawButton(8)){
 					grabber.releaseHatch();
 				}
 				else{
@@ -332,7 +335,7 @@ public class Robot extends TimedRobot
 				else{
 					if(vData.status==1)
 					{
-					drive.driveCartesian((vData.x*jKx)*0.1, Ey * jKy , (vData.r*jKr)*0.1);
+					drive.driveCartesian((vData.x*jKx)*0.0, Ey * jKy , (vData.r*jKr)*0.0);
 					System.out.println("Using Jetson ");
 					}
 					else{
@@ -345,7 +348,7 @@ public class Robot extends TimedRobot
 					System.out.println("lifter pos is correct");
 					if(v.status == 1)
 					{
-						if((pixy2.getEr() >= -1.2) && (pixy2.getEr() <= 1.2) && (pixy2.getEx() >= -2.6) && (pixy2.getEx() <= 2.6))
+						if((pixy2.getEr() >= -2.0) && (pixy2.getEr() <= 2.0) && (pixy2.getEx() >= -3.0) && (pixy2.getEx() <= 3.0))
 						{
 							System.out.println("You Enter into charge State");
 							drive.driveCartesian(0, 0, 0);

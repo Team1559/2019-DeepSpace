@@ -220,26 +220,26 @@ public class Stepper {
 		}
 
 		//button controls to automatically lift and lower the stepper lifter
-		if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP_POT))
-		{
-			liftStepperPot();
-			stepperWheeles = true;
-		}
-		else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN_POT))
-		{
-			lowerStepperPot();
-			stepperWheeles = true;
+	// 	if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_UP_POT))
+	// 	{
+	// 		liftStepperPot();
+	// 		stepperWheeles = true;
+	// 	}
+	// 	else if(Robot.oi.copilot.getRawButton(Constants.STEPPER_COPILOT_LIFT_DOWN_POT))
+	// 	{
+	// 		lowerStepperPot();
+	// 		stepperWheeles = true;
 			
-		}
-		if(getstepperpot() == deployPistions && down == 1){
-			extendPistons();
+	// 	}
+	// 	if(getstepperpot() == deployPistions && down == 1){
+	// 		extendPistons();
 		
 			
 			
-		}
-		if(stepperWheeles == true){
-			driveForward(Robot.oi.getPilotY());
-		}
-	SmartDashboard.putNumber("Stepper Pot", getstepperpot());
-	}
+	// 	}
+	// 	if(stepperWheeles == true){
+	// 		driveForward(Robot.oi.getPilotY());
+	// 	}
+	// SmartDashboard.putNumber("Stepper Pot", getstepperpot());
+	 }
 }
