@@ -31,7 +31,7 @@ public class Grabber
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
         speedBall = 0.85; //FIND A SPEED THAT WORKSs
-        slowBall = 0.4;
+        slowBall = 0.5;
         speedHatch = 0.5; //FIND A SPEED THAT WORKS
         stopHatch = 0.5;
         cargocounter = 0;
