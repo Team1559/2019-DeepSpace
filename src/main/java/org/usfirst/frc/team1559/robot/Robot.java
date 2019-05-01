@@ -140,7 +140,7 @@ public class Robot extends TimedRobot
 		// 	lifter.driveLifter();
 		// }
 		// Air Compressor
-		airCompressor.setClosedLoopControl(true);
+		//airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
 
 		// Grabber Functions
@@ -218,15 +218,16 @@ public class Robot extends TimedRobot
 		switch(state)
 		{
 			case 0: //DRIVE :(
-				if(oi.pilot.getRawButton(8)){
-					grabber.releaseHatch();
-				}
-				else{
-					grabber.GrabHatch();
-				}
-				lifter.driveLifter();
-				grabber.drive();
-				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+				// if(oi.pilot.getRawButton(8)){
+				// 	grabber.releaseHatch();
+				// }
+				// else{
+				// 	grabber.GrabHatch();
+				// }
+				// lifter.driveLifter();
+				// grabber.drive();
+				// drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
+				state = 2;
 				break;
 			case 1: 			//JETSON
 				lastState = state;
