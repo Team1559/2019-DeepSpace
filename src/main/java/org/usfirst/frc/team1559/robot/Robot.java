@@ -193,7 +193,7 @@ public class Robot extends TimedRobot
 		//case 3=Pixy
 		//case 4 = Ball
 		//case 5=Retreat
-
+					state = 2;																			//0
 		
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
 		{
@@ -210,7 +210,7 @@ public class Robot extends TimedRobot
 			}
 		}
 		else {
-			state = 0;
+			//state = 0;																							0
 			pixy2.lampoff();
 			//System.out.println("DRIVE MODE");
 		}
@@ -218,16 +218,15 @@ public class Robot extends TimedRobot
 		switch(state)
 		{
 			case 0: //DRIVE :(
-				// if(oi.pilot.getRawButton(8)){
-				// 	grabber.releaseHatch();
-				// }
-				// else{
-				// 	grabber.GrabHatch();
-				// }
-				// lifter.driveLifter();
-				// grabber.drive();
-				// drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
-				state = 2;
+				if(oi.pilot.getRawButton(8)){
+					grabber.releaseHatch();
+				}
+				else{
+					grabber.GrabHatch();
+				}
+				lifter.driveLifter();
+				grabber.drive();
+				drive.driveCartesian(oi.getPilotX(), oi.getPilotY(), oi.getPilotZ());
 				break;
 			case 1: 			//JETSON
 				lastState = state;
