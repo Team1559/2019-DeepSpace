@@ -110,7 +110,7 @@ public boolean isAxis = true;
 
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
-				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+				//System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
 				//Do we want the motor to stop at the pot max?
 			}
 		}
@@ -182,7 +182,7 @@ public boolean isAxis = true;
 		potUseableTop = potUseableBottom + potRange;
 		if(potUseableTop > potMax) {
 			for(int i = 0; i < 20; i++){
-				System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
+			//	System.out.println("WARNING!!!! The current value for the top of the pot is higher than the pot can actually go!");
 			}
 		}
 		setupPortPos();
@@ -191,12 +191,12 @@ public boolean isAxis = true;
 
 	public void goUp() {
 		lifterMotor.set(ControlMode.PercentOutput,0.7); /* was 0.5 */
-		System.out.println("Going up!!!!");
+		//System.out.println("Going up!!!!");
 	}
 
 	public void goDown() {
 		lifterMotor.set(ControlMode.PercentOutput,-0.4); /* was -0.3 */
-		System.out.println("Going down!!!!");
+		//System.out.println("Going down!!!!");
 	}
 
 	public void stop() {

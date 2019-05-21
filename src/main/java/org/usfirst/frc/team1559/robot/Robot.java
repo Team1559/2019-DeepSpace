@@ -78,7 +78,7 @@ public class Robot extends TimedRobot
 			jKr = 0.04f;//0.016
 			jKy = 0.009f;//shold be .009
 			pKx = -0.012f;// WAS -0.014 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
-			pKr = 0.009f;//was .007 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
+			pKr = 0.018f;//was .007 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
 			pKy = 0.07f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
 			pDx = 0*-12.0 * pKx;
 			pDr = 0*-12.0 * pKr;
@@ -123,7 +123,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		
+	
 	//	pixy2.lampon();//Temporary
 		SmartDashboard.putNumber("Pixyxzx",pixy2.getEx());
 			SmartDashboard.putNumber("Pixyy", Ey);
@@ -193,24 +193,25 @@ public class Robot extends TimedRobot
 		//case 3=Pixy
 		//case 4 = Ball
 		//case 5=Retreat
-					state = 2;																			//0
+																				//0
 		
 		if(oi.getCopilotAxis(Constants.LINEASSIST) >= 0.9)
 		{
-			pixy2.lampon();
+			//pixy2.lampon();
 
 			SmartDashboard.putNumber("__y", jKy * errorY);
 			SmartDashboard.putNumber("__r",jKr * errorR);
-			SmartDashboard.putNumber("Pixyx",pixy2.getEx());
+			//System.out.println(pixy2.getEx());
+			//System.out.println(pixy2.getEr());
 			SmartDashboard.putNumber("Pixyy", Ey);
 			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
 			SmartDashboard.putString("Mode","pixy");
 			if(state == 0) {
-				state = 1;//change back to state 1
+				state = 1;//change back to state 1//we need to understand why jetson is not driving has good values
 			}
 		}
 		else {
-			//state = 0;																							0
+			state = 0;																							
 			pixy2.lampoff();
 			//System.out.println("DRIVE MODE");
 		}
@@ -306,6 +307,12 @@ public class Robot extends TimedRobot
 				{
 					counter = 20;
 					
+					if((Er >= -2.0) && (Er <= 2.0)) {
+						Er = Er * 2.0;
+					}
+					if((Ex >= -2.0) && (Ex <= 2.0)) {
+						Ex = Ex * 2.0;
+					}
 					double PXDrive = pKx * Ex + pDx * (Ex - prevXerror);
 					double PRDrive = pKr * Er + pDr * (Er - prevRerror);
 					prevXerror = Ex;
@@ -314,7 +321,7 @@ public class Robot extends TimedRobot
 					if(Math.abs(PXDrive) < Math.abs(PRDrive))
 					{
 						PXDrive = 0;
-					}
+				}//hello my name is Rlan and i am no smart. see me grammer for detailk
 					else
 					{
 						PRDrive = 0;
@@ -329,28 +336,28 @@ public class Robot extends TimedRobot
 						PXDrive = -PXMinValue;
 					}
 				
-					drive.driveCartesian(PXDrive,  pKy * Ey , PRDrive); /* do we want a nominally small y? */
-					System.out.println("Pixy " + pixy2.getEx() + "EY " + Ey + "ER " + pixy2.getEr());
+					drive.driveCartesian(PXDrive, 0, PRDrive); /* do we want a nominally small y? *///pKy * Ey
+				//	System.out.println("Pixy " + pixy2.getEx() + "EY " + Ey + "ER " + pixy2.getEr());
 				}
 				else{
 					if(vData.status==1)
 					{
 					drive.driveCartesian((vData.x*jKx)*0.0, Ey * jKy , (vData.r*jKr)*0.0);
-					System.out.println("Using Jetson ");
+					//System.out.println("Using Jetson ");
 					}
 					else{
 						state = 0;
 					}
 				}
 				liftPotError = Math.abs(lifter.getPotError());
-				System.out.println(liftPotError + "" + v.status);
+				//System.out.println(liftPotError + "" + v.status);
 				if(liftPotError < 1.0) {
-					System.out.println("lifter pos is correct");
+					//System.out.println("lifter pos is correct");
 					if(v.status == 1)
 					{
 						if((pixy2.getEr() >= -2.0) && (pixy2.getEr() <= 2.0) && (pixy2.getEx() >= -3.0) && (pixy2.getEx() <= 3.0))
 						{
-							System.out.println("You Enter into charge State");
+						//	System.out.println("You Enter into charge State");
 							drive.driveCartesian(0, 0, 0);
 							state = 0; //3 for the actual auto
 							counter = 1000;
@@ -388,7 +395,7 @@ public class Robot extends TimedRobot
 					if(arriveCounter > 8)
 					{
 					state = 4;
-					System.out.println("Ball MODE-Arrived");
+					//System.out.println("Ball MODE-Arrived");
 					counter = 100;
 					}
 				}
@@ -413,7 +420,7 @@ public class Robot extends TimedRobot
 				else {
 					flagHatch = true;
 					state = 5;
-					System.out.println("Retreat Mode");
+				//	System.out.println("Retreat Mode");
 				}
 				break;
 			case 5: //RETREAT!!!
@@ -436,7 +443,7 @@ public class Robot extends TimedRobot
 
 			default:
 				state = 0;
-				System.out.println("GOING FROM UNKNOWN STATE TO DRIVE MODE ERROR ERROR ERROR ERROR ERROR ERROR");
+				//System.out.println("GOING FROM UNKNOWN STATE TO DRIVE MODE ERROR ERROR ERROR ERROR ERROR ERROR");
 				break;
 			}
 		SmartDashboard.putNumber("State", state);

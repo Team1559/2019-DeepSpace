@@ -39,8 +39,8 @@ public class pixylinevector {
             Pt = Math.atan((cx - x1)/(vp - y1));
             error = Pt-Pv;
             rError=Math.toDegrees(error);
-            System.out.printf("%3.2f %3.2f %3.2f %3.2f\n", x0, y0, x1, y1);
-            System.out.printf("%3.2f %3.2f  %3.1f\n", Pt, Pv, rError);
+            //System.out.printf("%3.2f %3.2f %3.2f %3.2f\n", x0, y0, x1, y1);
+            //System.out.printf("%3.2f %3.2f  %3.1f\n", Pt, Pv, rError);
         
         }  
         return rError;
