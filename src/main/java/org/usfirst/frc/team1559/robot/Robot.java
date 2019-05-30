@@ -125,9 +125,9 @@ public class Robot extends TimedRobot
 	{
 	
 	//	pixy2.lampon();//Temporary
-		SmartDashboard.putNumber("Pixyxzx",pixy2.getEx());
-			SmartDashboard.putNumber("Pixyy", Ey);
-			SmartDashboard.putNumber("Pixyrr",pixy2.getEr());
+		SmartDashboard.putNumber("Pixy Boi x",Ex);
+			SmartDashboard.putNumber("Pixy Boi y", Ey);
+			SmartDashboard.putNumber("Pixy Boi R",Er);
 			
 		VisionData vDataTemp = vision.getData();
 		//vDataTemp.Print();
@@ -158,7 +158,7 @@ public class Robot extends TimedRobot
 		pixy2.getEr();
 		vision.update();
 		VisionData vData = vision.getData();
-		//vData.Print();
+		vData.Print();
 		Ex = pixy2.getEx();
 		Er = pixy2.getEr();
 		float Rightdistance = (float)distRight.getRange()-Constants.IR_OFFSET_RIGHT;
@@ -167,13 +167,13 @@ public class Robot extends TimedRobot
 			if(oi.copilot.getRawButton(4) || oi.copilot.getRawButton(5) || oi.copilot.getRawButton(6))
 					{
 						//wallGap = 3;
-						Ey = Math.min(Rightdistance,Leftdistance) - 3;//think we are 3 in closer-go to bumper
+						Ey = Math.min(Rightdistance,60) - 3;//think we are 3 in closer-go to bumper
 						Grabbinghatch = false;
 					}
 					else
 					{
 						//wallGap = 1;
-						Ey =Math.min( Rightdistance, Leftdistance) - 3;//think we are .5 in further
+						Ey =Math.min( Rightdistance, 60) - 3;//think we are .5 in further
 						//Ey = Math.min(Rightdistance,Leftdistance) - 1;
 						Grabbinghatch = true;
 					}
@@ -336,13 +336,13 @@ public class Robot extends TimedRobot
 						PXDrive = -PXMinValue;
 					}
 				
-					drive.driveCartesian(PXDrive, 0, PRDrive); /* do we want a nominally small y? *///pKy * Ey
+					drive.driveCartesian(PXDrive, (Ey *pKy) *0, PRDrive); /* do we want a nominally small y? *///pKy * Ey
 				//	System.out.println("Pixy " + pixy2.getEx() + "EY " + Ey + "ER " + pixy2.getEr());
 				}
 				else{
 					if(vData.status==1)
 					{
-					drive.driveCartesian((vData.x*jKx)*0.0, Ey * jKy , (vData.r*jKr)*0.0);
+					drive.driveCartesian((vData.x*jKx)*0.0, (Ey * pKy) *0 , (vData.r*jKr)*0.0);
 					//System.out.println("Using Jetson ");
 					}
 					else{
@@ -351,15 +351,16 @@ public class Robot extends TimedRobot
 				}
 				liftPotError = Math.abs(lifter.getPotError());
 				//System.out.println(liftPotError + "" + v.status);
-				if(liftPotError < 1.0) {
+				//if(liftPotError < 1.0)
+				if(true) {//go to above
 					//System.out.println("lifter pos is correct");
 					if(v.status == 1)
 					{
-						if((pixy2.getEr() >= -2.0) && (pixy2.getEr() <= 2.0) && (pixy2.getEx() >= -3.0) && (pixy2.getEx() <= 3.0))
+						if((pixy2.getEr() >= -6.0) && (pixy2.getEr() <= 6.0) && (pixy2.getEx() >= -7.0) && (pixy2.getEx() <= 7.0))
 						{
 						//	System.out.println("You Enter into charge State");
 							drive.driveCartesian(0, 0, 0);
-							state = 0; //3 for the actual auto
+							state = 3; //3 for the actual auto
 							counter = 1000;
 							drive.driveCartesian(0.0, 0.0, 0.0);
 						}
