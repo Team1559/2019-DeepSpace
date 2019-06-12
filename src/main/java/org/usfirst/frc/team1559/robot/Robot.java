@@ -79,7 +79,7 @@ public class Robot extends TimedRobot
 			jKy = 0.009f;//shold be .009
 			pKx = -0.012f;// WAS -0.014 on 3/19 maximum pixy translation (1/2 frame with)0.0250.007
 			pKr = 0.018f;//was .007 at 3/19was .015 on beginning of 3/19// maximum pixy angle0.005//0.007
-			pKy = 0.07f;//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
+			pKy = 0.0f;//0.07//0.042f//0.002f; // 0.0416f;//1/24 for the distance sensors max speed; 0.416  (0.0015)  //0.1
 			pDx = 0*-12.0 * pKx;
 			pDr = 0*-12.0 * pKr;
 
@@ -130,7 +130,7 @@ public class Robot extends TimedRobot
 			SmartDashboard.putNumber("Pixy Boi R",Er);
 			
 		VisionData vDataTemp = vision.getData();
-		//vDataTemp.Print();
+		vDataTemp.Print();
 		//drive.driveCartesian(0.12, 0.0, 0.0);
 
 		// if(lifterCal == true){
@@ -181,7 +181,7 @@ public class Robot extends TimedRobot
 
 		//Ey = Math.min(Rightdistance,Leftdistance) + wallGap;
 		//Ey = Rightdistance;
-		double maxPixyRange = 16.0;
+		double maxPixyRange = 8.0;
 		SmartDashboard.putNumber("RightIRDistance,", Rightdistance);
 		SmartDashboard.putNumber("LeftIRdistance", Leftdistance);
 		SmartDashboard.putNumber("RiGhtIRDistance,", Rightdistance);
@@ -236,11 +236,11 @@ public class Robot extends TimedRobot
 				pixy2.lampon();
 
 				if(vData.status==1) {
-					if(vData.y <=20)
+					if(vData.y <=16)
 					{
 						pixy2.lampon();
 					}
-					if(vData.y <= 20)
+					if(vData.y <= 16)
 					{
 						vData.y = Math.min( Rightdistance, Leftdistance );
 						pixy2.lampon();
@@ -360,7 +360,7 @@ public class Robot extends TimedRobot
 						{
 						//	System.out.println("You Enter into charge State");
 							drive.driveCartesian(0, 0, 0);
-							state = 3; //3 for the actual auto
+							state = 0; //3 for the actual auto
 							counter = 1000;
 							drive.driveCartesian(0.0, 0.0, 0.0);
 						}
