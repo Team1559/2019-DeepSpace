@@ -140,7 +140,7 @@ public class Robot extends TimedRobot
 		// 	lifter.driveLifter();
 		// }
 		// Air Compressor
-		//airCompressor.setClosedLoopControl(true);
+		airCompressor.setClosedLoopControl(true);
 		if(oi.getCopilotAxis(Constants.LINEASSIST) < 0.9){//if in auto don't have maunual control
 
 		// Grabber Functions
