@@ -207,7 +207,7 @@ public class Robot extends TimedRobot
 			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
 			SmartDashboard.putString("Mode","pixy");
 			if(state == 0) {
-				state = 1;//change back to state 1//we need to understand why jetson is not driving has good values
+				state = 2;//change back to state 1//we need to understand why jetson is not driving has good values
 			}
 		}
 		else {
@@ -277,20 +277,29 @@ public class Robot extends TimedRobot
 						double yDrive = jKy * errorY;
 						double ymax = 0.85;
 
-						if(yDrive > .85)
-							yDrive = .85;
+						if(v.status == 1){
+						pixy2.lampon();
+						liftPotError = 100;
+						drive.driveCartesian(0, 0, 0);
+						state = 2;//should be 2
+					}
+
+					else if(yDrive > .85)
+					yDrive = .85;
+						// if(yDrive > .85)
+						// 	yDrive = .85;
 						else if(yDrive < -.85)
 							yDrive = -.85;
 
 
 						drive.driveCartesian(xDrive, yDrive , jKr * errorR);
 					}
-					else{
-						pixy2.lampon();
-						liftPotError = 100;
-						drive.driveCartesian(0, 0, 0);
-						state = 2;//should be 2
-					}
+					// else{
+					// 	pixy2.lampon();
+					// 	liftPotError = 100;
+					// 	drive.driveCartesian(0, 0, 0);
+					// 	state = 2;//should be 2
+					// }
 				}
 				else{
 					state = 0;
@@ -302,7 +311,7 @@ public class Robot extends TimedRobot
 				SmartDashboard.putNumber("pot error", liftPotError);
 				//check to see if lifter is within a range of values
 				Ey = Math.min(Rightdistance,Leftdistance)-yTarget;
-
+				pixy2.lampon();
 				if(v.status == 1)
 				{
 					counter = 20;
