@@ -14,20 +14,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
+
     private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     public Solenoid solenoid;
     public Solenoid relice_hatch;
     private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
-    public Talon ballIntake;
+    public WPI_TalonSRX ballIntake;
     public double speedBall, slowBall, speedHatch, stopHatch;
     public int cargocounter;
     public int cargotimer;
     public boolean hatchUp;
     public Grabber(OperatorInterface oi)
+    
     {
         relice_hatch = new Solenoid(Wiring.Newhatchsoloniod);
         solenoid = new Solenoid(Wiring.NTK_SOLENOID);
-        ballIntake = new Talon(Wiring.NTK_TALONSRX_BI);
+        ballIntake = new WPI_TalonSRX(Wiring.NTK_TALONSRX_BI);
         hatchSlapperL = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HL);
         hatchSlapperR = new WPI_TalonSRX(Wiring.NTK_TALONSRX_HR);
         speedBall = 0.85; //FIND A SPEED THAT WORKSs
@@ -38,6 +40,8 @@ public class Grabber
         cargotimer = 0;
         hatchUp = true;
         solenoid.set(true);
+        ballIntake.enableCurrentLimit(true);
+		ballIntake.configPeakCurrentLimit(24,TIMEOUT) // values may not be correct
     }
     public void drive() {
         if(Robot.oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
