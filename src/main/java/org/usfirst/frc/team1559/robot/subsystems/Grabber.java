@@ -24,6 +24,7 @@ public class Grabber
     public int cargocounter;
     public int cargotimer;
     public boolean hatchUp;
+    private final int TIMEOUT = 0;
     public Grabber(OperatorInterface oi)
     
     {
@@ -41,7 +42,7 @@ public class Grabber
         hatchUp = true;
         solenoid.set(true);
         ballIntake.enableCurrentLimit(true);
-		ballIntake.configPeakCurrentLimit(24,TIMEOUT) // values may not be correct
+		ballIntake.configPeakCurrentLimit(24,TIMEOUT); // values may not be correct
     }
     public void drive() {
         if(Robot.oi.pilot.getRawButton(Constants.BTN_INTAKE)) {
