@@ -1,24 +1,17 @@
 package org.usfirst.frc.team1559.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
 import org.usfirst.frc.team1559.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//dont touch my code without consent please ty - hannah, noah w, jason v
 public class Grabber
 {
-
-    private DigitalInput limitSwitch1, limitSwitch2, limitSwitch3, limitSwitch4;
     public Solenoid solenoid;
     public Solenoid relice_hatch;
-    private WPI_TalonSRX hatchSlapperL, hatchSlapperR;
     public WPI_TalonSRX ballIntake;
     public double speedBall, slowBall, speedHatch, stopHatch;
     public int cargocounter;
@@ -68,11 +61,7 @@ public class Grabber
                     cargocounter = 0;  
                 }
         
-        // if(Robot.oi.pilot.getRawButtonPressed(Constants.HATCH_SNATCHER))
-		// 	{
-		// 		toggleHatch();
-        //     }
-            
+    
     }
         
     public void slowBall()
