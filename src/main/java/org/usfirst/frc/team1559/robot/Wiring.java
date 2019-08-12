@@ -27,14 +27,7 @@ public interface Wiring {
 	// Grabber
 	public static final int Newhatchsoloniod = 3;//new hatch piston
 	public static final int NTK_SOLENOID = 0; // hatch pistion
-	public static final int NTK_TALONSRX_BI = 0; // This variable needs to be set 
-	public static final int NTK_TALONSRX_HR = 99 ; // This variable needs to be set 
-	public static final int NTK_TALONSRX_HL = 99 ; // This variable needs to be set 
-	public static final int NTK_DIGITALINPUT_LS1 = 0; // This variable needs to be set 
-	public static final int NTK_DIGITALINPUT_LS2 = 1; // This variable needs to be set  
-	public static final int NTK_DIGITALINPUT_LS3 = 2; // This variable needs to be set 
-	public static final int NTK_DIGITALINPUT_LS4 = 3; // This variable needs to be set 
-
+	public static final int NTK_TALONSRX_BI = 9; // This variable needs to be set 
 
 	// Lifter   
 	public static final int LIFTER_POT = 0; //This needs to be set
