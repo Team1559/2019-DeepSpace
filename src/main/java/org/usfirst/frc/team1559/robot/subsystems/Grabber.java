@@ -3,6 +3,7 @@ package org.usfirst.frc.team1559.robot.subsystems;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import org.usfirst.frc.team1559.robot.OperatorInterface;
 import org.usfirst.frc.team1559.robot.Robot;
 import org.usfirst.frc.team1559.robot.Wiring;
@@ -66,7 +67,7 @@ public class Grabber
         
     public void slowBall()
     {
-        ballIntake.set(slowBall);
+        ballIntake.set(ControlMode.PercentOutput, slowBall);
     }
     public void StopBall()
     {
@@ -100,12 +101,12 @@ public class Grabber
     }
     public void getCargo()
     {
-        ballIntake.set(speedBall);
+        ballIntake.set(ControlMode.PercentOutput, speedBall);
         //ControlMode.PercentOutput,  was first argument
     }
     public void removeCargo()
     {
-        ballIntake.set(-1);
+        ballIntake.set(ControlMode.PercentOutput, -1);
      //ControlMode.PercentOutput,  was first argument
     }
     public void toggleHatch()

@@ -87,7 +87,7 @@ public class Robot extends TimedRobot
 		// Stepper
 			stepper.stopDrive();
 			CameraServer.getInstance().startAutomaticCapture();
-			
+		
 		}
 
 	@Override
