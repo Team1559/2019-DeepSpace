@@ -228,7 +228,7 @@ public boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		// System.out.println(getPot()); //For testing purposes
-		SmartDashboard.putNumber("Lifter Pot", getPot());
+		SmartDashboard.putNumber("Lifter_Pot", getPot());
 		SmartDashboard.putNumber("Range", potRange);
 		SmartDashboard.putNumber("Pot Top", potUseableTop);
 		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);

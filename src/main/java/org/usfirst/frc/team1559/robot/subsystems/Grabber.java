@@ -106,7 +106,7 @@ public class Grabber
     }
     public void removeCargo()
     {
-        ballIntake.set(ControlMode.PercentOutput, -1);
+        ballIntake.set(ControlMode.PercentOutput, -speedBall);
      //ControlMode.PercentOutput,  was first argument
     }
     public void toggleHatch()
