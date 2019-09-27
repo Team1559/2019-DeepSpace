@@ -228,13 +228,13 @@ public boolean isAxis = true;
 		 * Otherwise it won't work!!!!
 		*/
 		// System.out.println(getPot()); //For testing purposes
-		SmartDashboard.putNumber("Lifter_Pot", getPot());
-		SmartDashboard.putNumber("Range", potRange);
-		SmartDashboard.putNumber("Pot Top", potUseableTop);
-		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);
-		SmartDashboard.putNumber("Pot Max", potMax);
-		SmartDashboard.putNumber("Pot Min", potMin);
-		SmartDashboard.putNumber("Current", lifterMotor.getOutputCurrent());
+		System.out.println("Lifter_Pot", getPot());
+// 		SmartDashboard.putNumber("Range", potRange);
+// 		SmartDashboard.putNumber("Pot Top", potUseableTop);
+// 		SmartDashboard.putNumber("Pot Bottom", potUseableBottom);
+// 		SmartDashboard.putNumber("Pot Max", potMax);
+// 		SmartDashboard.putNumber("Pot Min", potMin);
+// 		SmartDashboard.putNumber("Current", lifterMotor.getOutputCurrent());
 		//maxOverride();
 		//need to add in auto button into this class
 		if(oi.getCopilotAxis(3) >= 0.9){
