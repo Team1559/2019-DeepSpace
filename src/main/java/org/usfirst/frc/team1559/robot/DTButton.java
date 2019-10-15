@@ -11,7 +11,7 @@ public class DTButton {
 
     public DTButton(Joystick stick, int button) {
         this.stick = stick;
-        this.button = button;
+        this.button = button;// this is a test
     }
 
     public void update() {
