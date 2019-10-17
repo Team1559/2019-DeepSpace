@@ -94,10 +94,10 @@ public boolean isAxis = true;
 		lifterMotor.configPeakCurrentLimit(40,TIMEOUT);//75
 		lifterMotor.configContinuousCurrentLimit(12, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
-		lifterMotor.configForwardSoftLimitEnable(true);
-		lifterMotor.configForwardSoftLimitThreshold(769);
-		lifterMotor.configReverseSoftLimitEnable(true);
-		lifterMotor.configReverseSoftLimitThreshold(258);
+		lifterMotor.configForwardSoftLimitEnable(true);//true
+		lifterMotor.configForwardSoftLimitThreshold(836);
+		lifterMotor.configReverseSoftLimitEnable(true);//true
+		lifterMotor.configReverseSoftLimitThreshold(316);
 
 		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
 		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
