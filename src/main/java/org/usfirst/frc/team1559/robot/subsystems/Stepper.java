@@ -73,7 +73,7 @@ public class Stepper {
 	
 	//speed of motors (-1.0 to 1.0)
 	public boolean stepperWheeles;
-	private double liftSpeed = 1; //speed of lifterMotor
+	private double liftSpeed = 0.5; //speed of lifterMotor
 	private int deployPistions = 99999999;//TODO: needs to be set
 	private final int TIMEOUT = 0;
 	//controls on and off of drive wheels
