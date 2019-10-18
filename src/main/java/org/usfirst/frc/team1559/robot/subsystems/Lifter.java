@@ -52,7 +52,7 @@ private Grabber grabber;
 
 private double[] portPositions = new double[3];
 private double[] hatchPositions = new double[3];
-private final double ticksPerInch = 7.22; // Maybe it should be 5.93 or a similar value. Original 1.79
+private final double ticksPerInch = 6.81; // Maybe it should be 5.93 or a similar value. Original 1.79
 private final double homeInches = 11.25;
 private final double ticksToPort1 = (33-homeInches) * ticksPerInch; //Placeholder value
 private final double ticksToPort2 = (61-homeInches) * ticksPerInch; //Placeholder value
@@ -64,9 +64,9 @@ private final double ticksToHatch2 = (42-homeInches) * ticksPerInch; //Placehold
 private final double ticksToHatch3 = (72-homeInches) * ticksPerInch; //Placeholder value
 
 
-public int potUseableBottom = 255; //Code will auto adjust values based on this one.
-public int potUseableTop = 794; //Placeholder
-public int potRange = 546; //This is just a placeholder value. Make sure we find the actual range that we want.
+public int potUseableBottom = 836; //Code will auto adjust values based on this one.
+public int potUseableTop = 316; //Placeholder
+public int potRange = potUseableBottom - potUseableTop; //This is just a placeholder value. Make sure we find the actual range that we want.
 public int potError;
 
 private final int potMax = 1023; // This is a placeholder. This is the farthest the pot can rotate.
@@ -95,12 +95,12 @@ public boolean isAxis = true;
 		lifterMotor.configContinuousCurrentLimit(12, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
 		lifterMotor.configForwardSoftLimitEnable(true);//true
-		lifterMotor.configForwardSoftLimitThreshold(836);
+		lifterMotor.configForwardSoftLimitThreshold(836);//836
 		lifterMotor.configReverseSoftLimitEnable(true);//true
-		lifterMotor.configReverseSoftLimitThreshold(316);
+		lifterMotor.configReverseSoftLimitThreshold(316); //316
 
-		lifterMotor.configNominalOutputForward(0.05, TIMEOUT);
-		lifterMotor.configNominalOutputReverse(-0.1, TIMEOUT);
+		lifterMotor.configNominalOutputForward(0.1, TIMEOUT);
+		lifterMotor.configNominalOutputReverse(-0.05, TIMEOUT);
 		lifterMotor.configPeakOutputForward(1, TIMEOUT);
 		lifterMotor.configPeakOutputReverse(-0.75, TIMEOUT);
 		lifterMotor.config_kP(0, kP, TIMEOUT);
@@ -132,15 +132,15 @@ public boolean isAxis = true;
 	}
 
 	public void setupPortPos() {
-		portPositions[0] = potUseableBottom + ticksToPort1;
-		portPositions[1] = potUseableBottom + ticksToPort2;
-		portPositions[2] = potUseableBottom + ticksToPort3;
+		portPositions[0] = potUseableBottom - ticksToPort1;
+		portPositions[1] = potUseableBottom - ticksToPort2;
+		portPositions[2] = potUseableBottom - ticksToPort3;
 	}
 
 	public void setupHatchPos() {
-		hatchPositions[0] = potUseableBottom + ticksToHatch1;
-		hatchPositions[1] = potUseableBottom + ticksToHatch2;
-		hatchPositions[2] = potUseableBottom + ticksToHatch3;
+		hatchPositions[0] = potUseableBottom - ticksToHatch1;
+		hatchPositions[1] = potUseableBottom - ticksToHatch2;
+		hatchPositions[2] = potUseableBottom - ticksToHatch3;
 	}
 
 	public void goToPortPos(int pos) {
@@ -190,12 +190,12 @@ public boolean isAxis = true;
 	}
 
 	public void goUp() {
-		lifterMotor.set(ControlMode.PercentOutput,0.7); /* was 0.5 */
+		lifterMotor.set(ControlMode.PercentOutput,-0.7); /* was 0.5 */
 		//System.out.println("Going up!!!!");
 	}
 
 	public void goDown() {
-		lifterMotor.set(ControlMode.PercentOutput,-0.4); /* was -0.3 */
+		lifterMotor.set(ControlMode.PercentOutput,0.6); /* was -0.3 */
 		//System.out.println("Going down!!!!");
 	}
 
