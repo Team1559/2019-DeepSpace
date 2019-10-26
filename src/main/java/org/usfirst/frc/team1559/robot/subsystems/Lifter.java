@@ -95,7 +95,7 @@ public boolean isAxis = true;
 		lifterMotor.configContinuousCurrentLimit(12, TIMEOUT);
 		lifterMotor.configPeakCurrentDuration(500,TIMEOUT);
 		lifterMotor.configForwardSoftLimitEnable(true);//true
-		lifterMotor.configForwardSoftLimitThreshold(836);//836
+		lifterMotor.configForwardSoftLimitThreshold(837);//836
 		lifterMotor.configReverseSoftLimitEnable(true);//true
 		lifterMotor.configReverseSoftLimitThreshold(316); //316
 
@@ -244,6 +244,7 @@ public boolean isAxis = true;
 			grabber.resetPiston();
 		}
 		
+		
 		if(oi.copilot.getRawButton(4) && oi.getCopilotAxis(3) == 1) { 
 			isAxis = false;
 			goToPortPos(1);
@@ -307,5 +308,6 @@ public boolean isAxis = true;
 		
 		
 	}
-}
+  }
 //It's over!!!!
+

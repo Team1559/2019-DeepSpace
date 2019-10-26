@@ -123,12 +123,11 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic()
 	{
-	
+	pixy2.lampon();
 	//	pixy2.lampon();//Temporary
 		SmartDashboard.putNumber("Pixy Boi x",Ex);
 			SmartDashboard.putNumber("Pixy Boi y", Ey);
 			SmartDashboard.putNumber("Pixy Boi R",Er);
-			
 		VisionData vDataTemp = vision.getData();
 		vDataTemp.Print();
 		//drive.driveCartesian(0.12, 0.0, 0.0);
@@ -207,7 +206,7 @@ public class Robot extends TimedRobot
 			SmartDashboard.putNumber("Pixyr",pixy2.getEr());
 			SmartDashboard.putString("Mode","pixy");
 			if(state == 0) {
-				state = 2;//change back to state 1//we need to understand why jetson is not driving has good values
+				state = 1;//change back to state 1//we need to understand why jetson is not driving has good values
 			}
 		}
 		else {
@@ -316,6 +315,7 @@ public class Robot extends TimedRobot
 				{
 					counter = 20;
 					
+
 					if((Er >= -2.0) && (Er <= 2.0)) {
 						Er = Er * 2.0;
 					}
