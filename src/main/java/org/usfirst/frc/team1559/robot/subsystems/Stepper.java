@@ -177,7 +177,7 @@ public class Stepper {
 		//Stepper button controls
 
 		//extends pistons
-		if(Robot.oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_EXTEND_PISTONS))
+		if(Robot.oi.pilot.getRawButtonPressed(Constants.STEPPER_PILOT_EXTEND_PISTONS)&& Robot.oi.pilot.getRawButton(9))
 		{
 			extendPistons();
 		}

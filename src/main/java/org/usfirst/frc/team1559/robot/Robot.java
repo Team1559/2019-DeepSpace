@@ -124,6 +124,8 @@ public class Robot extends TimedRobot
 	public void teleopPeriodic()
 	{
 	pixy2.lampon();
+	System.out.println(oi.pilot.getRawButton(2));
+	System.out.println(oi.pilot.getRawButton(9));
 	//	pixy2.lampon();//Temporary
 		SmartDashboard.putNumber("Pixy Boi x",Ex);
 			SmartDashboard.putNumber("Pixy Boi y", Ey);
