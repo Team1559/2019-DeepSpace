@@ -74,7 +74,7 @@ public class Robot extends TimedRobot
 			distLeft = new DistSensor(new AnalogInput (0));
 
 		// Vision/Pixy Variables and Constants
-			jKx = 0.011f;//.015
+			jKx = 0.011 ;//.015
 			jKr = 0.02f;//0.016
 			jKy = 0.0045f;//shold be .009
 
